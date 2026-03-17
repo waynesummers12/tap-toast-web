@@ -39,7 +39,7 @@ export default function BookEventPage() {
       return
     }
     try {
-      const res = await fetch("https://tap-toast-api-cayk.onrender.com", {
+      const res = await fetch("https://tap-toast-api-cayk.onrender.com/api/book-event", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
