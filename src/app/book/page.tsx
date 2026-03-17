@@ -39,7 +39,7 @@ export default function BookEventPage() {
       return
     }
     try {
-      const res = await fetch("http://localhost:8000/api/book-event", {
+      const res = await fetch("https://tap-toast-api-cayk.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -72,7 +72,7 @@ export default function BookEventPage() {
         return
       }
 
-      const checkout = await fetch("http://localhost:8000/api/stripe/create-deposit-session", {
+      const checkout = await fetch("https://tap-toast-api-cayk.onrender.com/api/stripe/create-checkout-session", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
