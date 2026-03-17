@@ -16,7 +16,7 @@ export default function Footer() {
           />
 
           <div>
-            <p className="text-white text-lg font-semibold">Tap & Toast</p>
+            <p className="text-white text-lg font-semibold">Colorado Tap & Toast</p>
             <p className="text-sm">Mobile Bar</p>
           </div>
         </div>
@@ -35,8 +35,8 @@ export default function Footer() {
         {/* Contact */}
         <div className="text-center md:text-right">
           <p className="text-white font-semibold mb-2">Contact</p>
-          <p className="text-sm">taptoastmobilebar@gmail.com</p>
-          <p className="text-sm">Instagram: @tapandtoastbar</p>
+          <p className="text-sm">jen@coloradotapntoast.com</p>
+          <p className="text-sm">Instagram: @coloradotapandtoast</p>
         </div>
 
       </div>
