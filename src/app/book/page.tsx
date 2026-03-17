@@ -109,7 +109,7 @@ export default function BookEventPage() {
 
       {/* Hero Section */}
       <div
-        className="w-full h-[420px] flex items-start justify-center text-center pt-20"
+        className="w-full h-105 flex items-start justify-center text-center pt-20"
         style={{
           backgroundImage: "url('/trailer.jpg')",
           backgroundSize: "cover",
