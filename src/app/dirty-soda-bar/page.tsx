@@ -40,12 +40,12 @@ export default function DirtySodaBarPage() {
           {/* RIGHT SIDE (IMAGE) */}
           <div>
             <Image
-           src="/dirty-soda-bar.jpg"
-           alt="Dirty Soda Bar Birthday Party Experience"
-           width={1200}
-           height={700}
-            className="rounded-xl shadow-2xl object-cover"
-             />
+              src="/dirty-soda-bar.jpg"
+              alt="Dirty Soda Bar Birthday Party Experience"
+              width={1200}
+              height={700}
+              className="rounded-xl shadow-2xl object-cover"
+            />
           </div>
 
         </div>
@@ -107,6 +107,16 @@ export default function DirtySodaBarPage() {
             a beautiful mobile setup, and a soda bar experience guests
             will remember.
           </p>
+
+          <div className="mb-8">
+            <Image
+              src="/dirty-soda-drinks.jpg"
+              alt="Dirty Soda Drink Options"
+              width={1200}
+              height={700}
+              className="rounded-xl shadow-lg object-cover"
+            />
+          </div>
 
           <a
             href="/book"

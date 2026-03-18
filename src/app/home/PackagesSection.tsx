@@ -44,7 +44,7 @@ export default function PackagesSection() {
           </div>
           <div className="relative overflow-hidden">
             <Image
-              src="/Package1.jpg"
+              src="/package1.jpg"
               alt="The Taste Package"
               width={600}
               height={224}
