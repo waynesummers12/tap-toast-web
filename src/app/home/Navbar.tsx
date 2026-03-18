@@ -1,14 +1,14 @@
-// Replace your Navbar.tsx with this premium version
-
 "use client"
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { usePathname } from "next/navigation"
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,20 +46,48 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex gap-8 text-sm tracking-[0.25em] uppercase">
-          <Link href="/dirty-soda-bar" className="hover:opacity-80">
+          <Link
+            href="/dirty-soda-bar"
+            className={`relative group ${
+              pathname === "/dirty-soda-bar" ? "text-white" : "opacity-80"
+            }`}
+          >
             Dirty Soda Bar
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
           </Link>
-          <Link href="/weddings" className="hover:opacity-80">
+          <Link
+            href="/weddings"
+            className={`relative group ${
+              pathname === "/weddings" ? "text-white" : "opacity-80"
+            }`}
+          >
             Weddings
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
           </Link>
-          <Link href="/corporate-events" className="hover:opacity-80">
+          <Link
+            href="/corporate-events"
+            className={`relative group ${
+              pathname === "/corporate-events" ? "text-white" : "opacity-80"
+            }`}
+          >
             Corporate
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
           </Link>
-          <Link href="/birthday-parties" className="hover:opacity-80">
+          <Link
+            href="/birthday-parties"
+            className={`relative group ${
+              pathname === "/birthday-parties" ? "text-white" : "opacity-80"
+            }`}
+          >
             Birthdays
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
           </Link>
-          <Link href="/#packages" className="hover:opacity-80">
+          <Link
+            href="/#packages"
+            className="relative group opacity-80"
+          >
             Packages
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
           </Link>
         </div>
 
@@ -69,7 +97,7 @@ export default function Navbar() {
           {/* Desktop CTA */}
           <Link
             href="/book"
-            className="hidden md:inline-block bg-white text-black px-5 py-2 rounded-md text-sm font-semibold hover:opacity-90 transition"
+            className="hidden md:inline-block bg-white text-black px-5 py-2 rounded-md text-sm font-semibold hover:opacity-90 hover:scale-105 transition"
           >
             Book Now
           </Link>
@@ -96,30 +124,50 @@ export default function Navbar() {
             ✕
           </button>
 
-          <Link href="/dirty-soda-bar" onClick={() => setMenuOpen(false)}>
+          <Link
+            href="/dirty-soda-bar"
+            onClick={() => setMenuOpen(false)}
+            className="hover:scale-105 transition"
+          >
             Dirty Soda Bar
           </Link>
 
-          <Link href="/weddings" onClick={() => setMenuOpen(false)}>
+          <Link
+            href="/weddings"
+            onClick={() => setMenuOpen(false)}
+            className="hover:scale-105 transition"
+          >
             Weddings
           </Link>
 
-          <Link href="/corporate-events" onClick={() => setMenuOpen(false)}>
+          <Link
+            href="/corporate-events"
+            onClick={() => setMenuOpen(false)}
+            className="hover:scale-105 transition"
+          >
             Corporate
           </Link>
 
-          <Link href="/birthday-parties" onClick={() => setMenuOpen(false)}>
+          <Link
+            href="/birthday-parties"
+            onClick={() => setMenuOpen(false)}
+            className="hover:scale-105 transition"
+          >
             Birthdays
           </Link>
 
-          <Link href="/#packages" onClick={() => setMenuOpen(false)}>
+          <Link
+            href="/#packages"
+            onClick={() => setMenuOpen(false)}
+            className="hover:scale-105 transition"
+          >
             Packages
           </Link>
 
           <Link
             href="/book"
             onClick={() => setMenuOpen(false)}
-            className="bg-[#c7a45a] text-black px-6 py-3 rounded-lg font-semibold"
+            className="bg-[#c7a45a] text-black px-6 py-3 rounded-lg font-semibold hover:scale-105 transition"
           >
             Book Now
           </Link>
