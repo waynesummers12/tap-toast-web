@@ -1,5 +1,3 @@
-
-
 import Image from "next/image"
 
 export const metadata = {
@@ -14,34 +12,42 @@ export default function DirtySodaBarPage() {
 
       {/* HERO */}
       <section className="px-8 py-24 max-w-6xl mx-auto">
-        <h1 className="text-5xl md:text-6xl font-bold mb-6">
-          Dirty Soda Bar
-        </h1>
+        <div className="grid md:grid-cols-2 gap-12 items-center">
 
-        <p className="text-xl max-w-3xl opacity-80 leading-relaxed">
-          Tap & Toast now offers a fun and interactive <strong>Dirty Soda Bar</strong>
-          experience for events across Colorado. Inspired by the viral soda trend,
-          our mobile soda bar brings custom soda creations, flavored syrups,
-          creams, and garnishes that guests absolutely love.
-        </p>
+          {/* LEFT SIDE (TEXT) */}
+          <div>
+            <h1 className="text-5xl md:text-6xl font-bold mb-6">
+              Dirty Soda Bar
+            </h1>
 
-        <div className="mt-10 mb-6">
-          <Image
-            src="/dirty-sode.jpg"
-            alt="Dirty Soda Bar Drinks"
-            width={1200}
-            height={700}
-            className="rounded-xl shadow-lg"
-          />
-        </div>
+            <p className="text-xl max-w-xl opacity-80 leading-relaxed">
+              Tap & Toast now offers a fun and interactive <strong>Dirty Soda Bar</strong>
+              experience for events across Colorado. Inspired by the viral soda trend,
+              our mobile soda bar brings custom soda creations, flavored syrups,
+              creams, and garnishes that guests absolutely love.
+            </p>
 
-        <div className="mt-10">
-          <a
-            href="/book"
-            className="bg-[#c7a45a] text-black px-8 py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition"
-          >
-            Book a Dirty Soda Bar
-          </a>
+            <div className="mt-10">
+              <a
+                href="/book"
+                className="bg-[#c7a45a] text-black px-8 py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition"
+              >
+                Book a Dirty Soda Bar
+              </a>
+            </div>
+          </div>
+
+          {/* RIGHT SIDE (IMAGE) */}
+          <div>
+            <Image
+              src="/dirty-sode.jpg"
+              alt="Dirty Soda Bar Drinks"
+              width={1200}
+              height={700}
+              className="rounded-xl shadow-lg object-cover"
+            />
+          </div>
+
         </div>
       </section>
 
