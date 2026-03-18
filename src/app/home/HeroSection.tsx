@@ -1,5 +1,3 @@
-
-
 import Link from "next/link"
 
 export default function HeroSection() {
@@ -22,7 +20,7 @@ export default function HeroSection() {
         </h1>
 
         <h2 className="text-5xl md:text-7xl font-semibold tracking-widest mb-10">
-          Success
+          Slow Sips and Sweet Memories
         </h2>
 
         <p className="text-lg md:text-xl mb-10 opacity-90">
