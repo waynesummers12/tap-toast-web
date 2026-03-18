@@ -1,15 +1,33 @@
+// Replace your Navbar.tsx with this premium version
+
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
-    <div className="w-full bg-[#9C7A2C] text-white border-b border-[#bfa35a] sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div
+      className={`w-full text-white border-b border-[#bfa35a] sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-[#9C7A2C]/95 backdrop-blur shadow-lg py-2"
+          : "bg-[#9C7A2C] py-4"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
 
         {/* Logo */}
         <Link
@@ -108,9 +126,10 @@ export default function Navbar() {
 
         </div>
       )}
+
       {/* Mobile Sticky CTA */}
       <div className="fixed bottom-0 left-0 w-full bg-[#9C7A2C] p-4 md:hidden z-40">
-        <div className="flex gap-3 animate-pulse">
+        <div className="flex gap-3">
 
           <a
             href="tel:7206439690"
