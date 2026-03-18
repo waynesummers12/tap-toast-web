@@ -50,6 +50,7 @@ export default function PackagesSection() {
               height={224}
               className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110"
               priority
+              unoptimized
             />
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <div className="absolute -left-full top-0 h-full w-1/2 bg-linear-to-r from-transparent via-white/30 to-transparent transform skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-[shimmer_1.2s_forwards]" />
@@ -92,6 +93,7 @@ export default function PackagesSection() {
               width={600}
               height={224}
               className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110"
+              unoptimized
             />
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <div className="absolute -left-full top-0 h-full w-1/2 bg-linear-to-r from-transparent via-white/30 to-transparent transform skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-[shimmer_1.2s_forwards]" />
@@ -134,6 +136,7 @@ export default function PackagesSection() {
               width={600}
               height={224}
               className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110"
+              unoptimized
             />
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <div className="absolute -left-full top-0 h-full w-1/2 bg-linear-to-r from-transparent via-white/30 to-transparent transform skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-[shimmer_1.2s_forwards]" />
