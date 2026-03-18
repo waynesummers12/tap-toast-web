@@ -108,6 +108,26 @@ export default function Navbar() {
 
         </div>
       )}
+      {/* Mobile Sticky CTA */}
+      <div className="fixed bottom-0 left-0 w-full bg-[#9C7A2C] p-4 md:hidden z-40">
+        <div className="flex gap-3 animate-pulse">
+
+          <a
+            href="tel:7206439690"
+            className="w-1/2 text-center bg-white text-black px-4 py-3 rounded-lg font-semibold"
+          >
+            Call Now
+          </a>
+
+          <Link
+            href="/book"
+            className="w-1/2 text-center bg-[#c7a45a] text-black px-4 py-3 rounded-lg font-semibold"
+          >
+            Get Quote
+          </Link>
+
+        </div>
+      </div>
     </div>
   )
 }
