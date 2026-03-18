@@ -40,12 +40,12 @@ export default function DirtySodaBarPage() {
           {/* RIGHT SIDE (IMAGE) */}
           <div>
             <Image
-              src="/package1.jpg"
-              alt="Dirty Soda Bar Drinks"
-              width={1200}
-              height={700}
-              className="rounded-xl shadow-lg object-cover"
-            />
+           src="/dirty-soda-bar.jpg"
+           alt="Dirty Soda Bar Birthday Party Experience"
+           width={1200}
+           height={700}
+            className="rounded-xl shadow-2xl object-cover"
+             />
           </div>
 
         </div>
