@@ -259,7 +259,7 @@ export default function BookEventPage() {
 
         </div>
 
-        <div className="mt-8 bg-gray-50 p-6 rounded-xl border sticky bottom-0 md:bottom-auto md:top-24 z-20 shadow-lg">
+        <div className="mt-8 bg-gray-50 p-6 rounded-xl border md:sticky md:top-24 shadow-lg">
 
           <h3 className="text-lg font-semibold mb-4">Booking Summary</h3>
 
