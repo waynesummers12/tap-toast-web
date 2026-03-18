@@ -40,7 +40,7 @@ export default function DirtySodaBarPage() {
           {/* RIGHT SIDE (IMAGE) */}
           <div>
             <Image
-              src="/dirty-sode.jpg"
+              src="/package1.jpg"
               alt="Dirty Soda Bar Drinks"
               width={1200}
               height={700}
