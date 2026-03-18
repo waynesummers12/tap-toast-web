@@ -8,7 +8,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <div className="w-full bg-[#9C7A2C] text-white border-b border-[#bfa35a] relative z-50">
+    <div className="w-full bg-[#9C7A2C] text-white border-b border-[#bfa35a] sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
         {/* Logo */}
