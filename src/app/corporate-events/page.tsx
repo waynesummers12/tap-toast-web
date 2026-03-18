@@ -1,4 +1,4 @@
-
+import Image from "next/image"
 
 export const metadata = {
   title: "Corporate Event Mobile Bar Service | Tap & Toast",
@@ -11,27 +11,42 @@ export default function CorporateEventsPage() {
     <main className="min-h-screen bg-black text-white">
 
       {/* HERO */}
-      <section className="px-8 py-24 max-w-6xl mx-auto">
-        <h1 className="text-5xl md:text-6xl font-bold mb-6">
-          Corporate Event Bar Service
-        </h1>
+      <section className="px-8 py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        
+        <div>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+            Corporate Event Bar Service
+          </h1>
 
-        <p className="text-xl max-w-3xl opacity-80 leading-relaxed">
-          Tap & Toast delivers a polished and professional mobile bar
-          experience for corporate events throughout Colorado. From company
-          celebrations and networking events to brand launches and holiday
-          parties, our bartenders and mobile bar trailer create a memorable
-          guest experience.
-        </p>
+          <p className="text-xl max-w-3xl opacity-80 leading-relaxed">
+            Tap & Toast delivers a polished and professional mobile bar
+            experience for corporate events throughout Colorado. From company
+            celebrations and networking events to brand launches and holiday
+            parties, our bartenders and mobile bar trailer create a memorable
+            guest experience.
+          </p>
 
-        <div className="mt-10">
-          <a
-            href="/book"
-            className="bg-[#c7a45a] text-black px-8 py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition"
-          >
-            Request Corporate Event Quote
-          </a>
+          <div className="mt-10">
+            <a
+              href="/book"
+              className="bg-[#c7a45a] text-black px-8 py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition"
+            >
+              Request Corporate Event Quote
+            </a>
+          </div>
         </div>
+
+        <div>
+          <Image
+            src="/corporate-bar.jpg"
+            alt="Tap & Toast Corporate Event Mobile Bar"
+            width={700}
+            height={500}
+            className="rounded-xl object-cover"
+            priority
+          />
+        </div>
+
       </section>
 
       {/* FEATURES */}
