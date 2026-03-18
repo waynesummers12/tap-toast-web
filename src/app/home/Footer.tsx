@@ -36,35 +36,44 @@ export default function Footer() {
         {/* Contact */}
         <div className="text-center md:text-right">
           <p className="text-white font-semibold mb-2">Contact</p>
+
           <a
             href="mailto:jen@coloradotapandtoast.com"
-            className="text-sm hover:text-white transition"
+            className="block text-sm hover:text-white transition"
           >
             jen@coloradotapandtoast.com
           </a>
+
           <a
             href="tel:7206439690"
             className="block text-sm mt-1 hover:text-white transition"
           >
             720-643-9690
           </a>
+
           <p className="text-xs mt-1 opacity-70">
             Call or text anytime
           </p>
-          <a
-            href="https://instagram.com/coloradotapandtoast"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm hover:text-white transition"
-          >
-            Instagram: @coloradotapandtoast
-          </a>
-          <Link
-            href="/book"
-            className="inline-block mt-4 bg-[#c7a45a] text-black px-5 py-2 rounded-md text-sm font-semibold hover:opacity-90 transition"
-          >
-            Get Quote
-          </Link>
+
+          <div className="flex flex-col md:flex-row md:justify-end items-center gap-3 mt-4">
+
+            <a
+              href="https://instagram.com/coloradotapandtoast"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm hover:text-white transition"
+            >
+              Instagram: @coloradotapandtoast
+            </a>
+
+            <Link
+              href="/book"
+              className="bg-[#c7a45a] text-black px-5 py-2 rounded-md text-sm font-semibold hover:opacity-90 transition"
+            >
+              Get Quote
+            </Link>
+
+          </div>
         </div>
 
       </div>
