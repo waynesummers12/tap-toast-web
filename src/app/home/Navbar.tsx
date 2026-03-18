@@ -22,7 +22,7 @@ export default function Navbar() {
         </Link>
 
         {/* Navigation */}
-        <div className="hidden md:flex gap-8 text-sm tracking-[0.25em] uppercase">
+        <div className="flex md:flex gap-4 md:gap-8 text-sm tracking-[0.25em] uppercase overflow-x-auto no-scrollbar whitespace-nowrap">
           <Link href="/dirty-soda-bar" className="hover:opacity-80">
             Dirty Soda Bar
           </Link>

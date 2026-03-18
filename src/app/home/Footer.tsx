@@ -35,8 +35,20 @@ export default function Footer() {
         {/* Contact */}
         <div className="text-center md:text-right">
           <p className="text-white font-semibold mb-2">Contact</p>
-          <p className="text-sm">jen@coloradotapntoast.com</p>
-          <p className="text-sm">Instagram: @coloradotapandtoast</p>
+          <a
+            href="mailto:jen@coloradotapandtoast.com"
+            className="text-sm hover:text-white transition"
+          >
+            jen@coloradotapandtoast.com
+          </a>
+          <a
+            href="https://instagram.com/coloradotapandtoast"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm hover:text-white transition"
+          >
+            Instagram: @coloradotapandtoast
+          </a>
         </div>
 
       </div>
