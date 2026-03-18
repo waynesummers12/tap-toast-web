@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
@@ -42,6 +43,15 @@ export default function Footer() {
             jen@coloradotapandtoast.com
           </a>
           <a
+            href="tel:7206439690"
+            className="block text-sm mt-1 hover:text-white transition"
+          >
+            720-643-9690
+          </a>
+          <p className="text-xs mt-1 opacity-70">
+            Call or text anytime
+          </p>
+          <a
             href="https://instagram.com/coloradotapandtoast"
             target="_blank"
             rel="noopener noreferrer"
@@ -49,6 +59,12 @@ export default function Footer() {
           >
             Instagram: @coloradotapandtoast
           </a>
+          <Link
+            href="/book"
+            className="inline-block mt-4 bg-[#c7a45a] text-black px-5 py-2 rounded-md text-sm font-semibold hover:opacity-90 transition"
+          >
+            Get Quote
+          </Link>
         </div>
 
       </div>
