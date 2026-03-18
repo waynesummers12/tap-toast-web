@@ -1,4 +1,4 @@
-
+import Image from "next/image"
 
 export const metadata = {
   title: "Wedding Mobile Bar Service | Tap & Toast",
@@ -11,26 +11,41 @@ export default function WeddingsPage() {
     <main className="min-h-screen bg-black text-white">
 
       {/* HERO */}
-      <section className="px-8 py-24 max-w-6xl mx-auto">
-        <h1 className="text-5xl md:text-6xl font-bold mb-6">
-          Wedding Mobile Bar Service
-        </h1>
+      <section className="px-8 py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        
+        <div>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+            Wedding Mobile Bar Service
+          </h1>
 
-        <p className="text-xl max-w-3xl opacity-80 leading-relaxed">
-          Tap & Toast brings a luxury mobile bar experience to weddings across
-          Colorado. Our professional bartenders, elegant bar trailer, and
-          customizable drink menus help make your wedding celebration truly
-          unforgettable.
-        </p>
+          <p className="text-xl max-w-3xl opacity-80 leading-relaxed">
+            Tap & Toast brings a luxury mobile bar experience to weddings across
+            Colorado. Our professional bartenders, elegant bar trailer, and
+            customizable drink menus help make your wedding celebration truly
+            unforgettable.
+          </p>
 
-        <div className="mt-10">
-          <a
-            href="/book"
-            className="bg-[#c7a45a] text-black px-8 py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition"
-          >
-            Get a Wedding Quote
-          </a>
+          <div className="mt-10">
+            <a
+              href="/book"
+              className="bg-[#c7a45a] text-black px-8 py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition"
+            >
+              Get a Wedding Quote
+            </a>
+          </div>
         </div>
+
+        <div>
+          <Image
+            src="/wedding-bar.jpg"
+            alt="Tap & Toast Wedding Mobile Bar Experience"
+            width={700}
+            height={500}
+            className="rounded-xl object-cover"
+            priority
+          />
+        </div>
+
       </section>
 
       {/* FEATURES */}
