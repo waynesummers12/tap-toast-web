@@ -12,7 +12,7 @@ export default function StorySection() {
             Our Story
           </h2>
 
-          <div className="w-16 h-[2px] bg-black mb-8" />
+          <div className="w-16 h-0.5 bg-black mb-8" />
 
           <p className="text-lg leading-relaxed text-gray-700 mb-6">
             Hi, I&apos;m Jen! With over 15 years in the hospitality industry,
