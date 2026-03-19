@@ -1,5 +1,4 @@
-
-
+import Image from "next/image"
 export const metadata = {
   title: "Birthday Party Mobile Bar Service | Tap & Toast",
   description:
@@ -11,25 +10,37 @@ export default function BirthdayPartiesPage() {
     <main className="min-h-screen bg-black text-white">
 
       {/* HERO */}
-      <section className="px-8 py-24 max-w-6xl mx-auto">
-        <h1 className="text-5xl md:text-6xl font-bold mb-6">
-          Birthday Party Bar Service
-        </h1>
+      <section className="px-8 py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+            Birthday Party Bar Service
+          </h1>
 
-        <p className="text-xl max-w-3xl opacity-80 leading-relaxed">
-          Celebrate your birthday in style with Tap & Toast’s mobile bar
-          experience. Our professional bartenders and beautiful bar setup make
-          backyard parties, milestone birthdays, and private celebrations feel
-          like a VIP event.
-        </p>
+          <p className="text-xl max-w-xl opacity-80 leading-relaxed">
+            Celebrate your birthday in style with Tap & Toast’s mobile bar
+            experience. Our professional bartenders and beautiful bar setup make
+            backyard parties, milestone birthdays, and private celebrations feel
+            like a VIP event.
+          </p>
 
-        <div className="mt-10">
-          <a
-            href="/book"
-            className="bg-[#c7a45a] text-black px-8 py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition"
-          >
-            Get Birthday Party Quote
-          </a>
+          <div className="mt-10">
+            <a
+              href="/book"
+              className="bg-[#c7a45a] text-black px-8 py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition"
+            >
+              Get Birthday Party Quote
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <Image
+            src="/dirty-soda-bar.jpg"
+            alt="Birthday party mobile bar setup"
+            width={800}
+            height={500}
+            className="rounded-xl shadow-xl w-full object-cover"
+          />
         </div>
       </section>
 
