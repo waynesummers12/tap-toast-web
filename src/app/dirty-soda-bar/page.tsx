@@ -30,7 +30,7 @@ export default function DirtySodaBarPage() {
             <div className="mt-10">
               <a
                 href="/book"
-                className="bg-[#c7a45a] text-black px-8 py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition"
+                className="block w-full md:w-auto text-center bg-[#c7a45a] text-black px-6 md:px-8 py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition whitespace-normal wrap-break-word"
               >
                 Book a Dirty Soda Bar
               </a>
@@ -120,7 +120,7 @@ export default function DirtySodaBarPage() {
 
           <a
             href="/book"
-            className="bg-black text-white px-8 py-4 rounded-lg font-semibold"
+            className="block w-full md:w-auto text-center bg-black text-white px-6 md:px-8 py-4 rounded-lg font-semibold whitespace-normal wrap-break-word"
           >
             Get Your Event Quote
           </a>

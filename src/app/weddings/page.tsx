@@ -106,7 +106,7 @@ export default function WeddingsPage() {
 
           <a
             href="/book"
-            className="bg-black text-white px-8 py-4 rounded-lg font-semibold"
+            className="block w-full md:w-auto text-center bg-black text-white px-6 md:px-8 py-4 rounded-lg font-semibold whitespace-normal wrap-break-word"
           >
             Reserve Your Wedding Date
           </a>
