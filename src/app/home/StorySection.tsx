@@ -1,38 +1,36 @@
-
-
 import Image from 'next/image';
 
 export default function StorySection() {
   return (
-    <section className="bg-white text-black py-24 px-6">
+    <section className="bg-white text-black py-28 px-6">
       <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         {/* Text */}
         <div>
-          <h2 className="text-5xl font-light tracking-[0.2em] text-[#9C7A2C] mb-6 uppercase">
+          <h2 className="text-4xl md:text-5xl font-light tracking-[0.35em] text-[#9C7A2C] mb-6 uppercase">
             Our Story
           </h2>
 
-          <div className="w-16 h-0.5 bg-black mb-8" />
+          <div className="w-16 h-px bg-[#9C7A2C]/70 mb-10" />
 
-          <p className="text-lg leading-relaxed text-gray-700 mb-6">
-            Hi, I&apos;m Jen! With over 15 years in the hospitality industry,
-            I bring a deep passion for bartending and crafting unique cocktails
-            right to your doorstep.
+          <p className="text-base md:text-lg leading-relaxed text-gray-700 mb-6 tracking-[0.02em]">
+            Hi, I&apos;m Jen! As a business owne in the beauty industry, I&apos;ve spent years creating personalized, high-touch experiences for my clients — something I now bring into every Tap & Toast event.
           </p>
 
-          <p className="text-lg leading-relaxed text-gray-700 mb-6">
-            My mission is to create memorable experiences for every event,
-            ensuring each moment is special and enjoyable.
+          <p className="text-base md:text-lg leading-relaxed text-gray-700 mb-6 tracking-[0.02em]">
+            My background includes working weddings and events as a server, where I learned firsthand how important the details, timing, and guest experience are to making an event feel seamless and unforgettable.
           </p>
 
-          <p className="text-lg leading-relaxed text-gray-700 mb-8">
-            I&apos;m excited to bring the party to you with our mobile bar,
-            turning any gathering into an unforgettable celebration.
+          <p className="text-base md:text-lg leading-relaxed text-gray-700 mb-10 tracking-[0.02em]">
+            Tap & Toast is about more than drinks — it&apos;s about creating an elevated, fun, and memorable atmosphere your guests will talk about long after the event is over.
+          </p>
+
+          <p className="text-sm text-gray-500 italic mb-8">
+            Thoughtfully crafted experiences. Effortlessly unforgettable events.
           </p>
 
           <a
             href="#packages"
-            className="inline-block bg-[#9C7A2C] hover:bg-[#b3913b] text-white px-10 py-4 rounded-full tracking-[0.25em] uppercase text-sm transition"
+            className="inline-block border border-[#9C7A2C] bg-[#9C7A2C]/90 hover:bg-[#b3913b] hover:border-[#b3913b] text-white px-10 py-4 rounded-full tracking-[0.3em] uppercase text-xs transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             Check Out Our Packages
           </a>
@@ -45,7 +43,7 @@ export default function StorySection() {
             alt="Wayne and Jen - Tap & Toast Mobile Bar"
             width={320}
             height={320}
-            className="object-cover rounded-full border-8 border-[#9C7A2C]"
+            className="object-cover rounded-full border-10 border-[#9C7A2C] shadow-2xl"
             style={{ width: '320px', height: '320px' }}
           />
         </div>
