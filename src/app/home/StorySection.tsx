@@ -13,7 +13,7 @@ export default function StorySection() {
           <div className="w-16 h-px bg-[#9C7A2C]/70 mb-10" />
 
           <p className="text-base md:text-lg leading-relaxed text-gray-700 mb-6 tracking-[0.02em]">
-            Hi, I&apos;m Jen! As a business owne in the beauty industry, I&apos;ve spent years creating personalized, high-touch experiences for my clients — something I now bring into every Tap & Toast event.
+            Hi, I&apos;m Jen! As a business owner in the beauty industry, I&apos;ve spent years creating personalized, high-touch experiences for my clients — something I now bring into every Tap & Toast event.
           </p>
 
           <p className="text-base md:text-lg leading-relaxed text-gray-700 mb-6 tracking-[0.02em]">
