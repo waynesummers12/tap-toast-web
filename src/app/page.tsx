@@ -1,7 +1,6 @@
 import Image from "next/image"
 import HeroSection from "./home/HeroSection"
 import StorySection from "./home/StorySection"
-import FounderSection from "./home/FounderSection"
 import TrailerSection from "./home/TrailerSection"
 import PackagesSection from "./home/PackagesSection"
 import FAQSection from "./home/FAQSection"
@@ -42,7 +41,7 @@ export default function HomePage() {
 
           <div className="rounded-2xl overflow-hidden border border-white/10">
             <Image
-              src="/jen-bartending.jpg"
+              src="/jen-wayne-main.jpg"
               alt="Tap & Toast team"
               width={800}
               height={800}
@@ -52,7 +51,6 @@ export default function HomePage() {
 
         </div>
       </section>
-      <FounderSection />
       <TrailerSection />
       <PackagesSection />
       <FAQSection />
