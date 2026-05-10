@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 
 export const metadata = {
   title: "Corporate Event Mobile Bar Service | Tap & Toast",
@@ -8,7 +9,7 @@ export const metadata = {
 
 export default function CorporateEventsPage() {
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-black text-white selection:bg-[#c7a45a] selection:text-black">
 
       {/* HERO */}
       <section className="px-8 py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
@@ -27,12 +28,19 @@ export default function CorporateEventsPage() {
           </p>
 
           <div className="mt-10">
-            <a
+            <Link
               href="/book"
-              className="bg-[#c7a45a] text-black px-8 py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition"
+              prefetch
+              className="inline-block bg-[#c7a45a] text-black px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_25px_rgba(199,164,90,0.4)]"
             >
               Request Corporate Event Quote
-            </a>
+            </Link>
+            <p className="text-sm text-[#c7a45a] mt-6">
+              Trusted by teams across Colorado — limited availability for peak event dates
+            </p>
+            <p className="text-xs text-white/60 mt-2">
+              ✔ Professional staff  ✔ Seamless setup  ✔ Designed for high-volume events
+            </p>
           </div>
         </div>
 
@@ -42,8 +50,10 @@ export default function CorporateEventsPage() {
             alt="Tap & Toast Corporate Event Mobile Bar"
             width={700}
             height={500}
-            className="rounded-xl object-cover"
+            className="rounded-2xl object-cover border border-white/10 shadow-2xl"
             priority
+            quality={80}
+            sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>
 
@@ -52,7 +62,7 @@ export default function CorporateEventsPage() {
       {/* FEATURES */}
       <section className="px-8 pb-24 max-w-6xl mx-auto grid md:grid-cols-3 gap-10">
 
-        <div className="bg-zinc-900 p-8 rounded-xl">
+        <div className="bg-neutral-900/70 backdrop-blur p-8 rounded-2xl border border-white/10 hover:border-[#c7a45a] transition">
           <h3 className="text-xl font-semibold mb-3">Professional Bartenders</h3>
           <p className="opacity-70">
             Our experienced bartenders provide fast, friendly service while
@@ -60,7 +70,7 @@ export default function CorporateEventsPage() {
           </p>
         </div>
 
-        <div className="bg-zinc-900 p-8 rounded-xl">
+        <div className="bg-neutral-900/70 backdrop-blur p-8 rounded-2xl border border-white/10 hover:border-[#c7a45a] transition">
           <h3 className="text-xl font-semibold mb-3">Custom Drink Menus</h3>
           <p className="opacity-70">
             Create signature drinks or custom menus tailored to your brand,
@@ -68,7 +78,7 @@ export default function CorporateEventsPage() {
           </p>
         </div>
 
-        <div className="bg-zinc-900 p-8 rounded-xl">
+        <div className="bg-neutral-900/70 backdrop-blur p-8 rounded-2xl border border-white/10 hover:border-[#c7a45a] transition">
           <h3 className="text-xl font-semibold mb-3">Mobile Bar Setup</h3>
           <p className="opacity-70">
             Our stylish mobile bar setup becomes a centerpiece for your event
@@ -79,10 +89,10 @@ export default function CorporateEventsPage() {
       </section>
 
       {/* EVENT TYPES */}
-      <section className="px-8 pb-24 max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold mb-10">Perfect For Corporate Events Like</h2>
+      <section className="px-8 pb-28 max-w-7xl mx-auto will-change-transform">
+        <h2 className="text-3xl md:text-4xl font-semibold mb-12">Perfect For Corporate Events Like</h2>
 
-        <ul className="grid md:grid-cols-2 gap-6 text-lg opacity-80">
+        <ul className="grid md:grid-cols-2 gap-6 text-lg text-gray-300">
           <li>• Company Holiday Parties</li>
           <li>• Networking Events</li>
           <li>• Product Launches</li>
@@ -94,7 +104,7 @@ export default function CorporateEventsPage() {
 
       {/* CTA */}
       <section className="px-8 pb-32 max-w-6xl mx-auto">
-        <div className="bg-[#c7a45a] text-black p-12 rounded-2xl">
+        <div className="bg-[#c7a45a] text-black p-12 md:p-16 rounded-3xl shadow-[0_20px_60px_rgba(199,164,90,0.3)]">
 
           <h2 className="text-3xl font-bold mb-4">
             Make Your Corporate Event Stand Out
@@ -105,12 +115,13 @@ export default function CorporateEventsPage() {
             connecting with guests and enjoying the event.
           </p>
 
-          <a
+          <Link
             href="/book"
-            className="block w-full md:w-auto text-center bg-black text-white px-6 md:px-8 py-4 rounded-lg font-semibold whitespace-normal wrap-break-word"
+            prefetch
+            className="block w-full md:w-auto text-center bg-black text-white px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300"
           >
             Book Your Corporate Event
-          </a>
+          </Link>
 
         </div>
       </section>

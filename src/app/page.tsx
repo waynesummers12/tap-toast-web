@@ -51,6 +51,14 @@ export default function HomePage() {
             <p className="text-sm text-gray-400 mb-4">
               Limited dates available — most weekends book out in advance.
             </p>
+            <p className="text-sm text-gray-400 mb-4">
+              Serving areas across Colorado including 
+              <Link href="/dirty-soda-bar-denver" className="text-[#c9a14a] underline ml-1">Denver</Link>,
+              <Link href="/dirty-soda-bar-lakewood" className="text-[#c9a14a] underline ml-1">Lakewood</Link>,
+              <Link href="/dirty-soda-bar-parker" className="text-[#c9a14a] underline ml-1">Parker</Link>,
+              <Link href="/dirty-soda-bar-highlands-ranch" className="text-[#c9a14a] underline ml-1">Highlands Ranch</Link>, and
+              <Link href="/dirty-soda-bar-centennial" className="text-[#c9a14a] underline ml-1">Centennial</Link>.
+            </p>
 
             <Link
               href="/book"

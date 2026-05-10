@@ -11,6 +11,142 @@ export default function DirtySodaBarPage() {
   return (
     <main className="min-h-screen bg-black text-white selection:bg-[#c7a45a] selection:text-black">
 
+      {/* SEO SCHEMA MARKUP */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "Tap & Toast Mobile Bar",
+            "image": "https://coloradotapandtoast.com/dirty-soda-bar.jpg",
+            "url": "https://coloradotapandtoast.com/dirty-soda-bar",
+            "telephone": "720-643-9690",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Denver",
+              "addressRegion": "CO",
+              "addressCountry": "US"
+            },
+            "areaServed": ["Denver", "Littleton", "Lakewood", "Colorado"],
+            "priceRange": "$$",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "5",
+              "reviewCount": "10"
+            },
+            "review": {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Event Client"
+              },
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5"
+              },
+              "reviewBody": "The dirty soda bar was the highlight of our event — guests loved it and couldn’t stop talking about it."
+            },
+            "description": "Mobile dirty soda bar catering for weddings, parties, and corporate events in Colorado.",
+            "makesOffer": {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Dirty Soda Bar Catering"
+              }
+            }
+          })
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is a dirty soda bar?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "A dirty soda bar is a customizable drink station where guests create soda combinations with syrups, cream, fruit, and garnishes."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Do you provide dirty soda bar catering near me?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes, Tap & Toast provides mobile dirty soda bar catering throughout Denver, Littleton, Lakewood, and surrounding Colorado areas."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What events are best for a dirty soda bar?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Dirty soda bars are perfect for weddings, birthday parties, corporate events, school functions, and family gatherings."
+                }
+              }
+            ]
+          })
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://coloradotapandtoast.com"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Dirty Soda Bar",
+                "item": "https://coloradotapandtoast.com/dirty-soda-bar"
+              }
+            ]
+          })
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": "Dirty Soda Bar Catering",
+            "provider": {
+              "@type": "LocalBusiness",
+              "name": "Tap & Toast Mobile Bar",
+              "url": "https://coloradotapandtoast.com"
+            },
+            "areaServed": {
+              "@type": "State",
+              "name": "Colorado"
+            },
+            "serviceType": "Mobile Dirty Soda Bar Catering",
+            "description": "Mobile dirty soda bar catering for weddings, birthday parties, and corporate events across Denver, Littleton, Lakewood, and surrounding Colorado areas.",
+            "offers": {
+              "@type": "Offer",
+              "url": "https://coloradotapandtoast.com/book",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            }
+          })
+        }}
+      />
+
       {/* HERO */}
       <section className="px-8 py-24 max-w-6xl mx-auto">
         <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -18,7 +154,7 @@ export default function DirtySodaBarPage() {
           {/* LEFT SIDE (TEXT) */}
           <div>
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              Dirty Soda Bar
+              Dirty Soda Bar Catering in Colorado
             </h1>
 
             <p className="text-xl max-w-xl opacity-80 leading-relaxed">
@@ -26,6 +162,10 @@ export default function DirtySodaBarPage() {
               experience for events across Colorado. Inspired by the viral soda trend,
               our mobile soda bar brings custom soda creations, flavored syrups,
               creams, and garnishes that guests absolutely love.
+            </p>
+
+            <p className="text-lg text-gray-400 mt-6 max-w-xl">
+              Looking for a dirty soda bar near you? Tap & Toast provides mobile dirty soda catering across Denver, Littleton, Lakewood, and surrounding Colorado areas.
             </p>
 
             <div className="mt-10">
@@ -41,6 +181,11 @@ export default function DirtySodaBarPage() {
               </p>
               <p className="text-xs text-white/60 mt-2">
                 ✔ Huge hit for all ages  ✔ Fast setup  ✔ Fully customizable flavors
+              </p>
+              <p className="text-sm text-gray-400 mt-4">
+                Serving Colorado areas including 
+                <Link href="/dirty-soda-bar-denver" className="text-[#c7a45a] underline ml-1">Denver</Link>,
+                <Link href="/dirty-soda-bar-littleton" className="text-[#c7a45a] underline ml-1">Littleton</Link>
               </p>
             </div>
           </div>
@@ -93,9 +238,9 @@ export default function DirtySodaBarPage() {
 
       {/* EVENT TYPES */}
       <section className="px-8 pb-24 max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold mb-10">Perfect For Events Like</h2>
+        <h2 className="text-3xl font-bold mb-10">Dirty Soda Bar for Weddings, Parties & Corporate Events</h2>
 
-        <ul className="grid md:grid-cols-2 gap-6 text-lg opacity-80">
+        <ul className="grid md:grid-cols-2 gap-6 text-lg text-gray-300">
           <li>• Weddings</li>
           <li>• Corporate Events</li>
           <li>• Birthday Parties</li>
@@ -103,11 +248,45 @@ export default function DirtySodaBarPage() {
           <li>• School Events</li>
           <li>• Company Celebrations</li>
         </ul>
+        <p className="text-gray-400 mt-8">
+          Also explore our <Link href="/bartending" className="text-[#c7a45a] underline">bartending services</Link> and <Link href="/weddings" className="text-[#c7a45a] underline">wedding bar packages</Link>.
+        </p>
+      </section>
+
+      <section className="px-8 pb-16 max-w-6xl mx-auto">
+        <h2 className="text-2xl font-semibold mb-6">Dirty Soda Bar Catering in Colorado</h2>
+        <p className="text-gray-400 max-w-3xl">
+          Tap & Toast provides premium mobile dirty soda bar catering across Colorado including Denver, Littleton, Lakewood, and surrounding areas. Whether you&apos;re planning a wedding, birthday party, or corporate event, our soda bar experience delivers something unique that guests remember.
+        </p>
+      </section>
+
+      {/* FAQ */}
+      <section className="px-8 pb-24 max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold mb-10">Dirty Soda Bar FAQs</h2>
+
+        <div className="space-y-6 text-gray-300">
+
+          <div>
+            <h3 className="font-semibold text-lg mb-2">What is a dirty soda bar?</h3>
+            <p className="opacity-80">A dirty soda bar is a customizable drink station where guests create unique soda combinations using flavored syrups, cream, fruit, and garnishes.</p>
+          </div>
+
+          <div>
+            <h3 className="font-semibold text-lg mb-2">Do you provide dirty soda bar catering near me?</h3>
+            <p className="opacity-80">Yes — Tap & Toast provides mobile dirty soda bar catering throughout Colorado including Denver, Littleton, and surrounding areas.</p>
+          </div>
+
+          <div>
+            <h3 className="font-semibold text-lg mb-2">What events are best for a dirty soda bar?</h3>
+            <p className="opacity-80">Dirty soda bars are perfect for birthday parties, weddings, corporate events, school functions, and family gatherings.</p>
+          </div>
+
+        </div>
       </section>
 
       {/* CTA */}
       <section className="px-8 pb-32 max-w-6xl mx-auto">
-        <div className="bg-[#c7a45a] text-black p-12 rounded-2xl">
+        <div className="bg-[#c7a45a] text-black p-12 md:p-16 rounded-3xl shadow-[0_20px_60px_rgba(199,164,90,0.3)]">
 
           <h2 className="text-3xl font-bold mb-4">
             Ready to Add a Dirty Soda Bar to Your Event?
