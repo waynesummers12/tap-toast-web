@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 
 export const metadata = {
   title: "Dirty Soda Bar Catering | Tap & Toast",
@@ -8,7 +9,7 @@ export const metadata = {
 
 export default function DirtySodaBarPage() {
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-black text-white selection:bg-[#c7a45a] selection:text-black">
 
       {/* HERO */}
       <section className="px-8 py-24 max-w-6xl mx-auto">
@@ -28,12 +29,19 @@ export default function DirtySodaBarPage() {
             </p>
 
             <div className="mt-10">
-              <a
+              <Link
                 href="/book"
-                className="block w-full md:w-auto text-center bg-[#c7a45a] text-black px-6 md:px-8 py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition whitespace-normal wrap-break-word"
+                prefetch
+                className="block w-full md:w-auto text-center bg-[#c7a45a] text-black px-8 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_25px_rgba(199,164,90,0.4)]"
               >
                 Book a Dirty Soda Bar
-              </a>
+              </Link>
+              <p className="text-sm text-[#c7a45a] mt-6">
+                Perfect for parties — dates fill up quickly during peak weekends
+              </p>
+              <p className="text-xs text-white/60 mt-2">
+                ✔ Huge hit for all ages  ✔ Fast setup  ✔ Fully customizable flavors
+              </p>
             </div>
           </div>
 
@@ -44,7 +52,10 @@ export default function DirtySodaBarPage() {
               alt="Dirty Soda Bar Birthday Party Experience"
               width={1200}
               height={700}
-              className="rounded-xl shadow-2xl object-cover"
+              className="rounded-2xl shadow-2xl object-cover border border-white/10"
+              priority
+              quality={80}
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
 
@@ -54,7 +65,7 @@ export default function DirtySodaBarPage() {
       {/* FEATURES */}
       <section className="px-8 pb-24 max-w-6xl mx-auto grid md:grid-cols-3 gap-10">
 
-        <div className="bg-zinc-900 p-8 rounded-xl">
+        <div className="bg-neutral-900/70 backdrop-blur p-8 rounded-2xl border border-white/10 hover:border-[#c7a45a] transition">
           <h3 className="text-xl font-semibold mb-3">Custom Soda Creations</h3>
           <p className="opacity-70">
             Guests can mix and match flavors, syrups, fruit garnishes and cream
@@ -62,7 +73,7 @@ export default function DirtySodaBarPage() {
           </p>
         </div>
 
-        <div className="bg-zinc-900 p-8 rounded-xl">
+        <div className="bg-neutral-900/70 backdrop-blur p-8 rounded-2xl border border-white/10 hover:border-[#c7a45a] transition">
           <h3 className="text-xl font-semibold mb-3">Perfect for All Ages</h3>
           <p className="opacity-70">
             A dirty soda bar is a huge hit at weddings, corporate events,
@@ -70,7 +81,7 @@ export default function DirtySodaBarPage() {
           </p>
         </div>
 
-        <div className="bg-zinc-900 p-8 rounded-xl">
+        <div className="bg-neutral-900/70 backdrop-blur p-8 rounded-2xl border border-white/10 hover:border-[#c7a45a] transition">
           <h3 className="text-xl font-semibold mb-3">Mobile Setup</h3>
           <p className="opacity-70">
             Our mobile bar trailer and staff bring everything needed to serve
@@ -115,15 +126,18 @@ export default function DirtySodaBarPage() {
               width={1200}
               height={700}
               className="rounded-xl shadow-lg object-cover"
+              quality={75}
+              sizes="100vw"
             />
           </div>
 
-          <a
+          <Link
             href="/book"
-            className="block w-full md:w-auto text-center bg-black text-white px-6 md:px-8 py-4 rounded-lg font-semibold whitespace-normal wrap-break-word"
+            prefetch
+            className="block w-full md:w-auto text-center bg-black text-white px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300"
           >
             Get Your Event Quote
-          </a>
+          </Link>
 
         </div>
       </section>

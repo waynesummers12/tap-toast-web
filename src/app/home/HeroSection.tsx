@@ -41,6 +41,14 @@ export default function HeroSection() {
         >
           Book Instantly with Real Quote
         </Link>
+
+        <p className="text-sm text-[#9C7A2C] mt-6">
+          Limited availability — most weekends book out 2–4 weeks in advance
+        </p>
+
+        <p className="text-xs text-white/60 mt-2">
+          ✔ Fast response times  ✔ Secure your date in minutes  ✔ Trusted by Colorado event hosts
+        </p>
       </div>
     </section>
   )
