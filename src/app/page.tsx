@@ -1,5 +1,6 @@
 import HeroSection from "./home/HeroSection"
 import StorySection from "./home/StorySection"
+import FounderSection from "./home/FounderSection"
 import TrailerSection from "./home/TrailerSection"
 import PackagesSection from "./home/PackagesSection"
 import FAQSection from "./home/FAQSection"
@@ -11,6 +12,7 @@ export default function HomePage() {
     <main>
       <HeroSection />
       <StorySection />
+      <FounderSection />
       <TrailerSection />
       <PackagesSection />
       <FAQSection />
