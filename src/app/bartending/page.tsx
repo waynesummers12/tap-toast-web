@@ -165,6 +165,9 @@ export default function BartendingPage() {
         <h2 className="text-3xl font-bold mb-10 text-center">
           Bartending Packages
         </h2>
+        <p className="text-center text-gray-400 mb-10">
+          Flexible options designed for everything from intimate gatherings to large-scale events
+        </p>
 
         <div className="grid md:grid-cols-2 gap-8">
 
@@ -177,13 +180,19 @@ export default function BartendingPage() {
               <li>• Full Bar Setup</li>
             </ul>
             <p className="text-2xl font-semibold mb-6 text-[#c6a25a]">Starting at $300</p>
+            <p className="text-sm text-gray-400 mb-4">
+              Perfect for smaller gatherings and intimate events
+            </p>
             <Link href="/book" className="bg-[#c6a25a] text-black px-5 py-2 rounded-lg font-semibold">
               Book Now
             </Link>
           </div>
 
           {/* ELEVATED */}
-          <div className="bg-neutral-900/80 backdrop-blur p-8 rounded-2xl border border-white/10 hover:scale-[1.02] transition-all duration-300">
+          <div className="relative bg-neutral-900/80 backdrop-blur p-8 rounded-2xl border border-[#c6a25a] hover:scale-[1.02] transition-all duration-300">
+            <span className="absolute top-4 right-4 text-xs bg-[#c6a25a] text-black px-3 py-1 rounded-full font-semibold">
+              Most Popular
+            </span>
             <h3 className="text-2xl font-bold mb-4">The Elevated</h3>
             <ul className="space-y-2 text-gray-300 mb-6">
               <li>• 2 Professional Bartenders</li>
@@ -193,6 +202,21 @@ export default function BartendingPage() {
             <p className="text-2xl font-semibold mb-6 text-[#c6a25a]">Starting at $600</p>
             <Link href="/book" className="bg-[#c6a25a] text-black px-5 py-2 rounded-lg font-semibold">
               Book Now
+            </Link>
+          </div>
+
+          {/* PREMIUM */}
+          <div className="bg-neutral-900/80 backdrop-blur p-8 rounded-2xl border border-white/10 hover:scale-[1.02] transition-all duration-300">
+            <h3 className="text-2xl font-bold mb-4">The Premium Experience</h3>
+            <ul className="space-y-2 text-gray-300 mb-6">
+              <li>• 2–3 Professional Bartenders</li>
+              <li>• 5+ Hours Service</li>
+              <li>• Custom Drink Menu</li>
+              <li>• High-End Event Support</li>
+            </ul>
+            <p className="text-2xl font-semibold mb-6 text-[#c6a25a]">Custom Pricing</p>
+            <Link href="/book" className="bg-[#c6a25a] text-black px-5 py-2 rounded-lg font-semibold">
+              Get Custom Quote
             </Link>
           </div>
 
@@ -243,6 +267,10 @@ export default function BartendingPage() {
 
         <p className="text-gray-300 mb-10">
           Let’s make your event seamless, professional, and unforgettable.
+        </p>
+
+        <p className="text-sm text-[#c6a25a] mb-6">
+          We typically respond within a few hours
         </p>
 
         <Link
