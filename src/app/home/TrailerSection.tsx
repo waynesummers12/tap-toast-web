@@ -79,7 +79,9 @@ export default function TrailerSection() {
 
           <a
             href="/book"
-            className="inline-block bg-[#9C7A2C] hover:bg-[#b3913b] text-white px-10 py-4 rounded-full tracking-[0.25em] uppercase text-sm transition-all duration-300 hover:scale-105 shadow-[0_0_10px_rgba(156,122,44,0.4)]"
+            className={`inline-block bg-[#9C7A2C] hover:bg-[#b3913b] text-white px-10 py-4 rounded-full tracking-[0.25em] uppercase text-sm transition-all duration-300 hover:scale-105 shadow-[0_0_10px_rgba(156,122,44,0.4)] ${
+              visible ? 'animate-[pulse_2.5s_ease-in-out_infinite] delay-500' : ''
+            }`}
           >
             Check Availability
           </a>
