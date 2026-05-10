@@ -45,14 +45,17 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex gap-8 text-sm tracking-[0.25em] uppercase">
+        <div className="hidden md:flex items-center gap-4 text-xs tracking-[0.2em] uppercase whitespace-nowrap">
           <Link
             href="/dirty-soda-bar"
             className={`relative group ${
               pathname === "/dirty-soda-bar" ? "text-white" : "opacity-80"
             }`}
           >
-            Dirty Soda Bar
+            <span className="flex items-center gap-4">
+              Dirty Soda Bar
+              <span className="opacity-40">|</span>
+            </span>
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
           </Link>
           <Link
@@ -61,7 +64,10 @@ export default function Navbar() {
               pathname === "/weddings" ? "text-white" : "opacity-80"
             }`}
           >
-            Weddings
+            <span className="flex items-center gap-4">
+              Weddings
+              <span className="opacity-40">|</span>
+            </span>
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
           </Link>
           <Link
@@ -70,7 +76,10 @@ export default function Navbar() {
               pathname === "/corporate-events" ? "text-white" : "opacity-80"
             }`}
           >
-            Corporate
+            <span className="flex items-center gap-4">
+              Corporate
+              <span className="opacity-40">|</span>
+            </span>
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
           </Link>
           <Link
@@ -79,7 +88,10 @@ export default function Navbar() {
               pathname === "/birthday-parties" ? "text-white" : "opacity-80"
             }`}
           >
-            Birthdays
+            <span className="flex items-center gap-4">
+              Birthdays
+              <span className="opacity-40">|</span>
+            </span>
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
           </Link>
           <Link
@@ -88,14 +100,17 @@ export default function Navbar() {
               pathname === "/bartending" ? "text-white" : "opacity-80"
             }`}
           >
-            Bartending
+            <span className="flex items-center gap-4">
+              Bartending
+              <span className="opacity-40">|</span>
+            </span>
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
           </Link>
           <Link
             href="/#packages"
             className="relative group opacity-80"
           >
-            Packages
+            <span>Packages</span>
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
           </Link>
         </div>
