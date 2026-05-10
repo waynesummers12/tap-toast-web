@@ -186,6 +186,9 @@ export default function BartendingPage() {
             <li className="flex items-center gap-2"><span className="text-[#c6a25a]">✔</span> Pre-event preparation & infusion</li>
             <li className="flex items-center gap-2"><span className="text-[#c6a25a]">✔</span> Elevated guest experience</li>
           </ul>
+          <p className="text-sm text-gray-400 mt-6">
+            Available as an upgrade for Elevated & Premium packages
+          </p>
         </div>
 
         <div className="bg-neutral-900/70 backdrop-blur rounded-2xl border border-white/10 p-8">
