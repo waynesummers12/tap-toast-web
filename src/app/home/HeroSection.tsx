@@ -5,7 +5,7 @@ export default function HeroSection() {
     <section
       className="relative w-full h-[90vh] flex items-center justify-center text-center text-white"
       style={{
-        backgroundImage: "url('/hero-trailer.jpg')",
+        backgroundImage: "url('/trailer-wedding.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

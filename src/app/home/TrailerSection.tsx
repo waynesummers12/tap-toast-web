@@ -8,7 +8,7 @@ export default function TrailerSection() {
         {/* Image */}
         <div className="flex justify-center">
           <Image
-            src="/trailer.jpg"
+            src="/trailer-wedding.jpg"
             alt="Tap & Toast Mobile Bar Trailer"
             width={640}
             height={427}
@@ -23,7 +23,7 @@ export default function TrailerSection() {
             About The Trailer
           </h2>
 
-          <div className="w-16 h-[2px] bg-white mb-8" />
+          <div className="w-16 h-0.5 bg-[#9C7A2C] mb-8" />
 
           <p className="text-lg text-gray-300 mb-6 leading-relaxed">
             Our custom Tap & Toast mobile bar trailer brings a luxury bar
