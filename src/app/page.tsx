@@ -91,25 +91,36 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-3 gap-6">
 
-            <div className="bg-black p-6 rounded-xl border border-white/10">
-              <p className="text-gray-300 mb-4">
-                &quot;Tap & Toast made our wedding feel effortless. The bartending was incredible and our guests are still talking about it.&quot;
+            {/* Featured Testimonial */}
+            <div className="md:col-span-2 bg-black p-8 rounded-2xl border border-white/10 shadow-xl">
+              <div className="flex mb-4 text-[#c9a14a]">
+                ⭐⭐⭐⭐⭐
+              </div>
+              <p className="text-lg text-gray-200 mb-6">
+                &quot;Tap &amp; Toast made our wedding feel completely effortless. The bartending was incredible, the setup looked amazing, and our guests are still talking about it weeks later.&quot;
               </p>
-              <p className="text-sm text-gray-400">— Wedding Client</p>
+              <p className="text-sm text-gray-400">— Sarah & Michael, Denver Wedding</p>
             </div>
 
-            <div className="bg-black p-6 rounded-xl border border-white/10">
-              <p className="text-gray-300 mb-4">
-                &quot;Super professional, easy to work with, and everything ran smoothly from start to finish. Highly recommend.&quot;
-              </p>
-              <p className="text-sm text-gray-400">— Corporate Event</p>
-            </div>
+            {/* Side Testimonials */}
+            <div className="flex flex-col gap-6">
 
-            <div className="bg-black p-6 rounded-xl border border-white/10">
-              <p className="text-gray-300 mb-4">
-                &quot;Best decision we made for our party. The setup, the drinks, the service — all top tier.&quot;
-              </p>
-              <p className="text-sm text-gray-400">— Private Party</p>
+              <div className="bg-black p-6 rounded-xl border border-white/10">
+                <div className="text-[#c9a14a] mb-3">⭐⭐⭐⭐⭐</div>
+                <p className="text-gray-300 mb-4 text-sm">
+                  &quot;Super professional, easy to work with, and everything ran smoothly from start to finish.&quot;
+                </p>
+                <p className="text-xs text-gray-400">— Corporate Event, Boulder</p>
+              </div>
+
+              <div className="bg-black p-6 rounded-xl border border-white/10">
+                <div className="text-[#c9a14a] mb-3">⭐⭐⭐⭐⭐</div>
+                <p className="text-gray-300 mb-4 text-sm">
+                  &quot;Best decision we made for our party. The setup, drinks, and service were all top tier.&quot;
+                </p>
+                <p className="text-xs text-gray-400">— Private Party, Littleton</p>
+              </div>
+
             </div>
 
           </div>
