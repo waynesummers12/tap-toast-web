@@ -111,7 +111,7 @@ export default function BookEventPage() {
       <div
         className="w-full h-105 flex items-start justify-center text-center pt-20"
         style={{
-          backgroundImage: "url('/trailer.jpg')",
+          backgroundImage: "url('/trailer-wedding.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center"
         }}
@@ -312,6 +312,13 @@ export default function BookEventPage() {
           </div>
 
         </div>
+            <p className="text-sm text-[#c6a25a] mb-3 text-center">
+  Most weekends book out 2–4 weeks in advance
+</p>
+
+<p className="text-xs text-gray-500 mb-4 text-center">
+  ✔ Secure your date with a 50% deposit  ✔ Takes less than 2 minutes
+</p>
 
         <button
           onClick={handleBooking}
