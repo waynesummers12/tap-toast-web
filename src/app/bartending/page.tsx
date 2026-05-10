@@ -160,6 +160,45 @@ export default function BartendingPage() {
 
       <div className="w-full h-px bg-linear-to-r from-transparent via-white/10 to-transparent my-10" />
 
+      {/* CUSTOM COCKTAIL CREATION */}
+      <section className="max-w-6xl mx-auto px-6 pb-20 grid md:grid-cols-2 gap-12 items-center">
+
+        <div>
+          <h2 className="text-3xl md:text-4xl font-semibold mb-6">
+            Custom Cocktail Creation
+          </h2>
+
+          <p className="text-gray-300 mb-5 leading-relaxed">
+            Our mixologists work directly with you to design a one-of-a-kind cocktail experience tailored to your event.
+          </p>
+
+          <p className="text-gray-300 mb-5 leading-relaxed">
+            Whether it’s crafting signature drinks for the bride and groom or building a full themed menu, we create something your guests will remember long after the event ends.
+          </p>
+
+          <p className="text-gray-300 mb-6 leading-relaxed">
+            A favorite example: handcrafted limoncello prepared days in advance — infused, refined, and served fresh to create a truly unforgettable moment.
+          </p>
+
+          <ul className="space-y-3 text-gray-300">
+            <li className="flex items-center gap-2"><span className="text-[#c6a25a]">✔</span> Signature drinks for your event</li>
+            <li className="flex items-center gap-2"><span className="text-[#c6a25a]">✔</span> Custom flavor development</li>
+            <li className="flex items-center gap-2"><span className="text-[#c6a25a]">✔</span> Pre-event preparation & infusion</li>
+            <li className="flex items-center gap-2"><span className="text-[#c6a25a]">✔</span> Elevated guest experience</li>
+          </ul>
+        </div>
+
+        <div className="bg-neutral-900/70 backdrop-blur rounded-2xl border border-white/10 p-8">
+          <p className="text-lg text-gray-200 italic mb-4">
+            &ldquo;The custom drinks were the highlight of our wedding — our guests couldn&rsquo;t stop talking about them.&rdquo;
+          </p>
+          <p className="text-sm text-[#c6a25a]">— Wedding Client</p>
+        </div>
+
+      </section>
+
+      <div className="w-full h-px bg-linear-to-r from-transparent via-white/10 to-transparent my-10" />
+
       {/* PACKAGES */}
       <section className="max-w-7xl mx-auto px-6 pb-20">
         <h2 className="text-3xl font-bold mb-10 text-center">
