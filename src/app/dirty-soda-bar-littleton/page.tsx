@@ -98,6 +98,19 @@ export default function DirtySodaBarLittletonPage() {
         ))}
       </section>
 
+      {/* INTERNAL LINKS */}
+      <section className="px-8 pb-16 max-w-6xl mx-auto">
+        <p className="text-gray-400">
+          Serving Littleton and surrounding areas including 
+          <Link href="/dirty-soda-bar-littleton" className="text-[#c7a45a] underline ml-1">Littleton</Link>,
+          <Link href="/dirty-soda-bar-denver" className="text-[#c7a45a] underline ml-1">Denver</Link>, 
+          <Link href="/dirty-soda-bar-parker" className="text-[#c7a45a] underline ml-1">Parker</Link>, 
+          <Link href="/dirty-soda-bar-lakewood" className="text-[#c7a45a] underline ml-1">Lakewood</Link>, 
+          <Link href="/dirty-soda-bar-highlands-ranch" className="text-[#c7a45a] underline ml-1">Highlands Ranch</Link>, and 
+          <Link href="/dirty-soda-bar-centennial" className="text-[#c7a45a] underline ml-1">Centennial</Link>.
+        </p>
+      </section>
+
       {/* CTA */}
       <section className="px-8 pb-32 max-w-6xl mx-auto">
         <div className="bg-[#c7a45a] text-black p-12 md:p-16 rounded-3xl shadow-[0_20px_60px_rgba(199,164,90,0.3)] text-center">

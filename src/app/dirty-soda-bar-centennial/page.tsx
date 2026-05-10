@@ -1,5 +1,3 @@
-
-
 import Image from "next/image"
 import Link from "next/link"
 
@@ -103,7 +101,8 @@ export default function DirtySodaBarCentennialPage() {
       {/* INTERNAL LINKS */}
       <section className="px-8 pb-16 max-w-6xl mx-auto">
         <p className="text-gray-400">
-          Also serving nearby areas like 
+          Serving Centennial and surrounding areas including 
+          <Link href="/dirty-soda-bar-centennial" className="text-[#c7a45a] underline ml-1">Centennial</Link>, 
           <Link href="/dirty-soda-bar-denver" className="text-[#c7a45a] underline ml-1">Denver</Link>, 
           <Link href="/dirty-soda-bar-littleton" className="text-[#c7a45a] underline ml-1">Littleton</Link>, 
           <Link href="/dirty-soda-bar-lakewood" className="text-[#c7a45a] underline ml-1">Lakewood</Link>, 

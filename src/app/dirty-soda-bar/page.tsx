@@ -28,7 +28,7 @@ export default function DirtySodaBarPage() {
               "addressRegion": "CO",
               "addressCountry": "US"
             },
-            "areaServed": ["Denver", "Littleton", "Lakewood", "Colorado"],
+            "areaServed": ["Denver", "Littleton", "Lakewood", "Parker", "Highlands Ranch", "Centennial", "Colorado"],
             "priceRange": "$$",
             "aggregateRating": {
               "@type": "AggregateRating",
@@ -185,7 +185,11 @@ export default function DirtySodaBarPage() {
               <p className="text-sm text-gray-400 mt-4">
                 Serving Colorado areas including 
                 <Link href="/dirty-soda-bar-denver" className="text-[#c7a45a] underline ml-1">Denver</Link>,
-                <Link href="/dirty-soda-bar-littleton" className="text-[#c7a45a] underline ml-1">Littleton</Link>
+                <Link href="/dirty-soda-bar-littleton" className="text-[#c7a45a] underline ml-1">Littleton</Link>,
+                <Link href="/dirty-soda-bar-lakewood" className="text-[#c7a45a] underline ml-1">Lakewood</Link>,
+                <Link href="/dirty-soda-bar-parker" className="text-[#c7a45a] underline ml-1">Parker</Link>,
+                <Link href="/dirty-soda-bar-highlands-ranch" className="text-[#c7a45a] underline ml-1">Highlands Ranch</Link>, and
+                <Link href="/dirty-soda-bar-centennial" className="text-[#c7a45a] underline ml-1">Centennial</Link>
               </p>
             </div>
           </div>

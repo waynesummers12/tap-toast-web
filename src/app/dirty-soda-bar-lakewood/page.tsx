@@ -103,9 +103,13 @@ export default function DirtySodaBarLakewoodPage() {
       {/* INTERNAL LINKS (SEO BOOST) */}
       <section className="px-8 pb-16 max-w-6xl mx-auto">
         <p className="text-gray-400">
-          Also serving nearby areas like 
-          <Link href="/dirty-soda-bar-denver" className="text-[#c7a45a] underline ml-1">Denver</Link> and 
-          <Link href="/dirty-soda-bar-littleton" className="text-[#c7a45a] underline ml-1">Littleton</Link>.
+          Serving Lakewood and surrounding areas including 
+          <Link href="/dirty-soda-bar-lakewood" className="text-[#c7a45a] underline ml-1">Lakewood</Link>,
+          <Link href="/dirty-soda-bar-denver" className="text-[#c7a45a] underline ml-1">Denver</Link>, 
+          <Link href="/dirty-soda-bar-littleton" className="text-[#c7a45a] underline ml-1">Littleton</Link>, 
+          <Link href="/dirty-soda-bar-parker" className="text-[#c7a45a] underline ml-1">Parker</Link>, 
+          <Link href="/dirty-soda-bar-highlands-ranch" className="text-[#c7a45a] underline ml-1">Highlands Ranch</Link>, and 
+          <Link href="/dirty-soda-bar-centennial" className="text-[#c7a45a] underline ml-1">Centennial</Link>.
         </p>
       </section>
 
