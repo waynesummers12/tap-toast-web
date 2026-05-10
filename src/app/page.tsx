@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 import HeroSection from "./home/HeroSection"
 import StorySection from "./home/StorySection"
 import TrailerSection from "./home/TrailerSection"
@@ -9,7 +10,7 @@ import Footer from "./home/Footer"
 
 export default function HomePage() {
   return (
-    <main>
+    <main className="bg-black text-white selection:bg-[#c9a14a] selection:text-black">
       <HeroSection />
       <StorySection />
 
@@ -51,12 +52,13 @@ export default function HomePage() {
               Limited dates available — most weekends book out in advance.
             </p>
 
-            <a
+            <Link
               href="/book"
+              prefetch
               className="inline-block bg-[#c9a14a] text-black px-6 py-3 rounded-md font-semibold hover:opacity-90 transition"
             >
               Check Availability & Pricing
-            </a>
+            </Link>
 
             <p className="text-sm text-gray-400 mt-4">
               &quot;Everything was seamless — our guests loved it.&quot; ⭐⭐⭐⭐⭐
@@ -70,6 +72,8 @@ export default function HomePage() {
               width={900}
               height={900}
               className="w-full h-full object-cover"
+              quality={80}
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
 
@@ -77,7 +81,7 @@ export default function HomePage() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="bg-neutral-950 text-white py-20 px-6">
+      <section className="bg-neutral-950 text-white py-20 px-6 will-change-transform">
         <div className="max-w-6xl mx-auto">
 
           <div className="text-center mb-12">

@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 
 export const metadata = {
   title: "Wedding Mobile Bar Service | Tap & Toast",
@@ -26,12 +27,13 @@ export default function WeddingsPage() {
           </p>
 
           <div className="mt-10">
-            <a
+            <Link
               href="/book"
-              className="bg-[#c7a45a] text-black px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_25px_rgba(199,164,90,0.4)]"
+              prefetch
+              className="bg-[#c7a45a] text-black px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_25px_rgba(199,164,90,0.4)] inline-block"
             >
               Get a Wedding Quote
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -43,6 +45,8 @@ export default function WeddingsPage() {
             height={500}
             className="rounded-2xl object-cover shadow-2xl border border-white/10"
             priority
+            quality={80}
+            sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>
 
@@ -78,7 +82,7 @@ export default function WeddingsPage() {
       </section>
 
       {/* WHY COUPLES CHOOSE US */}
-      <section className="px-8 pb-28 max-w-7xl mx-auto">
+      <section className="px-8 pb-28 max-w-7xl mx-auto will-change-transform">
         <h2 className="text-3xl md:text-4xl font-semibold mb-12">Why Couples Choose Tap & Toast</h2>
 
         <ul className="grid md:grid-cols-2 gap-6 text-lg text-gray-300">
@@ -104,12 +108,13 @@ export default function WeddingsPage() {
             focus on enjoying your wedding day with family and friends.
           </p>
 
-          <a
+          <Link
             href="/book"
+            prefetch
             className="block w-full md:w-auto text-center bg-black text-white px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300"
           >
             Reserve Your Wedding Date
-          </a>
+          </Link>
 
         </div>
       </section>
