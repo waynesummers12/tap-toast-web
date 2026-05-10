@@ -18,10 +18,13 @@ export default function BartendingPage() {
             corporate events, and private parties across Colorado.
           </p>
 
+          <p className="text-sm text-[#c6a25a] mb-4">
+            Limited availability — most weekends book out 2–4 weeks in advance
+          </p>
           <div className="flex gap-4">
             <Link
               href="/book"
-              className="bg-[#c6a25a] text-black px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition"
+              className="bg-[#c6a25a] text-black px-8 py-4 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(198,162,90,0.4)]"
             >
               Get a Quote
             </Link>
@@ -43,6 +46,36 @@ export default function BartendingPage() {
             height={600}
             className="w-full h-full object-cover"
           />
+        </div>
+      </section>
+
+      <div className="w-full h-px bg-linear-to-r from-transparent via-white/10 to-transparent my-10" />
+      {/* TESTIMONIALS */}
+      <section className="max-w-6xl mx-auto px-6 pb-24 text-center">
+        <h2 className="text-3xl font-semibold mb-12">What Clients Are Saying</h2>
+
+        <div className="grid md:grid-cols-3 gap-6">
+
+          {[
+            {
+              quote: "Absolutely incredible experience. Our guests loved the bartenders and everything ran perfectly.",
+              name: "Wedding Client"
+            },
+            {
+              quote: "Professional, fun, and seamless from start to finish. Highly recommend.",
+              name: "Corporate Event"
+            },
+            {
+              quote: "They made our party unforgettable. The drinks, setup, and service were top tier.",
+              name: "Private Party"
+            }
+          ].map((t, i) => (
+            <div key={i} className="bg-neutral-900/80 p-6 rounded-2xl border border-white/10">
+              <p className="text-gray-300 mb-4 italic">&quot;{t.quote}&quot;</p>
+              <p className="text-[#c6a25a] font-medium">{t.name}</p>
+            </div>
+          ))}
+
         </div>
       </section>
 
@@ -144,6 +177,26 @@ export default function BartendingPage() {
             Contact Jen directly
           </a>
         </div>
+
+      </section>
+
+      {/* FINAL CTA */}
+      <section className="max-w-4xl mx-auto px-6 pb-32 text-center">
+
+        <h2 className="text-4xl font-semibold mb-6">
+          Ready to Elevate Your Event?
+        </h2>
+
+        <p className="text-gray-300 mb-10">
+          Let’s make your event seamless, professional, and unforgettable.
+        </p>
+
+        <Link
+          href="/book"
+          className="inline-block bg-[#c6a25a] text-black px-10 py-5 rounded-xl text-lg font-semibold hover:scale-105 transition-all duration-300 shadow-[0_0_25px_rgba(198,162,90,0.5)]"
+        >
+          Check Availability
+        </Link>
 
       </section>
 
