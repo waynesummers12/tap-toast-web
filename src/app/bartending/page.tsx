@@ -37,7 +37,7 @@ export default function BartendingPage() {
 
         <div className="rounded-xl overflow-hidden">
           <Image
-            src="/bartending-picture.jpg"
+            src="/bartending-2.jpg"
             alt="Bartending at Tap & Toast event"
             width={800}
             height={600}
