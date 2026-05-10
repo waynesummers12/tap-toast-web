@@ -83,6 +83,15 @@ export default function Navbar() {
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
           </Link>
           <Link
+            href="/bartending"
+            className={`relative group ${
+              pathname === "/bartending" ? "text-white" : "opacity-80"
+            }`}
+          >
+            Bartending
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+          <Link
             href="/#packages"
             className="relative group opacity-80"
           >
@@ -154,6 +163,14 @@ export default function Navbar() {
             className="hover:scale-105 transition"
           >
             Birthdays
+          </Link>
+
+          <Link
+            href="/bartending"
+            onClick={() => setMenuOpen(false)}
+            className="hover:scale-105 transition"
+          >
+            Bartending
           </Link>
 
           <Link
