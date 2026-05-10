@@ -36,6 +36,9 @@ export default function BartendingPage() {
               Call Now
             </a>
           </div>
+          <p className="text-sm text-gray-400 mt-4">
+            ✔ Trusted by Colorado event hosts  ✔ Fast response times  ✔ Stress-free setup
+          </p>
         </div>
 
         <div className="rounded-2xl overflow-hidden shadow-2xl border border-white/10">
@@ -79,6 +82,15 @@ export default function BartendingPage() {
         </div>
       </section>
 
+      <div className="text-center pb-16">
+        <Link
+          href="/book"
+          className="inline-block bg-[#c6a25a] text-black px-8 py-4 rounded-xl font-semibold hover:scale-105 transition-all duration-300"
+        >
+          Check Availability for Your Date
+        </Link>
+      </div>
+
       <div className="w-full h-px bg-linear-to-r from-transparent via-white/10 to-transparent my-10" />
 
       {/* WHY US */}
@@ -102,6 +114,48 @@ export default function BartendingPage() {
             <p className="text-gray-400">{item.text}</p>
           </div>
         ))}
+      </section>
+
+      <div className="w-full h-px bg-linear-to-r from-transparent via-white/10 to-transparent my-10" />
+
+      {/* PERFECT FOR */}
+      <section className="max-w-6xl mx-auto px-6 pb-20 text-center">
+        <h2 className="text-3xl font-semibold mb-10">Perfect For</h2>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            "Weddings",
+            "Corporate Events",
+            "Private Parties"
+          ].map((item, i) => (
+            <div key={i} className="bg-neutral-900/70 p-6 rounded-2xl border border-white/10">
+              <p className="text-lg font-medium">{item}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div className="w-full h-px bg-linear-to-r from-transparent via-white/10 to-transparent my-10" />
+
+      {/* WHAT’S INCLUDED */}
+      <section className="max-w-6xl mx-auto px-6 pb-20">
+        <h2 className="text-3xl font-semibold mb-10 text-center">What’s Included</h2>
+
+        <div className="grid md:grid-cols-3 gap-6 text-gray-300">
+          {[
+            "Professional bartending staff",
+            "Full bar setup + tools",
+            "Custom drink guidance",
+            "Efficient guest service flow",
+            "Clean, polished presentation",
+            "Seamless setup & breakdown"
+          ].map((item, i) => (
+            <div key={i} className="flex items-center gap-3">
+              <span className="text-[#c6a25a]">✔</span>
+              <span>{item}</span>
+            </div>
+          ))}
+        </div>
       </section>
 
       <div className="w-full h-px bg-linear-to-r from-transparent via-white/10 to-transparent my-10" />
@@ -199,6 +253,16 @@ export default function BartendingPage() {
         </Link>
 
       </section>
+
+      {/* MOBILE STICKY CTA */}
+      <div className="fixed bottom-0 left-0 w-full bg-black border-t border-white/10 p-4 flex justify-center md:hidden z-50">
+        <Link
+          href="/book"
+          className="w-full max-w-md text-center bg-[#c6a25a] text-black py-3 rounded-lg font-semibold"
+        >
+          Book Your Date
+        </Link>
+      </div>
 
     </main>
   );
