@@ -3,17 +3,17 @@ import Link from "next/link";
 
 export default function BartendingPage() {
   return (
-    <main className="bg-black text-white">
+    <main className="bg-black text-white selection:bg-[#c6a25a] selection:text-black">
 
       {/* HERO */}
-      <section className="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
+      <section className="max-w-7xl mx-auto px-6 py-28 grid md:grid-cols-2 gap-16 items-center">
         
         <div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
+          <h1 className="text-4xl md:text-6xl font-semibold mb-6 leading-tight">
             Professional Bartenders for Your Event
           </h1>
 
-          <p className="text-lg text-gray-300 mb-6">
+          <p className="text-lg text-gray-300 mb-8 max-w-lg">
             Tap & Toast provides experienced, friendly bartenders for weddings,
             corporate events, and private parties across Colorado.
           </p>
@@ -35,7 +35,7 @@ export default function BartendingPage() {
           </div>
         </div>
 
-        <div className="rounded-xl overflow-hidden">
+        <div className="rounded-2xl overflow-hidden shadow-2xl border border-white/10">
           <Image
             src="/bartending-2.jpg"
             alt="Bartending at Tap & Toast event"
@@ -45,6 +45,8 @@ export default function BartendingPage() {
           />
         </div>
       </section>
+
+      <div className="w-full h-px bg-linear-to-r from-transparent via-white/10 to-transparent my-10" />
 
       {/* WHY US */}
       <section className="max-w-7xl mx-auto px-6 pb-20 grid md:grid-cols-3 gap-6">
@@ -62,12 +64,14 @@ export default function BartendingPage() {
             text: "Setup, tools, service flow — we’ve got it covered."
           }
         ].map((item, i) => (
-          <div key={i} className="bg-neutral-900 p-6 rounded-xl">
+          <div key={i} className="bg-neutral-900/70 backdrop-blur p-6 rounded-2xl border border-white/10 hover:border-[#c6a25a] transition">
             <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
             <p className="text-gray-400">{item.text}</p>
           </div>
         ))}
       </section>
+
+      <div className="w-full h-px bg-linear-to-r from-transparent via-white/10 to-transparent my-10" />
 
       {/* PACKAGES */}
       <section className="max-w-7xl mx-auto px-6 pb-20">
@@ -78,28 +82,28 @@ export default function BartendingPage() {
         <div className="grid md:grid-cols-2 gap-8">
 
           {/* CLASSIC */}
-          <div className="bg-neutral-900 p-8 rounded-xl">
+          <div className="bg-neutral-900/80 backdrop-blur p-8 rounded-2xl border border-white/10 hover:scale-[1.02] transition-all duration-300">
             <h3 className="text-2xl font-bold mb-4">The Classic</h3>
             <ul className="space-y-2 text-gray-300 mb-6">
               <li>• 1 Professional Bartender</li>
               <li>• 3 Hours Service</li>
               <li>• Full Bar Setup</li>
             </ul>
-            <p className="text-xl font-semibold mb-6">Starting at $300</p>
+            <p className="text-2xl font-semibold mb-6 text-[#c6a25a]">Starting at $300</p>
             <Link href="/book" className="bg-[#c6a25a] text-black px-5 py-2 rounded-lg font-semibold">
               Book Now
             </Link>
           </div>
 
           {/* ELEVATED */}
-          <div className="bg-neutral-900 p-8 rounded-xl">
+          <div className="bg-neutral-900/80 backdrop-blur p-8 rounded-2xl border border-white/10 hover:scale-[1.02] transition-all duration-300">
             <h3 className="text-2xl font-bold mb-4">The Elevated</h3>
             <ul className="space-y-2 text-gray-300 mb-6">
               <li>• 2 Professional Bartenders</li>
               <li>• 4 Hours Service</li>
               <li>• High Volume Events</li>
             </ul>
-            <p className="text-xl font-semibold mb-6">Starting at $600</p>
+            <p className="text-2xl font-semibold mb-6 text-[#c6a25a]">Starting at $600</p>
             <Link href="/book" className="bg-[#c6a25a] text-black px-5 py-2 rounded-lg font-semibold">
               Book Now
             </Link>
@@ -108,10 +112,12 @@ export default function BartendingPage() {
         </div>
       </section>
 
-      {/* MEET JEN */}
-      <section className="max-w-7xl mx-auto px-6 pb-20 grid md:grid-cols-2 gap-12 items-center">
+      <div className="w-full h-px bg-linear-to-r from-transparent via-white/10 to-transparent my-10" />
 
-        <div className="rounded-xl overflow-hidden">
+      {/* MEET JEN */}
+      <section className="max-w-7xl mx-auto px-6 pb-28 grid md:grid-cols-2 gap-16 items-center">
+
+        <div className="rounded-2xl overflow-hidden shadow-2xl border border-white/10">
           <Image
             src="/bartending-picture.jpg"
             alt="Bartending at Tap & Toast event"
@@ -122,10 +128,10 @@ export default function BartendingPage() {
         </div>
 
         <div>
-          <h2 className="text-3xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-semibold mb-4">
             Meet Your Bartending Team
           </h2>
-          <p className="text-gray-300 mb-4">
+          <p className="text-gray-300 mb-5 leading-relaxed">
             Led by Jen, Tap & Toast delivers a high-end bartending experience
             with a personal touch. From weddings to private events, we focus on
             making your event seamless and unforgettable.
@@ -133,7 +139,7 @@ export default function BartendingPage() {
 
           <a
             href="mailto:jen@coloradotapandtoast.com"
-            className="text-[#c6a25a] underline"
+            className="inline-block text-[#c6a25a] font-medium hover:underline"
           >
             Contact Jen directly
           </a>
