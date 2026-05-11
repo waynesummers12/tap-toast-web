@@ -1,3 +1,13 @@
+function getClientId() {
+  if (typeof document === "undefined") return ""
+  const match = document.cookie.match(/_ga=GA1\.\d\.(\d+\.\d+)/)
+  return match ? match[1] : ""
+}
+
+function getLandingPage() {
+  if (typeof window === "undefined") return ""
+  return window.location.pathname
+}
 import Image from "next/image"
 import Link from "next/link"
 import HeroSection from "./home/HeroSection"
@@ -60,13 +70,17 @@ export default function HomePage() {
               <Link href="/dirty-soda-bar-centennial" className="text-[#c9a14a] underline ml-1">Centennial</Link>.
             </p>
 
-            <Link
-              href="/book"
-              prefetch
+            <button
+              onClick={() => {
+                const cid = getClientId()
+                const page = getLandingPage()
+                const url = `/book?cid=${cid}&page=${encodeURIComponent(page)}`
+                window.location.href = url
+              }}
               className="inline-block bg-[#c9a14a] text-black px-6 py-3 rounded-md font-semibold hover:opacity-90 transition"
             >
               Check Availability & Pricing
-            </Link>
+            </button>
 
             <p className="text-sm text-gray-400 mt-4">
               &quot;Everything was seamless — our guests loved it.&quot; ⭐⭐⭐⭐⭐

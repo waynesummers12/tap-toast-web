@@ -21,6 +21,7 @@ interface EventItem {
     email: string
   }
   cid?: string
+  landing_page?: string
 }
 
 export default function DashboardPage() {
@@ -381,22 +382,22 @@ async function saveBartenderAssignments(event: EventItem) {
 
   const weekendRevenue = weekendEventsList.reduce((sum, e) => sum + (e.total_price || 0), 0)
 
-  // Revenue Attribution by CID (proxy for landing page)
-  const revenueByCid: Record<string, number> = {}
+  // Revenue Attribution by Landing Page (FINAL FORM)
+  const revenueByPage: Record<string, number> = {}
 
   let totalRevenueTracked = 0
 
   events.forEach(e => {
     if (!e.deposit_paid) return
 
-    const cid = e.cid || "unknown"
+    const page = e.landing_page || "Direct / Unknown"
     const paid = e.total_price - e.balance_due
 
-    revenueByCid[cid] = (revenueByCid[cid] || 0) + paid
+    revenueByPage[page] = (revenueByPage[page] || 0) + paid
     totalRevenueTracked += paid
   })
 
-  const sortedRevenue = Object.entries(revenueByCid).sort((a, b) => b[1] - a[1])
+  const sortedRevenue = Object.entries(revenueByPage).sort((a, b) => b[1] - a[1])
 
   const firstDay = new Date(year, month, 1).getDay()
   const daysInMonth = new Date(year, month + 1, 0).getDate()
@@ -506,42 +507,69 @@ async function saveBartenderAssignments(event: EventItem) {
 
             </div>
 
+            {/* Top 3 Revenue Attribution Summary Cards */}
+            {sortedRevenue.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                {sortedRevenue.slice(0,3).map(([page, value], idx) => {
+                  const percent = totalRevenueTracked ? ((value / totalRevenueTracked) * 100).toFixed(1) : "0"
+                  return (
+                    <div key={page} className="bg-white p-4 rounded-xl border shadow-sm">
+                      <div className="text-xs text-gray-500 mb-1">Top {idx+1}</div>
+                      <div className="text-sm font-medium truncate">{page}</div>
+                      <div className="text-xl font-semibold mt-1">${value}</div>
+                      <div className="text-xs text-gray-400">{percent}% of revenue</div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+
             <div className="bg-white p-6 rounded-xl shadow-sm border mb-10">
               <h2 className="text-lg font-semibold mb-4 text-[#9C7A2C]">
-                Revenue Attribution (by Source)
+                Revenue Attribution (by Landing Page)
               </h2>
 
-              {Object.keys(revenueByCid).length === 0 && (
+              {Object.keys(revenueByPage).length === 0 && (
                 <div className="text-sm text-gray-500">
                   No revenue data yet — complete a booking to populate.
                 </div>
               )}
 
-              {sortedRevenue.map(([cid, value], index) => {
+              {sortedRevenue.map(([page, value], index) => {
                 const percent = totalRevenueTracked ? ((value / totalRevenueTracked) * 100).toFixed(1) : "0"
 
                 return (
-                  <div key={cid} className="flex justify-between items-center text-sm py-2 border-b last:border-none">
-                    <div className="flex flex-col max-w-[70%]">
-                      <span className="text-gray-700 truncate">
-                        {cid === "unknown" ? "Direct / Unknown" : `Session ${cid.slice(0,8)}...`}
-                      </span>
-                      <span className="text-xs text-gray-400">
-                        {percent}% of revenue
-                      </span>
-                    </div>
+                  <>
+                    <div key={page} className="py-2 border-b last:border-none">
+                      <div className="flex justify-between items-center text-sm">
+                        <div className="flex flex-col max-w-[70%]">
+                          <span className="text-gray-700 truncate">
+                            {page}
+                          </span>
+                          <span className="text-xs text-gray-400">
+                            {percent}% of revenue
+                          </span>
+                        </div>
 
-                    <div className="flex items-center gap-2">
-                      {index === 0 && (
-                        <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">
-                          Top
-                        </span>
-                      )}
-                      <span className="font-semibold">
-                        ${value}
-                      </span>
+                        <div className="flex items-center gap-2">
+                          {index === 0 && (
+                            <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">
+                              Top
+                            </span>
+                          )}
+                          <span className="font-semibold">
+                            ${value}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="mt-2 h-2 bg-gray-100 rounded">
+                        <div
+                          className="h-2 bg-[#c9a14a] rounded"
+                          style={{ width: `${percent}%` }}
+                        />
+                      </div>
                     </div>
-                  </div>
+                  </>
                 )
               })}
             </div>
