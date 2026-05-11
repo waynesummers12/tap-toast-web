@@ -20,6 +20,7 @@ interface EventItem {
     name: string
     email: string
   }
+  cid?: string
 }
 
 export default function DashboardPage() {
@@ -380,6 +381,18 @@ async function saveBartenderAssignments(event: EventItem) {
 
   const weekendRevenue = weekendEventsList.reduce((sum, e) => sum + (e.total_price || 0), 0)
 
+  // Revenue Attribution by CID (proxy for landing page)
+  const revenueByCid: Record<string, number> = {}
+
+  events.forEach(e => {
+    if (!e.deposit_paid) return
+
+    const cid = e.cid || "unknown"
+    const paid = e.total_price - e.balance_due
+
+    revenueByCid[cid] = (revenueByCid[cid] || 0) + paid
+  })
+
   const firstDay = new Date(year, month, 1).getDay()
   const daysInMonth = new Date(year, month + 1, 0).getDate()
 
@@ -486,6 +499,29 @@ async function saveBartenderAssignments(event: EventItem) {
                 </div>
               </div>
 
+            </div>
+
+            <div className="bg-white p-6 rounded-xl shadow-sm border mb-10">
+              <h2 className="text-lg font-semibold mb-4 text-[#9C7A2C]">
+                Revenue Attribution (by Source)
+              </h2>
+
+              {Object.keys(revenueByCid).length === 0 && (
+                <div className="text-sm text-gray-500">
+                  No revenue data yet — complete a booking to populate.
+                </div>
+              )}
+
+              {Object.entries(revenueByCid).map(([cid, value]) => (
+                <div key={cid} className="flex justify-between text-sm py-1 border-b last:border-none">
+                  <span className="text-gray-600 truncate max-w-[70%]">
+                    {cid === "unknown" ? "Direct / Unknown" : cid}
+                  </span>
+                  <span className="font-medium">
+                    ${value}
+                  </span>
+                </div>
+              ))}
             </div>
 
             {/* Date Range Filter */}

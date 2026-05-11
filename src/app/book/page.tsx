@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useSearchParams } from "next/navigation"
 
 export default function BookEventPage() {
 
@@ -14,6 +15,9 @@ export default function BookEventPage() {
   const [bartenders, setBartenders] = useState(1)
   const [guests, setGuests] = useState(50)
   const [eventType, setEventType] = useState("")
+
+  const searchParams = useSearchParams()
+  const cid = searchParams.get("cid") || ""
 
   // Recommended bartenders based on guest count
   const getRecommendedBartenders = (guestCount: number) => {
@@ -53,7 +57,8 @@ export default function BookEventPage() {
           hours,
           bartenders,
           guests,
-          event_type: eventType
+          event_type: eventType,
+          cid
         })
       })
 
@@ -78,7 +83,8 @@ export default function BookEventPage() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          event_id: data.event.id
+          event_id: data.event.id,
+          cid
         })
       })
 

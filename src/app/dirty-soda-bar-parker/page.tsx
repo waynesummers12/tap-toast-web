@@ -1,7 +1,13 @@
-
+"use client"
 
 import Image from "next/image"
 import Link from "next/link"
+
+function getClientId() {
+  if (typeof document === "undefined") return ""
+  const match = document.cookie.match(/_ga=GA1\.\d\.(\d+\.\d+)/)
+  return match ? match[1] : ""
+}
 
 export const metadata = {
   title: "Dirty Soda Bar Parker | Tap & Toast",
@@ -52,13 +58,15 @@ export default function DirtySodaBarParkerPage() {
           </p>
 
           <div className="mt-10">
-            <Link
-              href="/book"
-              prefetch
+            <button
+              onClick={() => {
+                const cid = getClientId()
+                window.location.href = cid ? `/book?cid=${cid}` : "/book"
+              }}
               className="inline-block bg-[#c7a45a] text-black px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_25px_rgba(199,164,90,0.4)]"
             >
               Book Your Parker Soda Bar
-            </Link>
+            </button>
 
             <p className="text-sm text-[#c7a45a] mt-6">
               Serving Parker events — limited availability on weekends
@@ -125,13 +133,15 @@ export default function DirtySodaBarParkerPage() {
             Create a fun and memorable experience your guests will love.
           </p>
 
-          <Link
-            href="/book"
-            prefetch
+          <button
+            onClick={() => {
+              const cid = getClientId()
+              window.location.href = cid ? `/book?cid=${cid}` : "/book"
+            }}
             className="inline-block bg-black text-white px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300"
           >
             Check Availability
-          </Link>
+          </button>
 
         </div>
       </section>
