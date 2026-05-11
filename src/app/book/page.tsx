@@ -5,6 +5,8 @@ import { useState, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import AvailabilityCalendar from "@/components/AvailablilityCalendar"
 
+type UpgradeKey = 'garnishes' | 'cocktails' | 'setupHour'
+
 function BookEventPageContent() {
 
   const [name, setName] = useState("")
@@ -13,10 +15,16 @@ function BookEventPageContent() {
   const [location, setLocation] = useState("")
 
   const [date, setDate] = useState("")
+  const [startTime, setStartTime] = useState("18:00")
   const [hours, setHours] = useState(3)
   const [bartenders, setBartenders] = useState(1)
   const [guests, setGuests] = useState(50)
   const [eventType, setEventType] = useState("")
+  const [selectedUpgrades, setSelectedUpgrades] = useState<Record<UpgradeKey, boolean>>({
+    garnishes: false,
+    cocktails: false,
+    setupHour: false
+  })
 
   const [submitting, setSubmitting] = useState(false)
 
@@ -39,7 +47,18 @@ function BookEventPageContent() {
   const total =
     basePrice + bartenders * bartenderRate * hours
 
-  const deposit = Math.round(total * 0.5)
+  const upgradePrices: Record<UpgradeKey, number> = {
+    garnishes: 75,
+    cocktails: 100,
+    setupHour: 50
+  }
+
+  const upgradesTotal = Object.entries(selectedUpgrades)
+    .filter(([, v]) => v)
+    .reduce((sum, [k]) => sum + upgradePrices[k as UpgradeKey], 0)
+
+  const grandTotal = total + upgradesTotal
+  const deposit = Math.round(grandTotal * 0.5)
 
   const handleBooking = async () => {
     setSubmitting(true)
@@ -60,11 +79,13 @@ function BookEventPageContent() {
           phone,
           location,
           event_date: date,
+          start_time: startTime,
           hours,
           bartenders,
           guests,
           event_type: eventType,
-          cid
+          cid,
+          upgrades: (Object.keys(selectedUpgrades) as UpgradeKey[]).filter(k => selectedUpgrades[k])
         })
       })
 
@@ -141,7 +162,7 @@ function BookEventPageContent() {
       </div>
 
       {/* Booking Form */}
-      <div className="max-w-3xl mx-auto -mt-32 bg-white text-black p-10 rounded-xl shadow-xl">
+      <div className="max-w-3xl mx-auto mt-16 mb-20 bg-white text-black p-12 rounded-2xl shadow-2xl">
 
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-1">Simple Event Pricing</h2>
@@ -219,9 +240,24 @@ function BookEventPageContent() {
             />
             {date && (
               <p className="text-sm mt-2 text-green-600">
-                Selected Date: {date}
+                {new Date(`${date}T${startTime}`).toLocaleString("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+  hour: "numeric",
+  minute: "2-digit"
+})}
               </p>
             )}
+            <div className="mt-3">
+              <label className="text-sm">Event Start Time</label>
+              <input
+                type="time"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                className="w-full border border-gray-300 focus:border-black focus:ring-2 focus:ring-black/10 p-3 rounded-lg mt-1"
+              />
+            </div>
           </div>
 
           <div className="col-span-1 md:col-span-2 text-xs text-gray-500">
@@ -286,6 +322,48 @@ function BookEventPageContent() {
 
         </div>
 
+  <div className="mt-8 p-6 border rounded-xl bg-white">
+    <h3 className="text-lg font-semibold mb-3">Enhance Your Event (Optional)</h3>
+
+    <div className="space-y-3">
+
+      <label className="flex items-center justify-between">
+        <span>✨ Premium Garnishes Package</span>
+        <span className="text-sm">$75</span>
+        <input
+          type="checkbox"
+          checked={selectedUpgrades.garnishes}
+          onChange={() => setSelectedUpgrades(prev => ({...prev, garnishes: !prev.garnishes}))}
+        />
+      </label>
+
+      <label className="flex items-center justify-between">
+        <span>🍹 Signature Cocktail Menu</span>
+        <span className="text-sm">$100</span>
+        <input
+          type="checkbox"
+          checked={selectedUpgrades.cocktails}
+          onChange={() => setSelectedUpgrades(prev => ({...prev, cocktails: !prev.cocktails}))}
+        />
+      </label>
+
+      <label className="flex items-center justify-between">
+        <span>⏱ Extra Setup Hour</span>
+        <span className="text-sm">$50</span>
+        <input
+          type="checkbox"
+          checked={selectedUpgrades.setupHour}
+          onChange={() => setSelectedUpgrades(prev => ({...prev, setupHour: !prev.setupHour}))}
+        />
+      </label>
+
+    </div>
+
+    <p className="text-xs text-gray-500 mt-2">
+      Optional add-ons can also be selected later after booking.
+    </p>
+  </div>
+
         <div className="mt-8 bg-gray-50 p-6 rounded-xl border md:sticky md:top-24 shadow-lg">
 
           <h3 className="text-lg font-semibold mb-4">Booking Summary</h3>
@@ -324,7 +402,7 @@ function BookEventPageContent() {
 
             <div className="flex justify-between font-semibold text-lg pt-2">
               <span>Total</span>
-              <span>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(total)}</span>
+              <span>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(grandTotal)}</span>
             </div>
 
             <div className="flex justify-between text-green-700 font-semibold">
