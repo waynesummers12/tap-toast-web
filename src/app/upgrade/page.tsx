@@ -1,10 +1,10 @@
 "use client"
 
 import { useSearchParams } from "next/navigation"
-import { useState } from "react"
+import { useState, Suspense } from "react"
 import Link from "next/link"
 
-export default function UpgradePage() {
+function UpgradePageContent() {
   const searchParams = useSearchParams()
   const eventId = searchParams.get("eventId")
 
@@ -111,5 +111,13 @@ export default function UpgradePage() {
       </div>
 
     </div>
+  )
+}
+
+export default function UpgradePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black text-white flex items-center justify-center">Loading...</div>}>
+      <UpgradePageContent />
+    </Suspense>
   )
 }

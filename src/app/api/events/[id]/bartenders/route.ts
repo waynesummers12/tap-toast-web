@@ -1,12 +1,10 @@
-
-
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
-  const eventId = params.id
+  const { id: eventId } = await context.params
 
   console.log("Fetching bartenders for event:", eventId)
 
