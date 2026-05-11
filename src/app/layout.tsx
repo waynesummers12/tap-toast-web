@@ -58,6 +58,24 @@ export default function RootLayout({
             gtag('config', 'G-9T64PY883H');
           `}
         </Script>
+        <Script id="ga-book-click" strategy="afterInteractive">
+          {`
+            (function(){
+              function track(e){
+                var el = e.target.closest && e.target.closest('a[href="/book"], button[data-book="true"]');
+                if(!el) return;
+                if (typeof window !== 'undefined' && window.gtag) {
+                  window.gtag('event', 'book_click', {
+                    event_category: 'engagement',
+                    event_label: 'Book CTA',
+                    page_path: window.location.pathname
+                  });
+                }
+              }
+              document.addEventListener('click', track, true);
+            })();
+          `}
+        </Script>
       </body>
     </html>
   );
