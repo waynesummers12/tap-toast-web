@@ -44,6 +44,24 @@ export default function SuccessPage() {
         </p>
       )}
 
+      {!isUpgrade && eventId && (
+        <div style={{ marginTop: "20px" }}>
+          <Link
+            href={`/upgrade?eventId=${eventId}`}
+            style={{
+              background: "#facc15",
+              color: "black",
+              padding: "12px 24px",
+              borderRadius: "8px",
+              fontWeight: "bold",
+              textDecoration: "none"
+            }}
+          >
+            ✨ Upgrade Your Event Experience
+          </Link>
+        </div>
+      )}
+
       {eventId && (
         <p style={{ marginTop: "10px", fontSize: "12px", opacity: 0.5 }}>
           Event ID: {eventId}
