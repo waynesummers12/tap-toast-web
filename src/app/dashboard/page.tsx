@@ -384,6 +384,8 @@ async function saveBartenderAssignments(event: EventItem) {
   // Revenue Attribution by CID (proxy for landing page)
   const revenueByCid: Record<string, number> = {}
 
+  let totalRevenueTracked = 0
+
   events.forEach(e => {
     if (!e.deposit_paid) return
 
@@ -391,7 +393,10 @@ async function saveBartenderAssignments(event: EventItem) {
     const paid = e.total_price - e.balance_due
 
     revenueByCid[cid] = (revenueByCid[cid] || 0) + paid
+    totalRevenueTracked += paid
   })
+
+  const sortedRevenue = Object.entries(revenueByCid).sort((a, b) => b[1] - a[1])
 
   const firstDay = new Date(year, month, 1).getDay()
   const daysInMonth = new Date(year, month + 1, 0).getDate()
@@ -512,16 +517,33 @@ async function saveBartenderAssignments(event: EventItem) {
                 </div>
               )}
 
-              {Object.entries(revenueByCid).map(([cid, value]) => (
-                <div key={cid} className="flex justify-between text-sm py-1 border-b last:border-none">
-                  <span className="text-gray-600 truncate max-w-[70%]">
-                    {cid === "unknown" ? "Direct / Unknown" : cid}
-                  </span>
-                  <span className="font-medium">
-                    ${value}
-                  </span>
-                </div>
-              ))}
+              {sortedRevenue.map(([cid, value], index) => {
+                const percent = totalRevenueTracked ? ((value / totalRevenueTracked) * 100).toFixed(1) : "0"
+
+                return (
+                  <div key={cid} className="flex justify-between items-center text-sm py-2 border-b last:border-none">
+                    <div className="flex flex-col max-w-[70%]">
+                      <span className="text-gray-700 truncate">
+                        {cid === "unknown" ? "Direct / Unknown" : `Session ${cid.slice(0,8)}...`}
+                      </span>
+                      <span className="text-xs text-gray-400">
+                        {percent}% of revenue
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      {index === 0 && (
+                        <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">
+                          Top
+                        </span>
+                      )}
+                      <span className="font-semibold">
+                        ${value}
+                      </span>
+                    </div>
+                  </div>
+                )
+              })}
             </div>
 
             {/* Date Range Filter */}
