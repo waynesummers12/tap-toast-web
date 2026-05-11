@@ -1,13 +1,14 @@
-"use client"
-
-import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 
-export default function SuccessPage() {
-  const searchParams = useSearchParams()
+export const dynamic = "force-dynamic"
 
-  const isUpgrade = searchParams.get("upgrade") === "true"
-  const eventId = searchParams.get("event_id")
+export default function SuccessPage({
+  searchParams,
+}: {
+  searchParams: { upgrade?: string; event_id?: string }
+}) {
+  const isUpgrade = searchParams?.upgrade === "true"
+  const eventId = searchParams?.event_id
 
   return (
     <div
