@@ -1,3 +1,4 @@
+"use client"
 function getClientId() {
   if (typeof document === "undefined") return ""
   const match = document.cookie.match(/_ga=GA1\.\d\.(\d+\.\d+)/)
