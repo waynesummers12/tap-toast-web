@@ -1,8 +1,9 @@
 "use client"
 export const dynamic = "force-dynamic"
 
-import { useState, Suspense, useEffect } from "react"
+import { useState, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
+import AvailabilityCalendar from "@/components/AvailablilityCalendar"
 
 function BookEventPageContent() {
 
@@ -17,19 +18,7 @@ function BookEventPageContent() {
   const [guests, setGuests] = useState(50)
   const [eventType, setEventType] = useState("")
 
-  const [unavailableDates, setUnavailableDates] = useState<string[]>([])
-
   const [submitting, setSubmitting] = useState(false)
-
-  // Fetch unavailable dates
-  useEffect(() => {
-    fetch("https://tap-toast-api-cayk.onrender.com/api/events/booked-dates")
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data?.bookedDates)) setUnavailableDates(data.bookedDates)
-      })
-      .catch(err => console.error("Failed to load unavailable dates", err))
-  }, [])
 
   const searchParams = useSearchParams()
   const cid = searchParams.get("cid") || ""
@@ -56,11 +45,6 @@ function BookEventPageContent() {
     setSubmitting(true)
     if (!name || !email || !phone || !location || !date) {
       alert("Please complete all required fields before reserving your event.")
-      setSubmitting(false)
-      return
-    }
-    if (unavailableDates.includes(date)) {
-      alert("This date is already booked. Please select another date.")
       setSubmitting(false)
       return
     }
@@ -225,18 +209,17 @@ function BookEventPageContent() {
             </select>
           </div>
 
-          <div>
-            <label className="text-sm">Event Date</label>
-            <input
-              className="w-full border p-2 rounded bg-white"
-              type="date"
-              min={new Date().toISOString().split('T')[0]}
-              value={date}
-              onChange={(e)=>setDate(e.target.value)}
+          <div className="col-span-1 md:col-span-2">
+            <label className="text-sm mb-2 block">Event Date</label>
+            <AvailabilityCalendar
+              onDateSelect={(selected: Date) => {
+                const formatted = selected.toISOString().split("T")[0]
+                setDate(formatted)
+              }}
             />
-            {unavailableDates.includes(date) && (
-              <p className="text-red-500 text-xs mt-1">
-                This date is already booked
+            {date && (
+              <p className="text-sm mt-2 text-green-600">
+                Selected Date: {date}
               </p>
             )}
           </div>
