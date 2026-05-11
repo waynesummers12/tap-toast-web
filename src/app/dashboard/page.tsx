@@ -155,6 +155,15 @@ useEffect(() => {
         console.error("Failed to load bartenders", err)
       })
   }, [])
+interface GtagFn {
+  (...args: unknown[]): void
+}
+
+function getGtag(): GtagFn | undefined {
+  if (typeof window === "undefined") return undefined
+  return (window as unknown as { gtag?: GtagFn }).gtag
+}
+
 const sendPaymentLink = async (
   eventId: string,
   type: "deposit" | "balance"
@@ -184,6 +193,39 @@ const sendPaymentLink = async (
           : "Balance invoice sent to customer"
       )
 
+      // Enhanced tracking for revenue and booking events
+      // Find the event object for value tracking
+      const event = events.find(e => e.id === eventId)
+      if (event) {
+        {
+          const gtag = getGtag()
+          if (gtag) {
+            gtag('event', 'payment_link_sent', {
+              event_category: 'revenue',
+              event_label: type,
+              value: type === 'deposit' ? event.deposit_amount : event.balance_due,
+              currency: 'USD'
+            })
+          }
+        }
+        // Simulate booking value event when deposit is sent
+        if (type === "deposit") {
+          const gtag = getGtag()
+          if (gtag) {
+            gtag('event', 'begin_checkout', {
+              currency: 'USD',
+              value: event.deposit_amount,
+              items: [
+                {
+                  item_name: 'Tap & Toast Event Booking',
+                  price: event.deposit_amount
+                }
+              ]
+            })
+          }
+        }
+      }
+
       // Auto update event status locally
       if (type === "balance") {
         setEvents(prev =>
@@ -193,6 +235,17 @@ const sendPaymentLink = async (
               : e
           )
         )
+        // Send a FULL revenue event when balance is paid
+        if (event) {
+          const gtag = getGtag()
+          if (gtag) {
+            gtag('event', 'purchase', {
+              transaction_id: eventId,
+              value: event.total_price,
+              currency: 'USD'
+            })
+          }
+        }
       }
 
     } else {
