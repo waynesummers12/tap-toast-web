@@ -1,10 +1,10 @@
 "use client"
 export const dynamic = "force-dynamic"
 
-import { useState } from "react"
+import { useState, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 
-export default function BookEventPage() {
+function BookEventPageContent() {
 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -337,5 +337,13 @@ export default function BookEventPage() {
       </div>
 
     </div>
+  )
+}
+
+export default function BookEventPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black text-white flex items-center justify-center">Loading...</div>}>
+      <BookEventPageContent />
+    </Suspense>
   )
 }
