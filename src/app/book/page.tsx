@@ -19,12 +19,14 @@ function BookEventPageContent() {
 
   const [unavailableDates, setUnavailableDates] = useState<string[]>([])
 
+  const [submitting, setSubmitting] = useState(false)
+
   // Fetch unavailable dates
   useEffect(() => {
-    fetch("https://tap-toast-api-cayk.onrender.com/api/events/unavailable-dates")
+    fetch("https://tap-toast-api-cayk.onrender.com/api/events/booked-dates")
       .then(res => res.json())
       .then(data => {
-        if (Array.isArray(data)) setUnavailableDates(data)
+        if (Array.isArray(data?.bookedDates)) setUnavailableDates(data.bookedDates)
       })
       .catch(err => console.error("Failed to load unavailable dates", err))
   }, [])
@@ -51,12 +53,15 @@ function BookEventPageContent() {
   const deposit = Math.round(total * 0.5)
 
   const handleBooking = async () => {
+    setSubmitting(true)
     if (!name || !email || !phone || !location || !date) {
       alert("Please complete all required fields before reserving your event.")
+      setSubmitting(false)
       return
     }
     if (unavailableDates.includes(date)) {
       alert("This date is already booked. Please select another date.")
+      setSubmitting(false)
       return
     }
     try {
@@ -83,6 +88,7 @@ function BookEventPageContent() {
         const text = await res.text()
         console.error("Book event request failed", res.status, text)
         alert("Failed to create booking. Check backend server or API logs.")
+        setSubmitting(false)
         return
       }
 
@@ -91,6 +97,7 @@ function BookEventPageContent() {
       if (!data?.event?.id) {
         console.error("Unexpected booking response", data)
         alert("Booking created but event id missing. Check API response.")
+        setSubmitting(false)
         return
       }
 
@@ -108,6 +115,7 @@ function BookEventPageContent() {
       if (!checkout.ok) {
         console.error("Stripe session creation failed", checkout.status)
         alert("Failed to create Stripe checkout session.")
+        setSubmitting(false)
         return
       }
 
@@ -119,11 +127,13 @@ function BookEventPageContent() {
         window.location.href = session.url
       } else {
         alert("Stripe session did not return a checkout URL. Check backend logs.")
+        setSubmitting(false)
       }
 
     } catch (error) {
       console.error("Booking error", error)
       alert("Something went wrong while reserving the event. Check console.")
+      setSubmitting(false)
     }
   }
 
@@ -132,14 +142,15 @@ function BookEventPageContent() {
 
       {/* Hero Section */}
       <div
-        className="w-full h-105 flex items-start justify-center text-center pt-20"
+        className="w-full h-105 flex items-start justify-center text-center pt-20 relative"
         style={{
           backgroundImage: "url('/trailer-wedding.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center"
         }}
       >
-        <div className="bg-black/60 p-10 rounded-xl">
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="relative bg-black/60 p-10 rounded-xl">
           <h1 className="text-4xl font-bold mb-3">Book Tap & Toast</h1>
           <p className="text-lg">We&apos;ll just need a few quick details</p>
         </div>
@@ -161,7 +172,7 @@ function BookEventPageContent() {
           <div>
             <label className="text-sm">Name</label>
             <input
-              className="w-full border p-2 rounded"
+              className="w-full border border-gray-300 focus:border-black focus:ring-2 focus:ring-black/10 p-3 rounded-lg"
               type="text"
               value={name}
               onChange={(e)=>setName(e.target.value)}
@@ -171,7 +182,7 @@ function BookEventPageContent() {
           <div>
             <label className="text-sm">Email</label>
             <input
-              className="w-full border p-2 rounded"
+              className="w-full border border-gray-300 focus:border-black focus:ring-2 focus:ring-black/10 p-3 rounded-lg"
               type="email"
               value={email}
               onChange={(e)=>setEmail(e.target.value)}
@@ -181,7 +192,7 @@ function BookEventPageContent() {
           <div>
             <label className="text-sm">Phone</label>
             <input
-              className="w-full border p-2 rounded"
+              className="w-full border border-gray-300 focus:border-black focus:ring-2 focus:ring-black/10 p-3 rounded-lg"
               type="text"
               value={phone}
               onChange={(e)=>setPhone(e.target.value)}
@@ -191,7 +202,7 @@ function BookEventPageContent() {
           <div>
             <label className="text-sm">Event Location</label>
             <input
-              className="w-full border p-2 rounded"
+              className="w-full border border-gray-300 focus:border-black focus:ring-2 focus:ring-black/10 p-3 rounded-lg"
               type="text"
               value={location}
               onChange={(e)=>setLocation(e.target.value)}
@@ -201,7 +212,7 @@ function BookEventPageContent() {
           <div>
             <label className="text-sm">Event Type</label>
             <select
-              className="w-full border p-2 rounded"
+              className="w-full border border-gray-300 focus:border-black focus:ring-2 focus:ring-black/10 p-3 rounded-lg bg-white"
               value={eventType}
               onChange={(e)=>setEventType(e.target.value)}
             >
@@ -219,6 +230,7 @@ function BookEventPageContent() {
             <input
               className="w-full border p-2 rounded bg-white"
               type="date"
+              min={new Date().toISOString().split('T')[0]}
               value={date}
               onChange={(e)=>setDate(e.target.value)}
             />
@@ -324,17 +336,17 @@ function BookEventPageContent() {
 
             <div className="flex justify-between">
               <span>Staffing</span>
-              <span>${bartenders * 40 * hours}</span>
+              <span>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(bartenders * 40 * hours)}</span>
             </div>
 
             <div className="flex justify-between font-semibold text-lg pt-2">
               <span>Total</span>
-              <span>${total}</span>
+              <span>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(total)}</span>
             </div>
 
             <div className="flex justify-between text-green-700 font-semibold">
               <span>Deposit Due Today</span>
-              <span>${deposit}</span>
+              <span>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(deposit)}</span>
             </div>
 
             <p className="text-xs text-gray-500 mt-2">
@@ -345,18 +357,19 @@ function BookEventPageContent() {
 
         </div>
             <p className="text-sm text-[#c6a25a] mb-3 text-center">
-  Most weekends book out 2–4 weeks in advance
+  Most weekends book 2–4 weeks in advance — secure your date early
 </p>
 
 <p className="text-xs text-gray-500 mb-4 text-center">
-  ✔ Secure your date with a 50% deposit  ✔ Takes less than 2 minutes
+  ✔ 50% deposit to reserve  ✔ Secure checkout  ✔ Instant confirmation
 </p>
 
         <button
           onClick={handleBooking}
-          className="mt-6 w-full bg-black text-white py-4 text-lg rounded-xl hover:bg-gray-800 transition"
+          disabled={submitting}
+          className={`mt-6 w-full py-4 text-lg rounded-xl transition font-semibold ${submitting ? 'bg-gray-300 text-gray-600' : 'bg-linear-to-r from-yellow-400 to-yellow-500 text-black hover:opacity-90'}`}
         >
-          Reserve Event
+          {submitting ? 'Processing…' : 'Reserve Event'}
         </button>
 
       </div>
