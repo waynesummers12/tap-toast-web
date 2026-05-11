@@ -1,7 +1,7 @@
 "use client"
 export const dynamic = "force-dynamic"
 
-import { useState, Suspense } from "react"
+import { useState, Suspense, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 
 function BookEventPageContent() {
@@ -16,6 +16,18 @@ function BookEventPageContent() {
   const [bartenders, setBartenders] = useState(1)
   const [guests, setGuests] = useState(50)
   const [eventType, setEventType] = useState("")
+
+  const [unavailableDates, setUnavailableDates] = useState<string[]>([])
+
+  // Fetch unavailable dates
+  useEffect(() => {
+    fetch("https://tap-toast-api-cayk.onrender.com/api/events/unavailable-dates")
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) setUnavailableDates(data)
+      })
+      .catch(err => console.error("Failed to load unavailable dates", err))
+  }, [])
 
   const searchParams = useSearchParams()
   const cid = searchParams.get("cid") || ""
@@ -41,6 +53,10 @@ function BookEventPageContent() {
   const handleBooking = async () => {
     if (!name || !email || !phone || !location || !date) {
       alert("Please complete all required fields before reserving your event.")
+      return
+    }
+    if (unavailableDates.includes(date)) {
+      alert("This date is already booked. Please select another date.")
       return
     }
     try {
@@ -206,6 +222,15 @@ function BookEventPageContent() {
               value={date}
               onChange={(e)=>setDate(e.target.value)}
             />
+            {unavailableDates.includes(date) && (
+              <p className="text-red-500 text-xs mt-1">
+                This date is already booked
+              </p>
+            )}
+          </div>
+
+          <div className="col-span-1 md:col-span-2 text-xs text-gray-500">
+            Dates already reserved will be blocked after selection (calendar UI upgrade coming next)
           </div>
 
           {/* Planner Instructions */}
