@@ -9,11 +9,6 @@ function getClientId() {
   return match ? match[1] : ""
 }
 
-export const metadata = {
-  title: "Dirty Soda Bar Parker | Tap & Toast",
-  description:
-    "Mobile dirty soda bar catering in Parker, Colorado. Perfect for weddings, parties, and corporate events. Book Tap & Toast today.",
-}
 
 export default function DirtySodaBarParkerPage() {
   return (
