@@ -249,7 +249,12 @@ const res = await fetch(`${API}/api/events`, {
 // Send Reminder Email (Deposit or Balance)
 const sendReminder = async (event: EventItem) => {
   try {
-    console.log("SENDING REMINDER FOR EVENT:", event)
+    console.log("📨 Sending reminder", {
+  id: event.id, type: !event.deposit_paid ? "deposit_reminder" : "balance_reminder",
+
+  customer: event.customers?.email
+
+})
 console.log("Sending reminder for eventId:", event.id)
 
     if (!event?.id) {
