@@ -267,20 +267,32 @@ const sendReminder = async (event: EventItem) => {
         ? "deposit_reminder"
         : "balance_reminder"
 
-    await fetch("https://tap-toast-api-cayk.onrender.com/api/email/reminder", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    eventId: event.id,
-    type,
-  }),
-})
+    const res = await fetch(
+      "https://tap-toast-api-cayk.onrender.com/api/email/reminder",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          eventId: event.id,
+          type,
+        }),
+      }
+    )
 
-    alert("Reminder sent")
+    // 🔥 IMPORTANT: read response
+    const text = await res.text()
+    console.log("REMINDER RESPONSE:", res.status, text)
+
+    // ❌ If backend failed, DO NOT show success
+    if (!res.ok) {
+      throw new Error(`Request failed: ${res.status}`)
+    }
+
+    alert("Reminder sent successfully")
   } catch (err) {
-    console.error(err)
+    console.error("REMINDER ERROR:", err)
     alert("Failed to send reminder")
   }
 }
