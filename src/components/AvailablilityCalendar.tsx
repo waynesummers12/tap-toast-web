@@ -8,19 +8,25 @@ type AvailabilityCalendarProps = {
   onDateSelect: (date: Date) => void
 }
 
+type BookedSlot = {
+  date: string
+  start: string
+  end: string
+}
+
 export default function AvailabilityCalendar({ onDateSelect }: AvailabilityCalendarProps) {
-  const [bookedDates, setBookedDates] = useState<string[]>([])
+  const [bookedSlots, setBookedSlots] = useState<BookedSlot[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
 
   useEffect(() => {
     const controller = new AbortController()
-    fetch("https://tap-toast-api-cayk.onrender.com/api/events/booked-dates", { signal: controller.signal })
+    fetch("https://tap-toast-api-cayk.onrender.com/api/events/booked-slots", { signal: controller.signal })
       .then((res) => res.json())
       .then((data) => {
-        const dates = Array.isArray(data?.bookedDates) ? data.bookedDates : (Array.isArray(data) ? data : [])
-        setBookedDates(dates)
+        const slots = Array.isArray(data) ? data : []
+        setBookedSlots(slots)
         setError(null)
       })
       .catch((err) => {
@@ -36,11 +42,46 @@ export default function AvailabilityCalendar({ onDateSelect }: AvailabilityCalen
 
   const today = useMemo(() => new Date(), [])
 
-  const isBooked = (date: Date) => {
-    const formatted = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
+  const isDateFullyBlocked = (date: Date) => {
+    const dateStr = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
       .toISOString()
       .split("T")[0]
-    return bookedDates.includes(formatted)
+
+    const slotsForDay = bookedSlots.filter(s => s.date === dateStr)
+
+    if (slotsForDay.length === 0) return false
+
+    // Generate all possible time options (same as booking page)
+    const generateTimeOptions = () => {
+      const options: string[] = []
+      for (let h = 10; h <= 23; h++) {
+        options.push(`${String(h).padStart(2, "0")}:00`)
+        options.push(`${String(h).padStart(2, "0")}:30`)
+      }
+      return options
+    }
+
+    const BUFFER_HOURS = 1
+
+    const isTimeBlocked = (time: string) => {
+      const newStart = new Date(`${dateStr}T${time}`)
+      const newEnd = new Date(newStart.getTime() + 4 * 60 * 60 * 1000) // assume avg 4hr event
+
+      const bufferedStart = new Date(newStart.getTime() - BUFFER_HOURS * 60 * 60 * 1000)
+      const bufferedEnd = new Date(newEnd.getTime() + BUFFER_HOURS * 60 * 60 * 1000)
+
+      return slotsForDay.some(slot => {
+        const existingStart = new Date(slot.start)
+        const existingEnd = new Date(slot.end)
+
+        return bufferedStart < existingEnd && bufferedEnd > existingStart
+      })
+    }
+
+    // If NO valid time options exist → fully blocked
+    const availableTimes = generateTimeOptions().filter(t => !isTimeBlocked(t))
+
+    return availableTimes.length === 0
   }
 
   return (
@@ -64,22 +105,27 @@ export default function AvailabilityCalendar({ onDateSelect }: AvailabilityCalen
       <div className="bg-white text-black rounded-xl p-4">
         <Calendar
           minDate={today}
-          tileDisabled={({ date }) => isBooked(date)}
+          tileDisabled={({ date }) => isDateFullyBlocked(date)}
           tileClassName={({ date, view }) => {
             if (view !== 'month') return ''
-            const formatted = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
+
+            const dateStr = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
               .toISOString()
               .split("T")[0]
 
-            if (bookedDates.includes(formatted)) {
-              return "bg-red-200 text-red-800 rounded-lg line-through opacity-80"
+            if (isDateFullyBlocked(date)) {
+              return "bg-red-200 text-red-800 rounded-lg opacity-80"
+            }
+
+            if (bookedSlots.some(s => s.date === dateStr)) {
+              return "bg-yellow-100 text-black rounded-lg"
             }
 
             if (selectedDate) {
               const sel = new Date(Date.UTC(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate()))
                 .toISOString()
                 .split("T")[0]
-              if (formatted === sel) {
+              if (dateStr === sel) {
                 return "bg-yellow-400 text-black rounded-lg font-semibold"
               }
             }
@@ -90,7 +136,7 @@ export default function AvailabilityCalendar({ onDateSelect }: AvailabilityCalen
           onChange={(val) => {
             const d = Array.isArray(val) ? val[0] : val
             setSelectedDate(d)
-            if (d && !isBooked(d)) onDateSelect(d)
+            if (d && !isDateFullyBlocked(d)) onDateSelect(d)
           }}
         />
       </div>
@@ -101,7 +147,12 @@ export default function AvailabilityCalendar({ onDateSelect }: AvailabilityCalen
 
       <div className="mt-6 flex items-center gap-3 text-sm text-gray-400">
         <div className="w-3 h-3 bg-red-400 rounded-sm" />
-        <span>Booked dates are unavailable</span>
+        <span>Fully booked dates are unavailable</span>
+      </div>
+
+      <div className="mt-2 flex items-center gap-3 text-sm text-gray-400">
+        <div className="w-3 h-3 bg-yellow-200 rounded-sm" />
+        <span>Partially booked (limited times available)</span>
       </div>
 
       <div className="mt-2 flex items-center gap-3 text-sm text-gray-400">
