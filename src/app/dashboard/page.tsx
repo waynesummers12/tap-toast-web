@@ -74,7 +74,7 @@ useEffect(() => {
 
   const loadAssigned = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${selectedEvent.id}/assign-bartenders`)
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${selectedEvent.id}/bartenders`)
 
       if (!res.ok) {
         throw new Error("Failed to fetch assigned bartenders")
@@ -161,9 +161,9 @@ const sendPaymentLink = async (
       "https://tap-toast-api-cayk.onrender.com"
 
     const endpoint =
-      type === "deposit"
-        ? `${API}/api/stripe/send-deposit`
-        : `${API}/api/stripe/send-balance`
+  type === "deposit"
+    ? `${API}/api/stripe/send-deposit`
+    : `${API}/api/stripe/send-balance`
 
     const res = await fetch(endpoint, {
       method: "POST",
