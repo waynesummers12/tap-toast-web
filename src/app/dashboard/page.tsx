@@ -777,78 +777,136 @@ async function saveBartenderAssignments(event: EventItem) {
         )}
 
         {viewMode === "calendar" && (
-          <div className="bg-white rounded-xl shadow-sm border p-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-            <div className="flex items-center justify-between mb-4">
-              <button
-                onClick={() => {
-                  const d = new Date(currentMonth)
-                  d.setMonth(d.getMonth() - 1)
-                  setCurrentMonth(d)
-                }}
-                className="px-3 py-1 text-sm rounded bg-gray-200 hover:bg-gray-300"
-              >
-                ◀ Prev
-              </button>
+            {/* LEFT: Calendar */}
+            <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border p-6">
 
-              <h2 className="font-semibold text-lg">
-                {currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
-              </h2>
+              <div className="flex items-center justify-between mb-4">
+                <button
+                  onClick={() => {
+                    const d = new Date(currentMonth)
+                    d.setMonth(d.getMonth() - 1)
+                    setCurrentMonth(d)
+                  }}
+                  className="px-3 py-1 text-sm rounded bg-gray-200 hover:bg-gray-300"
+                >
+                  ◀ Prev
+                </button>
 
-              <button
-                onClick={() => {
-                  const d = new Date(currentMonth)
-                  d.setMonth(d.getMonth() + 1)
-                  setCurrentMonth(d)
-                }}
-                className="px-3 py-1 text-sm rounded bg-gray-200 hover:bg-gray-300"
-              >
-                Next ▶
-              </button>
+                <h2 className="font-semibold text-lg">
+                  {currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
+                </h2>
+
+                <button
+                  onClick={() => {
+                    const d = new Date(currentMonth)
+                    d.setMonth(d.getMonth() + 1)
+                    setCurrentMonth(d)
+                  }}
+                  className="px-3 py-1 text-sm rounded bg-gray-200 hover:bg-gray-300"
+                >
+                  Next ▶
+                </button>
+              </div>
+
+              <div className="grid grid-cols-7 text-xs text-gray-500 mb-2">
+                {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d => (
+                  <div key={d} className="p-2 font-medium">{d}</div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-7 gap-2">
+                {calendarCells.map((day, idx) => {
+                  const dayEvents = filteredEvents.filter(e => {
+                    const d = new Date(e.event_date)
+                    return day && d.getDate() === day && d.getMonth() === month
+                  })
+
+                  const hasUnpaid = dayEvents.some(e => !e.deposit_paid)
+                  const hasPartial = dayEvents.some(e => e.deposit_paid && e.balance_due > 0)
+                  const hasPaid = dayEvents.some(e => e.deposit_paid && e.balance_due === 0)
+
+                  let bg = "bg-gray-50"
+                  if (hasUnpaid) bg = "bg-red-50"
+                  else if (hasPartial) bg = "bg-yellow-50"
+                  else if (hasPaid) bg = "bg-green-50"
+
+                  return (
+                    <div
+                      key={idx}
+                      className={`min-h-24 border rounded p-2 ${bg} hover:shadow cursor-pointer`}
+                    >
+                      {day && (
+                        <div className="text-xs font-semibold mb-1">{day}</div>
+                      )}
+
+                      {dayEvents.slice(0,2).map(event => (
+                        <div
+                          key={event.id}
+                          onClick={() => setSelectedEvent(event)}
+                          className="text-[11px] bg-white border rounded px-1 py-0.5 mb-1 truncate"
+                        >
+                          {event.customers?.name}
+                        </div>
+                      ))}
+
+                      {dayEvents.length > 2 && (
+                        <div className="text-[10px] text-gray-500">
+                          +{dayEvents.length - 2} more
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
             </div>
 
-            <div className="grid grid-cols-7 text-xs text-gray-500 mb-2">
-              {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d => (
-                <div key={d} className="p-2 font-medium">{d}</div>
-              ))}
-            </div>
+            {/* RIGHT: Event Feed */}
+            <div className="bg-white rounded-xl shadow-sm border p-4 h-fit">
 
-            <div className="grid grid-cols-7 gap-2">
+              <h3 className="font-semibold mb-4 text-[#9C7A2C]">
+                Upcoming Events
+              </h3>
 
-              {calendarCells.map((day, idx) => {
-                const dayEvents = filteredEvents.filter(e => {
-                  const d = new Date(e.event_date)
-                  return day && d.getDate() === day && d.getMonth() === month
-                })
+              <div className="space-y-3 max-h-125 overflow-y-auto">
+                {filteredEvents
+                  .sort((a,b) => new Date(a.event_date).getTime() - new Date(b.event_date).getTime())
+                  .map(event => {
 
-                return (
-                  <div
-                    key={idx}
-                    className="min-h-22.5 border rounded p-2 bg-gray-50"
-                  >
-                    {day && (
-                      <div className="text-xs font-semibold mb-1">{day}</div>
-                    )}
+                    const isPaid = event.deposit_paid && event.balance_due === 0
+                    const isPartial = event.deposit_paid && event.balance_due > 0
 
-                    {dayEvents.map(event => (
+                    let statusColor = "bg-red-100 text-red-700"
+                    if (isPartial) statusColor = "bg-yellow-100 text-yellow-700"
+                    if (isPaid) statusColor = "bg-green-100 text-green-700"
+
+                    return (
                       <div
                         key={event.id}
                         onClick={() => setSelectedEvent(event)}
-                        className={`text-[11px] border rounded px-1 py-0.5 mb-1 cursor-pointer
-                          ${event.deposit_paid ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"}
-                          hover:bg-gray-100`
-                        }
+                        className="border rounded-lg p-3 cursor-pointer hover:shadow transition"
                       >
-                        <div className="flex items-center justify-between">
-                          <span>{event.customers?.name}</span>
-                          <span className={`w-2 h-2 rounded-full ${event.deposit_paid ? "bg-green-500" : "bg-red-500"}`}></span>
+                        <div className="flex justify-between items-center">
+                          <div className="font-medium text-sm">
+                            {event.customers?.name}
+                          </div>
+                          <span className={`text-xs px-2 py-0.5 rounded ${statusColor}`}>
+                            {isPaid ? "Paid" : isPartial ? "Deposit" : "Unpaid"}
+                          </span>
+                        </div>
+
+                        <div className="text-xs text-gray-500 mt-1">
+                          {new Date(event.event_date).toLocaleDateString()}
+                        </div>
+
+                        <div className="text-xs text-gray-500">
+                          ${event.total_price}
                         </div>
                       </div>
-                    ))}
-
-                  </div>
-                )
-              })}
+                    )
+                  })}
+              </div>
 
             </div>
 
