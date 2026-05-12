@@ -78,8 +78,24 @@ export default function Footer() {
 
       </div>
 
-      <div className="border-t border-gray-800 mt-12 pt-6 text-center text-sm">
-        © {new Date().getFullYear()} Tap & Toast Mobile Bar · Denver, Colorado
+      <div className="border-t border-gray-800 mt-12 pt-6 text-center text-sm space-y-2">
+
+        <div className="flex justify-center gap-4 text-xs text-gray-400">
+          <Link href="/legal/terms" className="hover:text-white transition">
+            Terms
+          </Link>
+          <Link href="/legal/refund-policy" className="hover:text-white transition">
+            Refund Policy
+          </Link>
+          <Link href="/legal/privacy" className="hover:text-white transition">
+            Privacy Policy
+          </Link>
+        </div>
+
+        <div>
+          © {new Date().getFullYear()} Tap & Toast Mobile Bar · Denver, Colorado
+        </div>
+
       </div>
     </footer>
   )

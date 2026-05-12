@@ -495,6 +495,13 @@ type BookedSlot = {
   ✔ 50% deposit to reserve  ✔ Secure checkout  ✔ Instant confirmation
 </p>
 
+<p className="text-xs text-gray-500 mb-4 text-center">
+  By booking, you agree to our{" "}
+  <a href="/legal/terms" className="underline hover:text-black">Terms</a>,{" "}
+  <a href="/legal/refund-policy" className="underline hover:text-black">Refund Policy</a>, and{" "}
+  <a href="/legal/privacy" className="underline hover:text-black">Privacy Policy</a>.
+</p>
+
         <button
           onClick={handleBooking}
           disabled={submitting}
