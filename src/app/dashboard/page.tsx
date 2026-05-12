@@ -914,11 +914,18 @@ async function saveBartenderAssignments(event: EventItem) {
         )}
 
         {selectedEvent && (
-          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="fixed inset-0 z-50 flex">
 
-            <div className="bg-white w-125 rounded-xl shadow-lg p-6">
+            {/* Overlay */}
+            <div
+              className="flex-1 bg-black/40"
+              onClick={() => setSelectedEvent(null)}
+            />
 
-              <div className="flex justify-between items-center mb-4">
+            {/* Side Panel */}
+            <div className="w-105 bg-white shadow-xl h-full overflow-y-auto p-6">
+
+              <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold">Event Details</h2>
                 <button
                   onClick={() => setSelectedEvent(null)}
@@ -928,130 +935,132 @@ async function saveBartenderAssignments(event: EventItem) {
                 </button>
               </div>
 
-              <div className="space-y-3 text-sm">
-
-                <div>
-                  <strong>Customer:</strong> {selectedEvent.customers?.name}
+              {/* Customer Info */}
+              <div className="mb-6 space-y-2 text-sm">
+                <div><strong>{selectedEvent.customers?.name}</strong></div>
+                <div className="text-gray-500">{selectedEvent.customers?.email}</div>
+                <div className="text-gray-500">
+                  {new Date(selectedEvent.event_date).toLocaleDateString()}
                 </div>
-
-                <div>
-                  <strong>Email:</strong> {selectedEvent.customers?.email}
-                </div>
-
-                <div>
-                  <strong>Date:</strong> {new Date(selectedEvent.event_date).toLocaleDateString()}
-                </div>
-
-                <div>
-                  <strong>Location:</strong> {selectedEvent.location}
-                </div>
-
-                <div>
-                  <strong>Hours:</strong> {selectedEvent.hours}
-                </div>
-
-                <div>
-                  <strong>Bartenders Needed:</strong> {selectedEvent.bartenders_needed}
-                </div>
-
-                <div>
-                  <strong>Total Price:</strong> ${selectedEvent.total_price}
-                </div>
-
-                <div>
-                  <strong>Deposit Paid:</strong> {selectedEvent.deposit_paid ? "Yes" : "No"}
-                </div>
-
-                <div>
-                  <strong>Balance Due:</strong> ${selectedEvent.balance_due}
-                </div>
-
-                <div className="pt-4 border-t">
-                  <div className="flex justify-between items-center mb-2">
-                    <strong>Assigned Bartenders</strong>
-                    <select
-                      onChange={(e) => {
-                        const name = e.target.value
-                        if (name && !assignedBartenders.includes(name)) {
-                          setAssignedBartenders([...assignedBartenders, name])
-                        }
-                      }}
-                      className="text-xs px-2 py-1 border rounded bg-white"
-                    >
-                      <option value="">+ Add Bartender</option>
-                      {availableBartenders.map((b) => (
-                        <option key={b} value={b}>{b}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {assignedBartenders.length === 0 && (
-                    <div className="text-gray-500 text-xs">No bartenders assigned</div>
-                  )}
-
-                  {assignedBartenders.map((b, i) => (
-                    <div key={i} className="text-sm flex justify-between items-center">
-                      <span>{b}</span>
-
-                      <div className="flex items-center gap-3">
-                        <span className="text-gray-500">
-                          {selectedEvent.hours} hrs · ${selectedEvent.hours * 25}
-                        </span>
-
-                        <button
-                          onClick={() => {
-                            const updated = assignedBartenders.filter((_, idx) => idx !== i)
-                            setAssignedBartenders(updated)
-                          }}
-                          className="text-xs text-red-500 hover:text-red-700"
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="pt-4 border-t mt-4 text-sm space-y-1">
-                  <div className="flex justify-between">
-                    <span>Bartender Cost</span>
-                    <span>
-                      ${assignedBartenders.length * (selectedEvent.hours * 25)}
-                    </span>
-                  </div>
-
-                  <div className="flex justify-between font-medium">
-                    <span>Event Profit</span>
-                    <span>
-                      ${Math.max(
-                        selectedEvent.total_price - (assignedBartenders.length * (selectedEvent.hours * 25)),
-                        0
-                      )}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Modal Footer: Save/Cancel buttons */}
-                <div className="pt-4 flex justify-end gap-2">
-                  <button
-                    onClick={() => setSelectedEvent(null)}
-                    className="px-3 py-1 text-sm rounded bg-gray-200 hover:bg-gray-300"
-                  >
-                    Cancel
-                  </button>
-
-                  <button
-                    onClick={() => selectedEvent && saveBartenderAssignments(selectedEvent)}
-                    className="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700"
-                  >
-                    Save Staffing
-                  </button>
-                </div>
-
+                <div className="text-gray-500">{selectedEvent.location}</div>
               </div>
 
-            </div>
+              {/* Payment Section */}
+              <div className="mb-6 border rounded-lg p-4">
+                <h3 className="font-medium mb-2">Payments</h3>
 
+                <div className="flex justify-between text-sm">
+                  <span>Total</span>
+                  <span>${selectedEvent.total_price}</span>
+                </div>
+
+                <div className="flex justify-between text-sm">
+                  <span>Deposit</span>
+                  <span>
+                    {selectedEvent.deposit_paid ? "Paid" : "Unpaid"}
+                  </span>
+                </div>
+
+                <div className="flex justify-between text-sm font-semibold">
+                  <span>Remaining</span>
+                  <span>${selectedEvent.balance_due}</span>
+                </div>
+
+                <div className="mt-3 flex gap-2">
+                  {!selectedEvent.deposit_paid && (
+                    <button
+                      onClick={() => sendPaymentLink(selectedEvent.id, "deposit")}
+                      className="flex-1 bg-amber-500 text-white text-xs py-2 rounded"
+                    >
+                      Send Deposit
+                    </button>
+                  )}
+
+                  {selectedEvent.deposit_paid && selectedEvent.balance_due > 0 && (
+                    <button
+                      onClick={() => sendPaymentLink(selectedEvent.id, "balance")}
+                      className="flex-1 bg-purple-600 text-white text-xs py-2 rounded"
+                    >
+                      Send Balance
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Staffing */}
+              <div className="mb-6 border rounded-lg p-4">
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="font-medium">Staffing</h3>
+
+                  <select
+                    onChange={(e) => {
+                      const name = e.target.value
+                      if (name && !assignedBartenders.includes(name)) {
+                        setAssignedBartenders([...assignedBartenders, name])
+                      }
+                    }}
+                    className="text-xs border rounded px-2 py-1"
+                  >
+                    <option value="">+ Add</option>
+                    {availableBartenders.map(b => (
+                      <option key={b} value={b}>{b}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {assignedBartenders.length === 0 && (
+                  <div className="text-xs text-gray-500">
+                    No bartenders assigned
+                  </div>
+                )}
+
+                {assignedBartenders.map((b, i) => (
+                  <div key={i} className="flex justify-between text-sm">
+                    <span>{b}</span>
+                    <button
+                      onClick={() =>
+                        setAssignedBartenders(prev =>
+                          prev.filter((_, idx) => idx !== i)
+                        )
+                      }
+                      className="text-xs text-red-500"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              {/* Profit */}
+              <div className="mb-6 border rounded-lg p-4 text-sm">
+                <div className="flex justify-between">
+                  <span>Bartender Cost</span>
+                  <span>
+                    ${assignedBartenders.length * (selectedEvent.hours * 25)}
+                  </span>
+                </div>
+
+                <div className="flex justify-between font-semibold mt-1">
+                  <span>Profit</span>
+                  <span>
+                    ${Math.max(
+                      selectedEvent.total_price -
+                      assignedBartenders.length * selectedEvent.hours * 25,
+                      0
+                    )}
+                  </span>
+                </div>
+              </div>
+
+              {/* Save */}
+              <button
+                onClick={() => saveBartenderAssignments(selectedEvent)}
+                className="w-full bg-blue-600 text-white py-2 rounded"
+              >
+                Save Changes
+              </button>
+
+            </div>
           </div>
         )}
 
