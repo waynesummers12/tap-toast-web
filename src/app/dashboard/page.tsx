@@ -54,45 +54,17 @@ useEffect(() => {
       if (Array.isArray(data) && data.length > 0) {
         setEvents(data)
       } else {
-        // fallback demo data so dashboard is usable
-        setEvents([
-          {
-            id: "1",
-            event_date: "2026-03-22",
-            location: "3333 west angus ave",
-            hours: 4,
-            bartenders_needed: 2,
-            assigned_bartenders_count: 0,
-            total_price: 920,
-            deposit_amount: 460,
-            balance_due: 460,
-            deposit_paid: false,
-            customers: { name: "wayne summers", email: "waynesummers12@gmail.com" }
-          }
-        ])
+        // no fallback — ensure we only use real DB data
+        setEvents([])
+        setLoading(false)
+        return
       }
 
       setLoading(false)
     })
     .catch((err) => {
       console.error("Events API failed — using demo data", err)
-
-      setEvents([
-        {
-          id: "1",
-          event_date: "2026-03-22",
-          location: "3333 west angus ave",
-          hours: 4,
-          bartenders_needed: 2,
-          assigned_bartenders_count: 0,
-          total_price: 920,
-          deposit_amount: 460,
-          balance_due: 460,
-          deposit_paid: false,
-          customers: { name: "wayne summers", email: "waynesummers12@gmail.com" }
-        }
-      ])
-
+      setEvents([])
       setLoading(false)
     })
 }, [])
@@ -261,6 +233,11 @@ const sendPaymentLink = async (
 
 // Send Reminder Email (Deposit or Balance)
 const sendReminder = async (event: EventItem) => {
+  // guard against invalid demo IDs
+  if (!event.id || event.id.length < 10) {
+    alert("Invalid event ID — refresh dashboard")
+    return
+  }
   try {
     const type =
       !event.deposit_paid
