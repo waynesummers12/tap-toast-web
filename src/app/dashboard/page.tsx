@@ -40,98 +40,110 @@ export default function DashboardPage() {
   const month = currentMonth.getMonth()
 
 useEffect(() => {
-  fetch("/api/events")
-    .then(async (res) => {
-      const contentType = res.headers.get("content-type")
+  const loadEvents = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/events`
+      )
 
-      if (!contentType || !contentType.includes("application/json")) {
-        return []
+      if (!res.ok) {
+        throw new Error(`Failed to fetch events: ${res.status}`)
       }
 
       const data = await res.json()
-      console.log("RAW EVENTS FROM API:", data)
 
-      return data
-    })
-    .then(data => {
-      if (Array.isArray(data) && data.length > 0) {
-        setEvents(data)
-      } else {
-        // no fallback — ensure we only use real DB data
-        setEvents([])
-        setLoading(false)
-        return
-      }
+      console.log("✅ REAL EVENTS FROM API:", data)
 
-      setLoading(false)
-    })
-    .catch((err) => {
-      console.error("Events API failed — using demo data", err)
+      setEvents(Array.isArray(data) ? data : [])
+
+    } catch (err) {
+      console.error("❌ Events API failed:", err)
       setEvents([])
+    } finally {
       setLoading(false)
-    })
+    }
+  }
+
+  loadEvents()
 }, [])
+
+
+// Load assigned bartenders for selected event
 useEffect(() => {
-  if (!selectedEvent) return
+  if (!selectedEvent?.id) return
 
-  fetch(`/api/events/${selectedEvent.id}/bartenders`)
-    .then(async (res) => {
-      const contentType = res.headers.get("content-type")
+  const loadAssigned = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/events/${selectedEvent.id}/bartenders`
+      )
 
-      if (!contentType || !contentType.includes("application/json")) {
-        return []
+      if (!res.ok) {
+        throw new Error("Failed to fetch assigned bartenders")
       }
 
-      return res.json()
-    })
-    .then(data => {
+      const data = await res.json()
+
       if (Array.isArray(data)) {
         const names = data.map((b: { name: string }) => b.name)
         setAssignedBartenders(names)
       }
-    })
-    .catch(err => {
-      console.error("Failed to load assigned bartenders", err)
-    })
+
+    } catch (err) {
+      console.error("❌ Failed to load assigned bartenders", err)
+      setAssignedBartenders([])
+    }
+  }
+
+  loadAssigned()
 }, [selectedEvent])
-  useEffect(() => {
-    fetch("/api/bartenders")
-      .then(async (res) => {
-        const contentType = res.headers.get("content-type")
 
-        if (!contentType || !contentType.includes("application/json")) {
-          return []
-        }
 
-        return res.json()
-      })
-      .then(data => {
-        if (Array.isArray(data)) {
-          const names = data.map((b: unknown) => {
+// Load available bartenders
+useEffect(() => {
+  const loadBartenders = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/bartenders`
+      )
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch bartenders")
+      }
+
+      const data = await res.json()
+
+      if (Array.isArray(data)) {
+        const names = data
+          .map((b: unknown) => {
             if (typeof b === "string") return b
 
             if (typeof b === "object" && b !== null) {
               const obj = b as { name?: string; bartender_name?: string }
-              if (obj.name) return obj.name
-              if (obj.bartender_name) return obj.bartender_name
+              return obj.name || obj.bartender_name || null
             }
 
             return null
-          }).filter((n): n is string => Boolean(n))
+          })
+          .filter((n): n is string => Boolean(n))
 
-          if (names.length > 0) {
-            setAvailableBartenders(names)
-          } else {
-            setAvailableBartenders(["Wayne", "Jen", "Jessica", "Jeff"])
-          }
-        } else {
-          setAvailableBartenders(["Wayne", "Jen", "Jessica", "Jeff"])
-        }
-      })
-      .catch(err => {
-        console.error("Failed to load bartenders", err)
-      })
-  }, [])
+        setAvailableBartenders(
+          names.length > 0
+            ? names
+            : ["Wayne", "Jen", "Jessica", "Jeff"]
+        )
+      }
+
+    } catch (err) {
+      console.error("❌ Failed to load bartenders", err)
+      setAvailableBartenders(["Wayne", "Jen", "Jessica", "Jeff"])
+    }
+  }
+
+  loadBartenders()
+}, [])
+
+
 interface GtagFn {
   (...args: unknown[]): void
 }

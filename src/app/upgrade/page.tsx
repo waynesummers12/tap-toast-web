@@ -6,19 +6,27 @@ import Link from "next/link"
 
 function UpgradePageContent() {
   const searchParams = useSearchParams()
-  const eventId = searchParams.get("eventId")
+  const rawEventId = searchParams.get("eventId")
+
+  // Normalize eventId (handles legacy numeric IDs and UUIDs)
+  const eventId =
+    rawEventId && rawEventId !== "undefined" && rawEventId !== "null"
+      ? rawEventId
+      : null
 
   const [loading, setLoading] = useState<string | null>(null)
 
   const handleUpgrade = async (upgradeType: string) => {
     if (!eventId) {
-      alert("Missing event ID")
+      console.error("❌ Missing eventId from URL")
+      alert("Something went wrong — please return to your booking link.")
       return
     }
 
     setLoading(upgradeType)
 
     try {
+      console.log("🚀 UPGRADE REQUEST:", { eventId, upgradeType })
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/upgrade`, {
         method: "POST",
         headers: {
@@ -31,15 +39,17 @@ function UpgradePageContent() {
       })
 
       const data = await res.json()
+      console.log("📦 UPGRADE RESPONSE:", data)
 
-      if (data.url) {
+      if (data?.url) {
         window.location.href = data.url
       } else {
-        alert("Failed to create checkout session")
+        console.error("❌ No checkout URL returned", data)
+        alert("Unable to start checkout. Please try again.")
       }
     } catch (err) {
-      console.error(err)
-      alert("Something went wrong")
+      console.error("❌ Upgrade error:", err)
+      alert("Something went wrong — please try again.")
     } finally {
       setLoading(null)
     }
