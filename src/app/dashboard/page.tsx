@@ -74,9 +74,7 @@ useEffect(() => {
 
   const loadAssigned = async () => {
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/events/${selectedEvent.id}/bartenders`
-      )
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${selectedEvent.id}/assign-bartenders`)
 
       if (!res.ok) {
         throw new Error("Failed to fetch assigned bartenders")
@@ -252,6 +250,7 @@ const res = await fetch(`${API}/api/events`, {
 const sendReminder = async (event: EventItem) => {
   try {
     console.log("SENDING REMINDER FOR EVENT:", event)
+console.log("Sending reminder for eventId:", event.id)
 
     if (!event?.id) {
       alert("Missing event ID")
