@@ -158,9 +158,11 @@ const sendPaymentLink = async (
   type: "deposit" | "balance"
 ) => {
   try {
-    const res = await fetch(
-  `${process.env.NEXT_PUBLIC_API_URL}/api/stripe/send-${type}`,
-  {
+    const API =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://tap-toast-api-cayk.onrender.com"
+
+const res = await fetch(`${API}/api/events`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -266,19 +268,20 @@ const sendReminder = async (event: EventItem) => {
         ? "deposit_reminder"
         : "balance_reminder"
 
-    const res = await fetch(
-  `${process.env.NEXT_PUBLIC_API_URL}/api/email/reminder`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          eventId: event.id,
-          type,
-        }),
-      }
-    )
+    const API =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://tap-toast-api-cayk.onrender.com"
+
+const res = await fetch(`${API}/api/email/reminder`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        eventId: event.id,
+        type,
+      }),
+    })
 
     const text = await res.text()
     console.log("REMINDER RESPONSE:", res.status, text)
