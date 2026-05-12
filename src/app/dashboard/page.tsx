@@ -159,15 +159,15 @@ const sendPaymentLink = async (
 ) => {
   try {
     const res = await fetch(
-      `/api/stripe/send-${type}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ eventId })
-      }
-    )
+  `${process.env.NEXT_PUBLIC_API_URL}/api/stripe/send-${type}`,
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ eventId })
+  }
+)
 
     let data: { success?: boolean } = {}
     const contentType = res.headers.get("content-type")
@@ -267,7 +267,7 @@ const sendReminder = async (event: EventItem) => {
         : "balance_reminder"
 
     const res = await fetch(
-      "/api/email/reminder",
+  `${process.env.NEXT_PUBLIC_API_URL}/api/email/reminder`,
       {
         method: "POST",
         headers: {
