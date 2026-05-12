@@ -70,14 +70,18 @@ function BookEventPageContent() {
   function isTimeBlocked(date: string, startTime: string, hours: number) {
     if (!date || !startTime) return false
 
+    const BUFFER_HOURS = 1 // 1 hour buffer before/after events
     const newStart = new Date(`${date}T${startTime}`)
     const newEnd = new Date(newStart.getTime() + hours * 60 * 60 * 1000)
+
+    const bufferedStart = new Date(newStart.getTime() - BUFFER_HOURS * 60 * 60 * 1000)
+    const bufferedEnd = new Date(newEnd.getTime() + BUFFER_HOURS * 60 * 60 * 1000)
 
     return bookedSlots.some(slot => {
       const existingStart = new Date(slot.start)
       const existingEnd = new Date(slot.end)
 
-      return newStart < existingEnd && newEnd > existingStart
+      return bufferedStart < existingEnd && bufferedEnd > existingStart
     })
   }
 type BookedSlot = {
@@ -301,27 +305,26 @@ type BookedSlot = {
             <div className="mt-4">
               <label className="text-sm block mb-2">Select Start Time</label>
               <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
-                {generateTimeOptions().map((t) => {
-                  const blocked = isTimeBlocked(date, t, hours)
-                  const selected = startTime === t
-                  return (
-                    <button
-                      key={t}
-                      type="button"
-                      disabled={blocked}
-                      onClick={() => !blocked && setStartTime(t)}
-                      className={`p-2 rounded-lg border text-sm transition \
-              ${blocked ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : ''} \
+                {generateTimeOptions()
+                  .filter((t) => !isTimeBlocked(date, t, hours))
+                  .map((t) => {
+                    const selected = startTime === t
+                    return (
+                      <button
+                        key={t}
+                        type="button"
+                        onClick={() => setStartTime(t)}
+                        className={`p-2 rounded-lg border text-sm transition \
               ${selected ? 'bg-black text-white border-black' : 'bg-white hover:border-black'}`}
-                    >
-                      {formatTimeUI(t)}
-                    </button>
-                  )
-                })}
+                      >
+                        {formatTimeUI(t)}
+                      </button>
+                    )
+                  })}
               </div>
-              {date && (
-                <p className="text-xs text-gray-500 mt-2">
-                  Gray times are unavailable based on existing bookings.
+              {date && generateTimeOptions().filter((t) => !isTimeBlocked(date, t, hours)).length === 0 && (
+                <p className="text-red-500 text-sm mt-2">
+                  No available time slots for this date. Please choose another date.
                 </p>
               )}
             </div>
