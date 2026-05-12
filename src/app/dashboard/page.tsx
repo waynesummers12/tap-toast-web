@@ -43,6 +43,8 @@ useEffect(() => {
   fetch("/api/events")
     .then(async (res) => {
       const contentType = res.headers.get("content-type")
+      const data = await res.json()
+      console.log("RAW EVENTS FROM API:", data)
 
       if (!contentType || !contentType.includes("application/json")) {
         return []
