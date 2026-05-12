@@ -30,7 +30,27 @@ export default function DashboardPage() {
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null)
   const [availableBartenders, setAvailableBartenders] = useState<string[]>([])
   const [assignedBartenders, setAssignedBartenders] = useState<string[]>([])
-  const [viewMode, setViewMode] = useState<"table" | "calendar">("table")
+  const [viewMode, setViewMode] = useState<"table" | "calendar">("calendar")
+  // Auto-switch view based on screen size (mobile = calendar, desktop = table)
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setViewMode("calendar")
+      } else {
+        setViewMode("table")
+      }
+    }
+
+    // Run once on mount
+    handleResize()
+
+    // Listen for resize
+    window.addEventListener("resize", handleResize)
+
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [])
   const [search, setSearch] = useState("")
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [viewStartDate, setViewStartDate] = useState<string>("")
@@ -780,34 +800,54 @@ async function saveBartenderAssignments(event: EventItem) {
 
                       <td className="p-4">
                         {event.deposit_paid && event.balance_due === 0 && (
-                          <span className="px-2 py-1 text-xs rounded bg-green-100 text-green-700 font-medium">
-                            Paid
-                          </span>
-                        )}
 
-                        {event.deposit_paid && event.balance_due > 0 && (
-                          <span className="px-2 py-1 text-xs rounded bg-yellow-100 text-yellow-700 font-medium">
-                            Deposit Paid
-                          </span>
-                        )}
+  <span className="px-2 py-1 text-xs rounded bg-green-100 text-green-700 font-semibold">
 
-                        {!event.deposit_paid && (
-  <button
-    onClick={() => sendPaymentLink(event.id, "deposit")}
-    className="px-3 py-1 text-xs rounded bg-amber-500 text-white hover:bg-amber-600"
-  >
-    Send Deposit
-  </button>
+    ✔ Fully Paid
+
+  </span>
+
 )}
 
 {event.deposit_paid && event.balance_due > 0 && (
-  <button
-    onClick={() => sendPaymentLink(event.id, "balance")}
-    className="px-3 py-1 text-xs rounded bg-purple-600 text-white hover:bg-purple-700"
-  >
-    Send Balance
-  </button>
+
+  <span className="px-2 py-1 text-xs rounded bg-yellow-100 text-yellow-700 font-semibold">
+
+    ⏳ Balance Due
+
+  </span>
+
 )}
+
+{!event.deposit_paid && (
+
+  <span className="px-2 py-1 text-xs rounded bg-red-100 text-red-700 font-semibold">
+
+    ⚠ Unpaid
+
+  </span>
+
+)}
+
+<div className="mt-2 flex gap-1">
+  {!event.deposit_paid && (
+    <button
+      onClick={() => sendPaymentLink(event.id, "deposit")}
+      className="px-2 py-1 text-xs rounded bg-amber-500 text-white hover:bg-amber-600"
+    >
+      Send Deposit
+    </button>
+  )}
+
+  {event.deposit_paid && event.balance_due > 0 && (
+    <button
+      onClick={() => sendPaymentLink(event.id, "balance")}
+      className="px-2 py-1 text-xs rounded bg-purple-600 text-white hover:bg-purple-700"
+    >
+      Send Balance
+    </button>
+  )}
+</div>
                       </td>
 
                       <td className="p-4 font-semibold text-gray-800">
