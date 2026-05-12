@@ -233,12 +233,14 @@ const sendPaymentLink = async (
 
 // Send Reminder Email (Deposit or Balance)
 const sendReminder = async (event: EventItem) => {
-  // guard against invalid demo IDs
-  if (!event.id || event.id.length < 10) {
-    alert("Invalid event ID — refresh dashboard")
-    return
-  }
   try {
+    console.log("SENDING REMINDER FOR EVENT:", event)
+
+    if (!event?.id) {
+      alert("Missing event ID")
+      return
+    }
+
     const type =
       !event.deposit_paid
         ? "deposit_reminder"
@@ -258,11 +260,9 @@ const sendReminder = async (event: EventItem) => {
       }
     )
 
-    // 🔥 IMPORTANT: read response
     const text = await res.text()
     console.log("REMINDER RESPONSE:", res.status, text)
 
-    // ❌ If backend failed, DO NOT show success
     if (!res.ok) {
       throw new Error(`Request failed: ${res.status}`)
     }
