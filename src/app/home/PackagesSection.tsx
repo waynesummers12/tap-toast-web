@@ -46,10 +46,11 @@ export default function PackagesSection() {
             <Image
               src="/package1.jpg"
               alt="The Taste Package"
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-110"
-              sizes="(max-width: 768px) 100vw, 33vw"
+              width={800}
+              height={400}
+              className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110"
               priority
+              unoptimized
             />
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <div className="absolute -left-full top-0 h-full w-1/2 bg-linear-to-r from-transparent via-white/30 to-transparent transform skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-[shimmer_1.2s_forwards]" />
@@ -89,9 +90,10 @@ export default function PackagesSection() {
             <Image
               src="/package3.jpg"
               alt="The Tipsy Package"
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-110"
-              sizes="(max-width: 768px) 100vw, 33vw"
+              width={800}
+              height={400}
+              className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110"
+              unoptimized
             />
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <div className="absolute -left-full top-0 h-full w-1/2 bg-linear-to-r from-transparent via-white/30 to-transparent transform skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-[shimmer_1.2s_forwards]" />
@@ -131,9 +133,10 @@ export default function PackagesSection() {
             <Image
               src="/package2.jpg"
               alt="The Toasted Package"
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-110"
-              sizes="(max-width: 768px) 100vw, 33vw"
+              width={800}
+              height={400}
+              className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110"
+              unoptimized
             />
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <div className="absolute -left-full top-0 h-full w-1/2 bg-linear-to-r from-transparent via-white/30 to-transparent transform skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-[shimmer_1.2s_forwards]" />
