@@ -157,23 +157,30 @@ const sendPaymentLink = async (
 ) => {
   try {
     const API =
-  process.env.NEXT_PUBLIC_API_URL ||
-  "https://tap-toast-api-cayk.onrender.com"
+      process.env.NEXT_PUBLIC_API_URL ||
+      "https://tap-toast-api-cayk.onrender.com"
 
-const res = await fetch(`${API}/api/events`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ eventId })
-  }
-)
+    const endpoint =
+      type === "deposit"
+        ? `${API}/api/stripe/send-deposit`
+        : `${API}/api/stripe/send-balance`
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ eventId })
+    })
 
     let data: { success?: boolean } = {}
+
     const contentType = res.headers.get("content-type")
     if (contentType && contentType.includes("application/json")) {
       data = await res.json()
     }
+
+    const event = events.find(e => e.id === eventId)
 
     if (data?.success) {
       alert(
@@ -182,40 +189,43 @@ const res = await fetch(`${API}/api/events`, {
           : "Balance invoice sent to customer"
       )
 
-      // Enhanced tracking for revenue and booking events
-      // Find the event object for value tracking
-      const event = events.find(e => e.id === eventId)
       if (event) {
-        {
-          const gtag = getGtag()
-          if (gtag) {
-            gtag('event', 'payment_link_sent', {
-              event_category: 'revenue',
-              event_label: type,
-              value: type === 'deposit' ? event.deposit_amount : event.balance_due,
-              currency: 'USD'
-            })
-          }
+        const gtag = getGtag()
+
+        if (gtag) {
+          gtag("event", "payment_link_sent", {
+            event_category: "revenue",
+            event_label: type,
+            value:
+              type === "deposit"
+                ? event.deposit_amount
+                : event.balance_due,
+            currency: "USD",
+          })
         }
-        // Simulate booking value event when deposit is sent
-        if (type === "deposit") {
-          const gtag = getGtag()
-          if (gtag) {
-            gtag('event', 'begin_checkout', {
-              currency: 'USD',
-              value: event.deposit_amount,
-              items: [
-                {
-                  item_name: 'Tap & Toast Event Booking',
-                  price: event.deposit_amount
-                }
-              ]
-            })
-          }
+
+        if (type === "deposit" && gtag) {
+          gtag("event", "begin_checkout", {
+            currency: "USD",
+            value: event.deposit_amount,
+            items: [
+              {
+                item_name: "Tap & Toast Event Booking",
+                price: event.deposit_amount,
+              },
+            ],
+          })
+        }
+
+        if (type === "balance" && gtag) {
+          gtag("event", "purchase", {
+            transaction_id: eventId,
+            value: event.total_price,
+            currency: "USD",
+          })
         }
       }
 
-      // Auto update event status locally
       if (type === "balance") {
         setEvents(prev =>
           prev.map(e =>
@@ -224,17 +234,6 @@ const res = await fetch(`${API}/api/events`, {
               : e
           )
         )
-        // Send a FULL revenue event when balance is paid
-        if (event) {
-          const gtag = getGtag()
-          if (gtag) {
-            gtag('event', 'purchase', {
-              transaction_id: eventId,
-              value: event.total_price,
-              currency: 'USD'
-            })
-          }
-        }
       }
 
     } else {
