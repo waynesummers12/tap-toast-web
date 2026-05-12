@@ -1,7 +1,7 @@
 "use client"
 export const dynamic = "force-dynamic"
 
-import { useState, Suspense } from "react"
+import { useState, Suspense, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import AvailabilityCalendar from "@/components/AvailablilityCalendar"
 
@@ -27,6 +27,7 @@ function BookEventPageContent() {
   })
 
   const [submitting, setSubmitting] = useState(false)
+  const [bookedSlots, setBookedSlots] = useState<BookedSlot[]>([])
 
   const searchParams = useSearchParams()
   const cid = searchParams.get("cid") || ""
@@ -59,6 +60,54 @@ function BookEventPageContent() {
 
   const grandTotal = total + upgradesTotal
   const deposit = Math.round(grandTotal * 0.5)
+
+  useEffect(() => {
+  fetch("https://tap-toast-api-cayk.onrender.com/api/events/booked-slots")
+    .then(res => res.json())
+    .then((data: BookedSlot[]) => setBookedSlots(data))
+}, [])
+
+  function isTimeBlocked(date: string, startTime: string, hours: number) {
+    if (!date || !startTime) return false
+
+    const newStart = new Date(`${date}T${startTime}`)
+    const newEnd = new Date(newStart.getTime() + hours * 60 * 60 * 1000)
+
+    return bookedSlots.some(slot => {
+      const existingStart = new Date(slot.start)
+      const existingEnd = new Date(slot.end)
+
+      return newStart < existingEnd && newEnd > existingStart
+    })
+  }
+type BookedSlot = {
+
+  date: string
+
+  start: string
+
+  end: string
+
+}
+  // Generate time slot options for the selector
+  function generateTimeOptions() {
+    const options: string[] = []
+    for (let h = 10; h <= 23; h++) {
+      options.push(`${String(h).padStart(2, "0")}:00`)
+      options.push(`${String(h).padStart(2, "0")}:30`)
+    }
+    return options
+  }
+
+  // Format time for visual display
+  function formatTimeUI(time: string) {
+    if (!time) return ""
+    const [h, m] = time.split(":")
+    let hour = parseInt(h, 10)
+    const ampm = hour >= 12 ? "PM" : "AM"
+    hour = hour % 12 || 12
+    return `${hour}:${m} ${ampm}`
+  }
 
   const handleBooking = async () => {
     setSubmitting(true)
@@ -249,14 +298,32 @@ function BookEventPageContent() {
 })}
               </p>
             )}
-            <div className="mt-3">
-              <label className="text-sm">Event Start Time</label>
-              <input
-                type="time"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-                className="w-full border border-gray-300 focus:border-black focus:ring-2 focus:ring-black/10 p-3 rounded-lg mt-1"
-              />
+            <div className="mt-4">
+              <label className="text-sm block mb-2">Select Start Time</label>
+              <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
+                {generateTimeOptions().map((t) => {
+                  const blocked = isTimeBlocked(date, t, hours)
+                  const selected = startTime === t
+                  return (
+                    <button
+                      key={t}
+                      type="button"
+                      disabled={blocked}
+                      onClick={() => !blocked && setStartTime(t)}
+                      className={`p-2 rounded-lg border text-sm transition \
+              ${blocked ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : ''} \
+              ${selected ? 'bg-black text-white border-black' : 'bg-white hover:border-black'}`}
+                    >
+                      {formatTimeUI(t)}
+                    </button>
+                  )
+                })}
+              </div>
+              {date && (
+                <p className="text-xs text-gray-500 mt-2">
+                  Gray times are unavailable based on existing bookings.
+                </p>
+              )}
             </div>
           </div>
 
