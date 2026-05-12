@@ -44,7 +44,7 @@ export default function PackagesSection() {
           </div>
           <div className="relative overflow-hidden h-56">
             <Image
-              src="/package1.jpg"
+              src="/package3.jpg"
               alt="The Taste Package"
               width={800}
               height={400}
@@ -88,7 +88,7 @@ export default function PackagesSection() {
         <div className="relative cursor-pointer bg-black text-white rounded-xl overflow-hidden shadow-xl group transition-all duration-300 hover:-translate-y-2 border border-transparent hover:border-[#9C7A2C] hover:shadow-[0_0_25px_rgba(156,122,44,0.45)]">
           <div className="relative overflow-hidden h-56">
             <Image
-              src="/package3.jpg"
+              src="/trailer-wedding.jpg"
               alt="The Tipsy Package"
               width={800}
               height={400}
