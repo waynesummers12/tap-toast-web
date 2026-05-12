@@ -267,16 +267,16 @@ const sendReminder = async (event: EventItem) => {
         ? "deposit_reminder"
         : "balance_reminder"
 
-    await fetch("/api/email/reminder", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        eventId: event.id,
-        type
-      }),
-    })
+    await fetch("https://tap-toast-api-cayk.onrender.com/api/email/reminder", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    eventId: event.id,
+    type,
+  }),
+})
 
     alert("Reminder sent")
   } catch (err) {
