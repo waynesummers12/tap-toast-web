@@ -259,6 +259,32 @@ const sendPaymentLink = async (
   }
 }
 
+// Send Reminder Email (Deposit or Balance)
+const sendReminder = async (event: EventItem) => {
+  try {
+    const type =
+      !event.deposit_paid
+        ? "deposit_reminder"
+        : "balance_reminder"
+
+    await fetch("/api/email/reminder", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        eventId: event.id,
+        type
+      }),
+    })
+
+    alert("Reminder sent")
+  } catch (err) {
+    console.error(err)
+    alert("Failed to send reminder")
+  }
+}
+
 // Save bartender assignments to backend via API
 async function saveBartenderAssignments(event: EventItem) {
   try {
@@ -406,6 +432,47 @@ async function saveBartenderAssignments(event: EventItem) {
 
   for (let i = 0; i < firstDay; i++) calendarCells.push(null)
   for (let d = 1; d <= daysInMonth; d++) calendarCells.push(d)
+
+  // --- DERIVED STATE FOR ACTION REQUIRED + PRIORITIZATION ---
+  const today = new Date()
+
+  const actionRequiredEvents: EventItem[] = events.filter((event: EventItem) => {
+    const eventDate = new Date(event.event_date)
+    const daysUntil = Math.ceil(
+      (eventDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+    )
+
+    const needsDeposit = !event.deposit_paid
+    const balanceDueSoon = event.deposit_paid && event.balance_due > 0 && daysUntil <= 10
+    const needsStaffing = (event.assigned_bartenders_count ?? 0) < event.bartenders_needed
+
+    return needsDeposit || balanceDueSoon || needsStaffing
+  })
+
+  const prioritizedEvents: EventItem[] = [...events]
+    .filter((event: EventItem) => new Date(event.event_date) >= today)
+    .sort((a: EventItem, b: EventItem) => {
+      const score = (e: EventItem) => {
+        let s = 0
+
+        if (!e.deposit_paid) s += 100
+        else if (e.balance_due > 0) s += 80
+
+        const assigned = e.assigned_bartenders_count ?? 0
+        if (assigned < e.bartenders_needed) s += 60
+
+        const days = Math.ceil(
+          (new Date(e.event_date).getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+        )
+
+        if (days <= 3) s += 50
+        else if (days <= 7) s += 30
+
+        return s
+      }
+
+      return score(b) - score(a)
+    })
 
   return (
     <div className="min-h-screen bg-gray-50 p-10 text-gray-800">
@@ -862,53 +929,111 @@ async function saveBartenderAssignments(event: EventItem) {
               </div>
             </div>
 
-            {/* RIGHT: Event Feed */}
-            <div className="bg-white rounded-xl shadow-sm border p-4 h-fit">
+            {/* RIGHT SIDE */}
+<div className="space-y-6">
 
-              <h3 className="font-semibold mb-4 text-[#9C7A2C]">
-                Upcoming Events
-              </h3>
+  {/* ACTION REQUIRED */}
+  <div className="bg-white rounded-xl shadow-sm border p-4">
+    <h3 className="font-semibold mb-3 text-red-600">
+      Action Required
+    </h3>
 
-              <div className="space-y-3 max-h-125 overflow-y-auto">
-                {filteredEvents
-                  .sort((a,b) => new Date(a.event_date).getTime() - new Date(b.event_date).getTime())
-                  .map(event => {
+    {actionRequiredEvents.length === 0 && (
+      <div className="text-xs text-gray-500">
+        No urgent actions 🎉
+      </div>
+    )}
 
-                    const isPaid = event.deposit_paid && event.balance_due === 0
-                    const isPartial = event.deposit_paid && event.balance_due > 0
+    <div className="space-y-2">
+      {actionRequiredEvents.slice(0,5).map(event => {
+        const eventDate = new Date(event.event_date)
+        const daysUntil = Math.ceil(
+          (eventDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+        )
 
-                    let statusColor = "bg-red-100 text-red-700"
-                    if (isPartial) statusColor = "bg-yellow-100 text-yellow-700"
-                    if (isPaid) statusColor = "bg-green-100 text-green-700"
+        let label = "Needs attention"
+        let color = "bg-red-100 text-red-700"
 
-                    return (
-                      <div
-                        key={event.id}
-                        onClick={() => setSelectedEvent(event)}
-                        className="border rounded-lg p-3 cursor-pointer hover:shadow transition"
-                      >
-                        <div className="flex justify-between items-center">
-                          <div className="font-medium text-sm">
-                            {event.customers?.name}
-                          </div>
-                          <span className={`text-xs px-2 py-0.5 rounded ${statusColor}`}>
-                            {isPaid ? "Paid" : isPartial ? "Deposit" : "Unpaid"}
-                          </span>
-                        </div>
+        if (!event.deposit_paid) {
+          label = "Deposit Needed"
+        } else if (event.balance_due > 0 && daysUntil <= 10) {
+          label = "Balance Due Soon"
+          color = "bg-yellow-100 text-yellow-700"
+        } else if ((event.assigned_bartenders_count ?? 0) < event.bartenders_needed) {
+          label = "Staffing Needed"
+          color = "bg-orange-100 text-orange-700"
+        }
 
-                        <div className="text-xs text-gray-500 mt-1">
-                          {new Date(event.event_date).toLocaleDateString()}
-                        </div>
-
-                        <div className="text-xs text-gray-500">
-                          ${event.total_price}
-                        </div>
-                      </div>
-                    )
-                  })}
+        return (
+          <div
+            key={event.id}
+            onClick={() => setSelectedEvent(event)}
+            className="border rounded-lg p-3 cursor-pointer hover:shadow transition"
+          >
+            <div className="flex justify-between items-center">
+              <div className="text-sm font-medium">
+                {event.customers?.name}
               </div>
-
+              <span className={`text-xs px-2 py-0.5 rounded ${color}`}>
+                {label}
+              </span>
             </div>
+
+            <div className="text-xs text-gray-500">
+              {new Date(event.event_date).toLocaleDateString()}
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  </div>
+
+  {/* UPCOMING EVENTS */}
+  <div className="bg-white rounded-xl shadow-sm border p-4 h-fit">
+    <h3 className="font-semibold mb-4 text-[#9C7A2C]">
+      Upcoming Events
+    </h3>
+
+    <div className="space-y-3 max-h-125 overflow-y-auto">
+      {prioritizedEvents.map(event => {
+
+        const isPaid = event.deposit_paid && event.balance_due === 0
+        const isPartial = event.deposit_paid && event.balance_due > 0
+
+        let statusColor = "bg-red-100 text-red-700"
+        if (isPartial) statusColor = "bg-yellow-100 text-yellow-700"
+        if (isPaid) statusColor = "bg-green-100 text-green-700"
+
+        return (
+          <div
+            key={event.id}
+            onClick={() => setSelectedEvent(event)}
+            className="border rounded-lg p-3 cursor-pointer hover:shadow transition"
+          >
+            <div className="flex justify-between items-center">
+              <div className="font-medium text-sm">
+                {event.customers?.name}
+              </div>
+              <span className={`text-xs px-2 py-0.5 rounded ${statusColor}`}>
+                {isPaid ? "Paid" : isPartial ? "Deposit" : "Unpaid"}
+              </span>
+            </div>
+
+            <div className="text-xs text-gray-500 mt-1">
+              {new Date(event.event_date).toLocaleDateString()}
+            </div>
+
+            <div className="text-xs text-gray-500">
+              ${event.total_price}
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  </div>
+
+</div>
+
 
           </div>
         )}
@@ -985,7 +1110,14 @@ async function saveBartenderAssignments(event: EventItem) {
                     </button>
                   )}
                 </div>
+                <button
+                  onClick={() => selectedEvent && sendReminder(selectedEvent)}
+                  className="w-full mt-2 bg-gray-800 text-white text-xs py-2 rounded"
+                >
+                  Send Reminder
+                </button>
               </div>
+
 
               {/* Staffing */}
               <div className="mb-6 border rounded-lg p-4">
