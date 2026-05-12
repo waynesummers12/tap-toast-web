@@ -246,6 +246,9 @@ const sendReminder = async (event: EventItem) => {
         ? "deposit_reminder"
         : "balance_reminder"
 
+    const eventIdToUse = event.id
+    console.log("USING EVENT ID:", eventIdToUse)
+
     const res = await fetch(
       "https://tap-toast-api-cayk.onrender.com/api/email/reminder",
       {
@@ -254,11 +257,13 @@ const sendReminder = async (event: EventItem) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          eventId: event.id,
+          eventId: eventIdToUse,
           type,
         }),
       }
     )
+
+// Save bartender assignments to backend via API
 
     const text = await res.text()
     console.log("REMINDER RESPONSE:", res.status, text)
