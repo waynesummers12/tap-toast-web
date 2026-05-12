@@ -42,15 +42,14 @@ export default function PackagesSection() {
           <div className="absolute top-4 right-4 bg-[#9C7A2C] text-white text-xs px-4 py-1 rounded-full uppercase tracking-widest shadow-lg z-10">
             Most Popular
           </div>
-          <div className="relative overflow-hidden">
+          <div className="relative overflow-hidden h-56">
             <Image
               src="/package1.jpg"
               alt="The Taste Package"
-              width={600}
-              height={224}
-              className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110"
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
+              sizes="(max-width: 768px) 100vw, 33vw"
               priority
-              unoptimized
             />
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <div className="absolute -left-full top-0 h-full w-1/2 bg-linear-to-r from-transparent via-white/30 to-transparent transform skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-[shimmer_1.2s_forwards]" />
@@ -86,14 +85,13 @@ export default function PackagesSection() {
 
         {/* Package 2 */}
         <div className="relative cursor-pointer bg-black text-white rounded-xl overflow-hidden shadow-xl group transition-all duration-300 hover:-translate-y-2 border border-transparent hover:border-[#9C7A2C] hover:shadow-[0_0_25px_rgba(156,122,44,0.45)]">
-          <div className="relative overflow-hidden">
+          <div className="relative overflow-hidden h-56">
             <Image
               src="/package3.jpg"
               alt="The Tipsy Package"
-              width={600}
-              height={224}
-              className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110"
-              unoptimized
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
+              sizes="(max-width: 768px) 100vw, 33vw"
             />
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <div className="absolute -left-full top-0 h-full w-1/2 bg-linear-to-r from-transparent via-white/30 to-transparent transform skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-[shimmer_1.2s_forwards]" />
@@ -129,14 +127,13 @@ export default function PackagesSection() {
 
         {/* Package 3 */}
         <div className="relative cursor-pointer bg-black text-white rounded-xl overflow-hidden shadow-xl group transition-all duration-300 hover:-translate-y-2 border border-transparent hover:border-[#9C7A2C] hover:shadow-[0_0_25px_rgba(156,122,44,0.45)]">
-          <div className="relative overflow-hidden">
+          <div className="relative overflow-hidden h-56">
             <Image
               src="/package2.jpg"
               alt="The Toasted Package"
-              width={600}
-              height={224}
-              className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110"
-              unoptimized
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
+              sizes="(max-width: 768px) 100vw, 33vw"
             />
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <div className="absolute -left-full top-0 h-full w-1/2 bg-linear-to-r from-transparent via-white/30 to-transparent transform skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-[shimmer_1.2s_forwards]" />
