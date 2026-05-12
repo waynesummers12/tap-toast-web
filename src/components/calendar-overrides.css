@@ -1,0 +1,15 @@
+/* Remove default red weekend styling */
+.react-calendar__month-view__days__day--weekend {
+  color: inherit !important;
+}
+
+/* Optional: make all days consistent */
+.react-calendar__month-view__days__day {
+  color: #111827; /* dark gray/black */
+}
+
+/* Keep your selected styling strong */
+.react-calendar__tile--active {
+  background: #facc15 !important; /* yellow */
+  color: black !important;
+}

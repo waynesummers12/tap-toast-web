@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react"
 import Calendar from "react-calendar"
 import "react-calendar/dist/Calendar.css"
+import "./calendar-overrides.css"
 
 type AvailabilityCalendarProps = {
   onDateSelect: (date: Date) => void
