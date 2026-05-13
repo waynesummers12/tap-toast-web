@@ -386,7 +386,7 @@ const res = await fetch(`${API}/api/email/reminder`, {
 async function saveBartenderAssignments(event: EventItem) {
   try {
     const payload = {
-      event_id: event.id,
+      eventId: event.id, // 🔥 FIX: backend expects eventId (not event_id)
       bartenders: assignedBartenders.map(name => ({
         name,
         hours: event.hours,
@@ -395,16 +395,24 @@ async function saveBartenderAssignments(event: EventItem) {
     }
 
     const API =
-  process.env.NEXT_PUBLIC_API_URL ||
-  "https://tap-toast-api-cayk.onrender.com"
+      process.env.NEXT_PUBLIC_API_URL ||
+      "https://tap-toast-api-cayk.onrender.com"
 
-const res = await fetch(`${API}/api/events/assign-bartenders`, {
+    const res = await fetch(`${API}/api/events/assign-bartenders`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     })
 
-    const data = await res.json()
+    const text = await res.text()
+    console.log("ASSIGN RESPONSE:", res.status, text)
+
+    let data
+    try {
+      data = JSON.parse(text)
+    } catch {
+      data = null
+    }
 
     if (!data?.success) {
       alert("Failed to save bartender assignments")
