@@ -860,7 +860,6 @@ const cancelEvent = async (eventId: string) => {
                       </td>
 
                       <td className="p-4">
-                        <td className="p-4">
   {event.event_status === "cancelled" ? (
     <span className="px-2 py-1 text-xs rounded bg-gray-200 text-gray-700 font-semibold">
       Cancelled
@@ -897,7 +896,6 @@ const cancelEvent = async (eventId: string) => {
       </button>
     )}
   </div>
-                        </td>
                       </td>
 
                       <td className="p-4 font-semibold text-gray-800">
