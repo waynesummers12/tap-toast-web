@@ -127,18 +127,36 @@ type BookedSlot = {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          name,
-          email,
-          phone,
-          location,
-          event_date: date,
-          start_time: startTime,
-          hours,
-          guests,
-          event_type: eventType,
-          cid,
-          upgrades: (Object.keys(selectedUpgrades) as UpgradeKey[]).filter(k => selectedUpgrades[k])
-        })
+
+  name,
+
+  email,
+
+  phone,
+
+  location,
+
+  event_date: date,
+
+  start_time: startTime,
+
+  hours,
+
+  guests,
+
+  bartenders, // 🔥 ADD THIS
+
+  bartenders_needed: bartenders, // 🔥 SAFE MATCH
+
+  event_type: eventType,
+
+  cid,
+
+  upgrades: (Object.keys(selectedUpgrades) as UpgradeKey[])
+
+    .filter(k => selectedUpgrades[k])
+
+})
       })
 
       if (!res.ok) {
