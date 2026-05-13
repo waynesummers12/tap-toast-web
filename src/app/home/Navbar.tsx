@@ -189,7 +189,7 @@ export default function Navbar() {
             onClick={() => setMenuOpen(false)}
             className="hover:scale-105 transition"
           >
-            Birthdays
+            Parties
           </Link>
 
           <Link
