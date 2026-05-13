@@ -121,7 +121,7 @@ type BookedSlot = {
       return
     }
     try {
-      const res = await fetch("https://tap-toast-api-cayk.onrender.com/api/book-event", {
+      const res = await fetch("https://tap-toast-api-cayk.onrender.com/api/events/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -166,6 +166,7 @@ type BookedSlot = {
         },
         body: JSON.stringify({
           event_id: data.event.id,
+          type: "deposit",
           cid
         })
       })
