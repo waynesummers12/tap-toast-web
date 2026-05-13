@@ -61,14 +61,21 @@ export default function DashboardPage() {
   const month = currentMonth.getMonth()
 
 useEffect(() => {
+
   const loadEvents = async () => {
+
     try {
+
       const res = await fetch(
+
         `${process.env.NEXT_PUBLIC_API_URL}/api/events`
+
       )
 
       if (!res.ok) {
+
         throw new Error(`Failed to fetch events: ${res.status}`)
+
       }
 
       const data = await res.json()
@@ -78,14 +85,27 @@ useEffect(() => {
       setEvents(Array.isArray(data) ? data : [])
 
     } catch (err) {
+
       console.error("❌ Events API failed:", err)
-      setEvents([])
+
     } finally {
+
       setLoading(false)
+
     }
+
   }
 
+  // initial load
+
   loadEvents()
+
+  // 🔥 auto refresh every 15 seconds (Stripe webhook updates will show)
+
+  const interval = setInterval(loadEvents, 15000)
+
+  return () => clearInterval(interval)
+
 }, [])
 
 
