@@ -2,19 +2,38 @@ import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(
   req: NextRequest,
-  context: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  const { id: eventId } = await context.params
+  const eventId = params.id
 
-  console.log("Fetching bartenders for event:", eventId)
+  const API =
+    process.env.NEXT_PUBLIC_API_URL ||
+    "https://tap-toast-api-cayk.onrender.com"
 
-  // Mock data for now so dashboard works
-  const assignedBartenders: Record<string, string[]> = {
-    "1": []
+  try {
+    const res = await fetch(`${API}/api/events/${eventId}/bartenders`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      cache: "no-store",
+    })
+
+    if (!res.ok) {
+      console.error("Bartender GET failed:", res.status)
+      return NextResponse.json(
+        { event_id: eventId, bartenders: [] },
+        { status: 200 }
+      )
+    }
+
+    const data = await res.json()
+
+    return NextResponse.json(data)
+  } catch (err) {
+    console.error("Bartender proxy error:", err)
+
+    return NextResponse.json(
+      { event_id: eventId, bartenders: [] },
+      { status: 200 }
+    )
   }
-
-  return NextResponse.json({
-    event_id: eventId,
-    bartenders: assignedBartenders[eventId] ?? []
-  })
 }
