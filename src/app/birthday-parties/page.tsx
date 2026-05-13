@@ -1,6 +1,6 @@
 import Image from "next/image"
 export const metadata = {
-  title: "Birthday Party Mobile Bar Service | Tap & Toast",
+  title: "Parties Mobile Bar Service | Tap & Toast",
   description:
     "Tap & Toast provides fun and stylish mobile bar service for birthday parties across Colorado. Perfect for backyard parties, milestone birthdays, and private celebrations.",
 }
@@ -13,7 +13,7 @@ export default function BirthdayPartiesPage() {
       <section className="px-8 py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         <div>
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            Birthday Party Bar Service
+            Parties Mobile Bar Service
           </h1>
 
           <p className="text-xl max-w-xl opacity-80 leading-relaxed">
