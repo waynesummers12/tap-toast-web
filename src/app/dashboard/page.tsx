@@ -32,6 +32,55 @@ export default function DashboardPage() {
   const [availableBartenders, setAvailableBartenders] = useState<string[]>([])
   const [assignedBartenders, setAssignedBartenders] = useState<string[]>([])
   const [viewMode, setViewMode] = useState<"table" | "calendar">("calendar")
+  const [customPrice, setCustomPrice] = useState<number | "">("")
+  const saveCustomPricing = async () => {
+    if (!selectedEvent) return
+
+    try {
+      const API =
+        process.env.NEXT_PUBLIC_API_URL ||
+        "https://tap-toast-api-cayk.onrender.com"
+
+      const res = await fetch(`${API}/api/events/update-price`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          eventId: selectedEvent.id,
+          custom_total_price: customPrice,
+        }),
+      })
+
+      const data = await res.json()
+
+      if (!data?.success) {
+        alert("Failed to update price")
+        return
+      }
+
+      alert("Custom price saved")
+
+      // 🔥 Refresh events immediately
+      try {
+        const res = await fetch(`${API}/api/events`)
+        const refreshed = await res.json()
+        if (Array.isArray(refreshed)) {
+          setEvents(refreshed)
+
+          // also update selected event so side panel reflects new price
+          const updated = refreshed.find((e: EventItem) => e.id === selectedEvent.id)
+          if (updated) {
+            setSelectedEvent(updated)
+          }
+        }
+      } catch (err) {
+        console.error("Failed to refresh events", err)
+      }
+
+    } catch (err) {
+      console.error(err)
+      alert("Server error saving price")
+    }
+  }
   // Auto-switch view based on screen size (mobile = calendar, desktop = table)
   useEffect(() => {
     const handleResize = () => {
@@ -136,7 +185,6 @@ useEffect(() => {
 
   loadAssigned()
 }, [selectedEvent])
-
 
 // Load available bartenders
 useEffect(() => {
@@ -1240,6 +1288,22 @@ const cancelEvent = async (eventId: string) => {
                     Send Reminder
                   </button>
                 )}
+                <div className="mt-4">
+                  <label className="text-xs text-gray-500">Custom Price Override</label>
+                  <input
+                    type="number"
+                    placeholder="Enter custom total"
+                    value={customPrice}
+                    onChange={(e) => setCustomPrice(Number(e.target.value))}
+                    className="w-full mt-1 px-2 py-1 border rounded text-sm"
+                  />
+                  <button
+                    onClick={saveCustomPricing}
+                    className="w-full mt-2 bg-green-600 text-white text-xs py-2 rounded"
+                  >
+                    Save Custom Price
+                  </button>
+                </div>
               </div>
 
 
