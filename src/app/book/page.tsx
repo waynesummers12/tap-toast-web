@@ -134,7 +134,6 @@ type BookedSlot = {
           event_date: date,
           start_time: startTime,
           hours,
-          bartenders,
           guests,
           event_type: eventType,
           cid,
