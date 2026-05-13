@@ -186,29 +186,18 @@ const sendPaymentLink = async (
     const res = await fetch(endpoint, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-  event_id: eventId,
-  type
-})
+        event_id: eventId,
+        type,
+      }),
     })
 
-    let data: { success?: boolean } = {}
+    const data: { success?: boolean; url?: string } = await res.json()
 
-    const contentType = res.headers.get("content-type")
-    if (contentType && contentType.includes("application/json")) {
-      data = await res.json()
-    }
-
-    const event = events.find(e => e.id === eventId)
-
-    if (data?.success) {
-      alert(
-        type === "deposit"
-          ? "Deposit invoice sent to customer"
-          : "Balance invoice sent to customer"
-      )
+    if (data.success && data.url) {
+      const event = events.find(e => e.id === eventId)
 
       if (event) {
         const gtag = getGtag()
@@ -257,9 +246,13 @@ const sendPaymentLink = async (
         )
       }
 
+      // 🚀 redirect LAST
+      window.location.href = data.url
+
     } else {
-      alert("Failed to send payment link")
+      alert("Failed to create Stripe session")
     }
+
   } catch (err) {
     console.error(err)
     alert("Server error sending payment link")
@@ -333,7 +326,11 @@ async function saveBartenderAssignments(event: EventItem) {
       }))
     }
 
-    const res = await fetch("/api/events/assign-bartenders", {
+    const API =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://tap-toast-api-cayk.onrender.com"
+
+const res = await fetch(`${API}/api/events/assign-bartenders`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
@@ -843,44 +840,44 @@ const cancelEvent = async (eventId: string) => {
                       </td>
 
                       <td className="p-4">
-                        {event.event_status === "cancelled" && (
-                          <span className="px-2 py-1 text-xs rounded bg-gray-200 text-gray-700 font-semibold">
-                            Cancelled
-                          </span>
-                        )}
-                        {event.deposit_paid && event.balance_due === 0 && (
-                          <span className="px-2 py-1 text-xs rounded bg-green-100 text-green-700 font-semibold">
-                            ✔ Fully Paid
-                          </span>
-                        )}
-                        {event.deposit_paid && event.balance_due > 0 && (
-                          <span className="px-2 py-1 text-xs rounded bg-yellow-100 text-yellow-700 font-semibold">
-                            ⏳ Balance Due
-                          </span>
-                        )}
-                        {!event.deposit_paid && (
-                          <span className="px-2 py-1 text-xs rounded bg-red-100 text-red-700 font-semibold">
-                            ⚠ Unpaid
-                          </span>
-                        )}
-                        <div className="mt-2 flex gap-1">
-                          {!event.deposit_paid && event.event_status !== "cancelled" && (
-                            <button
-                              onClick={() => sendPaymentLink(event.id, "deposit")}
-                              className="px-2 py-1 text-xs rounded bg-amber-500 text-white hover:bg-amber-600"
-                            >
-                              Send Deposit
-                            </button>
-                          )}
-                          {event.deposit_paid && event.balance_due > 0 && event.event_status !== "cancelled" && (
-                            <button
-                              onClick={() => sendPaymentLink(event.id, "balance")}
-                              className="px-2 py-1 text-xs rounded bg-purple-600 text-white hover:bg-purple-700"
-                            >
-                              Send Balance
-                            </button>
-                          )}
-                        </div>
+                        <td className="p-4">
+  {event.event_status === "cancelled" ? (
+    <span className="px-2 py-1 text-xs rounded bg-gray-200 text-gray-700 font-semibold">
+      Cancelled
+    </span>
+  ) : event.deposit_paid && event.balance_due === 0 ? (
+    <span className="px-2 py-1 text-xs rounded bg-green-100 text-green-700 font-semibold">
+      ✔ Fully Paid
+    </span>
+  ) : event.deposit_paid ? (
+    <span className="px-2 py-1 text-xs rounded bg-yellow-100 text-yellow-700 font-semibold">
+      ⏳ Balance Due
+    </span>
+  ) : (
+    <span className="px-2 py-1 text-xs rounded bg-red-100 text-red-700 font-semibold">
+      ⚠ Unpaid
+    </span>
+  )}
+
+  <div className="mt-2 flex gap-1">
+    {!event.deposit_paid && event.event_status !== "cancelled" && (
+      <button
+        onClick={() => sendPaymentLink(event.id, "deposit")}
+        className="px-3 py-1 text-xs rounded bg-amber-500 text-white hover:bg-amber-600"
+      >
+        Send Deposit
+      </button>
+    )}
+    {event.deposit_paid && event.balance_due > 0 && event.event_status !== "cancelled" && (
+      <button
+        onClick={() => sendPaymentLink(event.id, "balance")}
+        className="px-2 py-1 text-xs rounded bg-purple-600 text-white hover:bg-purple-700"
+      >
+        Send Balance
+      </button>
+    )}
+  </div>
+                        </td>
                       </td>
 
                       <td className="p-4 font-semibold text-gray-800">
@@ -919,7 +916,7 @@ const cancelEvent = async (eventId: string) => {
 
                           {!event.deposit_paid && event.event_status !== "cancelled" && (
                             <button
-                              onClick={() => sendPaymentLink(event.id, "balance")}
+                              onClick={() => sendPaymentLink(event.id, "deposit")}
                               className="px-3 py-1 text-xs rounded bg-amber-500 text-white hover:bg-amber-600"
                             >
                               Send Invoice
@@ -984,7 +981,17 @@ const cancelEvent = async (eventId: string) => {
                 {calendarCells.map((day, idx) => {
                   const dayEvents = filteredEvents.filter(e => {
                     const d = new Date(e.event_date)
-                    return day && d.getDate() === day && d.getMonth() === month
+                    return (
+
+  day &&
+
+  d.getDate() === day &&
+
+  d.getMonth() === month &&
+
+  d.getFullYear() === year
+
+)
                   })
 
                   const hasUnpaid = dayEvents.some(e => !e.deposit_paid)
@@ -1209,7 +1216,7 @@ const cancelEvent = async (eventId: string) => {
                 </div>
                 {selectedEvent.event_status !== "cancelled" && (
                   <button
-                    onClick={() => selectedEvent && sendReminder(selectedEvent)}
+                    onClick={() => sendReminder(selectedEvent)}
                     className="w-full mt-2 text-white text-xs py-2 rounded bg-gray-800"
                   >
                     Send Reminder
