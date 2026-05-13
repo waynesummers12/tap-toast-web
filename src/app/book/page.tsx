@@ -115,12 +115,28 @@ type BookedSlot = {
 
   const handleBooking = async () => {
     setSubmitting(true)
-    if (!name || !email || !phone || !location || !date) {
-      alert("Please complete all required fields before reserving your event.")
-      setSubmitting(false)
-      return
-    }
+    if (!name || !email || !location || !date || !eventType) {
+
+  alert("Please complete all required fields before reserving your event.")
+
+  setSubmitting(false)
+
+  return
+
+}
     try {
+      console.log("BOOKING PAYLOAD", {
+  name,
+  email,
+  phone,
+  location,
+  date,
+  startTime,
+  hours,
+  guests,
+  bartenders,
+  eventType
+})
       const res = await fetch("https://tap-toast-api-cayk.onrender.com/api/events/create", {
         method: "POST",
         headers: {
