@@ -89,7 +89,7 @@ export default function Navbar() {
             }`}
           >
             <span className="flex items-center gap-4">
-              Birthdays
+              Parties
               <span className="opacity-40">|</span>
             </span>
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
