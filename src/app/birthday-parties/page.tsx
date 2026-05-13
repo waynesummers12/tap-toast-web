@@ -12,8 +12,11 @@ export default function BirthdayPartiesPage() {
       {/* HERO */}
       <section className="px-8 py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         <div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            Parties Mobile Bar Service
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+            <span className="block">Parties</span>
+            <span className="block text-3xl md:text-4xl font-semibold mt-2">
+              Mobile Bar Service
+            </span>
           </h1>
 
           <p className="text-xl max-w-xl opacity-80 leading-relaxed">
