@@ -22,6 +22,7 @@ interface EventItem {
   }
   cid?: string
   landing_page?: string
+  event_status?: string
 }
 
 export default function DashboardPage() {
@@ -180,17 +181,17 @@ const sendPaymentLink = async (
       process.env.NEXT_PUBLIC_API_URL ||
       "https://tap-toast-api-cayk.onrender.com"
 
-    const endpoint =
-  type === "deposit"
-    ? `${API}/api/stripe/send-deposit`
-    : `${API}/api/stripe/send-balance`
+    const endpoint = `${API}/api/stripe/create-checkout-session`
 
     const res = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ eventId })
+      body: JSON.stringify({
+  event_id: eventId,
+  type
+})
     })
 
     let data: { success?: boolean } = {}
@@ -360,6 +361,51 @@ async function saveBartenderAssignments(event: EventItem) {
   } catch (err) {
     console.error(err)
     alert("Server error saving assignments")
+  }
+}
+
+const cancelEvent = async (eventId: string) => {
+  const confirmCancel = confirm("Are you sure you want to cancel this event?")
+  if (!confirmCancel) return
+
+  try {
+    const API =
+      process.env.NEXT_PUBLIC_API_URL ||
+      "https://tap-toast-api-cayk.onrender.com"
+
+    const res = await fetch(`${API}/api/events/cancel`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ eventId }),
+    })
+
+    const data = await res.json()
+
+    if (data?.success) {
+      alert("Event cancelled")
+
+      setEvents(prev =>
+
+  prev.map(e =>
+
+    e.id === eventId
+
+      ? { ...e, event_status: "cancelled" }
+
+      : e
+
+  )
+
+)
+    } else {
+      alert("Failed to cancel event")
+    }
+
+  } catch (err) {
+    console.error(err)
+    alert("Server error cancelling event")
   }
 }
   const filteredEvents = events.filter((e) => {
@@ -732,16 +778,14 @@ async function saveBartenderAssignments(event: EventItem) {
                 </thead>
 
                 <tbody>
-
                   {filteredEvents.map((event) => (
-
                     <tr
                       key={event.id}
                       className={`border-t hover:bg-gray-50 ${
                         (event.assigned_bartenders_count ?? 0) >= event.bartenders_needed
                           ? "bg-green-50"
                           : ""
-                      }`}
+                      } ${event.event_status === "cancelled" ? "opacity-50" : ""}`}
                     >
 
                       <td className="p-4 font-medium">
@@ -799,55 +843,44 @@ async function saveBartenderAssignments(event: EventItem) {
                       </td>
 
                       <td className="p-4">
+                        {event.event_status === "cancelled" && (
+                          <span className="px-2 py-1 text-xs rounded bg-gray-200 text-gray-700 font-semibold">
+                            Cancelled
+                          </span>
+                        )}
                         {event.deposit_paid && event.balance_due === 0 && (
-
-  <span className="px-2 py-1 text-xs rounded bg-green-100 text-green-700 font-semibold">
-
-    ✔ Fully Paid
-
-  </span>
-
-)}
-
-{event.deposit_paid && event.balance_due > 0 && (
-
-  <span className="px-2 py-1 text-xs rounded bg-yellow-100 text-yellow-700 font-semibold">
-
-    ⏳ Balance Due
-
-  </span>
-
-)}
-
-{!event.deposit_paid && (
-
-  <span className="px-2 py-1 text-xs rounded bg-red-100 text-red-700 font-semibold">
-
-    ⚠ Unpaid
-
-  </span>
-
-)}
-
-<div className="mt-2 flex gap-1">
-  {!event.deposit_paid && (
-    <button
-      onClick={() => sendPaymentLink(event.id, "deposit")}
-      className="px-2 py-1 text-xs rounded bg-amber-500 text-white hover:bg-amber-600"
-    >
-      Send Deposit
-    </button>
-  )}
-
-  {event.deposit_paid && event.balance_due > 0 && (
-    <button
-      onClick={() => sendPaymentLink(event.id, "balance")}
-      className="px-2 py-1 text-xs rounded bg-purple-600 text-white hover:bg-purple-700"
-    >
-      Send Balance
-    </button>
-  )}
-</div>
+                          <span className="px-2 py-1 text-xs rounded bg-green-100 text-green-700 font-semibold">
+                            ✔ Fully Paid
+                          </span>
+                        )}
+                        {event.deposit_paid && event.balance_due > 0 && (
+                          <span className="px-2 py-1 text-xs rounded bg-yellow-100 text-yellow-700 font-semibold">
+                            ⏳ Balance Due
+                          </span>
+                        )}
+                        {!event.deposit_paid && (
+                          <span className="px-2 py-1 text-xs rounded bg-red-100 text-red-700 font-semibold">
+                            ⚠ Unpaid
+                          </span>
+                        )}
+                        <div className="mt-2 flex gap-1">
+                          {!event.deposit_paid && event.event_status !== "cancelled" && (
+                            <button
+                              onClick={() => sendPaymentLink(event.id, "deposit")}
+                              className="px-2 py-1 text-xs rounded bg-amber-500 text-white hover:bg-amber-600"
+                            >
+                              Send Deposit
+                            </button>
+                          )}
+                          {event.deposit_paid && event.balance_due > 0 && event.event_status !== "cancelled" && (
+                            <button
+                              onClick={() => sendPaymentLink(event.id, "balance")}
+                              className="px-2 py-1 text-xs rounded bg-purple-600 text-white hover:bg-purple-700"
+                            >
+                              Send Balance
+                            </button>
+                          )}
+                        </div>
                       </td>
 
                       <td className="p-4 font-semibold text-gray-800">
@@ -875,7 +908,16 @@ async function saveBartenderAssignments(event: EventItem) {
                             Assign
                           </button>
 
-                          {!event.deposit_paid && (
+                          {event.event_status !== "cancelled" && (
+                            <button
+                              onClick={() => cancelEvent(event.id)}
+                              className="px-3 py-1 text-xs rounded bg-red-600 text-white hover:bg-red-700"
+                            >
+                              Cancel
+                            </button>
+                          )}
+
+                          {!event.deposit_paid && event.event_status !== "cancelled" && (
                             <button
                               onClick={() => sendPaymentLink(event.id, "balance")}
                               className="px-3 py-1 text-xs rounded bg-amber-500 text-white hover:bg-amber-600"
@@ -1147,30 +1189,32 @@ async function saveBartenderAssignments(event: EventItem) {
                 </div>
 
                 <div className="mt-3 flex gap-2">
-                  {!selectedEvent.deposit_paid && (
+                  {!selectedEvent.deposit_paid && selectedEvent.event_status !== "cancelled" && (
                     <button
                       onClick={() => sendPaymentLink(selectedEvent.id, "deposit")}
-                      className="flex-1 bg-amber-500 text-white text-xs py-2 rounded"
+                      className="flex-1 text-white text-xs py-2 rounded bg-amber-500"
                     >
                       Send Deposit
                     </button>
                   )}
 
-                  {selectedEvent.deposit_paid && selectedEvent.balance_due > 0 && (
+                  {selectedEvent.deposit_paid && selectedEvent.balance_due > 0 && selectedEvent.event_status !== "cancelled" && (
                     <button
                       onClick={() => sendPaymentLink(selectedEvent.id, "balance")}
-                      className="flex-1 bg-purple-600 text-white text-xs py-2 rounded"
+                      className="flex-1 text-white text-xs py-2 rounded bg-purple-600"
                     >
                       Send Balance
                     </button>
                   )}
                 </div>
-                <button
-                  onClick={() => selectedEvent && sendReminder(selectedEvent)}
-                  className="w-full mt-2 bg-gray-800 text-white text-xs py-2 rounded"
-                >
-                  Send Reminder
-                </button>
+                {selectedEvent.event_status !== "cancelled" && (
+                  <button
+                    onClick={() => selectedEvent && sendReminder(selectedEvent)}
+                    className="w-full mt-2 text-white text-xs py-2 rounded bg-gray-800"
+                  >
+                    Send Reminder
+                  </button>
+                )}
               </div>
 
 
