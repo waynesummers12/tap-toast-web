@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
-  const eventId = params.id
+  const { id: eventId } = await context.params
 
   const API =
     process.env.NEXT_PUBLIC_API_URL ||
