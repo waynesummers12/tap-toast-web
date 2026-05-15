@@ -46,9 +46,12 @@ export default function Footer() {
 
           <a
             href="tel:7206439690"
-            className="block text-sm mt-1 text-white font-semibold hover:opacity-80 transition"
+            className="block text-base mt-1 text-white font-semibold hover:underline underline-offset-4 transition"
           >
-            720-643-9690
+            <span className="inline-flex items-center gap-2">
+              <span aria-hidden="true">📞</span>
+              720-643-9690
+            </span>
           </a>
 
           <p className="text-xs mt-1 text-white font-semibold">

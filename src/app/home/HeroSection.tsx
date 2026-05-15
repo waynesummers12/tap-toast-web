@@ -46,8 +46,8 @@ export default function HeroSection() {
           Limited availability — most weekends book out 2–4 weeks in advance
         </p>
 
-        <p className="text-xs text-white/60 mt-2">
-          ✔ Fast response times  ✔ Secure your date in minutes  ✔ Trusted by Colorado event hosts
+        <p className="text-xs md:text-sm text-white font-semibold bg-black/60 backdrop-blur-sm px-4 py-2 rounded-md inline-block mt-2">
+          ✔ Fast response times &nbsp;&nbsp;✔ Secure your date in minutes &nbsp;&nbsp;✔ Trusted by Colorado event hosts
         </p>
       </div>
     </section>

@@ -31,7 +31,7 @@ export default function FAQSection() {
           <h2 className="text-5xl font-light tracking-[0.2em] text-[#9C7A2C] uppercase mb-6">
             FAQ
           </h2>
-          <div className="w-16 h-[2px] bg-black mx-auto" />
+          <div className="w-16 h-0.5 bg-black mx-auto" />
         </div>
 
         <div className="space-y-4">
