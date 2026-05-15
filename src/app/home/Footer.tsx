@@ -46,12 +46,12 @@ export default function Footer() {
 
           <a
             href="tel:7206439690"
-            className="block text-sm mt-1 hover:text-white transition"
+            className="block text-sm mt-1 text-white font-semibold hover:opacity-80 transition"
           >
             720-643-9690
           </a>
 
-          <p className="text-xs mt-1 opacity-70">
+          <p className="text-xs mt-1 text-white font-semibold">
             Call or text anytime
           </p>
 
