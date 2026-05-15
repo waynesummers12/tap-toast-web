@@ -42,7 +42,7 @@ export default function HeroSection() {
           Book Instantly with Real Quote
         </Link>
 
-        <p className="text-sm text-[#9C7A2C] mt-6">
+        <p className="text-sm text-white font-semibold mt-6">
           Limited availability — most weekends book out 2–4 weeks in advance
         </p>
 
