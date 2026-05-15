@@ -521,14 +521,28 @@ type BookedSlot = {
           </div>
 
         </div>
-            <p className="text-sm text-[#c6a25a] mb-3 text-center">
+            <p className="text-sm text-[#c6a25a] font-semibold mb-3 text-center">
   Most weekends book 2–4 weeks in advance — secure your date early
 </p>
 
 <p className="text-xs text-gray-500 mb-4 text-center">
   ✔ 50% deposit to reserve  ✔ Secure checkout  ✔ Instant confirmation
 </p>
+<div className="mt-6 bg-black text-white p-5 rounded-xl text-center shadow-lg border border-white/10">
+  <p className="text-sm opacity-70">Estimated Total</p>
 
+  <p className="text-3xl font-bold mt-1 transition-all duration-300">
+    {new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(grandTotal)}
+  </p>
+
+  <p className="text-sm text-green-400 font-semibold mt-2">
+    ${deposit} due today
+  </p>
+
+  <p className="text-xs opacity-60 mt-1">
+    Remaining balance charged 10 days before event
+  </p>
+</div>
 <p className="text-xs text-gray-500 mb-4 text-center">
   By booking, you agree to our{" "}
   <a href="/legal/terms" className="underline hover:text-black">Terms</a>,{" "}
@@ -541,7 +555,9 @@ type BookedSlot = {
           disabled={submitting}
           className={`mt-6 w-full py-4 text-lg rounded-xl transition font-semibold ${submitting ? 'bg-gray-300 text-gray-600' : 'bg-linear-to-r from-yellow-400 to-yellow-500 text-black hover:opacity-90'}`}
         >
-          {submitting ? 'Processing…' : 'Reserve Event'}
+          {submitting 
+  ? 'Processing…' 
+  : `Reserve Event — $${deposit} Today`}
         </button>
 
       </div>

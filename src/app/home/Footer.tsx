@@ -1,7 +1,43 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function Footer() {
+  const pathname = usePathname();
+  const [ctaText, setCtaText] = useState('Get Quote');
+
+  useEffect(() => {
+    const updateCTA = () => {
+      const scrollY = window.scrollY;
+      const hour = new Date().getHours();
+
+      // Page-based logic
+      if (pathname === '/book') {
+        setCtaText('Finish Booking');
+        return;
+      }
+
+      // Scroll-based logic
+      if (scrollY > 800) {
+        setCtaText('Check Availability');
+        return;
+      }
+
+      // Time-based logic
+      if (hour >= 18) {
+        setCtaText('Book for This Weekend');
+      } else {
+        setCtaText('Get Quote');
+      }
+    };
+
+    updateCTA();
+    window.addEventListener('scroll', updateCTA);
+
+    return () => window.removeEventListener('scroll', updateCTA);
+  }, [pathname]);
+
   return (
     <footer className="bg-black text-gray-400 py-16 px-6 pb-24">
       <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-10 items-start text-center md:text-left">
@@ -116,7 +152,7 @@ export default function Footer() {
           href="/book"
           className="flex-1 text-center bg-[#c7a45a] text-black py-3 rounded-md font-semibold"
         >
-          Get Quote
+          {ctaText}
         </Link>
       </div>
     </footer>
