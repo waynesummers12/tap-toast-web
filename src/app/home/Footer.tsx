@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="bg-black text-gray-400 py-16 px-6">
+    <footer className="bg-black text-gray-400 py-16 px-6 pb-24">
       <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-10 items-start text-center md:text-left">
 
         {/* Logo */}
@@ -101,6 +101,23 @@ export default function Footer() {
           © {new Date().getFullYear()} Tap & Toast Mobile Bar · Denver, Colorado
         </div>
 
+      </div>
+
+      {/* Sticky Mobile CTA */}
+      <div className="fixed bottom-0 left-0 right-0 bg-black border-t border-white/10 p-3 flex gap-3 md:hidden z-50">
+        <a
+          href="tel:7206439690"
+          className="flex-1 text-center bg-white text-black py-3 rounded-md font-semibold"
+        >
+          Call Now
+        </a>
+
+        <Link
+          href="/book"
+          className="flex-1 text-center bg-[#c7a45a] text-black py-3 rounded-md font-semibold"
+        >
+          Get Quote
+        </Link>
       </div>
     </footer>
   )
