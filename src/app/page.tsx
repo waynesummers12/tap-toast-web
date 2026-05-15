@@ -59,7 +59,7 @@ export default function HomePage() {
               <p>✓ Trusted Across Colorado Events</p>
             </div>
 
-            <p className="text-sm text-gray-400 mb-4">
+            <p className="text-sm text-white font-semibold mb-4">
               Limited dates available — most weekends book out in advance.
             </p>
             <p className="text-sm text-gray-400 mb-4">
