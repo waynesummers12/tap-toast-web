@@ -46,7 +46,7 @@ export default function Footer() {
 
           <a
             href="tel:7206439690"
-            className="block text-base mt-1 text-white font-semibold hover:underline underline-offset-4 transition"
+            className="block text-base mt-1 text-white font-semibold hover:underline underline-offset-4 transform transition hover:scale-105"
           >
             <span className="inline-flex items-center gap-2">
               <span aria-hidden="true">📞</span>
