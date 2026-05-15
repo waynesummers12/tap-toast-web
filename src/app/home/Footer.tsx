@@ -4,10 +4,10 @@ import Link from 'next/link';
 export default function Footer() {
   return (
     <footer className="bg-black text-gray-400 py-16 px-6">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-10 items-center">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-10 items-start text-center md:text-left">
 
         {/* Logo */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center justify-center md:justify-start gap-4">
           <Image
             src="/web-app-manifest-512x512.png"
             alt="Tap & Toast Mobile Bar Logo"
@@ -37,28 +37,30 @@ export default function Footer() {
         <div className="text-center md:text-right">
           <p className="text-white font-semibold mb-2">Contact</p>
 
-          <a
-            href="mailto:jen@coloradotapandtoast.com"
-            className="block text-sm hover:text-white transition"
-          >
-            jen@coloradotapandtoast.com
-          </a>
+          <div className="space-y-2">
+            <a
+              href="mailto:jen@coloradotapandtoast.com"
+              className="block text-sm text-gray-300 hover:text-white transition"
+            >
+              jen@coloradotapandtoast.com
+            </a>
 
-          <a
-            href="tel:7206439690"
-            className="block text-base mt-1 text-white font-semibold hover:underline underline-offset-4 transform transition hover:scale-105"
-          >
-            <span className="inline-flex items-center gap-2">
-              <span aria-hidden="true">📞</span>
-              720-643-9690
-            </span>
-          </a>
+            <a
+              href="tel:7206439690"
+              className="block text-base text-white font-semibold hover:underline underline-offset-4 transform transition hover:scale-105"
+            >
+              <span className="inline-flex items-center justify-center md:justify-start gap-2">
+                <span aria-hidden="true">📞</span>
+                720-643-9690
+              </span>
+            </a>
 
-          <p className="text-xs mt-1 text-white font-semibold">
-            Call or text anytime
-          </p>
+            <p className="text-xs text-white font-semibold">
+              Call or text anytime
+            </p>
+          </div>
 
-          <div className="flex flex-col md:flex-row md:justify-end items-center gap-3 mt-4">
+          <div className="flex flex-col md:flex-row md:justify-end items-center gap-3 mt-5">
 
             <a
               href="https://instagram.com/coloradotapandtoast"
@@ -71,7 +73,7 @@ export default function Footer() {
 
             <Link
               href="/book"
-              className="bg-[#c7a45a] text-black px-5 py-2 rounded-md text-sm font-semibold hover:opacity-90 transition"
+              className="bg-[#c7a45a] text-black px-5 py-2 rounded-md text-sm font-semibold hover:opacity-90 transition mx-auto md:mx-0"
             >
               Get Quote
             </Link>
@@ -81,7 +83,7 @@ export default function Footer() {
 
       </div>
 
-      <div className="border-t border-gray-800 mt-12 pt-6 text-center text-sm space-y-2">
+      <div className="border-t border-gray-800 mt-14 pt-6 text-center text-sm space-y-2">
 
         <div className="flex justify-center gap-4 text-xs text-gray-400">
           <Link href="/legal/terms" className="hover:text-white transition">
