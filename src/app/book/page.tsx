@@ -67,6 +67,62 @@ function BookEventPageContent() {
     .then((data: BookedSlot[]) => setBookedSlots(data))
 }, [])
 
+// 🔥 Auto-save quote if user doesn't complete booking
+useEffect(() => {
+  // Only run if they’ve entered key info
+  if (!name || !email || !date) return
+
+  const timeout = setTimeout(async () => {
+    try {
+      console.log("AUTO-SAVING QUOTE...")
+
+      await fetch("https://tap-toast-api-cayk.onrender.com/api/events/save-quote", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          location,
+          event_date: date,
+          start_time: startTime,
+          hours,
+          guests,
+          bartenders,
+          event_type: eventType,
+          upgrades: Object.keys(selectedUpgrades).filter(
+            k => selectedUpgrades[k as UpgradeKey]
+          ),
+          estimated_total: grandTotal,
+          deposit
+        })
+      })
+
+      console.log("QUOTE SAVED")
+    } catch (err) {
+      console.error("Quote auto-save failed", err)
+    }
+  }, 10000) // ⏱ waits 10 seconds of inactivity
+
+  return () => clearTimeout(timeout)
+
+}, [
+  name,
+  email,
+  phone,
+  location,
+  date,
+  startTime,
+  hours,
+  guests,
+  bartenders,
+  eventType,
+  selectedUpgrades,
+  grandTotal,
+  deposit
+])
   function isTimeBlocked(date: string, startTime: string, hours: number) {
     if (!date || !startTime) return false
 
