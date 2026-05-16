@@ -489,32 +489,41 @@ type BookedSlot = {
 
       <label className="flex items-center justify-between">
         <span>✨ Premium Garnishes Package</span>
-        <span className="text-sm">$75</span>
-        <input
-          type="checkbox"
-          checked={selectedUpgrades.garnishes}
-          onChange={() => setSelectedUpgrades(prev => ({...prev, garnishes: !prev.garnishes}))}
-        />
+
+        <div className="flex items-center gap-4">
+          <span className="text-sm font-medium w-20 text-right tabular-nums">$75</span>
+          <input
+            type="checkbox"
+            checked={selectedUpgrades.garnishes}
+            onChange={() => setSelectedUpgrades(prev => ({...prev, garnishes: !prev.garnishes}))}
+          />
+        </div>
       </label>
 
       <label className="flex items-center justify-between">
         <span>🍹 Signature Cocktail Menu</span>
-        <span className="text-sm">$100</span>
-        <input
-          type="checkbox"
-          checked={selectedUpgrades.cocktails}
-          onChange={() => setSelectedUpgrades(prev => ({...prev, cocktails: !prev.cocktails}))}
-        />
+
+        <div className="flex items-center gap-4">
+          <span className="text-sm font-medium w-20 text-right tabular-nums">$100</span>
+          <input
+            type="checkbox"
+            checked={selectedUpgrades.cocktails}
+            onChange={() => setSelectedUpgrades(prev => ({...prev, cocktails: !prev.cocktails}))}
+          />
+        </div>
       </label>
 
       <label className="flex items-center justify-between">
         <span>⏱ Extra Setup Hour</span>
-        <span className="text-sm">$50</span>
-        <input
-          type="checkbox"
-          checked={selectedUpgrades.setupHour}
-          onChange={() => setSelectedUpgrades(prev => ({...prev, setupHour: !prev.setupHour}))}
-        />
+
+        <div className="flex items-center gap-4">
+          <span className="text-sm font-medium w-20 text-right tabular-nums">$50</span>
+          <input
+            type="checkbox"
+            checked={selectedUpgrades.setupHour}
+            onChange={() => setSelectedUpgrades(prev => ({...prev, setupHour: !prev.setupHour}))}
+          />
+        </div>
       </label>
 
     </div>
