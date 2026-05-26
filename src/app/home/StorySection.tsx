@@ -4,8 +4,20 @@ export default function StorySection() {
   return (
     <section className="bg-white text-black py-28 px-6">
       <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        {/* Image */}
+        <div className="flex justify-center">
+          <Image
+            src="/wayneandjen.jpg"
+            alt="Wayne and Jen - Tap & Toast Mobile Bar"
+            width={320}
+            height={320}
+            className="object-cover rounded-full border-10 border-[#9C7A2C] shadow-2xl"
+            style={{ width: '320px', height: '320px' }}
+          />
+        </div>
+
         {/* Text */}
-        <div className="md:order-1">
+        <div>
           <h2 className="text-4xl md:text-5xl font-light tracking-[0.35em] text-[#9C7A2C] mb-6 uppercase">
             Our Story
           </h2>
@@ -34,18 +46,6 @@ export default function StorySection() {
           >
             Check Out Our Packages
           </a>
-        </div>
-
-        {/* Image */}
-        <div className="flex justify-center md:order-2">
-          <Image
-            src="/wayneandjen.jpg"
-            alt="Wayne and Jen - Tap & Toast Mobile Bar"
-            width={320}
-            height={320}
-            className="object-cover rounded-full border-10 border-[#9C7A2C] shadow-2xl"
-            style={{ width: '320px', height: '320px' }}
-          />
         </div>
       </div>
     </section>
