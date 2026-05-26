@@ -5,7 +5,7 @@ export default function StorySection() {
     <section className="bg-white text-black py-28 px-6">
       <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         {/* Text */}
-        <div>
+        <div className="md:order-1">
           <h2 className="text-4xl md:text-5xl font-light tracking-[0.35em] text-[#9C7A2C] mb-6 uppercase">
             Our Story
           </h2>
@@ -37,7 +37,7 @@ export default function StorySection() {
         </div>
 
         {/* Image */}
-        <div className="flex justify-center">
+        <div className="flex justify-center md:order-2">
           <Image
             src="/wayneandjen.jpg"
             alt="Wayne and Jen - Tap & Toast Mobile Bar"
