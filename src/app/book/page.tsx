@@ -498,7 +498,10 @@ type BookedSlot = {
         <div className="space-y-3">
 
           <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
-            <span>👨‍🍳 Additional Bartender</span>
+            <div className="flex items-center gap-2">
+              <span>👨‍🍳 Additional Bartender</span>
+              <span className="text-[10px] bg-black text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Popular</span>
+            </div>
             <div className="flex items-center gap-4">
               <span className="text-sm font-medium w-24 text-right">$60 / hour</span>
               <input
@@ -509,7 +512,10 @@ type BookedSlot = {
           </label>
 
           <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
-            <span>🍸 Cocktail / Mocktail Additions</span>
+            <div className="flex items-center gap-2">
+              <span>🍸 Cocktail / Mocktail Additions</span>
+              <span className="text-[10px] bg-[#c6a25a] text-white px-2 py-0.5 rounded-full uppercase tracking-wide">High Impact</span>
+            </div>
             <div className="flex items-center gap-4">
               <span className="text-sm font-medium w-24 text-right">$125 / tap</span>
               <input
@@ -529,7 +535,10 @@ type BookedSlot = {
         <div className="space-y-3">
 
           <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
-            <span>✨ Premium Garnishes Package</span>
+            <div className="flex items-center gap-2">
+              <span>✨ Premium Garnishes Package</span>
+              <span className="text-[10px] bg-black text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Luxury</span>
+            </div>
             <div className="flex items-center gap-4">
               <span className="text-sm font-medium w-24 text-right">$75</span>
               <input
@@ -541,7 +550,10 @@ type BookedSlot = {
           </label>
 
           <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
-            <span>🍹 Signature Cocktail Menu</span>
+            <div className="flex items-center gap-2">
+              <span>🍹 Signature Cocktail Menu</span>
+              <span className="text-[10px] bg-[#c6a25a] text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Upgrade</span>
+            </div>
             <div className="flex items-center gap-4">
               <span className="text-sm font-medium w-24 text-right">$100</span>
               <input
