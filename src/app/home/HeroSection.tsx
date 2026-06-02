@@ -63,23 +63,33 @@ export default function HeroSection() {
         </div>
       </section>
 
-      <section className="bg-white py-12 md:py-16 text-center">
+      <section className="py-20 px-6 bg-neutral-50 text-center">
         <div className="max-w-5xl mx-auto px-6">
-          <h3 className="text-xl md:text-3xl font-semibold mb-4 tracking-[0.05em]">
-            Two Ways to Experience Tap & Toast
-          </h3>
-          <p className="text-sm md:text-base text-gray-600 mb-8">
-            Choose full-service bartending or rent the trailer and run your own event.
-          </p>
+          <div className="text-center mb-10">
+            <p className="text-xs tracking-[0.35em] uppercase text-[#9C7A2C] mb-3">
+              Two Ways to Book
+            </p>
+            <h2 className="text-3xl md:text-5xl font-semibold mb-4">
+              Choose Your Experience
+            </h2>
+            <p className="text-base md:text-lg text-gray-500">
+              Full service or DIY — we’ve got you covered
+            </p>
+          </div>
 
           <div className="grid md:grid-cols-2 gap-6">
             {/* Full Service */}
-            <div className="border rounded-xl p-6 shadow-sm hover:shadow-lg transition">
-              <h4 className="text-lg font-semibold mb-2">🍸 Full-Service Experience</h4>
+            <div className="bg-white rounded-2xl p-6 shadow-md border border-black/5 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <h4 className="text-lg font-semibold mb-2 flex items-center justify-center gap-2">
+                🍸 Full-Service Experience
+                <span className="text-[10px] bg-[#9C7A2C] text-white px-2 py-1 rounded-full">
+                  Most Popular
+                </span>
+              </h4>
               <p className="text-sm text-gray-600 mb-4">
                 We handle everything — bartenders, setup, and service — so you can enjoy your event stress-free.
               </p>
-              <p className="text-sm font-semibold text-[#9C7A2C] mb-4">Starting at $900</p>
+              <p className="text-[#9C7A2C] font-semibold mt-4 text-lg">Starting at $900</p>
               <p className="text-xs text-gray-500 mb-4">Best for weddings & large events</p>
               <Link
                 href="/book?type=full"
@@ -90,12 +100,12 @@ export default function HeroSection() {
             </div>
 
             {/* Trailer Rental */}
-            <div className="border rounded-xl p-6 shadow-sm hover:shadow-lg transition">
+            <div className="bg-white rounded-2xl p-6 shadow-md border border-black/5 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <h4 className="text-lg font-semibold mb-2">🚐 Trailer Rental (DIY)</h4>
               <p className="text-sm text-gray-600 mb-4">
                 Rent our tap trailer or pop-up bar and create your own experience — perfect for DIY events, private parties, and budget-friendly setups.
               </p>
-              <p className="text-sm font-semibold text-[#9C7A2C] mb-4">Starting at $600</p>
+              <p className="text-[#9C7A2C] font-semibold mt-4 text-lg">Starting at $600</p>
               <p className="text-xs text-gray-500 mb-4">Great for backyard parties & DIY setups</p>
               <Link
                 href="/book?type=rental"
