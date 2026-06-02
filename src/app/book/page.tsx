@@ -503,11 +503,11 @@ type BookedSlot = {
     <button
       type="button"
       onClick={() => applyTier("essentials")}
-      className={`p-5 rounded-xl border text-left transition ${
-        tier === "essentials"
-          ? "border-black bg-black text-white"
-          : "bg-white hover:border-black"
-      }`}
+      className={`p-5 rounded-xl border text-left transition transform duration-300 ${
+  tier === "essentials"
+    ? "border-black bg-black text-white scale-105 shadow-2xl ring-2 ring-yellow-400"
+    : "bg-white hover:border-black hover:scale-[1.02]"
+}`}
     >
       <h3 className="font-semibold mb-1">Essentials</h3>
       <p className="text-xs opacity-70">Simple + clean setup</p>
@@ -518,11 +518,11 @@ type BookedSlot = {
     <button
       type="button"
       onClick={() => applyTier("signature")}
-      className={`p-5 rounded-xl border text-left transition ${
-        tier === "signature"
-          ? "border-black bg-black text-white"
-          : "bg-white hover:border-black"
-      }`}
+      className={`p-5 rounded-xl border text-left transition transform duration-300 ${
+  tier === "signature"
+    ? "border-black bg-black text-white scale-105 shadow-2xl ring-2 ring-yellow-400"
+    : "bg-white hover:border-black hover:scale-[1.02]"
+}`}
     >
       <h3 className="font-semibold mb-1">Signature</h3>
       <p className="text-xs opacity-70">Most popular</p>
@@ -533,11 +533,11 @@ type BookedSlot = {
     <button
       type="button"
       onClick={() => applyTier("premium")}
-      className={`p-5 rounded-xl border text-left transition ${
-        tier === "premium"
-          ? "border-black bg-black text-white"
-          : "bg-white hover:border-black"
-      }`}
+      className={`p-5 rounded-xl border text-left transition transform duration-300 ${
+  tier === "premium"
+    ? "border-black bg-black text-white scale-105 shadow-2xl ring-2 ring-yellow-400"
+    : "bg-white hover:border-black hover:scale-[1.02]"
+}`}
     >
       <h3 className="font-semibold mb-1">Premium</h3>
       <p className="text-xs opacity-70">Full experience</p>
