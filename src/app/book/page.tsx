@@ -13,6 +13,7 @@ function BookEventPageContent() {
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
   const [location, setLocation] = useState("")
+  const [tier, setTier] = useState<"essentials" | "signature" | "premium" | "custom">("custom")
 
   const [date, setDate] = useState("")
   const [startTime, setStartTime] = useState("18:00")
@@ -39,7 +40,42 @@ function BookEventPageContent() {
     if (guestCount <= 180) return 3
     return 4
   }
+function applyTier(t: "essentials" | "signature" | "premium") {
+  setTier(t)
 
+  if (t === "essentials") {
+    setHours(3)
+    setGuests(50)
+    setBartenders(1)
+    setSelectedUpgrades({
+      garnishes: false,
+      cocktails: false,
+      setupHour: false
+    })
+  }
+
+  if (t === "signature") {
+    setHours(4)
+    setGuests(100)
+    setBartenders(2)
+    setSelectedUpgrades({
+      garnishes: true,
+      cocktails: true,
+      setupHour: false
+    })
+  }
+
+  if (t === "premium") {
+    setHours(5)
+    setGuests(150)
+    setBartenders(3)
+    setSelectedUpgrades({
+      garnishes: true,
+      cocktails: true,
+      setupHour: true
+    })
+  }
+}
   const recommendedBartenders = getRecommendedBartenders(guests)
 
   const basePrice = 600
@@ -423,7 +459,71 @@ type BookedSlot = {
           <div className="col-span-1 md:col-span-2 text-xs text-gray-500">
             Dates already reserved will be blocked after selection (calendar UI upgrade coming next)
           </div>
+        <div className="col-span-1 md:col-span-2 mt-6">
 
+  <h2 className="text-2xl font-semibold mb-2">Choose Your Experience</h2>
+  <p className="text-sm text-gray-600 mb-4">
+    Start with a curated package or customize your own below.
+  </p>
+
+  <div className="grid md:grid-cols-3 gap-4">
+
+    {/* Essentials */}
+    <button
+      type="button"
+      onClick={() => applyTier("essentials")}
+      className={`p-5 rounded-xl border text-left transition ${
+        tier === "essentials"
+          ? "border-black bg-black text-white"
+          : "bg-white hover:border-black"
+      }`}
+    >
+      <h3 className="font-semibold mb-1">Essentials</h3>
+      <p className="text-xs opacity-70">Simple + clean setup</p>
+      <p className="text-sm mt-3">From $600</p>
+    </button>
+
+    {/* Signature */}
+    <button
+      type="button"
+      onClick={() => applyTier("signature")}
+      className={`p-5 rounded-xl border text-left transition ${
+        tier === "signature"
+          ? "border-black bg-black text-white"
+          : "bg-white hover:border-black"
+      }`}
+    >
+      <h3 className="font-semibold mb-1">Signature</h3>
+      <p className="text-xs opacity-70">Most popular</p>
+      <p className="text-sm mt-3">Best value</p>
+    </button>
+
+    {/* Premium */}
+    <button
+      type="button"
+      onClick={() => applyTier("premium")}
+      className={`p-5 rounded-xl border text-left transition ${
+        tier === "premium"
+          ? "border-black bg-black text-white"
+          : "bg-white hover:border-black"
+      }`}
+    >
+      <h3 className="font-semibold mb-1">Premium</h3>
+      <p className="text-xs opacity-70">Full experience</p>
+      <p className="text-sm mt-3">Elevated events</p>
+    </button>
+
+  </div>
+
+  <button
+    type="button"
+    onClick={() => setTier("custom")}
+    className="mt-3 text-xs underline text-gray-500"
+  >
+    Or build your own custom event
+  </button>
+
+</div>
           {/* Planner Instructions */}
           <div className="col-span-1 md:col-span-2 mt-4 mb-2">
             <h2 className="text-2xl font-semibold mb-1">Plan Your Event</h2>
