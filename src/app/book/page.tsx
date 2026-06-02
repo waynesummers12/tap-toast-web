@@ -13,17 +13,17 @@ function BookEventPageContent() {
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
   const [location, setLocation] = useState("")
-  const [tier, setTier] = useState<"essentials" | "signature" | "premium" | "custom">("custom")
+  const [tier, setTier] = useState<"essentials" | "signature" | "premium" | "custom">("signature")
 
   const [date, setDate] = useState("")
   const [startTime, setStartTime] = useState("18:00")
-  const [hours, setHours] = useState(3)
-  const [bartenders, setBartenders] = useState(1)
-  const [guests, setGuests] = useState(50)
+  const [hours, setHours] = useState(4)
+  const [bartenders, setBartenders] = useState(2)
+  const [guests, setGuests] = useState(100)
   const [eventType, setEventType] = useState("")
   const [selectedUpgrades, setSelectedUpgrades] = useState<Record<UpgradeKey, boolean>>({
-    garnishes: false,
-    cocktails: false,
+    garnishes: true,
+    cocktails: true,
     setupHour: false
   })
 
@@ -76,6 +76,7 @@ function applyTier(t: "essentials" | "signature" | "premium") {
     })
   }
 }
+
   const recommendedBartenders = getRecommendedBartenders(guests)
 
   const basePrice = 600
