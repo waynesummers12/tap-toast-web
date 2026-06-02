@@ -84,7 +84,7 @@ export default function HomePage() {
                 >
                   Book Full Service
                 </button>
-                <p className="text-xs text-gray-400 mt-2">
+                <p className="text-xs mt-3 px-2 py-1 rounded-md bg-[#c9a14a]/10 border border-[#c9a14a]/20 text-[#c9a14a]">
                   🥂 Best for weddings & large events
                 </p>
               </div>
@@ -101,7 +101,7 @@ export default function HomePage() {
                 >
                   Rent the Trailer
                 </button>
-                <p className="text-xs text-gray-400 mt-2">
+                <p className="text-xs mt-3 px-2 py-1 rounded-md bg-[#c9a14a]/10 border border-[#c9a14a]/20 text-[#c9a14a]">
                   🎉 Perfect for DIY parties & smaller events
                 </p>
               </div>
