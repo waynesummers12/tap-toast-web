@@ -754,12 +754,26 @@ type BookedSlot = {
           </div>
 
           {!isRental && (
-            <div>
+            <div className={`transition-all duration-300 ${bartenders < recommendedBartenders ? "ring-1 ring-[#c6a25a]/40 rounded-lg p-2" : ""}`}>
               <label className="text-sm">
                 Bartenders: {bartenders}
                 <span className="text-xs text-gray-500 ml-2">
                   (recommended: {recommendedBartenders})
                 </span>
+                {bartenders < recommendedBartenders && (
+                  <span className="ml-2 inline-flex items-center gap-2">
+                    <span className="text-[10px] text-[#c6a25a] font-semibold">
+                      ⚠ Consider adding staff for faster service
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setBartenders(recommendedBartenders)}
+                      className="text-[10px] underline text-[#c6a25a] hover:text-black transition"
+                    >
+                      Fix for me
+                    </button>
+                  </span>
+                )}
               </label>
               <input
                 className="w-full"
@@ -784,7 +798,14 @@ type BookedSlot = {
               onChange={(e)=>{
                 const value = Number(e.target.value)
                 setGuests(value)
-                setBartenders(getRecommendedBartenders(value))
+
+                const recommended = getRecommendedBartenders(value)
+
+                // Only auto-increase if user hasn't manually overridden (soft suggestion behavior)
+                setBartenders(prev => {
+                  if (prev < recommended) return recommended
+                  return prev
+                })
               }}
             />
           </div>
