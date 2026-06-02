@@ -80,9 +80,16 @@ function applyTier(t: "essentials" | "signature" | "premium") {
 
   const basePrice = 600
   const bartenderRate = 60
+  const tierPriceMap = {
+    essentials: 0,
+    signature: 150,
+    premium: 300,
+    custom: 0
+  }
 
   const total =
-    basePrice + bartenders * bartenderRate * hours
+    basePrice + bartenders * bartenderRate * hours + tierPriceMap[tier]
+  const tierExtra = tierPriceMap[tier]
 
   const upgradePrices: Record<UpgradeKey, number> = {
     garnishes: 75,
@@ -712,6 +719,13 @@ type BookedSlot = {
             <span>Hours</span>
             <span>{hours}</span>
           </div>
+
+          {tier !== "custom" && (
+            <div className="flex justify-between text-sm mb-2">
+              <span>{tier.charAt(0).toUpperCase() + tier.slice(1)} Experience</span>
+              <span>${tierExtra}</span>
+            </div>
+          )}
 
           <div className="border-t mt-4 pt-4 space-y-2">
 
