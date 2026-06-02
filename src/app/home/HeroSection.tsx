@@ -107,7 +107,7 @@ export default function HeroSection() {
                 Rent our tap trailer or pop-up bar and create your own experience — perfect for DIY events, private parties, and budget-friendly setups.
               </p>
               <p className="text-[#9C7A2C] font-semibold mt-4 text-lg">Starting at $600</p>
-              <p className="mt-2 inline-block text-xs px-2 py-1 rounded-md bg-[#c9a14a]/10 border border-[#c9a14a]/20 text-[#c9a14a] font-medium">
+              <p className="mt-2 inline-block text-xs px-2 py-1 rounded-md bg-[#c9a14a]/10 border border-[#c9a14a]/20 text-black font-medium">
                 ✔ Includes setup + delivery within 40 miles
               </p>
               <p className="text-xs text-gray-500 mb-4 mt-2">
