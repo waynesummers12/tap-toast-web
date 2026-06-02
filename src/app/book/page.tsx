@@ -526,6 +526,42 @@ type BookedSlot = {
         </div>
       </label>
 
+      <label className="flex items-center justify-between">
+        <span>👨‍🍳 Additional Bartender</span>
+
+        <div className="flex items-center gap-4">
+          <span className="text-sm font-medium w-20 text-right tabular-nums">$60/hr</span>
+          <input
+            type="checkbox"
+            onChange={() => setBartenders(prev => Math.min(prev + 1, 5))}
+          />
+        </div>
+      </label>
+
+      <label className="flex items-center justify-between">
+        <span>🍸 Cocktail / Mocktail Additions</span>
+
+        <div className="flex items-center gap-4">
+          <span className="text-sm font-medium w-20 text-right tabular-nums">$125/tap</span>
+          <input
+            type="checkbox"
+            onChange={() => setSelectedUpgrades(prev => ({...prev, cocktails: true}))}
+          />
+        </div>
+      </label>
+
+      <label className="flex items-center justify-between">
+        <span>🚗 Travel Fee (40+ miles)</span>
+
+        <div className="flex items-center gap-4">
+          <span className="text-sm font-medium w-20 text-right tabular-nums">$2/mile</span>
+          <input
+            type="checkbox"
+            readOnly
+          />
+        </div>
+      </label>
+
     </div>
 
     <p className="text-xs text-gray-500 mt-2">
