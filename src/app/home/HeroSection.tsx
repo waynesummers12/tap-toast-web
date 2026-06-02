@@ -108,7 +108,7 @@ export default function HeroSection() {
               </p>
               <p className="text-[#9C7A2C] font-semibold mt-4 text-lg">Starting at $600</p>
               <p className="mt-2 inline-block text-xs px-2 py-1 rounded-md bg-[#c9a14a]/10 border border-[#c9a14a]/20 text-black font-medium">
-                ✔ Includes setup + delivery within 40 miles
+                ✔ Includes setup + delivery within 40 miles of Golden
               </p>
               <p className="text-xs text-gray-500 mb-4 mt-2">
                 🎉 Perfect for backyard parties, DIY weddings & private events
