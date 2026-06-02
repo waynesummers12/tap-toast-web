@@ -910,6 +910,20 @@ type BookedSlot = {
     Remaining balance charged 10 days before event
   </p>
 </div>
+
+{/* Human CTA */}
+<div className="mt-6 p-5 rounded-xl border border-black/10 bg-[#f8f5ef] text-center shadow-sm">
+  <p className="text-sm text-gray-700">
+    Prefer to talk it through first?
+  </p>
+  <p className="text-lg font-semibold mt-1">
+    Call or Text Jen — <a href="tel:7206439690" className="underline hover:text-black">720-643-9690</a>
+  </p>
+  <p className="text-xs text-gray-500 mt-1">
+    We&apos;ll walk you through everything and build the perfect event together.
+  </p>
+</div>
+
 <p className="text-xs text-gray-500 mb-4 text-center">
   By booking, you agree to our{" "}
   <a href="/legal/terms" className="underline hover:text-black">Terms</a>,{" "}
