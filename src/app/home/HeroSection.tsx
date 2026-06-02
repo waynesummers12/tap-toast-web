@@ -82,8 +82,9 @@ export default function HeroSection() {
             <div className="bg-white rounded-2xl p-6 shadow-md border border-black/5 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <h4 className="text-lg font-semibold mb-2 flex items-center justify-center gap-2">
                 🍸 Full-Service Experience
-                <span className="text-[10px] bg-[#9C7A2C] text-white px-2 py-1 rounded-full ring-1 ring-[#9C7A2C]/40 shadow-[0_0_0px_rgba(156,122,44,0.0)] animate-[pulse_3s_ease-in-out_infinite]">
-                  Most Popular
+                <span className="group relative overflow-hidden text-[10px] bg-[#9C7A2C] text-white px-2 py-1 rounded-full ring-1 ring-[#9C7A2C]/40">
+                  <span className="relative z-10">Most Popular</span>
+                  <span className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-[shimmer_2.5s]" />
                 </span>
               </h4>
               <p className="text-sm text-gray-600 mb-4">
