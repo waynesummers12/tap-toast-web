@@ -513,6 +513,11 @@ type BookedSlot = {
       <h3 className="font-semibold mb-1">Essentials</h3>
       <p className="text-xs opacity-70">Simple + clean setup</p>
       <p className="text-sm mt-3">From $600</p>
+      <ul className="mt-3 text-xs space-y-1 opacity-80">
+        <li>• 1 bartender</li>
+        <li>• 3 hours service</li>
+        <li>• Basic setup</li>
+      </ul>
     </button>
 
     {/* Signature */}
@@ -528,6 +533,15 @@ type BookedSlot = {
       <h3 className="font-semibold mb-1">Signature</h3>
       <p className="text-xs opacity-70">Most popular</p>
       <p className="text-sm mt-3">Best value</p>
+      <div className="mt-3 flex items-center gap-2">
+        <span className="text-[10px] bg-[#c6a25a] text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Most Popular</span>
+      </div>
+      <ul className="mt-2 text-xs space-y-1 opacity-90">
+        <li>• 2 bartenders</li>
+        <li>• 4 hours service</li>
+        <li>• Signature cocktails</li>
+        <li>• Premium garnishes</li>
+      </ul>
     </button>
 
     {/* Premium */}
@@ -543,6 +557,13 @@ type BookedSlot = {
       <h3 className="font-semibold mb-1">Premium</h3>
       <p className="text-xs opacity-70">Full experience</p>
       <p className="text-sm mt-3">Elevated events</p>
+      <ul className="mt-3 text-xs space-y-1 opacity-90">
+        <li>• 3 bartenders</li>
+        <li>• 5 hours service</li>
+        <li>• Full cocktail experience</li>
+        <li>• Premium garnishes</li>
+        <li>• Extended setup time</li>
+      </ul>
     </button>
 
   </div>
