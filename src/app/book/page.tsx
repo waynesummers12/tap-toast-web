@@ -86,8 +86,8 @@ function applyTier(t: "essentials" | "signature" | "premium") {
 
   const recommendedBartenders = getRecommendedBartenders(guests)
 
-  const basePrice = 600
-  const bartenderRate = 60
+  const basePrice = isRental ? 600 : 600
+  const bartenderRate = isRental ? 0 : 60
   const tierPriceMap = {
     essentials: 0,
     signature: 150,
@@ -95,8 +95,9 @@ function applyTier(t: "essentials" | "signature" | "premium") {
     custom: 0
   }
 
-  const total =
-    basePrice + bartenders * bartenderRate * hours + tierPriceMap[tier]
+  const total = isRental
+    ? basePrice
+    : basePrice + bartenders * bartenderRate * hours + tierPriceMap[tier]
   const tierExtra = tierPriceMap[tier]
 
   const upgradePrices: Record<UpgradeKey, number> = {
@@ -865,17 +866,20 @@ type BookedSlot = {
             </div>
           )}
 
-          <div className="border-t mt-4 pt-4 space-y-2">
+            <div className="border-t mt-4 pt-4 space-y-2">
 
             <div className="flex justify-between">
-              <span>Base Event</span>
-              <span>$600</span>
+              <span>{isRental ? "Trailer Rental" : "Base Event"}</span>
+              <span>${basePrice}</span>
             </div>
 
-            <div className="flex justify-between">
-              <span>Staffing</span>
-              <span>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(bartenders * 40 * hours)}</span>
-            </div>
+            {/* Hide Staffing for rental */}
+            {!isRental && (
+              <div className="flex justify-between">
+                <span>Staffing</span>
+                <span>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(bartenders * 40 * hours)}</span>
+              </div>
+            )}
 
             <div className="flex justify-between font-semibold text-lg pt-2">
               <span>Total</span>
@@ -890,6 +894,11 @@ type BookedSlot = {
             <p className="text-xs text-gray-500 mt-2">
               Remaining balance automatically charged 10 days before your event.
             </p>
+            {isRental && (
+              <p className="text-xs text-gray-500 mt-1">
+                Trailer rental includes equipment only — no bartending staff.
+              </p>
+            )}
 
           </div>
 
