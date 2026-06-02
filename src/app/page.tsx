@@ -71,17 +71,41 @@ export default function HomePage() {
               <Link href="/dirty-soda-bar-centennial" className="text-[#c9a14a] underline ml-1">Centennial</Link>.
             </p>
 
-            <button
-              onClick={() => {
-                const cid = getClientId()
-                const page = getLandingPage()
-                const url = `/book?cid=${cid}&page=${encodeURIComponent(page)}`
-                window.location.href = url
-              }}
-              className="inline-block bg-[#c9a14a] text-black px-6 py-3 rounded-md font-semibold hover:opacity-90 transition"
-            >
-              Check Availability & Pricing
-            </button>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col items-start">
+                <button
+                  onClick={() => {
+                    const cid = getClientId()
+                    const page = getLandingPage()
+                    const url = `/book?type=full&cid=${cid}&page=${encodeURIComponent(page)}`
+                    window.location.href = url
+                  }}
+                  className="inline-block bg-[#c9a14a] text-black px-6 py-3 rounded-md font-semibold hover:opacity-90 transition"
+                >
+                  Book Full Service
+                </button>
+                <p className="text-xs text-gray-400 mt-2">
+                  🥂 Best for weddings & large events
+                </p>
+              </div>
+
+              <div className="flex flex-col items-start">
+                <button
+                  onClick={() => {
+                    const cid = getClientId()
+                    const page = getLandingPage()
+                    const url = `/book?type=rental&cid=${cid}&page=${encodeURIComponent(page)}`
+                    window.location.href = url
+                  }}
+                  className="inline-block border border-[#c9a14a] text-[#c9a14a] px-6 py-3 rounded-md font-semibold hover:bg-[#c9a14a] hover:text-black transition"
+                >
+                  Rent the Trailer
+                </button>
+                <p className="text-xs text-gray-400 mt-2">
+                  🎉 Perfect for DIY parties & smaller events
+                </p>
+              </div>
+            </div>
 
             <p className="text-sm text-gray-400 mt-4">
               &quot;Everything was seamless — our guests loved it.&quot; ⭐⭐⭐⭐⭐
