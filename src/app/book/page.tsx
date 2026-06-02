@@ -13,12 +13,16 @@ function BookEventPageContent() {
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
   const [location, setLocation] = useState("")
-  const [tier, setTier] = useState<"essentials" | "signature" | "premium" | "custom">("signature")
+  const [tier, setTier] = useState<"essentials" | "signature" | "premium" | "custom">(
+  () => (isRental ? "custom" : "signature")
+)
 
   const [date, setDate] = useState("")
   const [startTime, setStartTime] = useState("18:00")
   const [hours, setHours] = useState(4)
-  const [bartenders, setBartenders] = useState(2)
+  const [bartenders, setBartenders] = useState(
+  () => (isRental ? 0 : 2)
+)
   const [guests, setGuests] = useState(100)
   const [eventType, setEventType] = useState("")
   const [selectedUpgrades, setSelectedUpgrades] = useState<Record<UpgradeKey, boolean>>({
@@ -32,6 +36,9 @@ function BookEventPageContent() {
 
   const searchParams = useSearchParams()
   const cid = searchParams.get("cid") || ""
+
+  const bookingType = searchParams.get("type") || "full"
+  const isRental = bookingType === "rental"
 
   // Recommended bartenders based on guest count
   const getRecommendedBartenders = (guestCount: number) => {
@@ -110,6 +117,7 @@ function applyTier(t: "essentials" | "signature" | "premium") {
   const prevTotalRef = useRef(grandTotal)
 const prevTierRef = useRef(tier)
 const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
+
   useEffect(() => {
   fetch("https://tap-toast-api-cayk.onrender.com/api/events/booked-slots")
     .then(res => res.json())
@@ -648,22 +656,24 @@ type BookedSlot = {
             />
           </div>
 
-          <div>
-            <label className="text-sm">
-              Bartenders: {bartenders}
-              <span className="text-xs text-gray-500 ml-2">
-                (recommended: {recommendedBartenders})
-              </span>
-            </label>
-            <input
-              className="w-full"
-              type="range"
-              min={1}
-              max={5}
-              value={bartenders}
-              onChange={(e)=>setBartenders(Number(e.target.value))}
-            />
-          </div>
+          {!isRental && (
+            <div>
+              <label className="text-sm">
+                Bartenders: {bartenders}
+                <span className="text-xs text-gray-500 ml-2">
+                  (recommended: {recommendedBartenders})
+                </span>
+              </label>
+              <input
+                className="w-full"
+                type="range"
+                min={1}
+                max={5}
+                value={bartenders}
+                onChange={(e)=>setBartenders(Number(e.target.value))}
+              />
+            </div>
+          )}
 
           <div>
             <label className="text-sm">Guest Count: {guests}</label>
@@ -822,6 +832,11 @@ type BookedSlot = {
           <h3 className="text-lg font-semibold mb-4">Booking Summary</h3>
 
           <div className="flex justify-between text-sm mb-2">
+            <span>Booking Type</span>
+            <span>{isRental ? "Trailer Rental" : "Full Service"}</span>
+          </div>
+
+          <div className="flex justify-between text-sm mb-2">
             <span>Event Type</span>
             <span>{eventType}</span>
           </div>
@@ -831,10 +846,12 @@ type BookedSlot = {
             <span>{guests}</span>
           </div>
 
-          <div className="flex justify-between text-sm mb-2">
-            <span>Bartenders</span>
-            <span>{bartenders}</span>
-          </div>
+          {!isRental && (
+            <div className="flex justify-between text-sm mb-2">
+              <span>Bartenders</span>
+              <span>{bartenders}</span>
+            </div>
+          )}
 
           <div className="flex justify-between text-sm mb-2">
             <span>Hours</span>

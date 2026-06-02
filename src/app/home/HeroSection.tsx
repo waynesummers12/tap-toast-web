@@ -82,7 +82,7 @@ export default function HeroSection() {
               <p className="text-sm font-semibold text-[#9C7A2C] mb-4">Starting at $900</p>
               <p className="text-xs text-gray-500 mb-4">Best for weddings & large events</p>
               <Link
-                href="/book"
+                href="/book?type=full"
                 className="inline-block mt-2 px-6 py-3 bg-[#9C7A2C] text-white rounded-full text-xs tracking-[0.2em] uppercase hover:bg-[#b3913b] transition"
               >
                 Book Full Service
@@ -98,7 +98,7 @@ export default function HeroSection() {
               <p className="text-sm font-semibold text-[#9C7A2C] mb-4">Starting at $600</p>
               <p className="text-xs text-gray-500 mb-4">Great for backyard parties & DIY setups</p>
               <Link
-                href="/book"
+                href="/book?type=rental"
                 className="inline-block mt-2 px-6 py-3 border border-[#9C7A2C] text-[#9C7A2C] rounded-full text-xs tracking-[0.2em] uppercase hover:bg-[#9C7A2C] hover:text-white transition"
               >
                 Rent the Trailer
