@@ -43,7 +43,7 @@ function BookEventPageContent() {
   const recommendedBartenders = getRecommendedBartenders(guests)
 
   const basePrice = 600
-  const bartenderRate = 40
+  const bartenderRate = 60
 
   const total =
     basePrice + bartenders * bartenderRate * hours
@@ -310,7 +310,7 @@ type BookedSlot = {
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-1">Simple Event Pricing</h2>
           <p className="text-gray-600 text-sm">
-            Base event service starts at $600 plus $40 per hour for each bartender.
+            Base event service starts at $600 plus $60 per hour for each bartender.
             Use the planner below to customize your event and see your quote update instantly using the sliders. Reserve only if it aligns with your needs.
           </p>
         </div>
