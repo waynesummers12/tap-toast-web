@@ -108,7 +108,8 @@ function applyTier(t: "essentials" | "signature" | "premium") {
   // Animated price change feedback state
   const [delta, setDelta] = useState(0)
   const prevTotalRef = useRef(grandTotal)
-
+const prevTierRef = useRef(tier)
+const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
   useEffect(() => {
   fetch("https://tap-toast-api-cayk.onrender.com/api/events/booked-slots")
     .then(res => res.json())
@@ -179,7 +180,6 @@ useEffect(() => {
 
   // update ref immediately (no re-render)
   prevTotalRef.current = grandTotal
-
   if (prev !== 0 && diff !== 0) {
     // defer updates to avoid lint error
     const t1 = setTimeout(() => setDelta(diff), 0)
@@ -191,6 +191,34 @@ useEffect(() => {
     }
   }
 }, [grandTotal])
+
+// Highlight gained features when tier changes
+useEffect(() => {
+  const prev = prevTierRef.current
+  const next = tier
+  prevTierRef.current = next
+
+  const features: Record<string, Set<string>> = {
+    essentials: new Set(["bartender1", "hours3", "basic"]),
+    signature: new Set(["bartender2", "hours4", "cocktails", "garnishes"]),
+    premium: new Set(["bartender3", "hours5", "full", "garnishes", "setup"]),
+    custom: new Set()
+  }
+
+  const prevSet = features[prev] || new Set()
+  const nextSet = features[next] || new Set()
+
+  const gained = new Set<string>()
+  nextSet.forEach(k => {
+    if (!prevSet.has(k)) gained.add(k)
+  })
+
+  if (gained.size > 0) {
+    const t1 = setTimeout(() => setHighlightKeys(gained), 0)
+    const t2 = setTimeout(() => setHighlightKeys(new Set()), 900)
+    return () => { clearTimeout(t1); clearTimeout(t2) }
+  }
+}, [tier])
   function isTimeBlocked(date: string, startTime: string, hours: number) {
     if (!date || !startTime) return false
 
@@ -517,8 +545,13 @@ type BookedSlot = {
         <li>✔ 1 bartender</li>
         <li>✔ 3 hours service</li>
         <li>✔ Basic setup</li>
-        <li className="opacity-50">✖ Signature cocktails</li>
-        <li className="opacity-50">✖ Premium garnishes</li>
+        <li className={`transition-all duration-300 ${tier !== "essentials" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("cocktails") ? "bg-yellow-100 rounded px-1" : ""}`}>
+  ✔ Signature cocktails
+</li>
+
+<li className={`transition-all duration-300 ${tier !== "essentials" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("garnishes") ? "bg-yellow-100 rounded px-1" : ""}`}>
+  ✔ Premium garnishes
+</li>
       </ul>
     </button>
 
@@ -541,8 +574,8 @@ type BookedSlot = {
       <ul className="mt-2 text-xs space-y-1 opacity-90">
         <li>✔ 2 bartenders</li>
         <li>✔ 4 hours service</li>
-        <li>✔ Signature cocktails</li>
-        <li>✔ Premium garnishes</li>
+        <li className={`transition-all duration-300 ${tier !== "essentials" ? "text-yellow-600 font-semibold" : ""}`}>✔ Signature cocktails</li>
+        <li className={`transition-all duration-300 ${tier !== "essentials" ? "text-yellow-600 font-semibold" : ""}`}>✔ Premium garnishes</li>
       </ul>
     </button>
 
@@ -560,11 +593,25 @@ type BookedSlot = {
       <p className="text-xs opacity-70">Full experience</p>
       <p className="text-sm mt-3">Elevated events</p>
       <ul className="mt-3 text-xs space-y-1 opacity-90">
-        <li>✔ 3 bartenders</li>
-        <li>✔ 5 hours service</li>
-        <li>✔ Full cocktail experience</li>
-        <li>✔ Premium garnishes</li>
-        <li>✔ Extended setup time</li>
+        <li className={`transition-all duration-300 ${tier === "premium" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("bartender3") ? "bg-yellow-100 rounded px-1" : ""}`}>
+  ✔ 3 bartenders
+</li>
+
+<li className={`transition-all duration-300 ${tier === "premium" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("hours5") ? "bg-yellow-100 rounded px-1" : ""}`}>
+  ✔ 5 hours service
+</li>
+
+<li className={`transition-all duration-300 ${tier === "premium" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("full") ? "bg-yellow-100 rounded px-1" : ""}`}>
+  ✔ Full cocktail experience
+</li>
+
+<li className={`transition-all duration-300 ${tier === "premium" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("garnishes") ? "bg-yellow-100 rounded px-1" : ""}`}>
+  ✔ Premium garnishes
+</li>
+
+<li className={`transition-all duration-300 ${tier === "premium" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("setup") ? "bg-yellow-100 rounded px-1" : ""}`}>
+  ✔ Extended setup time
+</li>
       </ul>
     </button>
 
