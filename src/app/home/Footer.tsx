@@ -67,6 +67,9 @@ export default function Footer() {
           <p className="text-sm">
             Serving the Front Range of Colorado and events across the state.
           </p>
+          <p className="text-sm mt-2 text-white font-medium">
+            Fully Insured · General & Liquor Liability Coverage
+          </p>
         </div>
 
         {/* Contact */}
