@@ -538,12 +538,12 @@ type BookedSlot = {
     : "bg-white hover:border-black hover:scale-[1.02]"
 }`}
     >
-      <h3 className="font-semibold mb-1">Essentials</h3>
-      <p className="text-xs opacity-70">Simple + clean setup</p>
+      <h3 className="font-semibold mb-1">The Taste</h3>
+      <p className="text-xs opacity-70">Mobile bar starter experience</p>
       <p className="text-sm mt-3">From $600</p>
       <ul className="mt-3 text-xs space-y-1 opacity-80">
-        <li>✔ 1 bartender</li>
-        <li>✔ 3 hours service</li>
+        <li>✔ 1 professional bartender</li>
+        <li>✔ 3 hour service</li>
         <li>✔ Basic setup</li>
         <li className={`transition-all duration-300 ${tier !== "essentials" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("cocktails") ? "bg-yellow-100 rounded px-1" : ""}`}>
   ✔ Signature cocktails
@@ -565,15 +565,15 @@ type BookedSlot = {
     : "bg-white hover:border-black hover:scale-[1.02]"
 }`}
     >
-      <h3 className="font-semibold mb-1">Signature</h3>
-      <p className="text-xs opacity-70">Most popular</p>
+      <h3 className="font-semibold mb-1">The Tipsy</h3>
+      <p className="text-xs opacity-70">Most popular experience</p>
       <p className="text-sm mt-3">Best value</p>
       <div className="mt-3 flex items-center gap-2">
         <span className="text-[10px] bg-[#c6a25a] text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Most Popular</span>
       </div>
       <ul className="mt-2 text-xs space-y-1 opacity-90">
-        <li>✔ 2 bartenders</li>
-        <li>✔ 4 hours service</li>
+        <li>✔ 2 professional bartenders</li>
+        <li>✔ 4 hour service</li>
         <li className={`transition-all duration-300 ${tier !== "essentials" ? "text-yellow-600 font-semibold" : ""}`}>✔ Signature cocktails</li>
         <li className={`transition-all duration-300 ${tier !== "essentials" ? "text-yellow-600 font-semibold" : ""}`}>✔ Premium garnishes</li>
       </ul>
@@ -589,16 +589,16 @@ type BookedSlot = {
     : "bg-white hover:border-black hover:scale-[1.02]"
 }`}
     >
-      <h3 className="font-semibold mb-1">Premium</h3>
-      <p className="text-xs opacity-70">Full experience</p>
+      <h3 className="font-semibold mb-1">The Toasted</h3>
+      <p className="text-xs opacity-70">Premium full-service experience</p>
       <p className="text-sm mt-3">Elevated events</p>
       <ul className="mt-3 text-xs space-y-1 opacity-90">
         <li className={`transition-all duration-300 ${tier === "premium" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("bartender3") ? "bg-yellow-100 rounded px-1" : ""}`}>
-  ✔ 3 bartenders
+  ✔ 3+ professional bartenders
 </li>
 
 <li className={`transition-all duration-300 ${tier === "premium" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("hours5") ? "bg-yellow-100 rounded px-1" : ""}`}>
-  ✔ 5 hours service
+  ✔ 5 hour service
 </li>
 
 <li className={`transition-all duration-300 ${tier === "premium" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("full") ? "bg-yellow-100 rounded px-1" : ""}`}>
