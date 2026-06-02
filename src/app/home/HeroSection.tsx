@@ -65,11 +65,11 @@ export default function HeroSection() {
 
       <section className="py-20 px-6 bg-neutral-50 text-center">
         <div className="max-w-5xl mx-auto px-6">
-          <div className="text-center mb-10">
+          <div className="text-center mb-12">
             <p className="text-xs tracking-[0.35em] uppercase text-[#9C7A2C] mb-3">
               Two Ways to Book
             </p>
-            <h2 className="text-3xl md:text-5xl font-semibold mb-4">
+            <h2 className="text-3xl md:text-5xl font-semibold mb-4 text-black">
               Choose Your Experience
             </h2>
             <p className="text-base md:text-lg text-gray-500">
