@@ -934,15 +934,31 @@ type BookedSlot = {
   <a href="/legal/privacy" className="underline hover:text-black">Privacy Policy</a>.
 </p>
 
+<div className="mt-4 mb-2 p-4 rounded-xl bg-[#f8f5ef] border border-black/10 text-center">
+  <p className="text-sm font-semibold text-black">
+    Secure your date in under 2 minutes
+  </p>
+  <p className="text-xs text-gray-600 mt-1">
+    ✔ Instant confirmation &nbsp;&nbsp;✔ No hidden fees &nbsp;&nbsp;✔ Fully insured & venue-ready
+  </p>
+</div>
+
         <button
           onClick={handleBooking}
           disabled={submitting}
-          className={`mt-6 w-full py-4 text-lg rounded-xl transition font-semibold ${submitting ? 'bg-gray-300 text-gray-600' : 'bg-linear-to-r from-yellow-400 to-yellow-500 text-black hover:opacity-90'}`}
+          className={`mt-4 w-full py-5 text-lg rounded-xl transition font-semibold shadow-lg ${submitting ? 'bg-gray-300 text-gray-600' : 'bg-linear-to-r from-yellow-400 to-yellow-500 text-black hover:scale-[1.02] hover:shadow-xl active:scale-[0.99]'}`}
         >
           {submitting 
   ? 'Processing…' 
-  : `Reserve Event — $${deposit} Today`}
+  : `Reserve Your Date — $${deposit} Today`}
         </button>
+
+        <p className="text-xs text-center text-gray-600 mt-3">
+          ⚡ Dates fill quickly — secure now with a 50% deposit
+        </p>
+        <p className="text-xs text-center text-gray-500 mt-1">
+          Need help first? Call or text Jen anytime
+        </p>
 
       </div>
 
