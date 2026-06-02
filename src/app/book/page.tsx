@@ -14,6 +14,7 @@ function BookEventPageContent() {
 
   const bookingType = searchParams.get("type") || "full"
   const isRentalInit = bookingType === "rental"
+
   const [mode, setMode] = useState<"full" | "rental">(isRentalInit ? "rental" : "full")
   const isRental = mode === "rental"
 
@@ -202,6 +203,32 @@ useEffect(() => {
     }
   }
 }, [grandTotal])
+
+// 🔄 Reset state intelligently when switching modes
+useEffect(() => {
+  const t = setTimeout(() => {
+    if (mode === "rental") {
+      setTier("custom")
+      setBartenders(0)
+
+      setSelectedUpgrades(prev => ({
+        ...prev,
+        cocktails: false,
+      }))
+    } else {
+      setTier("signature")
+      setBartenders(2)
+
+      setSelectedUpgrades({
+        garnishes: true,
+        cocktails: true,
+        setupHour: false
+      })
+    }
+  }, 0)
+
+  return () => clearTimeout(t)
+}, [mode])
 
 // Highlight gained features when tier changes
 useEffect(() => {
