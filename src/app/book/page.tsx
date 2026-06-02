@@ -9,6 +9,12 @@ type UpgradeKey = 'garnishes' | 'cocktails' | 'setupHour'
 
 function BookEventPageContent() {
 
+  const searchParams = useSearchParams()
+  const cid = searchParams.get("cid") || ""
+
+  const bookingType = searchParams.get("type") || "full"
+  const isRental = bookingType === "rental"
+
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
@@ -33,12 +39,6 @@ function BookEventPageContent() {
 
   const [submitting, setSubmitting] = useState(false)
   const [bookedSlots, setBookedSlots] = useState<BookedSlot[]>([])
-
-  const searchParams = useSearchParams()
-  const cid = searchParams.get("cid") || ""
-
-  const bookingType = searchParams.get("type") || "full"
-  const isRental = bookingType === "rental"
 
   // Recommended bartenders based on guest count
   const getRecommendedBartenders = (guestCount: number) => {
