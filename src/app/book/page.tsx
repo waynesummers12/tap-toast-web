@@ -482,91 +482,99 @@ type BookedSlot = {
 
         </div>
 
-  <div className="mt-8 p-6 border rounded-xl bg-white">
-    <h3 className="text-lg font-semibold mb-3">Enhance Your Event (Optional)</h3>
+  <div className="mt-10 p-8 rounded-2xl bg-linear-to-br from-[#f8f5ef] to-[#ffffff] border border-black/10 shadow-xl">
 
-    <div className="space-y-3">
+    <div className="flex items-center justify-between mb-6">
+      <h3 className="text-2xl font-semibold tracking-wide">Add-Ons</h3>
+      <span className="text-xs uppercase tracking-widest text-gray-500">Enhance Your Event</span>
+    </div>
 
-      <label className="flex items-center justify-between">
-        <span>✨ Premium Garnishes Package</span>
+    <div className="space-y-6">
 
-        <div className="flex items-center gap-4">
-          <span className="text-sm font-medium w-20 text-right tabular-nums">$75</span>
-          <input
-            type="checkbox"
-            checked={selectedUpgrades.garnishes}
-            onChange={() => setSelectedUpgrades(prev => ({...prev, garnishes: !prev.garnishes}))}
-          />
+      {/* Service Enhancements */}
+      <div>
+        <p className="text-sm font-semibold text-gray-700 mb-3">Service Enhancements</p>
+
+        <div className="space-y-3">
+
+          <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
+            <span>👨‍🍳 Additional Bartender</span>
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium w-24 text-right">$60 / hour</span>
+              <input
+                type="checkbox"
+                onChange={() => setBartenders(prev => Math.min(prev + 1, 5))}
+              />
+            </div>
+          </label>
+
+          <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
+            <span>🍸 Cocktail / Mocktail Additions</span>
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium w-24 text-right">$125 / tap</span>
+              <input
+                type="checkbox"
+                onChange={() => setSelectedUpgrades(prev => ({ ...prev, cocktails: true }))}
+              />
+            </div>
+          </label>
+
         </div>
-      </label>
+      </div>
 
-      <label className="flex items-center justify-between">
-        <span>🍹 Signature Cocktail Menu</span>
+      {/* Experience Upgrades */}
+      <div>
+        <p className="text-sm font-semibold text-gray-700 mb-3">Experience Upgrades</p>
 
-        <div className="flex items-center gap-4">
-          <span className="text-sm font-medium w-20 text-right tabular-nums">$100</span>
-          <input
-            type="checkbox"
-            checked={selectedUpgrades.cocktails}
-            onChange={() => setSelectedUpgrades(prev => ({...prev, cocktails: !prev.cocktails}))}
-          />
+        <div className="space-y-3">
+
+          <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
+            <span>✨ Premium Garnishes Package</span>
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium w-24 text-right">$75</span>
+              <input
+                type="checkbox"
+                checked={selectedUpgrades.garnishes}
+                onChange={() => setSelectedUpgrades(prev => ({ ...prev, garnishes: !prev.garnishes }))}
+              />
+            </div>
+          </label>
+
+          <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
+            <span>🍹 Signature Cocktail Menu</span>
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium w-24 text-right">$100</span>
+              <input
+                type="checkbox"
+                checked={selectedUpgrades.cocktails}
+                onChange={() => setSelectedUpgrades(prev => ({ ...prev, cocktails: !prev.cocktails }))}
+              />
+            </div>
+          </label>
+
         </div>
-      </label>
+      </div>
 
-      <label className="flex items-center justify-between">
-        <span>⏱ Extra Setup Hour</span>
+      {/* Travel */}
+      <div>
+        <p className="text-sm font-semibold text-gray-700 mb-3">Travel</p>
 
-        <div className="flex items-center gap-4">
-          <span className="text-sm font-medium w-20 text-right tabular-nums">$50</span>
-          <input
-            type="checkbox"
-            checked={selectedUpgrades.setupHour}
-            onChange={() => setSelectedUpgrades(prev => ({...prev, setupHour: !prev.setupHour}))}
-          />
+        <div className="space-y-3">
+
+          <div className="flex items-center justify-between p-3 rounded-lg bg-black/5">
+            <span>🚗 Travel Fee (40+ miles from 80401)</span>
+            <span className="text-sm font-medium">$2 / mile</span>
+          </div>
+
         </div>
-      </label>
-
-      <label className="flex items-center justify-between">
-        <span>👨‍🍳 Additional Bartender</span>
-
-        <div className="flex items-center gap-4">
-          <span className="text-sm font-medium w-20 text-right tabular-nums">$60/hr</span>
-          <input
-            type="checkbox"
-            onChange={() => setBartenders(prev => Math.min(prev + 1, 5))}
-          />
-        </div>
-      </label>
-
-      <label className="flex items-center justify-between">
-        <span>🍸 Cocktail / Mocktail Additions</span>
-
-        <div className="flex items-center gap-4">
-          <span className="text-sm font-medium w-20 text-right tabular-nums">$125/tap</span>
-          <input
-            type="checkbox"
-            onChange={() => setSelectedUpgrades(prev => ({...prev, cocktails: true}))}
-          />
-        </div>
-      </label>
-
-      <label className="flex items-center justify-between">
-        <span>🚗 Travel Fee (40+ miles)</span>
-
-        <div className="flex items-center gap-4">
-          <span className="text-sm font-medium w-20 text-right tabular-nums">$2/mile</span>
-          <input
-            type="checkbox"
-            readOnly
-          />
-        </div>
-      </label>
+      </div>
 
     </div>
 
-    <p className="text-xs text-gray-500 mt-2">
-      Optional add-ons can also be selected later after booking.
+    <p className="text-xs text-gray-500 mt-6 text-center">
+      Custom packages available — we’ll tailor everything to your event.
     </p>
+
   </div>
 
         <div className="mt-8 bg-gray-50 p-6 rounded-xl border md:sticky md:top-24 shadow-lg">
