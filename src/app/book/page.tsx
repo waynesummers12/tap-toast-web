@@ -909,6 +909,9 @@ type BookedSlot = {
   <p className="text-xs opacity-60 mt-1">
     Remaining balance charged 10 days before event
   </p>
+  <p className="text-xs text-white/70 mt-2">
+    ✔ Fully Insured (General + Liquor Liability)
+  </p>
 </div>
 
 {/* Human CTA */}
