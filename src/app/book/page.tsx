@@ -684,6 +684,32 @@ type BookedSlot = {
 
         </div>
 
+        {/* What's Included Section */}
+        <div className="mt-10 border-t pt-10">
+
+          <h2 className="text-3xl font-serif mb-6 text-center tracking-wide">
+            Standard With Every Booking
+          </h2>
+
+          {/* Planning & Prep */}
+          <div className="text-center mb-8">
+            <p className="font-semibold text-lg mb-2 underline">Planning & Preparation</p>
+            <p className="text-sm text-gray-700">Two Consultations: Initial vision + final execution call</p>
+            <p className="text-sm text-gray-700">Custom Shopping Guide: Exactly what to buy and how much</p>
+            <p className="text-sm text-gray-700">Travel Included: Up to 40 miles from 80401</p>
+            <p className="text-sm text-gray-700">Fully Insured: General & Liquor Liability coverage</p>
+          </div>
+
+          {/* Essentials */}
+          <div className="text-center">
+            <p className="font-semibold text-lg mb-2 underline">The Essentials</p>
+            <p className="text-sm text-gray-700">Clear cups, napkins</p>
+            <p className="text-sm text-gray-700">Bottled water service for all guests</p>
+            <p className="text-sm text-gray-700">Personalized bar menu + trailer signage</p>
+          </div>
+
+        </div>
+
   <div className="mt-10 p-8 rounded-2xl bg-linear-to-br from-[#f8f5ef] to-[#ffffff] border border-black/10 shadow-xl">
 
     <div className="flex items-center justify-between mb-6">
