@@ -730,6 +730,56 @@ type BookedSlot = {
 
     <div className="space-y-6">
 
+      {isRental && (
+        <div>
+          <p className="text-sm font-semibold text-gray-700 mb-3">Rental Add-Ons</p>
+
+          <div className="space-y-3">
+
+            <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
+              <div className="flex items-center gap-2">
+                <span>🚚 Delivery & Pickup</span>
+                <span className="text-[10px] bg-black text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Popular</span>
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="text-sm font-medium w-24 text-right">$150</span>
+                <input
+                  type="checkbox"
+                  onChange={() => setSelectedUpgrades(prev => ({ ...prev, setupHour: !prev.setupHour }))}
+                />
+              </div>
+            </label>
+
+            <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
+              <div className="flex items-center gap-2">
+                <span>🧼 Cleaning Service</span>
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="text-sm font-medium w-24 text-right">$75</span>
+                <input
+                  type="checkbox"
+                  onChange={() => setSelectedUpgrades(prev => ({ ...prev, garnishes: !prev.garnishes }))}
+                />
+              </div>
+            </label>
+
+            <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
+              <div className="flex items-center gap-2">
+                <span>🧊 Ice & Cooler Package</span>
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="text-sm font-medium w-24 text-right">$50</span>
+                <input
+                  type="checkbox"
+                  onChange={() => setSelectedUpgrades(prev => ({ ...prev, cocktails: !prev.cocktails }))}
+                />
+              </div>
+            </label>
+
+          </div>
+        </div>
+      )}
+
       {/* Service Enhancements */}
       <div>
         <p className="text-sm font-semibold text-gray-700 mb-3">Service Enhancements</p>
