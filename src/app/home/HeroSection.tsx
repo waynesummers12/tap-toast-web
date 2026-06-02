@@ -101,13 +101,18 @@ export default function HeroSection() {
             </div>
 
             {/* Trailer Rental */}
-            <div className="bg-white rounded-2xl p-6 shadow-md border border-black/5 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div className="bg-white rounded-2xl p-6 shadow-md border border-black/5 ring-1 ring-[#c9a14a]/20 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <h4 className="text-lg font-semibold mb-2">🚐 Trailer Rental (DIY)</h4>
               <p className="text-sm text-gray-600 mb-4">
                 Rent our tap trailer or pop-up bar and create your own experience — perfect for DIY events, private parties, and budget-friendly setups.
               </p>
               <p className="text-[#9C7A2C] font-semibold mt-4 text-lg">Starting at $600</p>
-              <p className="text-xs text-gray-500 mb-4">Great for backyard parties & DIY setups</p>
+              <p className="mt-2 inline-block text-xs px-2 py-1 rounded-md bg-[#c9a14a]/10 border border-[#c9a14a]/20 text-[#c9a14a] font-medium">
+                ✔ Includes setup + delivery within 40 miles
+              </p>
+              <p className="text-xs text-gray-500 mb-4 mt-2">
+                🎉 Perfect for backyard parties, DIY weddings & private events
+              </p>
               <Link
                 href="/book?type=rental"
                 className="inline-block mt-2 px-6 py-3 border border-[#9C7A2C] text-[#9C7A2C] rounded-full text-xs tracking-[0.2em] uppercase hover:bg-[#9C7A2C] hover:text-white transition"
