@@ -69,7 +69,7 @@ export default function HeroSection() {
             <p className="text-xs tracking-[0.35em] uppercase text-[#9C7A2C] mb-3">
               Two Ways to Book
             </p>
-            <h2 className="text-3xl md:text-5xl font-semibold md:font-bold mb-4 text-black">
+            <h2 className="text-3xl md:text-5xl font-semibold md:font-bold mb-4 tracking-tight bg-linear-to-r from-black via-[#9C7A2C] to-black bg-clip-text text-transparent">
               Choose Your Experience
             </h2>
             <p className="text-base md:text-lg text-gray-500">
