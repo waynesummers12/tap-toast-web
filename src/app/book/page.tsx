@@ -787,19 +787,23 @@ type BookedSlot = {
 <p className="text-xs text-gray-500 mb-4 text-center">
   ✔ 50% deposit to reserve  ✔ Secure checkout  ✔ Instant confirmation
 </p>
-<div className="mt-6 bg-black text-white p-5 rounded-xl text-center shadow-lg border border-white/10">
-  <p className="text-sm opacity-70">Estimated Total</p>
+  <div className="mt-6 bg-black text-white p-5 rounded-xl text-center shadow-lg border border-white/10">
+    <p className="text-sm opacity-70">Estimated Total</p>
 
-  <div className="flex items-center justify-center gap-2 mt-1">
-    <p className="text-3xl font-bold transition-all duration-300">
-      {new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(grandTotal)}
-    </p>
-    {delta !== 0 && (
-      <span className={`text-sm font-semibold animate-pulse ${delta > 0 ? 'text-green-400' : 'text-red-400'}`}>
-        {delta > 0 ? `+${new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(delta)}` : new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(delta)}
-      </span>
-    )}
-  </div>
+    <div
+      className={`flex items-center justify-center gap-2 mt-1 transition-all duration-300 ${delta !== 0 ? 'animate-pulse' : ''}`}
+    >
+      <p
+        className={`text-3xl font-bold transition-all duration-300 ${delta !== 0 ? 'scale-110 drop-shadow-[0_0_12px_rgba(255,215,0,0.7)]' : 'scale-100'}`}
+      >
+        {new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(grandTotal)}
+      </p>
+      {delta !== 0 && (
+        <span className={`text-sm font-semibold animate-pulse ${delta > 0 ? 'text-green-400' : 'text-red-400'}`}>
+          {delta > 0 ? `+${new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(delta)}` : new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(delta)}
+        </span>
+      )}
+    </div>
 
   <p className="text-sm text-green-400 font-semibold mt-2">
     ${deposit} due today
