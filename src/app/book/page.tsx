@@ -733,12 +733,15 @@ type BookedSlot = {
       {isRental && (
         <div>
           <p className="text-sm font-semibold text-gray-700 mb-3">Rental Add-Ons</p>
+          <p className="text-xs text-gray-500 mb-3">
+            Delivery available within 40 miles of Golden — designed for seamless DIY events.
+          </p>
 
           <div className="space-y-3">
 
             <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
               <div className="flex items-center gap-2">
-                <span>🚚 Delivery & Pickup</span>
+                <span>🚚 Delivery & Pickup (within 40 miles of Golden)</span>
                 <span className="text-[10px] bg-black text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Popular</span>
               </div>
               <div className="flex items-center gap-4">
@@ -884,7 +887,7 @@ type BookedSlot = {
 
           <div className="flex justify-between text-sm mb-2">
             <span>Booking Type</span>
-            <span>{isRental ? "Trailer Rental" : "Full Service"}</span>
+            <span>{isRental ? "Trailer Rental Experience" : "Full Service"}</span>
           </div>
 
           <div className="flex justify-between text-sm mb-2">
@@ -945,9 +948,14 @@ type BookedSlot = {
               Remaining balance automatically charged 10 days before your event.
             </p>
             {isRental && (
-              <p className="text-xs text-gray-500 mt-1">
-                Trailer rental includes equipment only — no bartending staff.
-              </p>
+              <>
+                <p className="text-xs text-gray-500 mt-1">
+                  Premium trailer rental experience — includes equipment setup guidance. Delivery available within 40 miles of Golden.
+                </p>
+                <p className="text-xs text-[#c6a25a] font-semibold mt-2">
+                  Perfect for backyard parties, DIY weddings, & private events
+                </p>
+              </>
             )}
 
           </div>
