@@ -1,7 +1,7 @@
 "use client"
 export const dynamic = "force-dynamic"
 
-import { useState, Suspense, useEffect } from "react"
+import { useState, Suspense, useEffect, useRef } from "react"
 import { useSearchParams } from "next/navigation"
 import AvailabilityCalendar from "@/components/AvailablilityCalendar"
 
@@ -104,6 +104,10 @@ function applyTier(t: "essentials" | "signature" | "premium") {
   const grandTotal = total + upgradesTotal
   const deposit = Math.round(grandTotal * 0.5)
 
+  // Animated price change feedback state
+  const [delta, setDelta] = useState(0)
+  const prevTotalRef = useRef(grandTotal)
+
   useEffect(() => {
   fetch("https://tap-toast-api-cayk.onrender.com/api/events/booked-slots")
     .then(res => res.json())
@@ -166,6 +170,26 @@ useEffect(() => {
   grandTotal,
   deposit
 ])
+
+// Animated price change feedback effect
+useEffect(() => {
+  const prev = prevTotalRef.current
+  const diff = grandTotal - prev
+
+  // update ref immediately (no re-render)
+  prevTotalRef.current = grandTotal
+
+  if (prev !== 0 && diff !== 0) {
+    // defer updates to avoid lint error
+    const t1 = setTimeout(() => setDelta(diff), 0)
+    const t2 = setTimeout(() => setDelta(0), 1500)
+
+    return () => {
+      clearTimeout(t1)
+      clearTimeout(t2)
+    }
+  }
+}, [grandTotal])
   function isTimeBlocked(date: string, startTime: string, hours: number) {
     if (!date || !startTime) return false
 
@@ -766,9 +790,16 @@ type BookedSlot = {
 <div className="mt-6 bg-black text-white p-5 rounded-xl text-center shadow-lg border border-white/10">
   <p className="text-sm opacity-70">Estimated Total</p>
 
-  <p className="text-3xl font-bold mt-1 transition-all duration-300">
-    {new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(grandTotal)}
-  </p>
+  <div className="flex items-center justify-center gap-2 mt-1">
+    <p className="text-3xl font-bold transition-all duration-300">
+      {new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(grandTotal)}
+    </p>
+    {delta !== 0 && (
+      <span className={`text-sm font-semibold animate-pulse ${delta > 0 ? 'text-green-400' : 'text-red-400'}`}>
+        {delta > 0 ? `+${new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(delta)}` : new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(delta)}
+      </span>
+    )}
+  </div>
 
   <p className="text-sm text-green-400 font-semibold mt-2">
     ${deposit} due today
