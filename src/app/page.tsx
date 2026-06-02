@@ -124,9 +124,9 @@ export default function HomePage() {
                 ⭐⭐⭐⭐⭐
               </div>
               <p className="text-lg text-gray-200 mb-6">
-                &quot;Tap &amp; Toast made our wedding feel completely effortless. The bartending was incredible, the setup looked amazing, and our guests are still talking about it weeks later.&quot;
+                &quot;I just wanted to say thank you so much for this weekend! Your bartenders were amazing and we received so many compliments with how personable and friendly they were. Seriously so happy with the whole experience — I will send anyone I know needing your services your way!&quot;
               </p>
-              <p className="text-sm text-gray-400">— Sarah & Michael, Denver Wedding</p>
+              <p className="text-sm text-gray-400">— The Lopez Wedding</p>
             </div>
 
             {/* Side Testimonials */}
