@@ -13,22 +13,24 @@ function BookEventPageContent() {
   const cid = searchParams.get("cid") || ""
 
   const bookingType = searchParams.get("type") || "full"
-  const isRental = bookingType === "rental"
+  const isRentalInit = bookingType === "rental"
+  const [mode, setMode] = useState<"full" | "rental">(isRentalInit ? "rental" : "full")
+  const isRental = mode === "rental"
 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
   const [location, setLocation] = useState("")
   const [tier, setTier] = useState<"essentials" | "signature" | "premium" | "custom">(
-  () => (isRental ? "custom" : "signature")
-)
+    () => (isRental ? "custom" : "signature")
+  )
 
   const [date, setDate] = useState("")
   const [startTime, setStartTime] = useState("18:00")
   const [hours, setHours] = useState(4)
   const [bartenders, setBartenders] = useState(
-  () => (isRental ? 0 : 2)
-)
+    () => (isRental ? 0 : 2)
+  )
   const [guests, setGuests] = useState(100)
   const [eventType, setEventType] = useState("")
   const [selectedUpgrades, setSelectedUpgrades] = useState<Record<UpgradeKey, boolean>>({
@@ -86,7 +88,7 @@ function applyTier(t: "essentials" | "signature" | "premium") {
 
   const recommendedBartenders = getRecommendedBartenders(guests)
 
-  const basePrice = isRental ? 600 : 600
+  const basePrice = isRental ? 600 : 900
   const bartenderRate = isRental ? 0 : 60
   const tierPriceMap = {
     essentials: 0,
@@ -407,6 +409,33 @@ type BookedSlot = {
           <h1 className="text-4xl font-bold mb-3">Book Tap & Toast</h1>
           <p className="text-lg">We&apos;ll just need a few quick details</p>
         </div>
+        {/* Toggle UI for Full Service / Rental */}
+        <div className="relative mt-6 flex justify-center">
+          <div className="bg-white/90 backdrop-blur rounded-full p-1 flex shadow-lg">
+            <button
+              type="button"
+              onClick={() => setMode("full")}
+              className={`px-5 py-2 rounded-full text-sm font-semibold transition ${
+                mode === "full"
+                  ? "bg-black text-white shadow"
+                  : "text-black/70 hover:text-black"
+              }`}
+            >
+              Full Service
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("rental")}
+              className={`px-5 py-2 rounded-full text-sm font-semibold transition ${
+                mode === "rental"
+                  ? "bg-black text-white shadow"
+                  : "text-black/70 hover:text-black"
+              }`}
+            >
+              Trailer Rental
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Booking Form */}
@@ -528,7 +557,11 @@ type BookedSlot = {
           <div className="col-span-1 md:col-span-2 text-xs text-gray-500">
             Dates already reserved will be blocked after selection (calendar UI upgrade coming next)
           </div>
-        <div className="col-span-1 md:col-span-2 mt-6">
+        <div
+          className={`col-span-1 md:col-span-2 mt-6 transition-all duration-500 ${
+            isRental ? "opacity-50 pointer-events-none scale-[0.98]" : "opacity-100 scale-100"
+          }`}
+        >
 
   <h2 className="text-2xl font-semibold mb-2">Choose Your Experience</h2>
   <p className="text-sm text-gray-600 mb-4">
@@ -635,6 +668,14 @@ type BookedSlot = {
   </button>
 
 </div>
+          {isRental && (
+            <div className="col-span-1 md:col-span-2 mb-6 p-6 rounded-xl bg-[#f8f5ef] border border-black/10 text-center animate-fade-in">
+              <h3 className="text-xl font-semibold mb-2">Trailer Rental Experience</h3>
+              <p className="text-sm text-gray-700">
+                You’re booking the trailer only — perfect for DIY events. Customize add-ons below.
+              </p>
+            </div>
+          )}
           {/* Planner Instructions */}
           <div className="col-span-1 md:col-span-2 mt-4 mb-2">
             <h2 className="text-2xl font-semibold mb-1">Plan Your Event</h2>
@@ -721,7 +762,9 @@ type BookedSlot = {
 
         </div>
 
-  <div className="mt-10 p-8 rounded-2xl bg-linear-to-br from-[#f8f5ef] to-[#ffffff] border border-black/10 shadow-xl">
+  <div className={`mt-10 p-8 rounded-2xl bg-linear-to-br from-[#f8f5ef] to-[#ffffff] border border-black/10 shadow-xl transition-all duration-500 ${
+    isRental ? "ring-2 ring-[#c6a25a]/40 scale-[1.01]" : ""
+  }`}>
 
     <div className="flex items-center justify-between mb-6">
       <h3 className="text-2xl font-semibold tracking-wide">Add-Ons</h3>
@@ -887,7 +930,9 @@ type BookedSlot = {
 
           <div className="flex justify-between text-sm mb-2">
             <span>Booking Type</span>
-            <span>{isRental ? "Trailer Rental Experience" : "Full Service"}</span>
+            <span className="font-semibold">
+              {isRental ? "Trailer Rental Experience" : "Full Service Experience"}
+            </span>
           </div>
 
           <div className="flex justify-between text-sm mb-2">
@@ -968,7 +1013,9 @@ type BookedSlot = {
 <p className="text-xs text-gray-500 mb-4 text-center">
   ✔ 50% deposit to reserve  ✔ Secure checkout  ✔ Instant confirmation
 </p>
-  <div className="mt-6 bg-black text-white p-5 rounded-xl text-center shadow-lg border border-white/10">
+  <div className={`mt-6 bg-black text-white p-5 rounded-xl text-center shadow-lg border border-white/10 transition-all duration-500 ${
+    isRental ? "ring-2 ring-[#c6a25a]/50" : ""
+  }`}>
     <p className="text-sm opacity-70">Estimated Total</p>
 
     <div
