@@ -257,6 +257,34 @@ useEffect(() => {
     return () => { clearTimeout(t1); clearTimeout(t2) }
   }
 }, [tier])
+
+// 🎯 Auto-recommend upgrades based on event type
+useEffect(() => {
+  if (!eventType) return
+
+  const t = setTimeout(() => {
+    setSelectedUpgrades(prev => {
+      const next = { ...prev }
+
+      if (eventType === "Wedding") {
+        next.garnishes = true
+        next.cocktails = true
+      }
+
+      if (eventType === "Corporate Event") {
+        next.cocktails = true
+      }
+
+      if (eventType === "Private Party" || eventType === "Birthday") {
+        next.garnishes = true
+      }
+
+      return next
+    })
+  }, 0)
+
+  return () => clearTimeout(t)
+}, [eventType])
   function isTimeBlocked(date: string, startTime: string, hours: number) {
     if (!date || !startTime) return false
 
