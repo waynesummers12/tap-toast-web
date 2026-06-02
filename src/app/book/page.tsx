@@ -763,7 +763,7 @@ type BookedSlot = {
                 {bartenders < recommendedBartenders && (
                   <span className="ml-2 inline-flex items-center gap-2">
                     <span className="text-[10px] text-[#c6a25a] font-semibold">
-                      ⚠ Consider adding staff for faster service
+                      ⚠ Consider adding staff for faster service (avoid long lines)
                     </span>
                     <button
                       type="button"
