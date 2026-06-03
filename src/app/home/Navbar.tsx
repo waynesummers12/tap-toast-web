@@ -32,7 +32,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-4 text-2xl font-semibold tracking-wide hover:opacity-80"
+          className="flex items-center gap-4 text-2xl md:text-3xl font-semibold tracking-wide hover:opacity-80"
         >
           <Image
             src="/web-app-manifest-192x192.png"
