@@ -14,13 +14,13 @@ export default function HeroSection() {
           priority
           quality={80}
           sizes="100vw"
-          className="object-cover"
+          className="object-cover object-center brightness-[0.85]"
         />
         {/* dark overlay */}
-        <div className="absolute inset-0 bg-linear-to-b from-black/70 via-black/50 to-black/70 backdrop-blur-[1px]" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/80 via-black/30 to-black/80" />
 
         {/* content */}
-        <div className="relative z-10 px-6 max-w-2xl will-change-transform animate-[fadeIn_0.8s_ease-out]">
+        <div className="relative z-10 px-6 max-w-xl will-change-transform animate-[fadeIn_0.8s_ease-out]">
           <h1 className="text-sm md:text-base font-light tracking-[0.45em] uppercase mb-6 text-white/80">
             Premium Mobile Bar Experience
           </h1>
@@ -38,7 +38,7 @@ export default function HeroSection() {
             href="/book"
             prefetch
             aria-label="Book mobile bar service and get instant quote"
-            className="inline-block border border-[#9C7A2C] bg-[#9C7A2C]/90 hover:bg-[#b3913b] hover:border-[#b3913b] transition-all duration-300 px-8 md:px-10 py-4 rounded-full text-white tracking-[0.2em] md:tracking-[0.35em] uppercase text-xs md:text-xs shadow-lg hover:shadow-xl"
+            className="inline-block border border-[#9C7A2C] bg-[#9C7A2C] hover:bg-[#b3913b] hover:border-[#b3913b] transition-all duration-300 px-8 md:px-10 py-4 rounded-full text-white tracking-[0.2em] md:tracking-[0.35em] uppercase text-xs md:text-xs shadow-xl hover:shadow-2xl"
           >
             Check Availability & Get Instant Quote
           </Link>
