@@ -39,7 +39,7 @@ export default function Navbar() {
             alt="Tap & Toast Logo"
             width={64}
             height={64}
-            className="rounded-full bg-black p-1"
+            className="rounded-full bg-black p-1 md:w-20 md:h-20"
           />
           <span>Colorado Tap & Toast</span>
         </Link>
