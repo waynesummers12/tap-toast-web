@@ -858,11 +858,53 @@ type BookedSlot = {
           </div>
         )}
           {isRental && (
-            <div className="col-span-1 md:col-span-2 mb-6 p-6 rounded-xl bg-[#f8f5ef] border border-black/10 text-center animate-fade-in">
-              <h3 className="text-xl font-semibold mb-2">Trailer Rental Experience</h3>
-              <p className="text-sm text-gray-700">
-                You’re booking the trailer only — perfect for DIY events. Customize add-ons below.
-              </p>
+            <div className="col-span-1 md:col-span-2 mb-6 rounded-2xl overflow-hidden border border-[#c6a25a]/40 shadow-2xl animate-[fadeIn_0.4s_ease-out]">
+
+              {/* Image Header */}
+              <div
+                className="h-48 md:h-64 bg-cover bg-center relative"
+                style={{ backgroundImage: "url('/trailer-wedding.jpg')" }}
+              >
+                <div className="absolute inset-0 bg-black/50" />
+                <div className="relative h-full flex flex-col justify-center items-center text-center text-white px-4">
+                  <span className="text-[10px] bg-[#c6a25a] text-black px-2 py-0.5 rounded-full uppercase tracking-wide mb-2">
+                    Viral Favorite
+                  </span>
+                  <h3 className="text-2xl md:text-3xl font-semibold tracking-wide">
+                    Tap Trailer Experience
+                  </h3>
+                  <p className="text-xs text-white/80 mt-1">
+                    The centerpiece your guests will photograph all night
+                  </p>
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="bg-black text-white p-6 text-center">
+
+                <p className="text-sm text-white/80 max-w-xl mx-auto">
+                  A fully designed, event-ready mobile bar that transforms your event into a high-end experience — no staffing required.
+                </p>
+
+                {/* Social Proof */}
+                <p className="text-xs text-[#c6a25a] mt-4 font-semibold">
+                  Used by weddings, influencers, and luxury backyard events
+                </p>
+
+                {/* Features */}
+                <div className="mt-4 text-xs text-white/70 space-y-1">
+                  <p>✔ Instagram-worthy tap trailer setup</p>
+                  <p>✔ Custom signage + premium visual styling</p>
+                  <p>✔ Effortless guest experience</p>
+                </div>
+
+                {/* CTA */}
+                <p className="mt-5 text-xs text-white/60">
+                  Pair with add-ons below to elevate your experience
+                </p>
+
+              </div>
+
             </div>
           )}
           {/* Planner Instructions */}
