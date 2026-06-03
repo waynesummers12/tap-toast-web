@@ -464,8 +464,11 @@ type BookedSlot = {
           <h1 className="text-4xl font-bold mb-3">Book Tap & Toast</h1>
           <p className="text-lg">We&apos;ll just need a few quick details</p>
         </div>
-        {/* Toggle UI for Full Service / Rental */}
-        <div className="relative mt-6 flex justify-center">
+      </div>
+
+      {/* Toggle UI for Full Service / Rental - moved below hero */}
+      <div className="mt-8 text-center">
+        <div className="relative flex justify-center">
           <div className="bg-white/90 backdrop-blur rounded-full p-1 flex shadow-lg">
             <button
               type="button"
@@ -491,6 +494,11 @@ type BookedSlot = {
             </button>
           </div>
         </div>
+        {isRental && (
+          <p className="text-center text-sm text-gray-600 mt-3">
+            Prefer full-service? Switch to Full Service to customize your event below.
+          </p>
+        )}
       </div>
 
       {/* Booking Form */}
