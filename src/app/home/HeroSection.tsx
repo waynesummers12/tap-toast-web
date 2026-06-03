@@ -21,7 +21,7 @@ export default function HeroSection() {
 
         {/* spotlight effect */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),transparent_60%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_60%,rgba(255,255,255,0.08),transparent_60%)]" />
         </div>
 
         {/* content */}
