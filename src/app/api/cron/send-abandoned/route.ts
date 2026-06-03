@@ -15,6 +15,7 @@ export async function GET() {
       .from("quotes")
       .select("*")
       .eq("status", "abandoned")
+      .eq("converted", false)
       .lt("email_stage", 3)
 
     if (error) {
@@ -62,7 +63,10 @@ export async function GET() {
           from: "Tap & Toast <events@tapandtoast.com>",
           to: quote.email,
           subject: template.subject,
-          html: template.html
+          html: template.html.replace(
+            `href="https://tapandtoast.com/book?cid=${quote.id}"`,
+            `href="https://tapandtoast.com/book?cid=${quote.id}&src=email_stage_${quote.email_stage}"`
+          )
         })
 
         // ✅ Update stage + timestamp
