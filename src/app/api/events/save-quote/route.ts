@@ -1,6 +1,5 @@
-
-
 import { NextRequest, NextResponse } from "next/server"
+import { supabase } from "@/lib/supabase"
 
 export async function POST(req: NextRequest) {
   try {
@@ -51,9 +50,20 @@ export async function POST(req: NextRequest) {
       email_sent: false
     }
 
-    // 🔥 TEMP STORAGE (replace later with DB)
-    // For now, just log so we can confirm flow works
-    console.log("Saved quote:", quote)
+    const { error } = await supabase
+      .from("quotes")
+      .upsert({
+        ...quote
+      })
+
+    if (error) {
+      console.error("Supabase insert error:", error)
+
+      return NextResponse.json(
+        { error: "Failed to save quote" },
+        { status: 500 }
+      )
+    }
 
     return NextResponse.json({ success: true, cid: quote.id })
   } catch (err) {
