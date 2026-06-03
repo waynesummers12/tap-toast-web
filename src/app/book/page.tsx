@@ -618,14 +618,15 @@ type BookedSlot = {
 
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-1">Simple Event Pricing</h2>
-          <p className="text-xs text-gray-500 mt-2">
-  Bartender recommendations are based on guest count to ensure fast service and no long lines.
+
+<p className="text-gray-600 text-sm">
+  Base event service starts at $900. Trailer rental starts at $600.
+  Customize your event below and see pricing update instantly.
 </p>
-          <p className="text-gray-600 text-sm">
-            Base event service starts at $900. Trailer rental starts at $600.
-            Add bartenders, hours, and upgrades to customize your event.
-            Use the planner below to customize your event and see your quote update instantly using the sliders. Reserve only if it aligns with your needs.
-          </p>
+
+<p className="text-xs text-[#c6a25a] mt-2 font-medium">
+  Staffing is automatically recommended based on guest count to ensure fast service and no long lines.
+</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -894,7 +895,7 @@ type BookedSlot = {
                       onClick={() => setBartenders(recommendedBartenders)}
                       className="text-[10px] underline text-[#c6a25a] hover:text-black transition"
                     >
-                      Fix for me
+                      Apply recommendation
                     </button>
                   </span>
                 )}
@@ -914,12 +915,21 @@ type BookedSlot = {
           )}
 
           <div>
-            <label className="text-sm">Guest Count: {guests}</label>
+            Guest Count: {guests}
+<span className="text-xs text-gray-500 ml-2">(approximate)</span>
             {guests > 0 && (
-  <p className="text-xs text-[#c6a25a] mt-2">
-    Based on {guests} guests, we recommend {recommendedBartenders} bartender{recommendedBartenders > 1 ? "s" : ""} for smooth service.
-  </p>
-)}
+              <>
+                <p className="text-xs text-[#c6a25a] mt-2">
+                  Based on {guests} guests, we recommend {recommendedBartenders} bartender{recommendedBartenders > 1 ? "s" : ""} for smooth service.
+                </p>
+
+                {bartenders === recommendedBartenders && (
+                  <p className="text-xs text-green-600 mt-1 font-medium">
+                    ✔ Perfect staffing level for smooth service
+                  </p>
+                )}
+              </>
+            )}
             <input
               className="w-full"
               type="range"
