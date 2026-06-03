@@ -6,15 +6,12 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function GET() {
   try {
-    // ⏱ Find quotes older than 2 hours AND not emailed
-    const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString()
+    const now = new Date()
 
     const { data: quotes, error } = await supabase
       .from("quotes")
       .select("*")
-      .eq("email_sent", false)
       .eq("status", "abandoned")
-      .lt("created_at", twoHoursAgo)
 
     if (error) {
       console.error("Fetch error:", error)
@@ -27,10 +24,35 @@ export async function GET() {
 
     for (const quote of quotes) {
       try {
+        const created = new Date(quote.created_at)
+        const lastSent = quote.last_emailed_at ? new Date(quote.last_emailed_at) : null
+
+        const hoursSinceCreated = (now.getTime() - created.getTime()) / (1000 * 60 * 60)
+        const hoursSinceLast = lastSent
+          ? (now.getTime() - lastSent.getTime()) / (1000 * 60 * 60)
+          : null
+
+        let subject = ""
+
+        // 🟢 EMAIL 1 — after 2 hours
+        if (quote.email_stage === 0 && hoursSinceCreated >= 2) {
+          subject = "You’re almost booked 🍸"
+        }
+        // 🟡 EMAIL 2 — 24 hours later
+        else if (quote.email_stage === 1 && hoursSinceLast && hoursSinceLast >= 24) {
+          subject = "Your date is still open — but not for long"
+        }
+        // 🔴 EMAIL 3 — 72 hours later
+        else if (quote.email_stage === 2 && hoursSinceLast && hoursSinceLast >= 48) {
+          subject = "Last chance before your date fills up"
+        } else {
+          continue
+        }
+
         await resend.emails.send({
           from: "Tap & Toast <events@tapandtoast.com>",
           to: quote.email,
-          subject: "Your Tap & Toast event is almost booked 🍸",
+          subject,
           html: `
             <div style="font-family: Arial, sans-serif;">
               <h2>Hey ${quote.name || "there"},</h2>
@@ -53,13 +75,16 @@ export async function GET() {
           `
         })
 
-        // ✅ Mark as sent
+        // ✅ Update stage + timestamp
         await supabase
           .from("quotes")
-          .update({ email_sent: true })
+          .update({
+            email_stage: (quote.email_stage || 0) + 1,
+            last_emailed_at: new Date().toISOString()
+          })
           .eq("id", quote.id)
 
-        console.log("Email sent + marked:", quote.email)
+        console.log("Email sent stage", quote.email_stage, quote.email)
 
       } catch (err) {
         console.error("Email error for:", quote.email, err)
