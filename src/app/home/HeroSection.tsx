@@ -91,7 +91,7 @@ export default function HeroSection() {
 
           <div className="grid md:grid-cols-2 gap-6">
             {/* Full Service */}
-            <div className="bg-white rounded-2xl p-6 shadow-md border border-black/5 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div className="bg-white rounded-2xl p-6 shadow-md border border-[#c9a14a]/20 ring-1 ring-[#c9a14a]/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:-translate-y-2">
               <h4 className="text-lg font-semibold mb-2 flex items-center justify-center gap-2">
                 🍸 Full-Service Experience
                 <span className="group relative overflow-hidden text-[10px] bg-[#9C7A2C] text-white px-2 py-1 rounded-full ring-1 ring-[#9C7A2C]/40">
@@ -111,7 +111,7 @@ export default function HeroSection() {
               </p>
               <Link
                 href="/book?type=full"
-                className="inline-block mt-2 px-6 py-3 bg-[#9C7A2C] text-white rounded-full text-xs tracking-[0.2em] uppercase hover:bg-[#b3913b] transition"
+                className="inline-block mt-2 px-6 py-3 bg-[#9C7A2C] text-white rounded-full text-xs tracking-[0.2em] uppercase shadow-lg hover:bg-[#b3913b] hover:shadow-xl transition"
               >
                 Book Full Service
               </Link>
