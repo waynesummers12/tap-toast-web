@@ -618,6 +618,9 @@ type BookedSlot = {
 
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-1">Simple Event Pricing</h2>
+          <p className="text-xs text-gray-500 mt-2">
+  Bartender recommendations are based on guest count to ensure fast service and no long lines.
+</p>
           <p className="text-gray-600 text-sm">
             Base event service starts at $900. Trailer rental starts at $600.
             Add bartenders, hours, and upgrades to customize your event.
@@ -876,8 +879,11 @@ type BookedSlot = {
               <label className="text-sm">
                 Bartenders: {bartenders}
                 <span className="text-xs text-gray-500 ml-2">
-                  (recommended: {recommendedBartenders})
-                </span>
+  (recommended: {recommendedBartenders} based on {guests} guests)
+</span>
+<span className="ml-1 text-gray-400 cursor-help" title="We recommend 1 bartender per ~50 guests to keep lines short and service fast.">
+  ⓘ
+</span>
                 {bartenders < recommendedBartenders && (
                   <span className="ml-2 inline-flex items-center gap-2">
                     <span className="text-[10px] text-[#c6a25a] font-semibold">
@@ -909,6 +915,11 @@ type BookedSlot = {
 
           <div>
             <label className="text-sm">Guest Count: {guests}</label>
+            {guests > 0 && (
+  <p className="text-xs text-[#c6a25a] mt-2">
+    Based on {guests} guests, we recommend {recommendedBartenders} bartender{recommendedBartenders > 1 ? "s" : ""} for smooth service.
+  </p>
+)}
             <input
               className="w-full"
               type="range"
