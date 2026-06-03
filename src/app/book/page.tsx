@@ -629,7 +629,7 @@ type BookedSlot = {
   Customize your event below and see pricing update instantly.
 </p>
 
-<p className="text-xs text-[#c6a25a] mt-2 font-medium">
+<p className="text-xs text-[#8a6a1f] mt-2 font-medium">
   Staffing is automatically recommended based on guest count to ensure fast service and no long lines.
 </p>
           {/* Progress + Personalization */}
