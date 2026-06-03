@@ -1024,7 +1024,6 @@ type BookedSlot = {
           <div className="text-center">
             <p className="font-semibold text-lg mb-2 underline">The Essentials</p>
             <p className="text-sm text-gray-700">Clear cups, napkins</p>
-            <p className="text-sm text-gray-700">Bottled water service for all guests</p>
             <p className="text-sm text-gray-700">Personalized bar menu + trailer signage</p>
           </div>
 
