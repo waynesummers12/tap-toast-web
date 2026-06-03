@@ -8,7 +8,7 @@ export default function HeroSection() {
         className="relative w-full min-h-[85vh] md:h-[90vh] flex items-center justify-center text-center text-white"
       >
         <Image
-          src="/trailer-wedding.jpg"
+          src="/Trailer-house.png"
           alt="Luxury mobile bar trailer at wedding event"
           fill
           priority
