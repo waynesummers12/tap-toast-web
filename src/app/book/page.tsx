@@ -123,6 +123,42 @@ const prevTierRef = useRef(tier)
 const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
 
   useEffect(() => {
+    const saved = localStorage.getItem("tap_toast_quote")
+    if (!saved) return
+
+    try {
+      const data = JSON.parse(saved)
+
+      const t = setTimeout(() => {
+        setName(data.name || "")
+        setEmail(data.email || "")
+        setPhone(data.phone || "")
+        setLocation(data.location || "")
+        setDate(data.date || "")
+        setStartTime(data.startTime || "18:00")
+        setHours(data.hours || 4)
+        setGuests(data.guests || 100)
+        setBartenders(data.bartenders || 2)
+        setEventType(data.eventType || "")
+        setSelectedUpgrades(data.selectedUpgrades || {
+          garnishes: true,
+          cocktails: true,
+          setupHour: false
+        })
+        setTier(data.tier || "signature")
+        setMode(data.mode || "full")
+
+        console.log("Recovered saved quote")
+      }, 0)
+
+      return () => clearTimeout(t)
+
+    } catch (err) {
+      console.error("Failed to restore quote", err)
+    }
+  }, [])
+
+  useEffect(() => {
   fetch("https://tap-toast-api-cayk.onrender.com/api/events/booked-slots")
     .then(res => res.json())
     .then((data: BookedSlot[]) => setBookedSlots(data))
@@ -132,6 +168,25 @@ const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
 useEffect(() => {
   // Only run if they’ve entered key info
   if (!name || !email || !date) return
+
+  // Save to localStorage
+  const quote = {
+    name,
+    email,
+    phone,
+    location,
+    date,
+    startTime,
+    hours,
+    guests,
+    bartenders,
+    eventType,
+    selectedUpgrades,
+    tier,
+    mode
+  }
+
+  localStorage.setItem("tap_toast_quote", JSON.stringify(quote))
 
   const timeout = setTimeout(async () => {
     try {
@@ -182,7 +237,9 @@ useEffect(() => {
   eventType,
   selectedUpgrades,
   grandTotal,
-  deposit
+  deposit,
+  tier,
+  mode
 ])
 
 // Animated price change feedback effect
@@ -435,6 +492,7 @@ type BookedSlot = {
 
       if (session?.url) {
         window.location.href = session.url
+        localStorage.removeItem("tap_toast_quote")
       } else {
         alert("Stripe session did not return a checkout URL. Check backend logs.")
         setSubmitting(false)
