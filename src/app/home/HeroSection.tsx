@@ -19,6 +19,11 @@ export default function HeroSection() {
         {/* dark overlay */}
         <div className="absolute inset-0 bg-linear-to-b from-black/80 via-black/30 to-black/80" />
 
+        {/* spotlight effect */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),transparent_60%)]" />
+        </div>
+
         {/* content */}
         <div className="relative z-10 px-6 max-w-xl will-change-transform animate-[fadeIn_0.8s_ease-out]">
           <h1 className="text-sm md:text-base font-light tracking-[0.45em] uppercase mb-6 text-white/80">
