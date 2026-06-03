@@ -1037,11 +1037,8 @@ type BookedSlot = {
                   const recommended = getRecommendedBartenders(value)
 
                   if (!isRental) {
-                    setBartenders(prev => {
-                      if (prev < recommended) return recommended
-                      return prev
-                    })
-                  }
+  setBartenders(recommended)
+}
                 }}
               />
             </div>
