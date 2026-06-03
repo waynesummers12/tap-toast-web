@@ -1005,45 +1005,47 @@ type BookedSlot = {
             </div>
           )}
 
-          <div>
-            Guest Count: {guests}
+          {!isRental && (
+            <div>
+              Guest Count: {guests}
 <span className="text-xs text-gray-500 ml-2">(approximate)</span>
-            {guests > 0 && (
-              <>
-                <p className="text-xs text-[#c6a25a] mt-2">
-                  Based on {guests} guests, we recommend {recommendedBartenders} bartender{recommendedBartenders > 1 ? "s" : ""} for smooth service.
-                </p>
-
-                {bartenders === recommendedBartenders && (
-                  <p className="text-xs text-green-600 mt-1 font-medium animate-[fadeIn_0.3s_ease-out]">
-                    ✔ Perfect staffing level for smooth service
+              {guests > 0 && (
+                <>
+                  <p className="text-xs text-[#c6a25a] mt-2">
+                    Based on {guests} guests, we recommend {recommendedBartenders} bartender{recommendedBartenders > 1 ? "s" : ""} for smooth service.
                   </p>
-                )}
-              </>
-            )}
-            <input
-              className="w-full"
-              type="range"
-              min={10}
-              max={300}
-              step={10}
-              value={guests}
-              onChange={(e)=>{
-                const value = Number(e.target.value)
-                setGuests(value)
-                setTier("custom")
 
-                const recommended = getRecommendedBartenders(value)
+                  {bartenders === recommendedBartenders && (
+                    <p className="text-xs text-green-600 mt-1 font-medium animate-[fadeIn_0.3s_ease-out]">
+                      ✔ Perfect staffing level for smooth service
+                    </p>
+                  )}
+                </>
+              )}
+              <input
+                className="w-full"
+                type="range"
+                min={10}
+                max={300}
+                step={10}
+                value={guests}
+                onChange={(e)=>{
+                  const value = Number(e.target.value)
+                  setGuests(value)
+                  setTier("custom")
 
-                if (!isRental) {
-                  setBartenders(prev => {
-                    if (prev < recommended) return recommended
-                    return prev
-                  })
-                }
-              }}
-            />
-          </div>
+                  const recommended = getRecommendedBartenders(value)
+
+                  if (!isRental) {
+                    setBartenders(prev => {
+                      if (prev < recommended) return recommended
+                      return prev
+                    })
+                  }
+                }}
+              />
+            </div>
+          )}
 
         </div>
 
@@ -1353,9 +1355,15 @@ type BookedSlot = {
       <p className="text-xs text-white/70 mt-2">
     ✔ Fully Insured (General + Liquor Liability)
   </p>
+  {!isRental ? (
   <p className="text-xs text-white/70 mt-2">
     Optimized for {guests} guests • {bartenders} bartenders • {hours} hours
   </p>
+) : (
+  <p className="text-xs text-white/60 mt-2 text-center">
+    Add bartenders below if you want full-service support
+  </p>
+)}
 </div>
 
 {/* Human CTA */}
