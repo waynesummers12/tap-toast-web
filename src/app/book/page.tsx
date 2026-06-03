@@ -500,7 +500,7 @@ type BookedSlot = {
           </div>
         </div>
         {isRental && (
-          <p className="text-center text-sm mt-3 inline-flex items-center gap-2 px-3 py-2 rounded-md bg-[#c6a25a]/10 border border-[#c6a25a]/20 text-[#9C7A2C] animate-[fadeIn_0.4s_ease-out]">
+          <p className="text-center text-sm mt-3 inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white/80 border border-[#c6a25a]/30 text-[#9C7A2C] font-semibold animate-[fadeIn_0.4s_ease-out]">
             <span className="animate-pulse">✨</span>
             <span>
               Prefer a stress-free experience? Switch to Full Service and we’ll handle everything for you.
