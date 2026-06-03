@@ -500,7 +500,7 @@ type BookedSlot = {
           </div>
         </div>
         {isRental && (
-          <p className="text-center text-sm mt-3 inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white/80 border border-[#c6a25a]/30 text-[#9C7A2C] font-semibold animate-[fadeIn_0.4s_ease-out]">
+          <p className="text-center text-sm mt-3 inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white/80 border border-[#c6a25a]/30 border-l-4 border-l-[#c6a25a] text-[#9C7A2C] font-semibold animate-[fadeIn_0.4s_ease-out] shadow-[0_0_8px_rgba(198,162,90,0.15)]">
             <span className="animate-pulse">✨</span>
             <span>
               Prefer a stress-free experience? Switch to Full Service and we’ll handle everything for you.
@@ -515,7 +515,8 @@ type BookedSlot = {
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-1">Simple Event Pricing</h2>
           <p className="text-gray-600 text-sm">
-            Base event service starts at $600 plus $60 per hour for each bartender.
+            Base event service starts at $900. Trailer rental starts at $600.
+            Add bartenders, hours, and upgrades to customize your event.
             Use the planner below to customize your event and see your quote update instantly using the sliders. Reserve only if it aligns with your needs.
           </p>
         </div>
@@ -634,7 +635,9 @@ type BookedSlot = {
           }`}
         >
 
-  <h2 className="text-2xl font-semibold mb-2">Choose Your Experience</h2>
+  <h2 className="text-2xl font-semibold mb-2">
+    {isRental ? "Full Service Packages (Disabled for Rental)" : "Choose Your Experience"}
+  </h2>
   <p className="text-sm text-gray-600 mb-4">
     Start with a curated package or customize your own below.
   </p>
@@ -730,14 +733,6 @@ type BookedSlot = {
 
   </div>
 
-  <button
-    type="button"
-    onClick={() => setTier("custom")}
-    className="mt-3 text-xs underline text-gray-500"
-  >
-    Or build your own custom event
-  </button>
-
 </div>
           {isRental && (
             <div className="col-span-1 md:col-span-2 mb-6 p-6 rounded-xl bg-[#f8f5ef] border border-black/10 text-center animate-fade-in">
@@ -749,7 +744,7 @@ type BookedSlot = {
           )}
           {/* Planner Instructions */}
           <div className="col-span-1 md:col-span-2 mt-4 mb-2">
-            <h2 className="text-2xl font-semibold mb-1">Plan Your Event</h2>
+            <h2 className="text-2xl font-semibold mb-1">Customize Your Event</h2>
             <p className="text-gray-600 text-sm">
               Use the sliders below to customize your event details. Your quote
               will update automatically in real time so you can instantly see
@@ -765,7 +760,10 @@ type BookedSlot = {
               min={1}
               max={10}
               value={hours}
-              onChange={(e)=>setHours(Number(e.target.value))}
+              onChange={(e)=>{
+  setHours(Number(e.target.value))
+  setTier("custom")
+}}
             />
           </div>
 
@@ -797,7 +795,10 @@ type BookedSlot = {
                 min={1}
                 max={5}
                 value={bartenders}
-                onChange={(e)=>setBartenders(Number(e.target.value))}
+                onChange={(e)=>{
+  setBartenders(Number(e.target.value))
+  setTier("custom")
+}}
               />
             </div>
           )}
@@ -812,17 +813,17 @@ type BookedSlot = {
               step={10}
               value={guests}
               onChange={(e)=>{
-                const value = Number(e.target.value)
-                setGuests(value)
+  const value = Number(e.target.value)
+  setGuests(value)
+  setTier("custom")
 
-                const recommended = getRecommendedBartenders(value)
+  const recommended = getRecommendedBartenders(value)
 
-                // Only auto-increase if user hasn't manually overridden (soft suggestion behavior)
-                setBartenders(prev => {
-                  if (prev < recommended) return recommended
-                  return prev
-                })
-              }}
+  setBartenders(prev => {
+    if (prev < recommended) return recommended
+    return prev
+  })
+}}
             />
           </div>
 
