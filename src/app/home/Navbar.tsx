@@ -32,13 +32,13 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-3 text-xl font-semibold tracking-wide hover:opacity-80"
+          className="flex items-center gap-4 text-xl font-semibold tracking-wide hover:opacity-80"
         >
           <Image
             src="/web-app-manifest-192x192.png"
             alt="Tap & Toast Logo"
-            width={36}
-            height={36}
+            width={48}
+            height={48}
             className="rounded-full"
           />
           <span>Colorado Tap & Toast</span>
