@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server"
 import { supabase } from "@/lib/supabase"
 import { Resend } from "resend"
+import { abandonedEmail1 } from "@/lib/emails/abandonedEmail1"
+import { abandonedEmail2 } from "@/lib/emails/abandonedEmail2"
+import { abandonedEmail3 } from "@/lib/emails/abandonedEmail3"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -12,6 +15,7 @@ export async function GET() {
       .from("quotes")
       .select("*")
       .eq("status", "abandoned")
+      .lt("email_stage", 3)
 
     if (error) {
       console.error("Fetch error:", error)
@@ -32,54 +36,40 @@ export async function GET() {
           ? (now.getTime() - lastSent.getTime()) / (1000 * 60 * 60)
           : null
 
-        let subject = ""
+        let template: { subject: string; html: string } | null = null
 
         // 🟢 EMAIL 1 — after 2 hours
         if (quote.email_stage === 0 && hoursSinceCreated >= 2) {
-          subject = "You’re almost booked 🍸"
+          template = abandonedEmail1(quote)
         }
         // 🟡 EMAIL 2 — 24 hours later
         else if (quote.email_stage === 1 && hoursSinceLast && hoursSinceLast >= 24) {
-          subject = "Your date is still open — but not for long"
+          template = abandonedEmail2(quote)
         }
         // 🔴 EMAIL 3 — 72 hours later
         else if (quote.email_stage === 2 && hoursSinceLast && hoursSinceLast >= 48) {
-          subject = "Last chance before your date fills up"
-        } else {
+          template = abandonedEmail3(quote)
+        }
+
+        if (!template) continue
+
+        if (!quote.email) {
+          console.warn("Skipping quote with no email", quote.id)
           continue
         }
 
         await resend.emails.send({
           from: "Tap & Toast <events@tapandtoast.com>",
           to: quote.email,
-          subject,
-          html: `
-            <div style="font-family: Arial, sans-serif;">
-              <h2>Hey ${quote.name || "there"},</h2>
-
-              <p>We saved your event — you were just one step away.</p>
-
-              <ul>
-                <li>Date: ${quote.event_date}</li>
-                <li>Guests: ${quote.guests}</li>
-                <li>Hours: ${quote.hours}</li>
-              </ul>
-
-              <a href="https://tapandtoast.com/book?cid=${quote.id}"
-                 style="display:inline-block;padding:12px 20px;background:#c6a25a;color:black;border-radius:6px;">
-                Finish Booking
-              </a>
-
-              <p style="margin-top:20px;">— Tap & Toast 🍸</p>
-            </div>
-          `
+          subject: template.subject,
+          html: template.html
         })
 
         // ✅ Update stage + timestamp
         await supabase
           .from("quotes")
           .update({
-            email_stage: (quote.email_stage || 0) + 1,
+            email_stage: Math.min((quote.email_stage || 0) + 1, 3),
             last_emailed_at: new Date().toISOString()
           })
           .eq("id", quote.id)
