@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description: "Mobile bar service for weddings, parties, and private events.",
   icons: {
     icon: [
-      { url: "/favicon.png", sizes: "any", type: "image/png" }
+      { url: "/favicon-v2.png", sizes: "any", type: "image/png" }
     ],
     apple: "/apple-touch-icon.png"
   },
