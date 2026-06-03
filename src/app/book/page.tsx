@@ -469,14 +469,19 @@ type BookedSlot = {
       {/* Toggle UI for Full Service / Rental - moved below hero */}
       <div className="mt-8 text-center">
         <div className="relative flex justify-center">
-          <div className="bg-white/90 backdrop-blur rounded-full p-1 flex shadow-lg">
+          <div className="bg-white/90 backdrop-blur rounded-full p-1 flex shadow-lg relative overflow-hidden">
+            <div
+              className={`absolute top-1 bottom-1 w-1/2 rounded-full bg-black transition-all duration-300 ease-out ${
+                mode === "full" ? "left-1" : "left-1/2"
+              }`}
+            />
             <button
               type="button"
               onClick={() => setMode("full")}
-              className={`px-5 py-2 rounded-full text-sm font-semibold transition ${
+              className={`relative z-10 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 active:scale-95 ${
                 mode === "full"
-                  ? "bg-black text-white shadow"
-                  : "text-black/70 hover:text-black"
+                  ? "text-white scale-105"
+                  : "text-black/70 hover:text-black hover:scale-105"
               }`}
             >
               Full Service
@@ -484,10 +489,10 @@ type BookedSlot = {
             <button
               type="button"
               onClick={() => setMode("rental")}
-              className={`px-5 py-2 rounded-full text-sm font-semibold transition ${
+              className={`relative z-10 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 active:scale-95 ${
                 mode === "rental"
-                  ? "bg-black text-white shadow"
-                  : "text-black/70 hover:text-black"
+                  ? "text-white scale-105"
+                  : "text-black/70 hover:text-black hover:scale-105"
               }`}
             >
               Trailer Rental
@@ -496,7 +501,7 @@ type BookedSlot = {
         </div>
         {isRental && (
           <p className="text-center text-sm text-gray-600 mt-3">
-            Prefer full-service? Switch to Full Service to customize your event below.
+            Prefer a stress-free experience? Switch to Full Service and we’ll handle everything for you.
           </p>
         )}
       </div>
