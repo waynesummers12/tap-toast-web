@@ -107,18 +107,6 @@ export default function Navbar() {
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
           </Link>
           <Link
-            href="/what-is-dirty-soda-bar"
-            className={`relative group ${
-              pathname === "/what-is-dirty-soda-bar" ? "text-white" : "opacity-80"
-            }`}
-          >
-            <span className="flex items-center gap-4">
-              Dirty Soda Guide
-              <span className="opacity-40">|</span>
-            </span>
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-          <Link
             href="/#packages"
             className="relative group opacity-80"
           >
@@ -200,13 +188,6 @@ export default function Navbar() {
             Bartending
           </Link>
 
-          <Link
-            href="/what-is-dirty-soda-bar"
-            onClick={() => setMenuOpen(false)}
-            className="hover:scale-105 transition"
-          >
-            Dirty Soda Guide & Ideas
-          </Link>
 
           <Link
             href="/#packages"
