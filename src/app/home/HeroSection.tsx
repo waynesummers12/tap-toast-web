@@ -21,11 +21,14 @@ export default function HeroSection() {
 
         {/* spotlight effect */}
         <div className="absolute inset-0 pointer-events-none">
-          {/* primary glow */}
-          <div className="absolute inset-0 animate-[pulse_6s_ease-in-out_infinite] bg-[radial-gradient(circle_at_50%_60%,rgba(201,161,74,0.22),transparent_50%)]" />
+          {/* base warm glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_60%,rgba(201,161,74,0.18),transparent_55%)]" />
 
-          {/* secondary tighter glow */}
-          <div className="absolute inset-0 animate-[pulse_5s_ease-in-out_infinite] bg-[radial-gradient(circle_at_50%_60%,rgba(201,161,74,0.35),transparent_35%)]" />
+          {/* inner glow for depth */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_60%,rgba(201,161,74,0.28),transparent_40%)]" />
+
+          {/* subtle shimmer sweep */}
+          <div className="absolute inset-0 opacity-0 animate-[shimmer_8s_linear_infinite] bg-linear-to-r from-transparent via-white/10 to-transparent" />
         </div>
 
         {/* content */}
