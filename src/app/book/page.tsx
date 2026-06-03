@@ -755,11 +755,8 @@ type BookedSlot = {
           <div className="col-span-1 md:col-span-2 text-xs text-gray-500">
             Dates already reserved will be blocked after selection (calendar UI upgrade coming next)
           </div>
-        <div
-          className={`col-span-1 md:col-span-2 mt-6 transition-all duration-500 ${
-            isRental ? "opacity-50 pointer-events-none scale-[0.98]" : "opacity-100 scale-100"
-          }`}
-        >
+        {!isRental && (
+          <div className="col-span-1 md:col-span-2 mt-6">
 
   <h2 className="text-2xl font-semibold mb-2">
     {isRental ? "Full Service Packages (Disabled for Rental)" : "Choose Your Experience"}
@@ -858,8 +855,8 @@ type BookedSlot = {
     </button>
 
   </div>
-
-</div>
+          </div>
+        )}
           {isRental && (
             <div className="col-span-1 md:col-span-2 mb-6 p-6 rounded-xl bg-[#f8f5ef] border border-black/10 text-center animate-fade-in">
               <h3 className="text-xl font-semibold mb-2">Trailer Rental Experience</h3>
@@ -877,7 +874,7 @@ type BookedSlot = {
               pricing and reserve your event when ready.
             </p>
             {/* 🔥 AI Recommendation Banner */}
-            {eventType && guests > 0 && (
+            {!isRental && eventType && guests > 0 && (
               <div className="mt-4 p-4 rounded-xl bg-black text-white shadow-md border border-[#c6a25a]/30 animate-[fadeIn_0.4s_ease-out]">
                 <p className="text-xs uppercase tracking-widest text-[#c6a25a] mb-1">
                   Smart Recommendation
@@ -910,20 +907,22 @@ type BookedSlot = {
             )}
           </div>
 
-          <div>
-            <label className="text-sm">Hours: {hours}</label>
-            <input
-              className="w-full"
-              type="range"
-              min={1}
-              max={10}
-              value={hours}
-              onChange={(e)=>{
-  setHours(Number(e.target.value))
-  setTier("custom")
-}}
-            />
-          </div>
+          {!isRental && (
+            <div>
+              <label className="text-sm">Hours: {hours}</label>
+              <input
+                className="w-full"
+                type="range"
+                min={1}
+                max={10}
+                value={hours}
+                onChange={(e)=>{
+                  setHours(Number(e.target.value))
+                  setTier("custom")
+                }}
+              />
+            </div>
+          )}
 
           {!isRental && (
             <div className={`transition-all duration-300 ${bartenders < recommendedBartenders ? "ring-1 ring-[#c6a25a]/40 rounded-lg p-2" : ""}`}>
@@ -988,17 +987,19 @@ type BookedSlot = {
               step={10}
               value={guests}
               onChange={(e)=>{
-  const value = Number(e.target.value)
-  setGuests(value)
-  setTier("custom")
+                const value = Number(e.target.value)
+                setGuests(value)
+                setTier("custom")
 
-  const recommended = getRecommendedBartenders(value)
+                const recommended = getRecommendedBartenders(value)
 
-  setBartenders(prev => {
-    if (prev < recommended) return recommended
-    return prev
-  })
-}}
+                if (!isRental) {
+                  setBartenders(prev => {
+                    if (prev < recommended) return recommended
+                    return prev
+                  })
+                }
+              }}
             />
           </div>
 
