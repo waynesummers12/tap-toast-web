@@ -858,6 +858,38 @@ type BookedSlot = {
               will update automatically in real time so you can instantly see
               pricing and reserve your event when ready.
             </p>
+            {/* 🔥 AI Recommendation Banner */}
+            {eventType && guests > 0 && (
+              <div className="mt-4 p-4 rounded-xl bg-black text-white shadow-md border border-[#c6a25a]/30 animate-[fadeIn_0.4s_ease-out]">
+                <p className="text-xs uppercase tracking-widest text-[#c6a25a] mb-1">
+                  Smart Recommendation
+                </p>
+                <p className="text-sm font-semibold">
+                  {eventType === "Wedding" && (
+                    <>For weddings with {guests} guests, most clients choose Signature or Premium for smoother service and elevated presentation.</>
+                  )}
+                  {eventType === "Corporate Event" && (
+                    <>Corporate events with {guests}+ guests benefit from additional bartenders to reduce wait times and keep service efficient.</>
+                  )}
+                  {(eventType === "Private Party" || eventType === "Birthday") && (
+                    <>For parties of {guests}, adding premium garnishes and cocktails creates a more memorable guest experience.</>
+                  )}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (eventType === "Wedding") applyTier("signature")
+                    if (eventType === "Corporate Event") setBartenders(getRecommendedBartenders(guests) + 1)
+                    if (eventType === "Private Party" || eventType === "Birthday") {
+                      setSelectedUpgrades(prev => ({ ...prev, garnishes: true, cocktails: true }))
+                    }
+                  }}
+                  className="mt-3 text-xs text-[#c6a25a] underline hover:text-white transition"
+                >
+                  Apply recommendation →
+                </button>
+              </div>
+            )}
           </div>
 
           <div>
