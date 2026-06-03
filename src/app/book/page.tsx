@@ -469,9 +469,9 @@ type BookedSlot = {
       {/* Toggle UI for Full Service / Rental - moved below hero */}
       <div className="mt-8 text-center">
         <div className="relative flex justify-center">
-          <div className="bg-white/90 backdrop-blur rounded-full p-1 flex shadow-lg relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02]">
+          <div className="bg-white/90 backdrop-blur rounded-full p-1 flex shadow-lg relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] group">
             <div
-              className={`absolute top-1 bottom-1 w-1/2 rounded-full bg-black transition-all duration-300 ease-out shadow-md hover:shadow-[0_0_12px_rgba(198,162,90,0.6)] ${
+              className={`absolute top-1 bottom-1 w-1/2 rounded-full bg-black transition-all duration-300 ease-out shadow-md group-hover:shadow-[0_0_12px_rgba(198,162,90,0.6)] ${
                 mode === "full" ? "left-1" : "left-1/2"
               }`}
             />
@@ -480,7 +480,7 @@ type BookedSlot = {
               onClick={() => setMode("full")}
               className={`relative z-10 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 active:scale-95 hover:-translate-y-px ${
                 mode === "full"
-                  ? "text-white scale-105 drop-shadow-[0_0_6px_rgba(198,162,90,0.8)]"
+                  ? "text-white scale-105 drop-shadow-[0_0_6px_rgba(198,162,90,0.8)] group-hover:drop-shadow-[0_0_10px_rgba(198,162,90,0.9)]"
                   : "text-black/70 hover:text-black hover:scale-105"
               }`}
             >
@@ -491,7 +491,7 @@ type BookedSlot = {
               onClick={() => setMode("rental")}
               className={`relative z-10 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 active:scale-95 hover:-translate-y-px ${
                 mode === "rental"
-                  ? "text-white scale-105 drop-shadow-[0_0_6px_rgba(198,162,90,0.8)]"
+                  ? "text-white scale-105 drop-shadow-[0_0_6px_rgba(198,162,90,0.8)] group-hover:drop-shadow-[0_0_10px_rgba(198,162,90,0.9)]"
                   : "text-black/70 hover:text-black hover:scale-105"
               }`}
             >
