@@ -103,7 +103,12 @@ export default function HeroSection() {
                 We handle everything — bartenders, setup, and service — so you can enjoy your event stress-free.
               </p>
               <p className="text-[#9C7A2C] font-semibold mt-4 text-lg">Starting at $900</p>
-              <p className="text-xs text-gray-500 mb-4">Best for weddings & large events</p>
+              <p className="mt-2 inline-block text-xs px-2 py-1 rounded-md bg-[#c9a14a]/10 border border-[#c9a14a]/20 text-black font-medium">
+                ✔ Full setup, bartenders & service included
+              </p>
+              <p className="text-xs text-gray-500 mb-4 mt-2">
+                🥂 Best for weddings, corporate events & large gatherings
+              </p>
               <Link
                 href="/book?type=full"
                 className="inline-block mt-2 px-6 py-3 bg-[#9C7A2C] text-white rounded-full text-xs tracking-[0.2em] uppercase hover:bg-[#b3913b] transition"
