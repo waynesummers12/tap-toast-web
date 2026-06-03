@@ -159,6 +159,46 @@ const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
   }, [])
 
   useEffect(() => {
+
+  if (!cid) return
+
+  fetch(`/api/events/get-quote?cid=${cid}`)
+
+    .then(res => res.json())
+
+    .then(data => {
+
+      if (!data) return
+
+      setName(data.name || "")
+
+      setEmail(data.email || "")
+
+      setPhone(data.phone || "")
+
+      setLocation(data.location || "")
+
+      setDate(data.event_date || "")
+
+      setStartTime(data.start_time || "18:00")
+
+      setHours(data.hours || 4)
+
+      setGuests(data.guests || 100)
+
+      setBartenders(data.bartenders || 2)
+
+      setEventType(data.event_type || "")
+
+      setTier(data.tier || "signature")
+
+      setMode(data.mode || "full")
+
+    })
+
+}, [cid])
+
+  useEffect(() => {
   fetch("https://tap-toast-api-cayk.onrender.com/api/events/booked-slots")
     .then(res => res.json())
     .then((data: BookedSlot[]) => setBookedSlots(data))
@@ -192,29 +232,35 @@ useEffect(() => {
     try {
       console.log("AUTO-SAVING QUOTE...")
 
-      await fetch("https://tap-toast-api-cayk.onrender.com/api/events/save-quote", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          phone,
-          location,
-          event_date: date,
-          start_time: startTime,
-          hours,
-          guests,
-          bartenders,
-          event_type: eventType,
-          upgrades: Object.keys(selectedUpgrades).filter(
-            k => selectedUpgrades[k as UpgradeKey]
-          ),
-          estimated_total: grandTotal,
-          deposit
-        })
-      })
+      const res = await fetch("https://tap-toast-api-cayk.onrender.com/api/events/save-quote", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    name,
+    email,
+    phone,
+    location,
+    event_date: date,
+    start_time: startTime,
+    hours,
+    guests,
+    bartenders,
+    event_type: eventType,
+    upgrades: Object.keys(selectedUpgrades).filter(
+      k => selectedUpgrades[k as UpgradeKey]
+    ),
+    estimated_total: grandTotal,
+    deposit
+  })
+})
+
+const data = await res.json()
+
+if (data?.cid) {
+  localStorage.setItem("quote_cid", data.cid)
+}
 
       console.log("QUOTE SAVED")
     } catch (err) {
