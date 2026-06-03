@@ -47,18 +47,6 @@ export default function Navbar() {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-4 text-xs tracking-[0.2em] uppercase whitespace-nowrap">
           <Link
-            href="/dirty-soda-bar"
-            className={`relative group ${
-              pathname === "/dirty-soda-bar" ? "text-white" : "opacity-80"
-            }`}
-          >
-            <span className="flex items-center gap-4">
-              Dirty Soda Bar
-              <span className="opacity-40">|</span>
-            </span>
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-          <Link
             href="/weddings"
             className={`relative group ${
               pathname === "/weddings" ? "text-white" : "opacity-80"
@@ -71,13 +59,13 @@ export default function Navbar() {
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
           </Link>
           <Link
-            href="/corporate-events"
+            href="/bartending"
             className={`relative group ${
-              pathname === "/corporate-events" ? "text-white" : "opacity-80"
+              pathname === "/bartending" ? "text-white" : "opacity-80"
             }`}
           >
             <span className="flex items-center gap-4">
-              Corporate
+              Bartending
               <span className="opacity-40">|</span>
             </span>
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
@@ -95,13 +83,25 @@ export default function Navbar() {
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
           </Link>
           <Link
-            href="/bartending"
+            href="/dirty-soda-bar"
             className={`relative group ${
-              pathname === "/bartending" ? "text-white" : "opacity-80"
+              pathname === "/dirty-soda-bar" ? "text-white" : "opacity-80"
             }`}
           >
             <span className="flex items-center gap-4">
-              Bartending
+              Dirty Soda Bar
+              <span className="opacity-40">|</span>
+            </span>
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+          <Link
+            href="/corporate-events"
+            className={`relative group ${
+              pathname === "/corporate-events" ? "text-white" : "opacity-80"
+            }`}
+          >
+            <span className="flex items-center gap-4">
+              Corporate
               <span className="opacity-40">|</span>
             </span>
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>

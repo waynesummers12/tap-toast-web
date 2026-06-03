@@ -240,6 +240,30 @@ export default function DirtySodaBarPage() {
 
       </section>
 
+      {/* LEARN MORE LINK */}
+      <section className="px-8 pb-16 max-w-4xl mx-auto text-center">
+        <div className="bg-neutral-900/60 border border-white/10 rounded-2xl p-8">
+          <p className="text-sm tracking-[0.3em] uppercase text-[#c7a45a] mb-3">
+            New to Dirty Soda?
+          </p>
+
+          <h3 className="text-2xl font-semibold mb-4">
+            Learn How a Dirty Soda Bar Works
+          </h3>
+
+          <p className="text-gray-400 mb-6">
+            Not sure what a dirty soda is or how it works at events? We break it down simply — flavors, combinations, and why guests love it.
+          </p>
+
+          <Link
+            href="/what-is-dirty-soda-bar"
+            className="inline-block border border-[#c7a45a] text-[#c7a45a] px-6 py-3 rounded-full text-xs tracking-[0.2em] uppercase hover:bg-[#c7a45a] hover:text-black transition"
+          >
+            Read the Dirty Soda Guide
+          </Link>
+        </div>
+      </section>
+
       {/* EVENT TYPES */}
       <section className="px-8 pb-24 max-w-6xl mx-auto">
         <h2 className="text-3xl font-bold mb-10">Dirty Soda Bar for Weddings, Parties & Corporate Events</h2>
