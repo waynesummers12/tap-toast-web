@@ -42,6 +42,9 @@ function BookEventPageContent() {
 
   const [submitting, setSubmitting] = useState(false)
   const [bookedSlots, setBookedSlots] = useState<BookedSlot[]>([])
+  // UX Micro-interactions and personalization
+  const [saved, setSaved] = useState(false)
+  const completion = [name, email, location, date, eventType].filter(Boolean).length / 5
 
   // Recommended bartenders based on guest count
   const getRecommendedBartenders = (guestCount: number) => {
@@ -233,36 +236,38 @@ useEffect(() => {
       console.log("AUTO-SAVING QUOTE...")
 
       const res = await fetch("https://tap-toast-api-cayk.onrender.com/api/events/save-quote", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    name,
-    email,
-    phone,
-    location,
-    event_date: date,
-    start_time: startTime,
-    hours,
-    guests,
-    bartenders,
-    event_type: eventType,
-    upgrades: Object.keys(selectedUpgrades).filter(
-      k => selectedUpgrades[k as UpgradeKey]
-    ),
-    estimated_total: grandTotal,
-    deposit
-  })
-})
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          location,
+          event_date: date,
+          start_time: startTime,
+          hours,
+          guests,
+          bartenders,
+          event_type: eventType,
+          upgrades: Object.keys(selectedUpgrades).filter(
+            k => selectedUpgrades[k as UpgradeKey]
+          ),
+          estimated_total: grandTotal,
+          deposit
+        })
+      })
 
-const data = await res.json()
+      const data = await res.json()
 
-if (data?.cid) {
-  localStorage.setItem("quote_cid", data.cid)
-}
+      if (data?.cid) {
+        localStorage.setItem("quote_cid", data.cid)
+      }
 
       console.log("QUOTE SAVED")
+      setSaved(true)
+      setTimeout(() => setSaved(false), 2000)
     } catch (err) {
       console.error("Quote auto-save failed", err)
     }
@@ -627,6 +632,19 @@ type BookedSlot = {
 <p className="text-xs text-[#c6a25a] mt-2 font-medium">
   Staffing is automatically recommended based on guest count to ensure fast service and no long lines.
 </p>
+          {/* Progress + Personalization */}
+          <div className="mt-4">
+            <div className="flex justify-between text-xs mb-1">
+              <span>{name ? `Planning for ${name.split(" ")[0]}` : "Start your event plan"}</span>
+              <span>{Math.round(completion * 100)}%</span>
+            </div>
+            <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-linear-to-r from-[#c6a25a] to-yellow-400 transition-all duration-500"
+                style={{ width: `${completion * 100}%` }}
+              />
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -759,7 +777,7 @@ type BookedSlot = {
       className={`p-5 rounded-xl border text-left transition transform duration-300 ${
   tier === "essentials"
     ? "border-black bg-black text-white scale-105 shadow-2xl ring-2 ring-yellow-400"
-    : "bg-white hover:border-black hover:scale-[1.02]"
+    : "bg-white hover:border-black hover:scale-[1.02] hover:shadow-xl"
 }`}
     >
       <h3 className="font-semibold mb-1">The Taste</h3>
@@ -786,7 +804,7 @@ type BookedSlot = {
       className={`p-5 rounded-xl border text-left transition transform duration-300 ${
   tier === "signature"
     ? "border-black bg-black text-white scale-105 shadow-2xl ring-2 ring-yellow-400"
-    : "bg-white hover:border-black hover:scale-[1.02]"
+    : "bg-white hover:border-black hover:scale-[1.02] hover:shadow-xl"
 }`}
     >
       <h3 className="font-semibold mb-1">The Tipsy</h3>
@@ -810,7 +828,7 @@ type BookedSlot = {
       className={`p-5 rounded-xl border text-left transition transform duration-300 ${
   tier === "premium"
     ? "border-black bg-black text-white scale-105 shadow-2xl ring-2 ring-yellow-400"
-    : "bg-white hover:border-black hover:scale-[1.02]"
+    : "bg-white hover:border-black hover:scale-[1.02] hover:shadow-xl"
 }`}
     >
       <h3 className="font-semibold mb-1">The Toasted</h3>
@@ -884,7 +902,7 @@ type BookedSlot = {
                       setSelectedUpgrades(prev => ({ ...prev, garnishes: true, cocktails: true }))
                     }
                   }}
-                  className="mt-3 text-xs text-[#c6a25a] underline hover:text-white transition"
+                  className="mt-3 text-xs text-[#c6a25a] underline hover:text-white hover:scale-105 active:scale-95 transition-transform"
                 >
                   Apply recommendation →
                 </button>
@@ -956,7 +974,7 @@ type BookedSlot = {
                 </p>
 
                 {bartenders === recommendedBartenders && (
-                  <p className="text-xs text-green-600 mt-1 font-medium">
+                  <p className="text-xs text-green-600 mt-1 font-medium animate-[fadeIn_0.3s_ease-out]">
                     ✔ Perfect staffing level for smooth service
                   </p>
                 )}
@@ -1290,8 +1308,11 @@ type BookedSlot = {
   <p className="text-xs opacity-60 mt-1">
     Remaining balance charged 10 days before event
   </p>
-  <p className="text-xs text-white/70 mt-2">
+      <p className="text-xs text-white/70 mt-2">
     ✔ Fully Insured (General + Liquor Liability)
+  </p>
+  <p className="text-xs text-white/70 mt-2">
+    Optimized for {guests} guests • {bartenders} bartenders • {hours} hours
   </p>
 </div>
 
@@ -1324,10 +1345,15 @@ type BookedSlot = {
   </p>
 </div>
 
+        {saved && (
+          <p className="text-center text-xs text-green-600 mb-2 animate-fade-in">
+            ✔ Quote saved
+          </p>
+        )}
         <button
           onClick={handleBooking}
           disabled={submitting}
-          className={`mt-4 w-full py-5 text-lg rounded-xl transition font-semibold shadow-lg ${submitting ? 'bg-gray-300 text-gray-600' : 'bg-linear-to-r from-yellow-400 to-yellow-500 text-black hover:scale-[1.02] hover:shadow-xl active:scale-[0.99]'}`}
+          className={`mt-4 w-full py-5 text-lg rounded-xl transition-transform font-semibold shadow-lg ${submitting ? 'bg-gray-300 text-gray-600' : 'bg-linear-to-r from-yellow-400 to-yellow-500 text-black hover:scale-[1.02] active:scale-[0.99] hover:shadow-[0_0_20px_rgba(255,215,0,0.6)]'}`}
         >
           {submitting 
   ? 'Processing…' 
