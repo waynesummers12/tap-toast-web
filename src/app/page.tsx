@@ -25,6 +25,60 @@ export default function HomePage() {
       <HeroSection />
       <StorySection />
 
+      {/* TESTIMONIALS */}
+      <section className="bg-neutral-950 text-white py-20 px-6 will-change-transform">
+        <div className="max-w-6xl mx-auto">
+
+          <div className="text-center mb-12">
+            <p className="text-xs tracking-[0.35em] uppercase text-[#c9a14a] mb-3">
+              What Clients Are Saying
+            </p>
+            <h2 className="text-3xl md:text-4xl font-semibold">
+              Trusted by Events Across Colorado
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+
+            {/* Featured Testimonial */}
+            <div className="md:col-span-2 bg-black p-8 rounded-2xl border border-white/10 shadow-xl">
+              <div className="flex mb-4 text-[#c9a14a]">
+                ⭐⭐⭐⭐⭐
+              </div>
+              <p className="text-lg text-gray-200 mb-6">
+                &quot;I just wanted to say thank you so much for this weekend! Your bartenders were amazing and we received so many compliments with how personable and friendly they were. Seriously so happy with the whole experience — I will send anyone I know needing your services your way!&quot;
+              </p>
+              <p className="text-sm text-gray-400">— The Lopez Wedding</p>
+            </div>
+
+            {/* Side Testimonials */}
+            <div className="flex flex-col gap-6">
+
+              <div className="bg-black p-6 rounded-xl border border-white/10">
+                <div className="text-[#c9a14a] mb-3">⭐⭐⭐⭐⭐</div>
+                <p className="text-gray-300 mb-4 text-sm">
+                  &quot;Super professional, easy to work with, and everything ran smoothly from start to finish.&quot;
+                </p>
+                <p className="text-xs text-gray-400">— Corporate Event, Boulder</p>
+              </div>
+
+              <div className="bg-black p-6 rounded-xl border border-white/10">
+                <div className="text-[#c9a14a] mb-3">⭐⭐⭐⭐⭐</div>
+                <p className="text-gray-300 mb-4 text-sm">
+                  &quot;Best decision we made for our party. The setup, drinks, and service were all top tier.&quot;
+                </p>
+                <p className="text-xs text-gray-400">— Private Party, Littleton</p>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <TrailerSection />
+
       {/* PREMIUM FOUNDER SECTION */}
       <section className="bg-black text-white py-24 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-14 items-center">
@@ -127,59 +181,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section className="bg-neutral-950 text-white py-20 px-6 will-change-transform">
-        <div className="max-w-6xl mx-auto">
-
-          <div className="text-center mb-12">
-            <p className="text-xs tracking-[0.35em] uppercase text-[#c9a14a] mb-3">
-              What Clients Are Saying
-            </p>
-            <h2 className="text-3xl md:text-4xl font-semibold">
-              Trusted by Events Across Colorado
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-
-            {/* Featured Testimonial */}
-            <div className="md:col-span-2 bg-black p-8 rounded-2xl border border-white/10 shadow-xl">
-              <div className="flex mb-4 text-[#c9a14a]">
-                ⭐⭐⭐⭐⭐
-              </div>
-              <p className="text-lg text-gray-200 mb-6">
-                &quot;I just wanted to say thank you so much for this weekend! Your bartenders were amazing and we received so many compliments with how personable and friendly they were. Seriously so happy with the whole experience — I will send anyone I know needing your services your way!&quot;
-              </p>
-              <p className="text-sm text-gray-400">— The Lopez Wedding</p>
-            </div>
-
-            {/* Side Testimonials */}
-            <div className="flex flex-col gap-6">
-
-              <div className="bg-black p-6 rounded-xl border border-white/10">
-                <div className="text-[#c9a14a] mb-3">⭐⭐⭐⭐⭐</div>
-                <p className="text-gray-300 mb-4 text-sm">
-                  &quot;Super professional, easy to work with, and everything ran smoothly from start to finish.&quot;
-                </p>
-                <p className="text-xs text-gray-400">— Corporate Event, Boulder</p>
-              </div>
-
-              <div className="bg-black p-6 rounded-xl border border-white/10">
-                <div className="text-[#c9a14a] mb-3">⭐⭐⭐⭐⭐</div>
-                <p className="text-gray-300 mb-4 text-sm">
-                  &quot;Best decision we made for our party. The setup, drinks, and service were all top tier.&quot;
-                </p>
-                <p className="text-xs text-gray-400">— Private Party, Littleton</p>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      <TrailerSection />
       <PackagesSection />
       <FAQSection />
       <CTASection />
