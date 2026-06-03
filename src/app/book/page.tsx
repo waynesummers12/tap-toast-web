@@ -910,11 +910,11 @@ type BookedSlot = {
           {/* Planner Instructions */}
           <div className="col-span-1 md:col-span-2 mt-4 mb-2">
             <h2 className="text-2xl font-semibold mb-1">Customize Your Event</h2>
-            <p className="text-gray-600 text-sm">
-              Use the sliders below to customize your event details. Your quote
-              will update automatically in real time so you can instantly see
-              pricing and reserve your event when ready.
-            </p>
+            {isRental && (
+  <p className="text-gray-600 text-sm">
+    Select add-ons below to personalize your trailer experience.
+  </p>
+)}
             {/* 🔥 AI Recommendation Banner */}
             {!isRental && eventType && guests > 0 && (
               <div className="mt-4 p-4 rounded-xl bg-black text-white shadow-md border border-[#c6a25a]/30 animate-[fadeIn_0.4s_ease-out]">
