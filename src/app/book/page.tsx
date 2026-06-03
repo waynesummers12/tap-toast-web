@@ -782,7 +782,7 @@ type BookedSlot = {
     >
       <h3 className="font-semibold mb-1">The Taste</h3>
       <p className="text-xs opacity-70">Mobile bar starter experience</p>
-      <p className="text-sm mt-3">From $600</p>
+      <p className="text-sm mt-3">Impressive</p>
       <ul className="mt-3 text-xs space-y-1 opacity-80">
         <li>✔ 1 professional bartender</li>
         <li>✔ 3 hour service</li>
