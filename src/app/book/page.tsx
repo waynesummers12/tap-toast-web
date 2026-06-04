@@ -1377,7 +1377,7 @@ type BookedSlot = {
   </p>
 </div>
 
-<p className="text-xs text-gray-500 mb-4 text-center">
+<p className="text-[10px] text-gray-500 mb-4 text-center">
   By booking, you agree to our{" "}
   <a href="/legal/terms" className="underline hover:text-black">Terms</a>,{" "}
   <a href="/legal/refund-policy" className="underline hover:text-black">Refund Policy</a>, and{" "}
