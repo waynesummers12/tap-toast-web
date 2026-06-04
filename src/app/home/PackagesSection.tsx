@@ -75,13 +75,13 @@ export default function PackagesSection() {
             <p className="text-xl font-bold mb-6">Starting at $600</p>
 
             <a
-              href="/book"
+              href="/book?tier=taste"
               className="inline-block bg-[#9C7A2C] hover:bg-[#b3913b] text-white px-6 py-3 rounded-full text-sm uppercase tracking-[0.2em]"
             >
               Book Instantly with Real Quote
             </a>
           </div>
-          <a href="/book" className="absolute inset-0 z-10" aria-label="Book The Taste package"></a>
+          <a href="/book?tier=taste" className="absolute inset-0 z-10" aria-label="Book The Taste package"></a>
         </div>
 
         {/* Package 2 */}
@@ -118,13 +118,13 @@ export default function PackagesSection() {
             <p className="text-xl font-bold mb-6">Starting at $900</p>
 
             <a
-              href="/book"
+              href="/book?tier=signature"
               className="inline-block bg-[#9C7A2C] hover:bg-[#b3913b] text-white px-6 py-3 rounded-full text-sm uppercase tracking-[0.2em]"
             >
               Book Instantly with Real Quote
             </a>
           </div>
-          <a href="/book" className="absolute inset-0 z-10" aria-label="Book The Tipsy package"></a>
+          <a href="/book?tier=signature" className="absolute inset-0 z-10" aria-label="Book The Tipsy package"></a>
         </div>
 
         {/* Package 3 */}
@@ -161,13 +161,13 @@ export default function PackagesSection() {
             <p className="text-xl font-bold mb-6">Premium Experience</p>
 
             <a
-              href="/book"
+              href="/book?tier=premium"
               className="inline-block bg-[#9C7A2C] hover:bg-[#b3913b] text-white px-6 py-3 rounded-full text-sm uppercase tracking-[0.2em]"
             >
               Book Instantly with Real Quote
             </a>
           </div>
-          <a href="/book" className="absolute inset-0 z-10" aria-label="Book The Toasted package"></a>
+          <a href="/book?tier=premium" className="absolute inset-0 z-10" aria-label="Book The Toasted package"></a>
         </div>
 
       </div>

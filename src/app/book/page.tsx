@@ -1,7 +1,7 @@
 "use client"
 export const dynamic = "force-dynamic"
 
-import { useState, Suspense, useEffect, useRef } from "react"
+import { useState, Suspense, useEffect, useRef, useCallback } from "react"
 import { useSearchParams } from "next/navigation"
 import AvailabilityCalendar from "@/components/AvailablilityCalendar"
 
@@ -13,6 +13,7 @@ function BookEventPageContent() {
   const cid = searchParams.get("cid") || ""
 
   const bookingType = searchParams.get("type") || "full"
+  const tierParam = searchParams.get("tier")
   const isRentalInit = bookingType === "rental"
 
   const [mode, setMode] = useState<"full" | "rental">(isRentalInit ? "rental" : "full")
@@ -23,7 +24,12 @@ function BookEventPageContent() {
   const [phone, setPhone] = useState("")
   const [location, setLocation] = useState("")
   const [tier, setTier] = useState<"essentials" | "signature" | "premium" | "custom">(
-    () => (isRental ? "custom" : "signature")
+    () => {
+      if (tierParam === "essentials" || tierParam === "signature" || tierParam === "premium") {
+        return tierParam
+      }
+      return isRental ? "custom" : "signature"
+    }
   )
 
   const [date, setDate] = useState("")
@@ -53,7 +59,7 @@ function BookEventPageContent() {
     if (guestCount <= 180) return 3
     return 4
   }
-function applyTier(t: "essentials" | "signature" | "premium") {
+const applyTier = useCallback((t: "essentials" | "signature" | "premium") => {
   setTier(t)
 
   if (t === "essentials") {
@@ -88,7 +94,7 @@ function applyTier(t: "essentials" | "signature" | "premium") {
       setupHour: true
     })
   }
-}
+}, [])
 
   const recommendedBartenders = getRecommendedBartenders(guests)
 
@@ -201,6 +207,18 @@ const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
 
 }, [cid])
 
+useEffect(() => {
+  if (!tierParam) return
+
+  const t = setTimeout(() => {
+    if (tierParam === "taste") applyTier("essentials")
+    if (tierParam === "signature") applyTier("signature")
+    if (tierParam === "premium") applyTier("premium")
+  }, 0)
+
+  return () => clearTimeout(t)
+
+}, [tierParam, applyTier])
   useEffect(() => {
   fetch("https://tap-toast-api-cayk.onrender.com/api/events/booked-slots")
     .then(res => res.json())
