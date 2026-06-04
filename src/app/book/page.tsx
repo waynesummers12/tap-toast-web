@@ -25,9 +25,9 @@ function BookEventPageContent() {
   const [location, setLocation] = useState("")
   const [tier, setTier] = useState<"essentials" | "signature" | "premium" | "custom">(
     () => {
-      if (tierParam === "essentials" || tierParam === "signature" || tierParam === "premium") {
-        return tierParam
-      }
+      if (tierParam === "taste") return "essentials"
+      if (tierParam === "signature") return "signature"
+      if (tierParam === "premium") return "premium"
       return isRental ? "custom" : "signature"
     }
   )
