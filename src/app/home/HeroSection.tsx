@@ -82,7 +82,7 @@ export default function HeroSection() {
       <section className="py-20 px-6 bg-neutral-50 text-center">
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-12">
-            <p className="text-sm md:text-base tracking-[0.35em] uppercase text-[#9C7A2C] mb-3">
+            <p className="text-base md:text-lg tracking-[0.35em] uppercase text-[#9C7A2C] mb-3">
               Two Ways to Book
             </p>
             <h2 className="text-3xl md:text-5xl font-semibold md:font-bold mb-4 tracking-tight bg-linear-to-r from-black via-[#9C7A2C] to-black bg-clip-text text-transparent">
