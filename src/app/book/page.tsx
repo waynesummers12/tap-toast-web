@@ -1090,13 +1090,13 @@ type BookedSlot = {
 
           <div className="space-y-3">
 
-            <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
-              <div className="flex items-center gap-2">
+            <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
+              <div className="flex flex-col text-left">
                 <span>🚚 Delivery & Pickup (within 40 miles of Golden)</span>
                 <span className="text-[10px] bg-black text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Popular</span>
               </div>
-              <div className="flex items-center gap-4">
-                <span className="text-sm font-medium w-24 text-right">$150</span>
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="text-sm font-medium text-right whitespace-nowrap">$150</span>
                 <input
                   type="checkbox"
                   onChange={() => setSelectedUpgrades(prev => ({ ...prev, setupHour: !prev.setupHour }))}
@@ -1104,12 +1104,12 @@ type BookedSlot = {
               </div>
             </label>
 
-            <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
-              <div className="flex items-center gap-2">
+            <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
+              <div className="flex flex-col text-left">
                 <span>🧼 Cleaning Service</span>
               </div>
-              <div className="flex items-center gap-4">
-                <span className="text-sm font-medium w-24 text-right">$75</span>
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="text-sm font-medium text-right whitespace-nowrap">$75</span>
                 <input
                   type="checkbox"
                   onChange={() => setSelectedUpgrades(prev => ({ ...prev, garnishes: !prev.garnishes }))}
@@ -1117,12 +1117,12 @@ type BookedSlot = {
               </div>
             </label>
 
-            <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
-              <div className="flex items-center gap-2">
+            <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
+              <div className="flex flex-col text-left">
                 <span>🧊 Ice & Cooler Package</span>
               </div>
-              <div className="flex items-center gap-4">
-                <span className="text-sm font-medium w-24 text-right">$50</span>
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="text-sm font-medium text-right whitespace-nowrap">$50</span>
                 <input
                   type="checkbox"
                   onChange={() => setSelectedUpgrades(prev => ({ ...prev, cocktails: !prev.cocktails }))}
@@ -1136,17 +1136,17 @@ type BookedSlot = {
 
       {/* Service Enhancements */}
       <div>
-        <p className="text-sm font-semibold text-gray-700 mb-3">Service Enhancements</p>
+        <p className="text-sm font-semibold text-gray-700 mb-2">Service Enhancements</p>
 
         <div className="space-y-3">
 
-          <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
-            <div className="flex items-center gap-2">
+          <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
+            <div className="flex flex-col text-left">
               <span>👨‍🍳 Additional Bartender</span>
               <span className="text-[10px] bg-black text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Popular</span>
             </div>
-            <div className="flex items-center gap-4">
-              <span className="text-sm font-medium w-24 text-right">$60 / hour</span>
+            <div className="flex items-center gap-2 shrink-0">
+              <span className="text-sm font-medium text-right whitespace-nowrap">$60 / hour</span>
               <input
                 type="checkbox"
                 onChange={() => setBartenders(prev => Math.min(prev + 1, 5))}
@@ -1154,13 +1154,13 @@ type BookedSlot = {
             </div>
           </label>
 
-          <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
-            <div className="flex items-center gap-2">
+          <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
+            <div className="flex flex-col text-left">
               <span>🍸 Cocktail / Mocktail Additions</span>
               <span className="text-[10px] bg-[#c6a25a] text-white px-2 py-0.5 rounded-full uppercase tracking-wide">High Impact</span>
             </div>
-            <div className="flex items-center gap-4">
-              <span className="text-sm font-medium w-24 text-right">$125 / tap</span>
+            <div className="flex items-center gap-2 shrink-0">
+              <span className="text-sm font-medium text-right whitespace-nowrap">$125 / tap</span>
               <input
                 type="checkbox"
                 onChange={() => setSelectedUpgrades(prev => ({ ...prev, cocktails: true }))}
@@ -1173,17 +1173,17 @@ type BookedSlot = {
 
       {/* Experience Upgrades */}
       <div>
-        <p className="text-sm font-semibold text-gray-700 mb-3">Experience Upgrades</p>
+        <p className="text-sm font-semibold text-gray-700 mb-2">Experience Upgrades</p>
 
         <div className="space-y-3">
 
-          <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
-            <div className="flex items-center gap-2">
+          <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
+            <div className="flex flex-col text-left">
               <span>✨ Premium Garnishes Package</span>
               <span className="text-[10px] bg-black text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Luxury</span>
             </div>
-            <div className="flex items-center gap-4">
-              <span className="text-sm font-medium w-24 text-right">$75</span>
+            <div className="flex items-center gap-2 shrink-0">
+              <span className="text-sm font-medium text-right whitespace-nowrap">$75</span>
               <input
                 type="checkbox"
                 checked={selectedUpgrades.garnishes}
@@ -1192,13 +1192,13 @@ type BookedSlot = {
             </div>
           </label>
 
-          <label className="flex items-center justify-between p-3 rounded-lg hover:bg-black/5 transition">
-            <div className="flex items-center gap-2">
+          <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
+            <div className="flex flex-col text-left">
               <span>🍹 Signature Cocktail Menu</span>
               <span className="text-[10px] bg-[#c6a25a] text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Upgrade</span>
             </div>
-            <div className="flex items-center gap-4">
-              <span className="text-sm font-medium w-24 text-right">$100</span>
+            <div className="flex items-center gap-2 shrink-0">
+              <span className="text-sm font-medium text-right whitespace-nowrap">$100</span>
               <input
                 type="checkbox"
                 checked={selectedUpgrades.cocktails}
@@ -1212,7 +1212,7 @@ type BookedSlot = {
 
       {/* Travel */}
       <div>
-        <p className="text-sm font-semibold text-gray-700 mb-3">Travel</p>
+        <p className="text-sm font-semibold text-gray-700 mb-2">Travel</p>
 
         <div className="space-y-3">
 
