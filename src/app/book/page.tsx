@@ -333,6 +333,10 @@ useEffect(() => {
 // 🔄 Reset state intelligently when switching modes
 useEffect(() => {
   const t = setTimeout(() => {
+
+    // 🔥 CRITICAL: don't override if coming from URL
+    if (tierParam) return
+
     if (mode === "rental") {
       setTier("custom")
       setBartenders(0)
@@ -351,10 +355,11 @@ useEffect(() => {
         setupHour: false
       })
     }
+
   }, 0)
 
   return () => clearTimeout(t)
-}, [mode])
+}, [mode, tierParam])
 
 // Highlight gained features when tier changes
 useEffect(() => {
