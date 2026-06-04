@@ -43,7 +43,11 @@ export default function HeroSection() {
           <div className="mx-auto mb-8 h-px w-16 bg-[#9C7A2C]/70" />
 
           <p className="text-sm md:text-lg mb-6 md:mb-10 text-white/80 leading-relaxed">
-            We bring the bar, the bartenders, and the experience — so you can relax and enjoy every moment. Fully customized for your event.
+            We bring the bar, the bartenders, and the experience — so you can relax and enjoy every moment. Fully customized for
+            <br />
+            <span className="block text-2xl md:text-3xl font-semibold text-white mt-1">
+              your event
+            </span>
           </p>
 
           <Link
