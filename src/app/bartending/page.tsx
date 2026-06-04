@@ -43,7 +43,7 @@ export default function BartendingPage() {
 
         <div className="rounded-2xl overflow-hidden shadow-2xl border border-white/10">
           <Image
-            src="/bartending-2.jpg"
+            src="/Bartending-service.png"
             alt="Bartending at Tap & Toast event"
             width={800}
             height={600}
