@@ -76,7 +76,7 @@ export default function BartendingPage() {
         <div className="grid md:grid-cols-3 gap-6">
 
           {/* THE TASTE */}
-          <div className="group bg-neutral-900/80 p-6 rounded-2xl border border-white/10 transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(198,162,90,0.2)]">
+          <div className="group bg-neutral-900/80 p-6 rounded-2xl border border-white/10 transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(198,162,90,0.2)] hover:border-[#c6a25a]">
             <h3 className="text-xl font-semibold mb-2">The Taste</h3>
             <p className="text-gray-400 text-sm mb-2">Mobile bar starter experience</p>
             <p className="text-[#c6a25a] mb-4">Impressive</p>
@@ -98,7 +98,7 @@ export default function BartendingPage() {
           </div>
 
           {/* THE TIPSY */}
-          <div className="group relative bg-black p-6 rounded-2xl border border-[#c6a25a] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(198,162,90,0.3)]">
+          <div className="group relative bg-black p-6 rounded-2xl border border-[#c6a25a] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(198,162,90,0.3)] hover:border-[#d4af37]">
             <span className="absolute top-3 right-3 text-xs bg-[#c6a25a] text-black px-3 py-1 rounded-full font-semibold">
               MOST POPULAR
             </span>
@@ -123,7 +123,7 @@ export default function BartendingPage() {
           </div>
 
           {/* THE TOASTED */}
-          <div className="group bg-neutral-900/80 p-6 rounded-2xl border border-white/10 transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(198,162,90,0.2)]">
+          <div className="group bg-neutral-900/80 p-6 rounded-2xl border border-white/10 transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(198,162,90,0.2)] hover:border-[#c6a25a]">
             <h3 className="text-xl font-semibold mb-2">The Toasted</h3>
             <p className="text-gray-400 text-sm mb-2">Premium full-service experience</p>
             <p className="text-[#c6a25a] mb-4">Elevated events</p>
