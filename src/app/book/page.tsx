@@ -581,12 +581,22 @@ type BookedSlot = {
     }
   }
 
+  // Animated gradient keyframes for soda mode
+  // Inserted global style for gradientShift
   return (
-    <div className={`min-h-screen transition-colors duration-500 ${
-      isSoda
-        ? "bg-linear-to-br from-pink-50 via-yellow-50 to-orange-100 text-black"
-        : "bg-black text-white"
-    }`}>
+    <>
+      <style jsx global>{`
+        @keyframes gradientShift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+      `}</style>
+      <div className={`min-h-screen transition-colors duration-500 ${
+        isSoda
+          ? "bg-linear-to-br from-pink-50 via-yellow-50 to-orange-100 text-black bg-size-[200%_200%] animate-[gradientShift_10s_ease_infinite]"
+          : "bg-black text-white"
+      }`}>
 
       {/* Hero Section */}
       <div
@@ -1518,6 +1528,7 @@ type BookedSlot = {
       </div>
 
     </div>
+    </>
   )
 }
 
