@@ -14,6 +14,8 @@ function BookEventPageContent() {
 
   const bookingType = searchParams.get("type") || "full"
   const tierParam = searchParams.get("tier")
+  const serviceParam = searchParams.get("service")
+  const isSoda = serviceParam === "soda"
   const isRentalInit = bookingType === "rental"
 
   const [mode, setMode] = useState<"full" | "rental">(isRentalInit ? "rental" : "full")
@@ -593,8 +595,15 @@ type BookedSlot = {
       >
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative bg-black/60 p-10 rounded-xl">
-          <h1 className="text-4xl font-bold mb-3">Book Tap & Toast</h1>
-          <p className="text-lg">We&apos;ll just need a few quick details</p>
+          <h1 className="text-4xl font-bold mb-3">
+        {isSoda ? "Build Your Dirty Soda Bar" : "Book Tap & Toast"}
+          </h1>
+
+<p className="text-lg">
+  {isSoda
+    ? "Customize your soda experience in seconds"
+    : "We&apos;ll just need a few quick details"}
+</p>
         </div>
       </div>
 
@@ -782,8 +791,12 @@ type BookedSlot = {
           <div className="col-span-1 md:col-span-2 mt-6">
 
   <h2 className="text-2xl font-semibold mb-2">
-    {isRental ? "Full Service Packages (Disabled for Rental)" : "Choose Your Experience"}
-  </h2>
+  {isRental
+    ? "Full Service Packages (Disabled for Rental)"
+    : isSoda
+    ? "Choose Your Soda Experience"
+    : "Choose Your Experience"}
+</h2>
   <p className="text-sm text-gray-600 mb-4">
     Start with a curated package or customize your own below.
   </p>
@@ -804,15 +817,15 @@ type BookedSlot = {
       <p className="text-xs opacity-70">Mobile bar starter experience</p>
       <p className="text-sm mt-3">Impressive</p>
       <ul className="mt-3 text-xs space-y-1 opacity-80">
-        <li>✔ 1 professional bartender</li>
-        <li>✔ 3 hour service</li>
-        <li>✔ Basic setup</li>
+        <li>✔ 1 soda host</li>
+        <li>✔ 2 soda hosts</li>
+        <li>✔ 3+ soda hosts</li>
         <li className={`transition-all duration-300 ${tier !== "essentials" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("cocktails") ? "bg-yellow-100 rounded px-1" : ""}`}>
-  ✔ Signature cocktails
+  ✔ Custom soda creations
 </li>
 
 <li className={`transition-all duration-300 ${tier !== "essentials" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("garnishes") ? "bg-yellow-100 rounded px-1" : ""}`}>
-  ✔ Premium garnishes
+  ✔ Premium toppings & mix-ins
 </li>
       </ul>
     </button>
@@ -864,11 +877,11 @@ type BookedSlot = {
 </li>
 
 <li className={`transition-all duration-300 ${tier === "premium" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("full") ? "bg-yellow-100 rounded px-1" : ""}`}>
-  ✔ Full cocktail experience
+  ✔ Full soda bar experience
 </li>
 
 <li className={`transition-all duration-300 ${tier === "premium" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("garnishes") ? "bg-yellow-100 rounded px-1" : ""}`}>
-  ✔ Premium garnishes
+  ✔ Premium toppings & mix-ins
 </li>
 
 <li className={`transition-all duration-300 ${tier === "premium" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("setup") ? "bg-yellow-100 rounded px-1" : ""}`}>
@@ -944,17 +957,27 @@ type BookedSlot = {
                 <p className="text-xs uppercase tracking-widest text-[#c6a25a] mb-1">
                   Smart Recommendation
                 </p>
-                <p className="text-sm font-semibold">
-                  {eventType === "Wedding" && (
-                    <>For weddings with {guests} guests, most clients choose Signature or Premium for smoother service and elevated presentation.</>
-                  )}
-                  {eventType === "Corporate Event" && (
-                    <>Corporate events with {guests}+ guests benefit from additional bartenders to reduce wait times and keep service efficient.</>
-                  )}
-                  {(eventType === "Private Party" || eventType === "Birthday") && (
-                    <>For parties of {guests}, adding premium garnishes and cocktails creates a more memorable guest experience.</>
-                  )}
-                </p>
+               <p className="text-sm font-semibold">
+
+  {eventType === "Wedding" && (
+    <>
+      {isSoda ? (
+        <>For {guests} guests, we recommend additional soda hosts to keep lines short and drinks flowing smoothly.</>
+      ) : (
+        <>For weddings with {guests} guests, most clients choose Signature or Premium for smoother service and elevated presentation.</>
+      )}
+    </>
+  )}
+
+  {eventType === "Corporate Event" && (
+    <>Corporate events with {guests}+ guests benefit from additional {isSoda ? "soda hosts" : "bartenders"} to reduce wait times and keep service efficient.</>
+  )}
+
+  {(eventType === "Private Party" || eventType === "Birthday") && (
+    <>For parties of {guests}, adding premium {isSoda ? "toppings & mix-ins" : "garnishes and cocktails"} creates a more memorable guest experience.</>
+  )}
+
+</p>
                 <button
                   type="button"
                   onClick={() => {
@@ -992,11 +1015,11 @@ type BookedSlot = {
           {!isRental && (
             <div className={`transition-all duration-300 ${bartenders < recommendedBartenders ? "ring-1 ring-[#c6a25a]/40 rounded-lg p-2" : ""}`}>
               <label className="text-sm">
-                Bartenders: {bartenders}
+                {isSoda ? "Soda Hosts" : "Bartenders"}: {bartenders}
                 <span className="text-xs text-gray-500 ml-2">
   (recommended: {recommendedBartenders} based on {guests} guests)
 </span>
-<span className="ml-1 text-gray-400 cursor-help" title="We recommend 1 bartender per ~50 guests to keep lines short and service fast.">
+<span className="ml-1 text-gray-400 cursor-help" title={`We recommend 1 ${isSoda ? "soda host" : "bartender"} per ~50 guests to keep lines short and service fast.`}>
   ⓘ
 </span>
                 {bartenders < recommendedBartenders && (
@@ -1280,7 +1303,7 @@ type BookedSlot = {
 
           {!isRental && (
             <div className="flex justify-between text-sm mb-2">
-              <span>Bartenders</span>
+              <span>{isSoda ? "Soda Hosts" : "Bartenders"}</span>
               <span>{bartenders}</span>
             </div>
           )}
@@ -1378,11 +1401,13 @@ type BookedSlot = {
   </p>
   {!isRental ? (
   <p className="text-xs text-white/70 mt-2">
-    Optimized for {guests} guests • {bartenders} bartenders • {hours} hours
+    {isSoda
+  ? `Optimized for ${guests} guests • ${bartenders} soda hosts • ${hours} hours`
+  : `Optimized for ${guests} guests • ${bartenders} bartenders • ${hours} hours`}
   </p>
 ) : (
   <p className="text-xs text-white/60 mt-2 text-center">
-    Add bartenders below if you want full-service support
+    Add {isSoda ? "soda hosts" : "bartenders"} below if you want full-service support
   </p>
 )}
 </div>
