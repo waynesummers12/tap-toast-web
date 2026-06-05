@@ -582,7 +582,11 @@ type BookedSlot = {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className={`min-h-screen transition-colors duration-500 ${
+      isSoda
+        ? "bg-linear-to-br from-pink-50 via-yellow-50 to-orange-100 text-black"
+        : "bg-black text-white"
+    }`}>
 
       {/* Hero Section */}
       <div
@@ -594,9 +598,15 @@ type BookedSlot = {
         }}
       >
         <div className="absolute inset-0 bg-black/40" />
-        <div className="relative bg-black/60 p-10 rounded-xl">
-          <h1 className="text-4xl font-bold mb-3">
-        {isSoda ? "Build Your Dirty Soda Bar" : "Book Tap & Toast"}
+        <div className={`relative p-10 rounded-xl transition-all duration-500 ${
+          isSoda
+            ? "bg-white/80 backdrop-blur text-black shadow-xl"
+            : "bg-black/60 text-white"
+        }`}>
+          <h1 className={`text-4xl font-bold mb-3 ${
+            isSoda ? "text-pink-600" : "text-white"
+          }`}>
+            {isSoda ? "Build Your Dirty Soda Bar" : "Book Tap & Toast"}
           </h1>
 
 <p className="text-lg">
@@ -651,7 +661,11 @@ type BookedSlot = {
       </div>
 
       {/* Booking Form */}
-      <div className="max-w-3xl mx-auto mt-16 mb-20 bg-white text-black p-12 rounded-2xl shadow-2xl">
+      <div className={`max-w-3xl mx-auto mt-16 mb-20 p-12 rounded-2xl shadow-2xl transition-all duration-500 ${
+        isSoda
+          ? "bg-white text-black border border-pink-200 shadow-[0_0_30px_rgba(255,105,180,0.15)]"
+          : "bg-white text-black"
+      }`}>
 
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-1">Simple Event Pricing</h2>
@@ -808,10 +822,18 @@ type BookedSlot = {
       type="button"
       onClick={() => applyTier("essentials")}
       className={`p-5 rounded-xl border text-left transition transform duration-300 ${
-  tier === "essentials"
-    ? "border-black bg-black text-white scale-105 shadow-2xl ring-2 ring-yellow-400"
-    : "bg-white hover:border-black hover:scale-[1.02] hover:shadow-xl"
-}`}
+        tier === "essentials"
+          ? (
+            isSoda
+              ? "border-pink-500 bg-linear-to-br from-pink-500 to-orange-400 text-white scale-105 shadow-[0_0_25px_rgba(255,105,180,0.4)]"
+              : "border-black bg-black text-white scale-105 shadow-2xl ring-2 ring-yellow-400"
+          )
+          : (
+            isSoda
+              ? "bg-white hover:border-pink-400 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,105,180,0.25)]"
+              : "bg-white hover:border-black hover:scale-[1.02] hover:shadow-xl"
+          )
+      }`}
     >
       <h3 className="font-semibold mb-1">The Taste</h3>
       <p className="text-xs opacity-70">Mobile bar starter experience</p>
@@ -835,10 +857,18 @@ type BookedSlot = {
       type="button"
       onClick={() => applyTier("signature")}
       className={`p-5 rounded-xl border text-left transition transform duration-300 ${
-  tier === "signature"
-    ? "border-black bg-black text-white scale-105 shadow-2xl ring-2 ring-yellow-400"
-    : "bg-white hover:border-black hover:scale-[1.02] hover:shadow-xl"
-}`}
+        tier === "signature"
+          ? (
+            isSoda
+              ? "border-pink-500 bg-linear-to-br from-pink-500 to-orange-400 text-white scale-105 shadow-[0_0_25px_rgba(255,105,180,0.4)]"
+              : "border-black bg-black text-white scale-105 shadow-2xl ring-2 ring-yellow-400"
+          )
+          : (
+            isSoda
+              ? "bg-white hover:border-pink-400 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,105,180,0.25)]"
+              : "bg-white hover:border-black hover:scale-[1.02] hover:shadow-xl"
+          )
+      }`}
     >
       <h3 className="font-semibold mb-1">The Tipsy</h3>
       <p className="text-xs opacity-70">Most popular experience</p>
@@ -859,10 +889,18 @@ type BookedSlot = {
       type="button"
       onClick={() => applyTier("premium")}
       className={`p-5 rounded-xl border text-left transition transform duration-300 ${
-  tier === "premium"
-    ? "border-black bg-black text-white scale-105 shadow-2xl ring-2 ring-yellow-400"
-    : "bg-white hover:border-black hover:scale-[1.02] hover:shadow-xl"
-}`}
+        tier === "premium"
+          ? (
+            isSoda
+              ? "border-pink-500 bg-linear-to-br from-pink-500 to-orange-400 text-white scale-105 shadow-[0_0_25px_rgba(255,105,180,0.4)]"
+              : "border-black bg-black text-white scale-105 shadow-2xl ring-2 ring-yellow-400"
+          )
+          : (
+            isSoda
+              ? "bg-white hover:border-pink-400 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,105,180,0.25)]"
+              : "bg-white hover:border-black hover:scale-[1.02] hover:shadow-xl"
+          )
+      }`}
     >
       <h3 className="font-semibold mb-1">The Toasted</h3>
       <p className="text-xs opacity-70">Premium full-service experience</p>
@@ -1093,7 +1131,11 @@ type BookedSlot = {
         </div>
 
 
-  <div className={`mt-10 p-8 rounded-2xl bg-linear-to-br from-[#f8f5ef] to-[#ffffff] border border-black/10 shadow-xl transition-all duration-500 ${
+  <div className={`mt-10 p-8 rounded-2xl ${
+    isSoda
+      ? "bg-linear-to-br from-pink-50 to-yellow-50 border-pink-200"
+      : "bg-linear-to-br from-[#f8f5ef] to-[#ffffff]"
+  } border-black/10 shadow-xl transition-all duration-500 ${
     isRental ? "ring-2 ring-[#c6a25a]/40 scale-[1.01]" : ""
   }`}>
 
@@ -1165,7 +1207,7 @@ type BookedSlot = {
 
           <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
             <div className="flex flex-col text-left">
-              <span>👨‍🍳 Additional Bartender</span>
+              <span>{isSoda ? "🥤 Additional Soda Host" : "👨‍🍳 Additional Bartender"}</span>
               <span className="text-[10px] bg-black text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Popular</span>
             </div>
             <div className="flex items-center gap-2 shrink-0">
@@ -1179,7 +1221,7 @@ type BookedSlot = {
 
           <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
             <div className="flex flex-col text-left">
-              <span>🍸 Cocktail / Mocktail Additions</span>
+              <span>{isSoda ? "🥤 Flavor / Mix-In Additions" : "🍸 Cocktail / Mocktail Additions"}</span>
               <span className="text-[10px] bg-[#c6a25a] text-white px-2 py-0.5 rounded-full uppercase tracking-wide">High Impact</span>
             </div>
             <div className="flex items-center gap-2 shrink-0">
@@ -1369,9 +1411,11 @@ type BookedSlot = {
 <p className="text-xs text-gray-500 mb-4 text-center">
   ✔ 50% deposit to reserve  ✔ Secure checkout  ✔ Instant confirmation
 </p>
-  <div className={`mt-6 bg-black text-white p-5 rounded-xl text-center shadow-lg border border-white/10 transition-all duration-500 ${
-    isRental ? "ring-2 ring-[#c6a25a]/50" : ""
-  }`}>
+  <div className={`mt-6 p-5 rounded-xl text-center shadow-lg border border-white/10 transition-all duration-500 ${
+    isSoda
+      ? "bg-linear-to-br from-pink-500 to-orange-400 text-white shadow-[0_0_30px_rgba(255,105,180,0.4)]"
+      : "bg-black text-white"
+  } ${isRental ? "ring-2 ring-[#c6a25a]/50" : ""}`}>
     <p className="text-sm opacity-70">Estimated Total</p>
 
     <div
@@ -1449,11 +1493,19 @@ type BookedSlot = {
         <button
           onClick={handleBooking}
           disabled={submitting}
-          className={`mt-4 w-full py-5 text-lg rounded-xl transition-transform font-semibold shadow-lg ${submitting ? 'bg-gray-300 text-gray-600' : 'bg-linear-to-r from-yellow-400 to-yellow-500 text-black hover:scale-[1.02] active:scale-[0.99] hover:shadow-[0_0_20px_rgba(255,215,0,0.6)]'}`}
+          className={`mt-4 w-full py-5 text-lg rounded-xl transition-transform font-semibold shadow-lg ${
+            submitting
+              ? 'bg-gray-300 text-gray-600'
+              : (
+                isSoda
+                  ? "bg-linear-to-r from-pink-500 to-orange-400 text-white hover:shadow-[0_0_25px_rgba(255,105,180,0.6)]"
+                  : "bg-linear-to-r from-yellow-400 to-yellow-500 text-black hover:shadow-[0_0_20px_rgba(255,215,0,0.6)]"
+              )
+          } hover:scale-[1.02] active:scale-[0.99]`}
         >
           {submitting 
-  ? 'Processing…' 
-  : `Reserve Your Date — $${deposit} Today`}
+            ? 'Processing…' 
+            : `Reserve Your Date — $${deposit} Today`}
         </button>
 
         <p className="text-xs text-center text-gray-600 mt-3">
