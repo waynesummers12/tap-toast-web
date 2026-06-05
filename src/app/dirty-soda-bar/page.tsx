@@ -170,7 +170,7 @@ export default function DirtySodaBarPage() {
 
             <div className="mt-10">
               <Link
-                href="/book"
+                href="/book?service=soda"
                 prefetch
                 className="block w-full md:w-auto text-center bg-[#c7a45a] text-black px-8 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_25px_rgba(199,164,90,0.4)]"
               >
@@ -339,7 +339,7 @@ export default function DirtySodaBarPage() {
           </div>
 
           <Link
-            href="/book"
+            href="/book?service=soda"
             prefetch
             className="block w-full md:w-auto text-center bg-black text-white px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300"
           >
