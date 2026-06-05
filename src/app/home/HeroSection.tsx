@@ -33,7 +33,7 @@ export default function HeroSection() {
 
         {/* content */}
         <div className="relative z-10 px-6 max-w-xl will-change-transform animate-[fadeIn_0.8s_ease-out]">
-          <h1 className="text-sm md:text-base font-light tracking-[0.45em] uppercase mb-6 text-white/80">
+          <h1 className="text-sm md:text-base font-light tracking-[0.45em] uppercase mb-6 mt-6 md:mt-8 text-white/80">
             Premium Mobile Bar Experience
           </h1>
 
