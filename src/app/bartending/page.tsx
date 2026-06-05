@@ -5,6 +5,7 @@ import { useState } from "react";
 
 export default function BartendingPage() {
   const [selected, setSelected] = useState<string | null>(null);
+  const [loading, setLoading] = useState<string | null>(null);
 
   return (
     <main className="bg-black text-white selection:bg-[#c6a25a] selection:text-black">
@@ -80,7 +81,10 @@ export default function BartendingPage() {
         <div className="grid md:grid-cols-3 gap-6">
 
           {/* THE TASTE */}
-          <div className={`group bg-neutral-900/80 p-6 rounded-2xl border transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(198,162,90,0.2)] ${selected === "taste" ? "border-[#d4af37] shadow-[0_0_40px_rgba(198,162,90,0.4)] scale-[1.02]" : "border-white/10 hover:border-[#c6a25a]"}`}>
+          <div className={`group relative overflow-hidden bg-neutral-900/80 p-6 rounded-2xl border transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(198,162,90,0.2)] ${selected === "taste" ? "border-[#d4af37] shadow-[0_0_40px_rgba(198,162,90,0.4)] scale-[1.02]" : "border-white/10 hover:border-[#c6a25a]"}`}>
+            {loading === "taste" && (
+              <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-transparent via-white/10 to-transparent animate-pulse" />
+            )}
             <h3 className="text-xl font-semibold mb-2">The Taste</h3>
             <p className="text-gray-400 text-sm mb-2">Mobile bar starter experience</p>
             <p className="text-[#c6a25a] mb-4">Impressive</p>
@@ -98,6 +102,7 @@ export default function BartendingPage() {
               onClick={(e) => {
                 e.preventDefault();
                 setSelected("taste");
+                setLoading("taste");
                 setTimeout(() => {
                   window.location.href = "/book?tier=taste";
                 }, 250);
@@ -109,7 +114,10 @@ export default function BartendingPage() {
           </div>
 
           {/* THE TIPSY */}
-          <div className={`group relative bg-black p-6 rounded-2xl border transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(198,162,90,0.3)] ${selected === "signature" ? "border-[#d4af37] shadow-[0_0_50px_rgba(198,162,90,0.5)] scale-[1.02]" : "border-[#c6a25a] hover:border-[#d4af37]"}`}>
+          <div className={`group relative overflow-hidden bg-black p-6 rounded-2xl border transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(198,162,90,0.3)] ${selected === "signature" ? "border-[#d4af37] shadow-[0_0_50px_rgba(198,162,90,0.5)] scale-[1.02]" : "border-[#c6a25a] hover:border-[#d4af37]"}`}>
+            {loading === "signature" && (
+              <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-transparent via-white/10 to-transparent animate-pulse" />
+            )}
             <span className="absolute top-3 right-3 text-xs bg-[#c6a25a] text-black px-3 py-1 rounded-full font-semibold">
               MOST POPULAR
             </span>
@@ -130,6 +138,7 @@ export default function BartendingPage() {
               onClick={(e) => {
                 e.preventDefault();
                 setSelected("signature");
+                setLoading("signature");
                 setTimeout(() => {
                   window.location.href = "/book?tier=signature";
                 }, 250);
@@ -141,7 +150,10 @@ export default function BartendingPage() {
           </div>
 
           {/* THE TOASTED */}
-          <div className={`group bg-neutral-900/80 p-6 rounded-2xl border transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(198,162,90,0.2)] ${selected === "premium" ? "border-[#d4af37] shadow-[0_0_40px_rgba(198,162,90,0.4)] scale-[1.02]" : "border-white/10 hover:border-[#c6a25a]"}`}>
+          <div className={`group relative overflow-hidden bg-neutral-900/80 p-6 rounded-2xl border transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(198,162,90,0.2)] ${selected === "premium" ? "border-[#d4af37] shadow-[0_0_40px_rgba(198,162,90,0.4)] scale-[1.02]" : "border-white/10 hover:border-[#c6a25a]"}`}>
+            {loading === "premium" && (
+              <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-transparent via-white/10 to-transparent animate-pulse" />
+            )}
             <h3 className="text-xl font-semibold mb-2">The Toasted</h3>
             <p className="text-gray-400 text-sm mb-2">Premium full-service experience</p>
             <p className="text-[#c6a25a] mb-4">Elevated events</p>
@@ -159,6 +171,7 @@ export default function BartendingPage() {
               onClick={(e) => {
                 e.preventDefault();
                 setSelected("premium");
+                setLoading("premium");
                 setTimeout(() => {
                   window.location.href = "/book?tier=premium";
                 }, 250);
