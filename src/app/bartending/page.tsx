@@ -34,14 +34,14 @@ export default function BartendingPage() {
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
               href="/book"
-              className="bg-[#c6a25a] text-black px-8 py-4 rounded-xl font-semibold text-lg text-center"
+              className="bg-[#c6a25a] text-black px-8 py-4 rounded-xl font-semibold text-lg text-center transition-transform duration-200 hover:scale-[1.03]"
             >
               Check Availability
             </Link>
 
             <a
               href="tel:7206439690"
-              className="border border-white/20 px-6 py-3 rounded-lg font-semibold text-center"
+              className="border border-white/20 px-6 py-3 rounded-lg font-semibold text-center transition-transform duration-200 hover:scale-[1.03]"
             >
               Call Now
             </a>
@@ -205,7 +205,7 @@ export default function BartendingPage() {
 
         <Link
           href="/book"
-          className="inline-block bg-[#c6a25a] text-black px-10 py-4 rounded-xl font-semibold text-lg"
+          className="inline-block bg-[#c6a25a] text-black px-10 py-4 rounded-xl font-semibold text-lg transition-transform duration-200 hover:scale-[1.03]"
         >
           Check Availability & Get Quote
         </Link>
