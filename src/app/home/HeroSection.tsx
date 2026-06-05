@@ -5,7 +5,7 @@ export default function HeroSection() {
   return (
     <>
       <section
-        className="relative w-full min-h-[85vh] md:h-[90vh] flex items-center justify-center text-center text-white pt-32 md:pt-36 pb-24 md:pb-28"
+        className="relative w-full min-h-screen flex items-center justify-center text-center text-white pt-32 md:pt-36 pb-32 md:pb-36"
       >
         <Image
           src="/Trailer-house.png"
