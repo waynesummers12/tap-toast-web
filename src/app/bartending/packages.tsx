@@ -25,6 +25,7 @@ export default function Packages() {
     "group relative overflow-hidden p-6 rounded-2xl border transition-all duration-300 hover:scale-[1.03]";
 
   return (
+    <>
     <section className="max-w-7xl mx-auto px-6 pb-20">
       <h2 className="text-3xl font-bold mb-6 text-center">
         Choose Your Bartending Experience
@@ -43,7 +44,7 @@ export default function Packages() {
           }`}
         >
           {loading === "taste" && (
-            <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-transparent via-white/10 to-transparent animate-pulse" />
+            <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-transparent via-white/10 to-transparent animate-[shimmer_0.8s_linear]" />
           )}
 
           <h3 className="text-xl font-semibold mb-2">The Taste</h3>
@@ -76,7 +77,7 @@ export default function Packages() {
           }`}
         >
           {loading === "signature" && (
-            <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-transparent via-white/10 to-transparent animate-pulse" />
+            <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-transparent via-white/10 to-transparent animate-[shimmer_0.8s_linear]" />
           )}
 
           <span className="absolute top-3 right-3 text-xs bg-[#c6a25a] text-black px-3 py-1 rounded-full font-semibold">
@@ -112,7 +113,7 @@ export default function Packages() {
           }`}
         >
           {loading === "premium" && (
-            <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-transparent via-white/10 to-transparent animate-pulse" />
+            <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-transparent via-white/10 to-transparent animate-[shimmer_0.8s_linear]" />
           )}
 
           <h3 className="text-xl font-semibold mb-2">The Toasted</h3>
@@ -137,5 +138,13 @@ export default function Packages() {
         </div>
       </div>
     </section>
+
+    <style jsx global>{`
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    `}</style>
+  </>
   );
 }
