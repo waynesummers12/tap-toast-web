@@ -70,8 +70,8 @@ export default function HeroSection() {
             ⚡ Limited availability — most weekends book out 2–4 weeks in advance
           </p>
 
-          <p className="text-xs md:text-sm text-white font-semibold bg-black/60 backdrop-blur-sm px-3 md:px-4 py-2 rounded-md inline-block mt-2">
-            ✔ Fast responses &nbsp;&nbsp;✔ Instant pricing &nbsp;&nbsp;✔ Trusted by Colorado couples & venues
+          <p className="text-xs md:text-sm text-white font-semibold bg-black/60 backdrop-blur-sm px-3 md:px-4 py-2 rounded-md mt-2 max-w-md mx-auto leading-relaxed">
+            ✔ Fast responses · ✔ Instant pricing · ✔ Trusted by Colorado couples & venues
           </p>
           <p className="text-xs md:text-sm text-white/90 mt-2 md:mt-3 font-medium">
             ✔ Fully Insured — General & Liquor Liability Included
