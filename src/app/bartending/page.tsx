@@ -31,14 +31,14 @@ export default function BartendingPage() {
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
               href="/book"
-              className="bg-[#c6a25a] text-black px-8 py-4 rounded-xl font-semibold text-lg leading-none text-center transition-transform duration-200 hover:scale-[1.03]"
+              className="bg-[#c6a25a] text-black px-8 py-4 rounded-xl font-semibold text-lg leading-none text-center transition-all duration-200 hover:scale-[1.03] hover:shadow-[0_10px_30px_rgba(198,162,90,0.35)]"
             >
               Check Availability
             </Link>
 
             <a
               href="tel:7206439690"
-              className="border border-white/20 px-8 py-4 rounded-xl font-semibold text-lg leading-none text-center flex items-center justify-center transition-transform duration-200 hover:scale-[1.03]"
+              className="border border-white/20 px-8 py-4 rounded-xl font-semibold text-lg leading-none text-center flex items-center justify-center transition-all duration-200 hover:scale-[1.03] hover:border-[#c6a25a] hover:shadow-[0_10px_30px_rgba(198,162,90,0.25)]"
             >
               Call Now
             </a>
