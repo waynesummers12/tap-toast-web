@@ -44,8 +44,9 @@ export default function Packages() {
           }`}
         >
           {loading === "taste" && (
-            <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-transparent via-white/10 to-transparent animate-[shimmer_0.8s_linear]" />
+            <div className="absolute inset-0 z-10 pointer-events-none rounded-2xl bg-linear-to-r from-transparent via-[#c6a25a]/40 to-transparent opacity-80 animate-[glassShimmer_1.6s_ease-in-out]" />
           )}
+          <div className="absolute inset-0 z-0 pointer-events-none rounded-2xl opacity-0 group-hover:opacity-60 bg-linear-to-r from-transparent via-[#c6a25a]/20 to-transparent transition-opacity duration-500 animate-[glassShimmer_1.6s_ease-in-out]" />
 
           <h3 className="text-xl font-semibold mb-2">The Taste</h3>
           <p className="text-gray-400 text-sm mb-2">Mobile bar starter experience</p>
@@ -77,8 +78,9 @@ export default function Packages() {
           }`}
         >
           {loading === "signature" && (
-            <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-transparent via-white/10 to-transparent animate-[shimmer_0.8s_linear]" />
+            <div className="absolute inset-0 z-10 pointer-events-none rounded-2xl bg-linear-to-r from-transparent via-[#c6a25a]/40 to-transparent opacity-80 animate-[glassShimmer_1.6s_ease-in-out]" />
           )}
+          <div className="absolute inset-0 z-0 pointer-events-none rounded-2xl opacity-0 group-hover:opacity-60 bg-linear-to-r from-transparent via-[#c6a25a]/20 to-transparent transition-opacity duration-500 animate-[glassShimmer_1.6s_ease-in-out]" />
 
           <span className="absolute top-3 right-3 text-xs bg-[#c6a25a] text-black px-3 py-1 rounded-full font-semibold">
             MOST POPULAR
@@ -113,8 +115,9 @@ export default function Packages() {
           }`}
         >
           {loading === "premium" && (
-            <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-transparent via-white/10 to-transparent animate-[shimmer_0.8s_linear]" />
+            <div className="absolute inset-0 z-10 pointer-events-none rounded-2xl bg-linear-to-r from-transparent via-[#c6a25a]/40 to-transparent opacity-80 animate-[glassShimmer_1.6s_ease-in-out]" />
           )}
+          <div className="absolute inset-0 z-0 pointer-events-none rounded-2xl opacity-0 group-hover:opacity-60 bg-linear-to-r from-transparent via-[#c6a25a]/20 to-transparent transition-opacity duration-500 animate-[glassShimmer_1.6s_ease-in-out]" />
 
           <h3 className="text-xl font-semibold mb-2">The Toasted</h3>
           <p className="text-gray-400 text-sm mb-2">Premium full-service experience</p>
@@ -140,9 +143,24 @@ export default function Packages() {
     </section>
 
     <style jsx global>{`
-    @keyframes shimmer {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
+    @keyframes glassShimmer {
+      0% {
+        transform: translateX(-120%) skewX(-20deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.6;
+      }
+      50% {
+        opacity: 0.9;
+      }
+      80% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateX(120%) skewX(-20deg);
+        opacity: 0;
+      }
     }
     `}</style>
   </>
