@@ -1,21 +1,23 @@
-
-
 "use client";
 
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Packages() {
+  type Tier = "taste" | "signature" | "premium";
+  const router = useRouter();
+
   const [selected, setSelected] = useState<string | null>(null);
   const [loading, setLoading] = useState<string | null>(null);
 
-  const handleClick = (tier: "taste" | "signature" | "premium", href: string) => (e: React.MouseEvent) => {
+  const handleClick = (tier: Tier, href: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     setSelected(tier);
     setLoading(tier);
     // brief micro-delay for visual feedback (selected + shimmer)
     setTimeout(() => {
-      window.location.href = href;
+      router.push(href);
     }, 250);
   };
 
@@ -59,7 +61,7 @@ export default function Packages() {
           <Link
             href="/book?tier=taste"
             onClick={handleClick("taste", "/book?tier=taste")}
-            className="block w-full text-center bg-[#c6a25a] text-black py-3 rounded-lg font-semibold transition-all duration-300 group-hover:bg-[#d4af37] group-hover:scale-[1.02]"
+            className="block w-full text-center bg-[#c6a25a] text-black py-3 rounded-lg font-semibold transition-all duration-300 group-hover:bg-[#d4af37] group-hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-[#c6a25a]/60 active:scale-[0.99]"
           >
             Book This Experience
           </Link>
@@ -95,7 +97,7 @@ export default function Packages() {
           <Link
             href="/book?tier=signature"
             onClick={handleClick("signature", "/book?tier=signature")}
-            className="block w-full text-center bg-[#c6a25a] text-black py-3 rounded-lg font-semibold transition-all duration-300 group-hover:bg-[#d4af37] group-hover:scale-[1.02]"
+            className="block w-full text-center bg-[#c6a25a] text-black py-3 rounded-lg font-semibold transition-all duration-300 group-hover:bg-[#d4af37] group-hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-[#c6a25a]/60 active:scale-[0.99]"
           >
             Book Most Popular
           </Link>
@@ -128,7 +130,7 @@ export default function Packages() {
           <Link
             href="/book?tier=premium"
             onClick={handleClick("premium", "/book?tier=premium")}
-            className="block w-full text-center bg-[#c6a25a] text-black py-3 rounded-lg font-semibold transition-all duration-300 group-hover:bg-[#d4af37] group-hover:scale-[1.02]"
+            className="block w-full text-center bg-[#c6a25a] text-black py-3 rounded-lg font-semibold transition-all duration-300 group-hover:bg-[#d4af37] group-hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-[#c6a25a]/60 active:scale-[0.99]"
           >
             Get Premium Experience
           </Link>
