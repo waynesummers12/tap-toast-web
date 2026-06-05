@@ -38,7 +38,7 @@ export default function BartendingPage() {
 
             <a
               href="tel:7206439690"
-              className="border border-white/20 px-6 py-3 rounded-lg font-semibold text-center transition-transform duration-200 hover:scale-[1.03]"
+              className="border border-white/20 px-6 py-3 rounded-lg font-semibold text-center flex items-center justify-center transition-transform duration-200 hover:scale-[1.03]"
             >
               Call Now
             </a>
