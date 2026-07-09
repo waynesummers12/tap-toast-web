@@ -8,6 +8,12 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(req: Request) {
   try {
     const body = await req.json()
+    console.log(
+      "STRIPE KEY TYPE:",
+      process.env.STRIPE_SECRET_KEY?.startsWith("sk_live_") ? "LIVE" : "TEST",
+      "PREFIX:",
+      process.env.STRIPE_SECRET_KEY?.slice(0, 8)
+    )
     const { amount, email, cid } = body
 
     const session = await stripe.checkout.sessions.create({
