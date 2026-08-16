@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 
 const packages = [
   {
@@ -51,40 +52,62 @@ export default function MountainViewPage() {
     <main className="min-h-screen bg-[#fbfaf7] text-[#17253a]">
 
       {/* HERO */}
-      <section className="relative overflow-hidden border-b border-[#d9d0c3] bg-linear-to-b from-[#eaf0f7] to-[#fbfaf7]">
-        <div className="mx-auto max-w-6xl px-6 py-16 text-center md:py-24">
+      <section className="relative min-h-155 overflow-hidden border-b border-[#d9d0c3] md:min-h-180">
+        <Image
+          src="/Mountain View Bartending Service.jpg"
+          alt="Mountain View Menagerie with Colorado Tap & Toast mobile bar experiences"
+          fill
+          priority
+          className="object-cover object-center"
+        />
 
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-[#315d87]">
-            Mountain View
-          </p>
+        <div className="absolute inset-0 bg-linear-to-r from-[#0f1d30]/90 via-[#0f1d30]/62 to-[#0f1d30]/20" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/35 via-transparent to-black/10" />
 
-          <h1 className="font-serif text-5xl font-semibold tracking-wide md:text-7xl">
-            Menagerie
-          </h1>
+        <div className="relative z-10 mx-auto flex min-h-155 max-w-6xl items-center px-6 py-16 md:min-h-180 md:py-20">
+          <div className="max-w-2xl text-left text-white">
+            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#d9bc7d]">
+              Mountain View Menagerie
+            </p>
 
-          <div className="mx-auto my-6 flex max-w-sm items-center justify-center gap-4">
-            <div className="h-px flex-1 bg-[#b99a58]" />
-            <span className="text-[#315d87]">♡</span>
-            <div className="h-px flex-1 bg-[#b99a58]" />
+            <h1 className="mt-4 font-serif text-5xl font-semibold leading-tight md:text-7xl">
+              Preferred Bartending Experience
+            </h1>
+
+            <div className="my-6 flex max-w-md items-center gap-4 text-[#d9bc7d]">
+              <div className="h-px flex-1 bg-[#d9bc7d]/70" />
+              <span className="text-lg">×</span>
+              <div className="h-px flex-1 bg-[#d9bc7d]/70" />
+            </div>
+
+            <p className="text-sm uppercase tracking-[0.3em] text-white/80">
+              Colorado Tap & Toast
+            </p>
+
+            <h2 className="mt-2 font-serif text-4xl font-bold uppercase md:text-5xl">
+              Premium Bar Service
+            </h2>
+
+            <p className="mt-6 max-w-xl text-lg leading-8 text-white/88">
+              Exclusive flat-rate bartending packages created specifically for Mountain View Menagerie weddings.
+            </p>
+
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <a
+                href="#packages"
+                className="rounded-full bg-[#315d87] px-8 py-4 text-center text-sm font-bold uppercase tracking-[0.15em] text-white transition hover:-translate-y-1 hover:bg-[#274d70]"
+              >
+                Explore Packages
+              </a>
+
+              <Link
+                href="/book?venue=mountain-view"
+                className="rounded-full bg-[#b28b38] px-8 py-4 text-center text-sm font-bold uppercase tracking-[0.15em] text-white transition hover:-translate-y-1 hover:bg-[#c0973d]"
+              >
+                Check Your Date
+              </Link>
+            </div>
           </div>
-
-          <p className="text-sm font-semibold uppercase tracking-[0.25em]">
-            Preferred Bartending Experience
-          </p>
-
-          <div className="my-7 text-xl text-[#315d87]">×</div>
-
-          <p className="text-sm uppercase tracking-[0.3em] text-[#315d87]">
-            Colorado
-          </p>
-
-          <h2 className="mt-1 font-serif text-4xl font-bold uppercase md:text-5xl">
-            Tap & Toast
-          </h2>
-
-          <p className="mt-2 text-sm font-semibold uppercase tracking-[0.2em]">
-            Premium Bar Service
-          </p>
         </div>
       </section>
 
@@ -341,7 +364,7 @@ export default function MountainViewPage() {
           </div>
 
           <p className="mt-7 text-sm text-white/65">
-            info@tapandtoast.com
+            jen@coloradotapandtoast.com
           </p>
 
         </div>
