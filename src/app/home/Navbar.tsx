@@ -19,6 +19,11 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Dedicated Mountain View landing page uses its own header
+  if (pathname === "/mountain-view") {
+    return null
+  }
+
   return (
     <div
       className={`w-full text-white border-b border-[#bfa35a] sticky top-0 z-50 transition-all duration-300 ${
@@ -56,8 +61,9 @@ export default function Navbar() {
               Weddings
               <span className="opacity-40">|</span>
             </span>
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
           </Link>
+
           <Link
             href="/bartending"
             className={`relative group ${
@@ -68,8 +74,9 @@ export default function Navbar() {
               Bartending
               <span className="opacity-40">|</span>
             </span>
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
           </Link>
+
           <Link
             href="/birthday-parties"
             className={`relative group ${
@@ -80,8 +87,9 @@ export default function Navbar() {
               Parties
               <span className="opacity-40">|</span>
             </span>
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
           </Link>
+
           <Link
             href="/dirty-soda-bar"
             className={`relative group ${
@@ -92,8 +100,9 @@ export default function Navbar() {
               Dirty Soda Bar
               <span className="opacity-40">|</span>
             </span>
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
           </Link>
+
           <Link
             href="/corporate-events"
             className={`relative group ${
@@ -104,14 +113,12 @@ export default function Navbar() {
               Corporate
               <span className="opacity-40">|</span>
             </span>
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
           </Link>
-          <Link
-            href="/#packages"
-            className="relative group opacity-80"
-          >
+
+          <Link href="/#packages" className="relative group opacity-80">
             <span>Packages</span>
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
           </Link>
         </div>
 
@@ -133,7 +140,6 @@ export default function Navbar() {
           >
             ☰
           </button>
-
         </div>
       </div>
 
@@ -188,7 +194,6 @@ export default function Navbar() {
             Bartending
           </Link>
 
-
           <Link
             href="/#packages"
             onClick={() => setMenuOpen(false)}
@@ -204,14 +209,12 @@ export default function Navbar() {
           >
             Book Now
           </Link>
-
         </div>
       )}
 
       {/* Mobile Sticky CTA */}
       <div className="fixed bottom-0 left-0 w-full bg-[#9C7A2C] p-4 md:hidden z-40">
         <div className="flex gap-3">
-
           <a
             href="tel:7206439690"
             className="w-1/2 text-center bg-white text-black px-4 py-3 rounded-lg font-semibold"
@@ -225,7 +228,6 @@ export default function Navbar() {
           >
             Get Quote
           </Link>
-
         </div>
       </div>
     </div>
