@@ -51,6 +51,34 @@ export default function MountainViewPage() {
   return (
     <main className="min-h-screen bg-[#fbfaf7] text-[#17253a]">
 
+      <style>{`
+        body > header,
+        body > nav {
+          display: none !important;
+        }
+      `}</style>
+
+      {/* DEDICATED MOUNTAIN VIEW HEADER */}
+      <div className="sticky top-0 z-50 border-b border-white/10 bg-[#17253a]/95 text-white backdrop-blur-md">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
+          <div className="min-w-0">
+            <p className="truncate font-serif text-lg font-semibold sm:text-xl">
+              Mountain View Menagerie
+            </p>
+            <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#d5b369] sm:text-xs">
+              × Colorado Tap & Toast
+            </p>
+          </div>
+
+          <Link
+            href="/book?venue=mountain-view"
+            className="shrink-0 rounded-full bg-[#b28b38] px-5 py-2.5 text-xs font-bold uppercase tracking-[0.12em] text-white transition hover:bg-[#c0973d] sm:px-6 sm:py-3"
+          >
+            Check Your Date
+          </Link>
+        </div>
+      </div>
+
       {/* HERO */}
       <section className="relative min-h-155 overflow-hidden border-b border-[#d9d0c3] md:min-h-180">
         <Image
