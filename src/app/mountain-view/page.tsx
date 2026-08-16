@@ -4,6 +4,7 @@ import Image from "next/image"
 const packages = [
   {
     name: "CLASSIC",
+    slug: "classic",
     price: "$1,195",
     description: "Perfect for couples who want great service and the basics.",
     features: [
@@ -19,6 +20,7 @@ const packages = [
   },
   {
     name: "SIGNATURE",
+    slug: "signature",
     price: "$1,495",
     popular: true,
     description:
@@ -34,6 +36,7 @@ const packages = [
   },
   {
     name: "TAP & TOAST EXPERIENCE",
+    slug: "tap-toast-experience",
     price: "$1,895",
     description: "Elevated style. Unforgettable from start to finish.",
     features: [
@@ -246,7 +249,7 @@ export default function MountainViewPage() {
                 </p>
 
                 <Link
-                  href="/book?venue=mountain-view"
+                  href={`/book?venue=mountain-view&package=${pkg.slug}`}
                   className={`mt-7 block rounded-xl px-5 py-4 text-center text-sm font-bold uppercase tracking-[0.12em] transition ${
                     pkg.popular
                       ? "bg-[#315d87] text-white hover:bg-[#274d70]"
