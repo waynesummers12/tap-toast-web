@@ -14,7 +14,19 @@ export async function POST(req: Request) {
       "PREFIX:",
       process.env.STRIPE_SECRET_KEY?.slice(0, 8)
     )
-    const { amount, email, cid } = body
+    const { amount, email, cid, venue, package: packageKey } = body
+    const mountainViewPackageNames: Record<string, string> = {
+      classic: "Mountain View Menagerie — Classic Bartending Package",
+      signature: "Mountain View Menagerie — Signature Bartending Package",
+      "tap-toast-experience": "Mountain View Menagerie — Tap & Toast Experience"
+    }
+    const isMountainView = venue === "mountain-view"
+    const productName = isMountainView && mountainViewPackageNames[packageKey]
+      ? mountainViewPackageNames[packageKey]
+      : "Tap & Toast Booking Deposit"
+    const cancelUrl = isMountainView
+      ? `https://tapandtoast.com/book?cid=${encodeURIComponent(cid)}&venue=${encodeURIComponent(venue)}${packageKey ? `&package=${encodeURIComponent(packageKey)}` : ""}`
+      : `https://tapandtoast.com/book?cid=${cid}`
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -25,7 +37,7 @@ export async function POST(req: Request) {
           price_data: {
             currency: "usd",
             product_data: {
-              name: "Tap & Toast Booking Deposit"
+              name: productName
             },
             unit_amount: Math.round(amount * 100)
           },
@@ -33,9 +45,11 @@ export async function POST(req: Request) {
         }
       ],
       success_url: `https://tapandtoast.com/success?cid=${cid}`,
-      cancel_url: `https://tapandtoast.com/book?cid=${cid}`,
+      cancel_url: cancelUrl,
       metadata: {
-        cid
+        cid,
+        ...(venue ? { venue } : {}),
+        ...(packageKey ? { package: packageKey } : {})
       }
     })
 

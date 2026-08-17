@@ -12,35 +12,6 @@ function BookEventPageContent() {
   const searchParams = useSearchParams()
   const cid = searchParams.get("cid") || ""
 
-  // Mountain View Menagerie partner booking
-  const venueParam = searchParams.get("venue")
-  const packageParam = searchParams.get("package")
-  const isMountainView = venueParam === "mountain-view"
-
-  const mountainViewPackages = {
-    classic: {
-      name: "Classic",
-      price: 1195
-    },
-    signature: {
-      name: "Signature",
-      price: 1495
-    },
-    "tap-toast-experience": {
-      name: "Tap & Toast Experience",
-      price: 1895
-    }
-  } as const
-
-  const mountainViewPackage =
-    isMountainView &&
-    packageParam &&
-    packageParam in mountainViewPackages
-      ? mountainViewPackages[
-          packageParam as keyof typeof mountainViewPackages
-        ]
-      : null
-
   const bookingType = searchParams.get("type") || "full"
   const tierParam = searchParams.get("tier")
   const serviceParam = searchParams.get("service")
@@ -140,9 +111,7 @@ const applyTier = useCallback((t: "essentials" | "signature" | "premium") => {
 
   const total = isRental
     ? basePrice
-    : isMountainView && mountainViewPackage
-      ? mountainViewPackage.price
-      : basePrice + bartenders * bartenderRate * hours + tierPriceMap[tier]
+    : basePrice + bartenders * bartenderRate * hours + tierPriceMap[tier]
   const tierExtra = tierPriceMap[tier]
 
   const upgradePrices: Record<UpgradeKey, number> = {
@@ -151,10 +120,9 @@ const applyTier = useCallback((t: "essentials" | "signature" | "premium") => {
     setupHour: 50
   }
 
-  const normalUpgradesTotal = Object.entries(selectedUpgrades)
+  const upgradesTotal = Object.entries(selectedUpgrades)
     .filter(([, v]) => v)
     .reduce((sum, [k]) => sum + upgradePrices[k as UpgradeKey], 0)
-  const upgradesTotal = isMountainView ? 0 : normalUpgradesTotal
 
   const grandTotal = total + upgradesTotal
   const deposit = Math.round(grandTotal * 0.5)
@@ -253,19 +221,6 @@ useEffect(() => {
   return () => clearTimeout(t)
 
 }, [tierParam, applyTier])
-
-  useEffect(() => {
-    if (!isMountainView) return
-
-    const t = setTimeout(() => {
-      setLocation("Mountain View Menagerie")
-      setEventType("Wedding")
-      setMode("full")
-    }, 0)
-
-    return () => clearTimeout(t)
-  }, [isMountainView])
-
   useEffect(() => {
   fetch("https://tap-toast-api-cayk.onrender.com/api/events/booked-slots")
     .then(res => res.json())
@@ -531,12 +486,7 @@ type BookedSlot = {
   hours,
   guests,
   bartenders,
-  eventType,
-  venue: venueParam,
-  package: packageParam,
-  mountainViewPackage,
-  grandTotal,
-  deposit
+  eventType
 })
       const res = await fetch("https://tap-toast-api-cayk.onrender.com/api/events/create", {
         method: "POST",
@@ -569,19 +519,7 @@ type BookedSlot = {
 
   cid,
 
-  venue: isMountainView ? "mountain-view" : null,
-
-  package_key: isMountainView ? packageParam : null,
-
-  package_name: isMountainView && mountainViewPackage ? mountainViewPackage.name : null,
-
-  package_price: isMountainView && mountainViewPackage ? mountainViewPackage.price : null,
-
-  estimated_total: grandTotal,
-
-  deposit_amount: deposit,
-
-  upgrades: isMountainView ? [] : (Object.keys(selectedUpgrades) as UpgradeKey[])
+  upgrades: (Object.keys(selectedUpgrades) as UpgradeKey[])
 
     .filter(k => selectedUpgrades[k])
 
@@ -873,7 +811,7 @@ type BookedSlot = {
           <div className="col-span-1 md:col-span-2 text-xs text-gray-500">
             Dates already reserved will be blocked after selection (calendar UI upgrade coming next)
           </div>
-        {!isRental && !isMountainView && (
+        {!isRental && (
           <div className="col-span-1 md:col-span-2 mt-6">
 
   <h2 className="text-2xl font-semibold mb-2">
@@ -1053,19 +991,6 @@ type BookedSlot = {
 
             </div>
           )}
-          {isMountainView && mountainViewPackage && (
-            <div className="col-span-1 md:col-span-2 mt-6 p-6 rounded-xl border border-[#c6a25a]/40 bg-[#f8f5ef] shadow-md">
-              <h2 className="text-2xl font-semibold mb-2">Mountain View Menagerie Package</h2>
-              <div className="flex justify-between text-sm mb-2">
-                <span>{mountainViewPackage.name}</span>
-                <span className="font-semibold">${mountainViewPackage.price}</span>
-              </div>
-              <p className="text-sm text-gray-700">Exclusive venue pricing</p>
-              <p className="text-sm text-gray-700 mt-1">
-                Your package already includes the services listed on the Mountain View Menagerie partner page.
-              </p>
-            </div>
-          )}
           {/* Planner Instructions */}
           <div className="col-span-1 md:col-span-2 mt-4 mb-2">
             <h2 className="text-2xl font-semibold mb-1">Customize Your Event</h2>
@@ -1216,7 +1141,7 @@ type BookedSlot = {
         </div>
 
 
-  {!isMountainView && <div className={`mt-10 p-8 rounded-2xl ${
+  <div className={`mt-10 p-8 rounded-2xl ${
     isSoda
       ? "bg-linear-to-br from-pink-50 to-yellow-50 border-pink-200"
       : "bg-linear-to-br from-[#f8f5ef] to-[#ffffff]"
@@ -1381,7 +1306,6 @@ type BookedSlot = {
     </p>
 
   </div>
-  }
 
         {/* What's Included Section */}
         <div className="mt-10 border-t pt-10">
@@ -1441,7 +1365,7 @@ type BookedSlot = {
             <span>{hours}</span>
           </div>
 
-          {!isMountainView && tier !== "custom" && (
+          {tier !== "custom" && (
             <div className="flex justify-between text-sm mb-2">
               <span>{tier.charAt(0).toUpperCase() + tier.slice(1)} Experience</span>
               <span>${tierExtra}</span>
@@ -1450,26 +1374,17 @@ type BookedSlot = {
 
             <div className="border-t mt-4 pt-4 space-y-2">
 
-            {isMountainView && mountainViewPackage ? (
-              <div className="flex justify-between">
-                <span>{mountainViewPackage.name}</span>
-                <span>${mountainViewPackage.price}</span>
-              </div>
-            ) : (
-              <>
-                <div className="flex justify-between">
-                  <span>{isRental ? "Trailer Rental" : "Base Event"}</span>
-                  <span>${basePrice}</span>
-                </div>
+            <div className="flex justify-between">
+              <span>{isRental ? "Trailer Rental" : "Base Event"}</span>
+              <span>${basePrice}</span>
+            </div>
 
-                {/* Hide Staffing for rental */}
-                {!isRental && (
-                  <div className="flex justify-between">
-                    <span>Staffing</span>
-                    <span>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(bartenders * 40 * hours)}</span>
-                  </div>
-                )}
-              </>
+            {/* Hide Staffing for rental */}
+            {!isRental && (
+              <div className="flex justify-between">
+                <span>Staffing</span>
+                <span>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(bartenders * 40 * hours)}</span>
+              </div>
             )}
 
             <div className="flex justify-between font-semibold text-lg pt-2">
