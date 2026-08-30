@@ -152,7 +152,9 @@ const applyTier = useCallback((t: "essentials" | "signature" | "premium") => {
     .reduce((sum, [k]) => sum + upgradePrices[k as UpgradeKey], 0)
   const upgradesTotal = isMountainView ? 0 : normalUpgradesTotal
 
-  const grandTotal = total + upgradesTotal
+  const mountainViewAdditionalBartenderFee =
+    isMountainView && mountainViewPackage && guests > 100 ? 250 : 0
+  const grandTotal = total + upgradesTotal + mountainViewAdditionalBartenderFee
   const deposit = grandTotal * 0.5
 
   // Animated price change feedback state
@@ -1241,7 +1243,7 @@ type BookedSlot = {
                 type="range"
                 min={10}
                 max={300}
-                step={10}
+                step={isMountainView ? 1 : 10}
                 value={guests}
                 onChange={(e)=>{
                   const value = Number(e.target.value)
@@ -1255,7 +1257,7 @@ type BookedSlot = {
               />
               {isMountainView && guests > 100 && (
                 <p className="mt-3 rounded-lg border border-[#c6a25a]/40 bg-[#f8f5ef] p-3 text-sm font-medium text-[#8a6a1f]">
-                  101+ guests require an additional bartender. A $250 staffing charge will apply.
+                  101+ guests require an additional bartender. The $250 staffing charge is included in your total below.
                 </p>
               )}
             </div>
@@ -1500,8 +1502,14 @@ type BookedSlot = {
               </div>
               <div className="flex justify-between text-sm mb-2">
                 <span>Package Price</span>
-                <span>${mountainViewPackage.price.toLocaleString("en-US")}</span>
+                <span>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(mountainViewPackage.price)}</span>
               </div>
+              {mountainViewAdditionalBartenderFee > 0 && (
+                <div className="flex justify-between text-sm mb-2">
+                  <span>Additional Bartender</span>
+                  <span>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(mountainViewAdditionalBartenderFee)}</span>
+                </div>
+              )}
             </>
           ) : (
             <>
