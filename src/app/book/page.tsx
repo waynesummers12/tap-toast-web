@@ -25,10 +25,6 @@ function BookEventPageContent() {
     signature: {
       name: "Signature",
       price: 1495
-    },
-    "tap-toast-experience": {
-      name: "Tap & Toast Experience",
-      price: 1895
     }
   } as const
 
@@ -45,7 +41,7 @@ function BookEventPageContent() {
   const tierParam = searchParams.get("tier")
   const serviceParam = searchParams.get("service")
   const isSoda = serviceParam === "soda"
-  const isRentalInit = bookingType === "rental"
+  const isRentalInit = !isMountainView && bookingType === "rental"
 
   const [mode, setMode] = useState<"full" | "rental">(isRentalInit ? "rental" : "full")
   const isRental = mode === "rental"
@@ -127,7 +123,7 @@ const applyTier = useCallback((t: "essentials" | "signature" | "premium") => {
   }
 }, [])
 
-  const recommendedBartenders = getRecommendedBartenders(guests)
+  const recommendedBartenders = isMountainView ? 1 : getRecommendedBartenders(guests)
 
   const basePrice = isRental ? 600 : 900
   const bartenderRate = isRental ? 0 : 60
@@ -157,7 +153,7 @@ const applyTier = useCallback((t: "essentials" | "signature" | "premium") => {
   const upgradesTotal = isMountainView ? 0 : normalUpgradesTotal
 
   const grandTotal = total + upgradesTotal
-  const deposit = Math.round(grandTotal * 0.5)
+  const deposit = grandTotal * 0.5
 
   // Animated price change feedback state
   const [delta, setDelta] = useState(0)
@@ -261,6 +257,7 @@ useEffect(() => {
       setLocation("Mountain View Menagerie")
       setEventType("Wedding")
       setMode("full")
+      setBartenders(1)
     }, 0)
 
     return () => clearTimeout(t)
@@ -510,6 +507,8 @@ type BookedSlot = {
   }
 
   const handleBooking = async () => {
+    if (isMountainView && !mountainViewPackage) return
+
     setSubmitting(true)
     if (!name || !email || !location || !date || !eventType) {
 
@@ -629,6 +628,7 @@ type BookedSlot = {
       console.log("Stripe session response:", session)
 
       if (session?.url) {
+        // eslint-disable-next-line react-hooks/immutability
         window.location.href = session.url
         localStorage.removeItem("tap_toast_quote")
       } else {
@@ -645,6 +645,28 @@ type BookedSlot = {
 
   // Animated gradient keyframes for soda mode
   // Inserted global style for gradientShift
+  if (isMountainView && !mountainViewPackage) {
+    return (
+      <div className="min-h-screen bg-black px-6 py-20 text-white flex items-center justify-center">
+        <div className="max-w-xl rounded-2xl border border-[#c6a25a]/40 bg-white p-10 text-center text-black shadow-2xl">
+          <p className="text-sm font-semibold uppercase tracking-widest text-[#9C7A2C]">
+            Mountain View Menagerie
+          </p>
+          <h1 className="mt-4 text-3xl font-semibold">This package is no longer available.</h1>
+          <p className="mt-4 text-gray-600">
+            Please return to the Mountain View Menagerie partner page to choose a current bartending package.
+          </p>
+          <a
+            href="/mountain-view"
+            className="mt-7 inline-block rounded-lg bg-black px-6 py-3 font-semibold text-white transition hover:bg-gray-800"
+          >
+            View Available Packages
+          </a>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <>
       <style jsx global>{`
@@ -678,19 +700,25 @@ type BookedSlot = {
           <h1 className={`text-4xl font-bold mb-3 ${
             isSoda ? "text-pink-600" : "text-white"
           }`}>
-            {isSoda ? "Build Your Dirty Soda Bar" : "Book Tap & Toast"}
+            {isMountainView
+              ? "Mountain View Menagerie"
+              : isSoda
+                ? "Build Your Dirty Soda Bar"
+                : "Book Tap & Toast"}
           </h1>
 
 <p className="text-lg">
-  {isSoda
-    ? "Customize your soda experience in seconds"
-    : "We&apos;ll just need a few quick details"}
+  {isMountainView
+    ? "Colorado Tap & Toast Preferred Bartending"
+    : isSoda
+      ? "Customize your soda experience in seconds"
+      : "We&apos;ll just need a few quick details"}
 </p>
         </div>
       </div>
 
       {/* Toggle UI for Full Service / Rental - moved below hero */}
-      <div className="mt-8 text-center">
+      {!isMountainView && <div className="mt-8 text-center">
         <div className="relative flex justify-center">
           <div className="bg-white/90 backdrop-blur rounded-full p-1 flex shadow-lg relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] group">
             <div
@@ -730,7 +758,7 @@ type BookedSlot = {
             </span>
           </p>
         )}
-      </div>
+      </div>}
 
       {/* Booking Form */}
       <div className={`max-w-3xl mx-auto mt-16 mb-20 p-12 rounded-2xl shadow-2xl transition-all duration-500 ${
@@ -740,16 +768,21 @@ type BookedSlot = {
       }`}>
 
         <div className="mb-6">
-          <h2 className="text-xl font-semibold mb-1">Simple Event Pricing</h2>
+          <h2 className="text-xl font-semibold mb-1">
+            {isMountainView && mountainViewPackage
+              ? `${mountainViewPackage.name} — $${mountainViewPackage.price.toLocaleString("en-US")}`
+              : "Simple Event Pricing"}
+          </h2>
 
 <p className="text-gray-600 text-sm">
-  Base event service starts at $900. Trailer rental starts at $600.
-  Customize your event below and see pricing update instantly.
+  {isMountainView
+    ? "Complete a few details below to reserve your Mountain View Menagerie bartending package."
+    : "Base event service starts at $900. Trailer rental starts at $600. Customize your event below and see pricing update instantly."}
 </p>
 
-<p className="text-xs text-[#8a6a1f] mt-2 font-medium">
+{!isMountainView && <p className="text-xs text-[#8a6a1f] mt-2 font-medium">
   Staffing is automatically recommended based on guest count to ensure fast service and no long lines.
-</p>
+</p>}
           {/* Progress + Personalization */}
           <div className="mt-4">
             <div className="flex justify-between text-xs mb-1">
@@ -799,28 +832,40 @@ type BookedSlot = {
 
           <div>
             <label className="text-sm">Event Location</label>
-            <input
-              className="w-full border border-gray-300 focus:border-black focus:ring-2 focus:ring-black/10 p-3 rounded-lg"
-              type="text"
-              value={location}
-              onChange={(e)=>setLocation(e.target.value)}
-            />
+            {isMountainView ? (
+              <div className="w-full border border-[#c6a25a]/40 bg-[#f8f5ef] p-3 rounded-lg font-medium">
+                Mountain View Menagerie
+              </div>
+            ) : (
+              <input
+                className="w-full border border-gray-300 focus:border-black focus:ring-2 focus:ring-black/10 p-3 rounded-lg"
+                type="text"
+                value={location}
+                onChange={(e)=>setLocation(e.target.value)}
+              />
+            )}
           </div>
 
           <div>
             <label className="text-sm">Event Type</label>
-            <select
-              className="w-full border border-gray-300 focus:border-black focus:ring-2 focus:ring-black/10 p-3 rounded-lg bg-white"
-              value={eventType}
-              onChange={(e)=>setEventType(e.target.value)}
-            >
-              <option value="" disabled>Select Event Type</option>
-              <option>Wedding</option>
-              <option>Corporate Event</option>
-              <option>Private Party</option>
-              <option>Birthday</option>
-              <option>Other</option>
-            </select>
+            {isMountainView ? (
+              <div className="w-full border border-[#c6a25a]/40 bg-[#f8f5ef] p-3 rounded-lg font-medium">
+                Wedding
+              </div>
+            ) : (
+              <select
+                className="w-full border border-gray-300 focus:border-black focus:ring-2 focus:ring-black/10 p-3 rounded-lg bg-white"
+                value={eventType}
+                onChange={(e)=>setEventType(e.target.value)}
+              >
+                <option value="" disabled>Select Event Type</option>
+                <option>Wedding</option>
+                <option>Corporate Event</option>
+                <option>Private Party</option>
+                <option>Birthday</option>
+                <option>Other</option>
+              </select>
+            )}
           </div>
 
           <div className="col-span-1 md:col-span-2">
@@ -1058,7 +1103,7 @@ type BookedSlot = {
               <h2 className="text-2xl font-semibold mb-2">Mountain View Menagerie Package</h2>
               <div className="flex justify-between text-sm mb-2">
                 <span>{mountainViewPackage.name}</span>
-                <span className="font-semibold">${mountainViewPackage.price}</span>
+                <span className="font-semibold">${mountainViewPackage.price.toLocaleString("en-US")}</span>
               </div>
               <p className="text-sm text-gray-700">Exclusive venue pricing</p>
               <p className="text-sm text-gray-700 mt-1">
@@ -1067,7 +1112,7 @@ type BookedSlot = {
             </div>
           )}
           {/* Planner Instructions */}
-          <div className="col-span-1 md:col-span-2 mt-4 mb-2">
+          {!isMountainView && <div className="col-span-1 md:col-span-2 mt-4 mb-2">
             <h2 className="text-2xl font-semibold mb-1">Customize Your Event</h2>
             {isRental && (
   <p className="text-gray-600 text-sm">
@@ -1116,9 +1161,9 @@ type BookedSlot = {
                 </button>
               </div>
             )}
-          </div>
+          </div>}
 
-          {!isRental && (
+          {!isRental && !isMountainView && (
             <div>
               <label className="text-sm">Hours: {hours}</label>
               <input
@@ -1135,7 +1180,7 @@ type BookedSlot = {
             </div>
           )}
 
-          {!isRental && (
+          {!isRental && !isMountainView && (
             <div className={`transition-all duration-300 ${bartenders < recommendedBartenders ? "ring-1 ring-[#c6a25a]/40 rounded-lg p-2" : ""}`}>
               <label className="text-sm">
                 {isSoda ? "Soda Hosts" : "Bartenders"}: {bartenders}
@@ -1178,7 +1223,7 @@ type BookedSlot = {
             <div>
               Guest Count: {guests}
 <span className="text-xs text-gray-500 ml-2">(approximate)</span>
-              {guests > 0 && (
+              {!isMountainView && guests > 0 && (
                 <>
                   <p className="text-xs text-[#c6a25a] mt-2">
                     Based on {guests} guests, we recommend {recommendedBartenders} bartender{recommendedBartenders > 1 ? "s" : ""} for smooth service.
@@ -1201,15 +1246,18 @@ type BookedSlot = {
                 onChange={(e)=>{
                   const value = Number(e.target.value)
                   setGuests(value)
-                  setTier("custom")
-
-                  const recommended = getRecommendedBartenders(value)
-
-                  if (!isRental) {
-  setBartenders(recommended)
-}
+                  if (!isMountainView) {
+                    setTier("custom")
+                    const recommended = getRecommendedBartenders(value)
+                    if (!isRental) setBartenders(recommended)
+                  }
                 }}
               />
+              {isMountainView && guests > 100 && (
+                <p className="mt-3 rounded-lg border border-[#c6a25a]/40 bg-[#f8f5ef] p-3 text-sm font-medium text-[#8a6a1f]">
+                  101+ guests require an additional bartender. A $250 staffing charge will apply.
+                </p>
+              )}
             </div>
           )}
 
@@ -1387,24 +1435,52 @@ type BookedSlot = {
         <div className="mt-10 border-t pt-10">
 
           <h2 className="text-3xl font-serif mb-6 text-center tracking-wide">
-            Standard With Every Booking
+            {isMountainView ? "Your Mountain View Package" : "Standard With Every Booking"}
           </h2>
 
-          {/* Planning & Prep */}
-          <div className="text-center mb-8">
-            <p className="font-semibold text-lg mb-2 underline">Planning & Preparation</p>
-            <p className="text-sm text-gray-700">Two Consultations: Initial vision + final execution call</p>
-            <p className="text-sm text-gray-700">Custom Shopping Guide: Exactly what to buy and how much</p>
-            <p className="text-sm text-gray-700">Travel Included: Up to 40 miles from 80401</p>
-            <p className="text-sm text-gray-700">Fully Insured: General & Liquor Liability coverage</p>
-          </div>
+          {isMountainView && mountainViewPackage ? (
+            <div className="grid gap-8 text-center md:grid-cols-2">
+              <div>
+                <p className="font-semibold text-lg mb-3 underline">Your Mountain View Package</p>
+                <p className="text-sm text-gray-700">Custom alcohol &amp; supply shopping list</p>
+                <p className="text-sm text-gray-700">Professional bar setup &amp; cleanup</p>
+                <p className="text-sm text-gray-700">General &amp; liquor liability insurance</p>
+                <p className="text-sm text-gray-700">TIPS-certified professional bartending</p>
+                {packageParam === "signature" && (
+                  <div className="mt-3">
+                    <p className="text-sm text-gray-700">Two signature cocktails</p>
+                    <p className="text-sm text-gray-700">Cocktail recipe planning</p>
+                    <p className="text-sm text-gray-700">Custom cocktail/bar menu</p>
+                    <p className="text-sm text-gray-700">Signature drink shopping guidance</p>
+                  </div>
+                )}
+              </div>
+              <div>
+                <p className="font-semibold text-lg mb-3 underline">You Supply</p>
+                <p className="text-sm text-gray-700">
+                  Alcohol, mixers, ice, garnishes, cups, napkins and straws.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* Planning & Prep */}
+              <div className="text-center mb-8">
+                <p className="font-semibold text-lg mb-2 underline">Planning & Preparation</p>
+                <p className="text-sm text-gray-700">Two Consultations: Initial vision + final execution call</p>
+                <p className="text-sm text-gray-700">Custom Shopping Guide: Exactly what to buy and how much</p>
+                <p className="text-sm text-gray-700">Travel Included: Up to 40 miles from 80401</p>
+                <p className="text-sm text-gray-700">Fully Insured: General & Liquor Liability coverage</p>
+              </div>
 
-          {/* Essentials */}
-          <div className="text-center">
-            <p className="font-semibold text-lg mb-2 underline">The Essentials</p>
-            <p className="text-sm text-gray-700">Clear cups, napkins</p>
-            <p className="text-sm text-gray-700">Personalized bar menu + trailer signage</p>
-          </div>
+              {/* Essentials */}
+              <div className="text-center">
+                <p className="font-semibold text-lg mb-2 underline">The Essentials</p>
+                <p className="text-sm text-gray-700">Clear cups, napkins</p>
+                <p className="text-sm text-gray-700">Personalized bar menu + trailer signage</p>
+              </div>
+            </>
+          )}
 
         </div>
 
@@ -1412,34 +1488,53 @@ type BookedSlot = {
 
           <h3 className="text-lg font-semibold mb-4">Booking Summary</h3>
 
-          <div className="flex justify-between text-sm mb-2">
-            <span>Booking Type</span>
-            <span className="font-semibold">
-              {isRental ? "Trailer Rental Experience" : "Full Service Experience"}
-            </span>
-          </div>
+          {isMountainView && mountainViewPackage ? (
+            <>
+              <div className="flex justify-between text-sm mb-2">
+                <span>Venue</span>
+                <span className="font-semibold">Mountain View Menagerie</span>
+              </div>
+              <div className="flex justify-between text-sm mb-2">
+                <span>Package</span>
+                <span className="font-semibold">{mountainViewPackage.name}</span>
+              </div>
+              <div className="flex justify-between text-sm mb-2">
+                <span>Package Price</span>
+                <span>${mountainViewPackage.price.toLocaleString("en-US")}</span>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex justify-between text-sm mb-2">
+                <span>Booking Type</span>
+                <span className="font-semibold">
+                  {isRental ? "Trailer Rental Experience" : "Full Service Experience"}
+                </span>
+              </div>
 
-          <div className="flex justify-between text-sm mb-2">
-            <span>Event Type</span>
-            <span>{eventType}</span>
-          </div>
+              <div className="flex justify-between text-sm mb-2">
+                <span>Event Type</span>
+                <span>{eventType}</span>
+              </div>
+            </>
+          )}
 
           <div className="flex justify-between text-sm mb-2">
             <span>Guests</span>
             <span>{guests}</span>
           </div>
 
-          {!isRental && (
+          {!isRental && !isMountainView && (
             <div className="flex justify-between text-sm mb-2">
               <span>{isSoda ? "Soda Hosts" : "Bartenders"}</span>
               <span>{bartenders}</span>
             </div>
           )}
 
-          <div className="flex justify-between text-sm mb-2">
+          {!isMountainView && <div className="flex justify-between text-sm mb-2">
             <span>Hours</span>
             <span>{hours}</span>
-          </div>
+          </div>}
 
           {!isMountainView && tier !== "custom" && (
             <div className="flex justify-between text-sm mb-2">
@@ -1450,12 +1545,7 @@ type BookedSlot = {
 
             <div className="border-t mt-4 pt-4 space-y-2">
 
-            {isMountainView && mountainViewPackage ? (
-              <div className="flex justify-between">
-                <span>{mountainViewPackage.name}</span>
-                <span>${mountainViewPackage.price}</span>
-              </div>
-            ) : (
+            {!isMountainView && (
               <>
                 <div className="flex justify-between">
                   <span>{isRental ? "Trailer Rental" : "Base Event"}</span>
@@ -1529,7 +1619,7 @@ type BookedSlot = {
     </div>
 
   <p className="text-sm text-green-400 font-semibold mt-2">
-    ${deposit} due today
+    {new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(deposit)} due today
   </p>
 
   <p className="text-xs opacity-60 mt-1">
@@ -1538,17 +1628,17 @@ type BookedSlot = {
       <p className="text-xs text-white/70 mt-2">
     ✔ Fully Insured (General + Liquor Liability)
   </p>
-  {!isRental ? (
+  {!isMountainView && !isRental ? (
   <p className="text-xs text-white/70 mt-2">
     {isSoda
   ? `Optimized for ${guests} guests • ${bartenders} soda hosts • ${hours} hours`
   : `Optimized for ${guests} guests • ${bartenders} bartenders • ${hours} hours`}
   </p>
-) : (
+) : !isMountainView && isRental ? (
   <p className="text-xs text-white/60 mt-2 text-center">
     Add {isSoda ? "soda hosts" : "bartenders"} below if you want full-service support
   </p>
-)}
+) : null}
 </div>
 
 {/* Human CTA */}
@@ -1600,7 +1690,7 @@ type BookedSlot = {
         >
           {submitting 
             ? 'Processing…' 
-            : `Reserve Your Date — $${deposit} Today`}
+            : `Reserve Your Date — ${new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(deposit)} Today`}
         </button>
 
         <p className="text-xs text-center text-gray-600 mt-3">
