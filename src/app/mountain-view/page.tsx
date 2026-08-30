@@ -38,7 +38,6 @@ const packages = [
 const venueDetails = [
   "Packages include 1 bartender for up to 100 guests.",
   "101+ guests: additional bartender required — $250.",
-  "Additional service hour — $150, subject to venue alcohol-service cutoff.",
   "Package pricing reflects bartending service; client-provided consumables are not included.",
 ]
 
