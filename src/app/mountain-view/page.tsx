@@ -66,7 +66,7 @@ export default function MountainViewPage() {
             </p>
           </div>
           <Link
-            href="/book?venue=mountain-view"
+            href="#packages"
             className="shrink-0 border border-[#ddc18b] bg-[#f8f5ee]/95 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#14263d] transition hover:bg-white sm:px-6 sm:text-xs"
           >
             Plan Your Bar
@@ -294,7 +294,7 @@ export default function MountainViewPage() {
             View Menagerie.
           </p>
           <Link
-            href="/book?venue=mountain-view"
+            href="#packages"
             className="mt-9 inline-block border border-[#e1c68d] bg-[#e1c68d] px-7 py-4 text-xs font-bold uppercase tracking-[0.2em] text-[#14263d] transition hover:bg-[#f2dda9] sm:px-10"
           >
             Let&apos;s Plan Your Bar Experience
