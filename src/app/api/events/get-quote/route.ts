@@ -1,22 +1,27 @@
 import { NextRequest, NextResponse } from "next/server"
 import { supabase } from "@/lib/supabase"
 
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+const RECOVERY_FIELDS = "cid,name,email,phone,location,event_date,start_time,hours,guests,bartenders,event_type,upgrades"
+
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url)
     const cid = searchParams.get("cid")
 
-    if (!cid) {
+    if (!cid || !UUID_PATTERN.test(cid)) {
       return NextResponse.json(
-        { error: "Missing cid" },
+        { error: "Invalid cid" },
         { status: 400 }
       )
     }
 
     const { data: quote, error } = await supabase
       .from("quotes")
-      .select("*")
+      .select(RECOVERY_FIELDS)
       .eq("cid", cid)
+      .in("status", ["pending", "abandoned"])
+      .or("converted.is.null,converted.eq.false")
       .maybeSingle()
 
     if (error) {

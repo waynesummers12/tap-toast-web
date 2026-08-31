@@ -5,9 +5,7 @@ import { useState, Suspense, useEffect, useRef, useCallback } from "react"
 import { useSearchParams } from "next/navigation"
 import AvailabilityCalendar from "@/components/AvailablilityCalendar"
 
-type UpgradeKey = 'garnishes' | 'cocktails' | 'setupHour'
 const BOOKING_CID_KEY = "tap_toast_booking_cid"
-const E2E_TEST_CHECKOUT_TOKEN_KEY = "tap_toast_e2e_checkout_token"
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 const MOUNTAIN_VIEW_SERVICE_HOURS = 5
 
@@ -75,11 +73,11 @@ function BookEventPageContent() {
   )
   const [guests, setGuests] = useState(100)
   const [eventType, setEventType] = useState("")
-  const [selectedUpgrades, setSelectedUpgrades] = useState<Record<UpgradeKey, boolean>>({
-    garnishes: true,
-    cocktails: true,
-    setupHour: false
-  })
+  const [rentalDeliverySelected, setRentalDeliverySelected] = useState(false)
+  const [rentalIceCoolerSelected, setRentalIceCoolerSelected] = useState(false)
+  const [setupHourSelected, setSetupHourSelected] = useState(false)
+  const [cocktailTapQuantity, setCocktailTapQuantity] = useState(0)
+  const [extraBartenderSelected, setExtraBartenderSelected] = useState(false)
 
   const [submitting, setSubmitting] = useState(false)
   const [bookedSlots, setBookedSlots] = useState<BookedSlot[]>([])
@@ -101,33 +99,22 @@ const applyTier = useCallback((t: "essentials" | "signature" | "premium") => {
     setHours(3)
     setGuests(50)
     setBartenders(1)
-    setSelectedUpgrades({
-      garnishes: false,
-      cocktails: false,
-      setupHour: false
-    })
+    setExtraBartenderSelected(false)
   }
 
   if (t === "signature") {
     setHours(4)
     setGuests(100)
     setBartenders(2)
-    setSelectedUpgrades({
-      garnishes: true,
-      cocktails: true,
-      setupHour: false
-    })
+    setExtraBartenderSelected(false)
   }
 
   if (t === "premium") {
     setHours(5)
     setGuests(150)
     setBartenders(3)
-    setSelectedUpgrades({
-      garnishes: true,
-      cocktails: true,
-      setupHour: true
-    })
+    setExtraBartenderSelected(false)
+    setSetupHourSelected(false)
   }
 }, [])
 
@@ -135,8 +122,8 @@ const applyTier = useCallback((t: "essentials" | "signature" | "premium") => {
     ? guests > 100 ? 2 : 1
     : getRecommendedBartenders(guests)
 
-  const basePrice = isRental ? 600 : 900
-  const bartenderRate = isRental ? 0 : 60
+  const basePrice = 600
+  const bartenderRate = 60
   const tierPriceMap = {
     essentials: 0,
     signature: 150,
@@ -151,16 +138,12 @@ const applyTier = useCallback((t: "essentials" | "signature" | "premium") => {
       : basePrice + bartenders * bartenderRate * hours + tierPriceMap[tier]
   const tierExtra = tierPriceMap[tier]
 
-  const upgradePrices: Record<UpgradeKey, number> = {
-    garnishes: 75,
-    cocktails: 100,
-    setupHour: 50
-  }
-
-  const normalUpgradesTotal = Object.entries(selectedUpgrades)
-    .filter(([, v]) => v)
-    .reduce((sum, [k]) => sum + upgradePrices[k as UpgradeKey], 0)
-  const upgradesTotal = isMountainView ? 0 : normalUpgradesTotal
+  const normalAddOnsTotal =
+    (isRental && rentalDeliverySelected ? 150 : 0) +
+    (isRental && rentalIceCoolerSelected ? 100 : 0) +
+    (setupHourSelected ? 50 : 0) +
+    cocktailTapQuantity * 125
+  const upgradesTotal = isMountainView ? 0 : normalAddOnsTotal
 
   const mountainViewAdditionalBartenderFee =
     isMountainView && mountainViewPackage && guests > 100 ? 250 : 0
@@ -203,11 +186,11 @@ const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
         setGuests(data.guests || 100)
         setBartenders(data.bartenders || 2)
         setEventType(data.eventType || "")
-        setSelectedUpgrades(data.selectedUpgrades || {
-          garnishes: true,
-          cocktails: true,
-          setupHour: false
-        })
+        setRentalDeliverySelected(data.rentalDeliverySelected === true)
+        setRentalIceCoolerSelected(data.rentalIceCoolerSelected === true)
+        setSetupHourSelected(data.setupHourSelected === true)
+        setCocktailTapQuantity(Number.isInteger(data.cocktailTapQuantity) ? data.cocktailTapQuantity : 0)
+        setExtraBartenderSelected(data.extraBartenderSelected === true)
         setTier(data.tier || "signature")
         setMode(data.mode || "full")
 
@@ -311,7 +294,11 @@ useEffect(() => {
     guests,
     bartenders,
     eventType,
-    selectedUpgrades,
+    rentalDeliverySelected,
+    rentalIceCoolerSelected,
+    setupHourSelected,
+    cocktailTapQuantity,
+    extraBartenderSelected,
     tier,
     mode
   }
@@ -339,9 +326,7 @@ useEffect(() => {
           guests,
           bartenders,
           event_type: eventType,
-          upgrades: Object.keys(selectedUpgrades).filter(
-            k => selectedUpgrades[k as UpgradeKey]
-          ),
+          upgrades: [],
           estimated_total: grandTotal,
           deposit
         })
@@ -370,7 +355,11 @@ useEffect(() => {
   guests,
   bartenders,
   eventType,
-  selectedUpgrades,
+  rentalDeliverySelected,
+  rentalIceCoolerSelected,
+  setupHourSelected,
+  cocktailTapQuantity,
+  extraBartenderSelected,
   grandTotal,
   deposit,
   tier,
@@ -409,20 +398,13 @@ useEffect(() => {
     if (mode === "rental") {
       setTier("custom")
       setBartenders(0)
-
-      setSelectedUpgrades(prev => ({
-        ...prev,
-        cocktails: false,
-      }))
+      setExtraBartenderSelected(false)
     } else {
       setTier("signature")
       setBartenders(2)
-
-      setSelectedUpgrades({
-        garnishes: true,
-        cocktails: true,
-        setupHour: false
-      })
+      setRentalDeliverySelected(false)
+      setRentalIceCoolerSelected(false)
+      setExtraBartenderSelected(false)
     }
 
   }, 0)
@@ -458,33 +440,6 @@ useEffect(() => {
   }
 }, [tier])
 
-// 🎯 Auto-recommend upgrades based on event type
-useEffect(() => {
-  if (!eventType) return
-
-  const t = setTimeout(() => {
-    setSelectedUpgrades(prev => {
-      const next = { ...prev }
-
-      if (eventType === "Wedding") {
-        next.garnishes = true
-        next.cocktails = true
-      }
-
-      if (eventType === "Corporate Event") {
-        next.cocktails = true
-      }
-
-      if (eventType === "Private Party" || eventType === "Birthday") {
-        next.garnishes = true
-      }
-
-      return next
-    })
-  }, 0)
-
-  return () => clearTimeout(t)
-}, [eventType])
   function isTimeBlocked(date: string, startTime: string, hours: number) {
     if (!date || !startTime) return false
 
@@ -592,6 +547,18 @@ type BookedSlot = {
 
   event_type: eventType,
 
+  booking_mode: isRental ? "rental" : "full",
+
+  pricing_tier: isRental ? "custom" : tier,
+
+  rental_delivery_selected: isRental && rentalDeliverySelected,
+
+  rental_ice_cooler_selected: isRental && rentalIceCoolerSelected,
+
+  setup_hour_selected: setupHourSelected,
+
+  cocktail_tap_quantity: cocktailTapQuantity,
+
   cid: bookingCid,
 
   venue: isMountainView ? "mountain-view" : null,
@@ -602,13 +569,7 @@ type BookedSlot = {
 
   package_price: isMountainView && mountainViewPackage ? mountainViewPackage.price : null,
 
-  estimated_total: grandTotal,
-
-  deposit_amount: deposit,
-
-  upgrades: isMountainView ? [] : (Object.keys(selectedUpgrades) as UpgradeKey[])
-
-    .filter(k => selectedUpgrades[k])
+  upgrades: []
 
 })
       })
@@ -638,9 +599,7 @@ type BookedSlot = {
         body: JSON.stringify({
           event_id: data.event.id,
           type: "deposit",
-          cid: bookingCid,
-          // TEMPORARY E2E $1 CHECKOUT TEST — REMOVE AFTER PRODUCTION VALIDATION
-          test_token: sessionStorage.getItem(E2E_TEST_CHECKOUT_TOKEN_KEY) || undefined
+          cid: bookingCid
         })
       })
 
@@ -656,7 +615,6 @@ type BookedSlot = {
       console.log("Stripe session response:", session)
 
       if (session?.url) {
-        sessionStorage.removeItem(E2E_TEST_CHECKOUT_TOKEN_KEY)
         // eslint-disable-next-line react-hooks/immutability
         window.location.href = session.url
         localStorage.removeItem("tap_toast_quote")
@@ -806,7 +764,7 @@ type BookedSlot = {
 <p className="text-gray-600 text-sm">
   {isMountainView
     ? "Complete a few details below to reserve your Mountain View Menagerie bartending package."
-    : "Base event service starts at $900. Trailer rental starts at $600. Customize your event below and see pricing update instantly."}
+    : "Base event service starts at $600. Trailer rental starts at $600. Customize your event below and see pricing update instantly."}
 </p>
 
 {!isMountainView && <p className="text-xs text-[#8a6a1f] mt-2 font-medium">
@@ -1181,9 +1139,6 @@ type BookedSlot = {
                   onClick={() => {
                     if (eventType === "Wedding") applyTier("signature")
                     if (eventType === "Corporate Event") setBartenders(getRecommendedBartenders(guests) + 1)
-                    if (eventType === "Private Party" || eventType === "Birthday") {
-                      setSelectedUpgrades(prev => ({ ...prev, garnishes: true, cocktails: true }))
-                    }
                   }}
                   className="mt-3 text-xs text-[#c6a25a] underline hover:text-white hover:scale-105 active:scale-95 transition-transform"
                 >
@@ -1243,6 +1198,7 @@ type BookedSlot = {
                 value={bartenders}
                 onChange={(e)=>{
   setBartenders(Number(e.target.value))
+  setExtraBartenderSelected(false)
   setTier("custom")
 }}
               />
@@ -1279,7 +1235,10 @@ type BookedSlot = {
                   if (!isMountainView) {
                     setTier("custom")
                     const recommended = getRecommendedBartenders(value)
-                    if (!isRental) setBartenders(recommended)
+                    if (!isRental) {
+                      setBartenders(recommended)
+                      setExtraBartenderSelected(false)
+                    }
                   }
                 }}
               />
@@ -1327,20 +1286,8 @@ type BookedSlot = {
                 <span className="text-sm font-medium text-right whitespace-nowrap">$150</span>
                 <input
                   type="checkbox"
-                  onChange={() => setSelectedUpgrades(prev => ({ ...prev, setupHour: !prev.setupHour }))}
-                />
-              </div>
-            </label>
-
-            <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
-              <div className="flex flex-col text-left">
-                <span>🧼 Cleaning Service</span>
-              </div>
-              <div className="flex items-center gap-2 shrink-0">
-                <span className="text-sm font-medium text-right whitespace-nowrap">$75</span>
-                <input
-                  type="checkbox"
-                  onChange={() => setSelectedUpgrades(prev => ({ ...prev, garnishes: !prev.garnishes }))}
+                  checked={rentalDeliverySelected}
+                  onChange={(event) => setRentalDeliverySelected(event.target.checked)}
                 />
               </div>
             </label>
@@ -1350,10 +1297,11 @@ type BookedSlot = {
                 <span>🧊 Ice & Cooler Package</span>
               </div>
               <div className="flex items-center gap-2 shrink-0">
-                <span className="text-sm font-medium text-right whitespace-nowrap">$50</span>
+                <span className="text-sm font-medium text-right whitespace-nowrap">$100</span>
                 <input
                   type="checkbox"
-                  onChange={() => setSelectedUpgrades(prev => ({ ...prev, cocktails: !prev.cocktails }))}
+                  checked={rentalIceCoolerSelected}
+                  onChange={(event) => setRentalIceCoolerSelected(event.target.checked)}
                 />
               </div>
             </label>
@@ -1368,7 +1316,7 @@ type BookedSlot = {
 
         <div className="space-y-3">
 
-          <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
+          {!isRental && <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
             <div className="flex flex-col text-left">
               <span>{isSoda ? "🥤 Additional Soda Host" : "👨‍🍳 Additional Bartender"}</span>
               <span className="text-[10px] bg-black text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Popular</span>
@@ -1377,10 +1325,16 @@ type BookedSlot = {
               <span className="text-sm font-medium text-right whitespace-nowrap">$60 / hour</span>
               <input
                 type="checkbox"
-                onChange={() => setBartenders(prev => Math.min(prev + 1, 5))}
+                checked={extraBartenderSelected}
+                disabled={!extraBartenderSelected && bartenders >= 5}
+                onChange={(event) => {
+                  const checked = event.target.checked
+                  setExtraBartenderSelected(checked)
+                  setBartenders((current) => checked ? Math.min(current + 1, 5) : Math.max(current - 1, 1))
+                }}
               />
             </div>
-          </label>
+          </label>}
 
           <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
             <div className="flex flex-col text-left">
@@ -1390,8 +1344,14 @@ type BookedSlot = {
             <div className="flex items-center gap-2 shrink-0">
               <span className="text-sm font-medium text-right whitespace-nowrap">$125 / tap</span>
               <input
-                type="checkbox"
-                onChange={() => setSelectedUpgrades(prev => ({ ...prev, cocktails: true }))}
+                type="number"
+                min={0}
+                max={20}
+                step={1}
+                value={cocktailTapQuantity}
+                onChange={(event) => setCocktailTapQuantity(Math.max(0, Math.min(20, Math.trunc(Number(event.target.value) || 0))))}
+                className="w-16 rounded border px-2 py-1 text-right"
+                aria-label="Cocktail or mocktail tap quantity"
               />
             </div>
           </label>
@@ -1399,44 +1359,17 @@ type BookedSlot = {
         </div>
       </div>
 
-      {/* Experience Upgrades */}
-      <div>
-        <p className="text-sm font-semibold text-gray-700 mb-2">Experience Upgrades</p>
-
-        <div className="space-y-3">
-
-          <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
-            <div className="flex flex-col text-left">
-              <span>✨ Premium Garnishes Package</span>
-              <span className="text-[10px] bg-black text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Luxury</span>
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="text-sm font-medium text-right whitespace-nowrap">$75</span>
-              <input
-                type="checkbox"
-                checked={selectedUpgrades.garnishes}
-                onChange={() => setSelectedUpgrades(prev => ({ ...prev, garnishes: !prev.garnishes }))}
-              />
-            </div>
-          </label>
-
-          <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
-            <div className="flex flex-col text-left">
-              <span>🍹 Signature Cocktail Menu</span>
-              <span className="text-[10px] bg-[#c6a25a] text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Upgrade</span>
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="text-sm font-medium text-right whitespace-nowrap">$100</span>
-              <input
-                type="checkbox"
-                checked={selectedUpgrades.cocktails}
-                onChange={() => setSelectedUpgrades(prev => ({ ...prev, cocktails: !prev.cocktails }))}
-              />
-            </div>
-          </label>
-
+      {tier !== "premium" && <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
+        <span>Setup Hour</span>
+        <div className="flex items-center gap-2 shrink-0">
+          <span className="text-sm font-medium">$50</span>
+          <input
+            type="checkbox"
+            checked={setupHourSelected}
+            onChange={(event) => setSetupHourSelected(event.target.checked)}
+          />
         </div>
-      </div>
+      </label>}
 
       {/* Travel */}
       <div>
@@ -1445,7 +1378,7 @@ type BookedSlot = {
         <div className="space-y-3">
 
           <div className="flex items-center justify-between p-3 rounded-lg bg-black/5">
-            <span>🚗 Travel Fee (40+ miles from 80401)</span>
+            <span>🚗 Travel Fee (after first 40 miles from 80401)</span>
             <span className="text-sm font-medium">$2 / mile</span>
           </div>
 
@@ -1592,7 +1525,22 @@ type BookedSlot = {
                 {!isRental && (
                   <div className="flex justify-between">
                     <span>Staffing</span>
-                    <span>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(bartenders * 40 * hours)}</span>
+                    <span>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(bartenders * bartenderRate * hours)}</span>
+                  </div>
+                )}
+                {isRental && rentalDeliverySelected && (
+                  <div className="flex justify-between"><span>Delivery &amp; Pickup</span><span>$150</span></div>
+                )}
+                {isRental && rentalIceCoolerSelected && (
+                  <div className="flex justify-between"><span>Ice &amp; Cooler</span><span>$100</span></div>
+                )}
+                {setupHourSelected && (
+                  <div className="flex justify-between"><span>Setup Hour</span><span>$50</span></div>
+                )}
+                {cocktailTapQuantity > 0 && (
+                  <div className="flex justify-between">
+                    <span>Cocktail / Mocktail Taps × {cocktailTapQuantity}</span>
+                    <span>${cocktailTapQuantity * 125}</span>
                   </div>
                 )}
               </>
@@ -1608,8 +1556,13 @@ type BookedSlot = {
               <span>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(deposit)}</span>
             </div>
 
+            <div className="flex justify-between text-sm">
+              <span>Remaining Balance</span>
+              <span>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(grandTotal - deposit)}</span>
+            </div>
+
             <p className="text-xs text-gray-500 mt-2">
-              Remaining balance automatically charged 10 days before your event.
+              Remaining balance due 10 days before your event.
             </p>
             {isRental && (
               <>
@@ -1659,7 +1612,7 @@ type BookedSlot = {
   </p>
 
   <p className="text-xs opacity-60 mt-1">
-    Remaining balance charged 10 days before event
+    Remaining balance due 10 days before your event.
   </p>
       <p className="text-xs text-white/70 mt-2">
     ✔ Fully Insured (General + Liquor Liability)
@@ -1669,10 +1622,6 @@ type BookedSlot = {
     {isSoda
   ? `Optimized for ${guests} guests • ${bartenders} soda hosts • ${hours} hours`
   : `Optimized for ${guests} guests • ${bartenders} bartenders • ${hours} hours`}
-  </p>
-) : !isMountainView && isRental ? (
-  <p className="text-xs text-white/60 mt-2 text-center">
-    Add {isSoda ? "soda hosts" : "bartenders"} below if you want full-service support
   </p>
 ) : null}
 </div>
