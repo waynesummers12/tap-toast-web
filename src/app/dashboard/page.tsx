@@ -1,6 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { dashboardFetch } from "@/lib/dashboard-fetch"
+import { getSupabaseBrowser } from "@/lib/supabase-browser"
 
 interface EventItem {
   // Event status is derived from deposit_paid and balance_due
@@ -41,7 +43,7 @@ export default function DashboardPage() {
         process.env.NEXT_PUBLIC_API_URL ||
         "https://tap-toast-api-cayk.onrender.com"
 
-      const res = await fetch(`${API}/api/events/update-price`, {
+      const res = await dashboardFetch(`${API}/api/events/update-price`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -61,7 +63,7 @@ export default function DashboardPage() {
 
       // 🔥 Refresh events immediately
       try {
-        const res = await fetch(`${API}/api/events`)
+        const res = await dashboardFetch(`${API}/api/events`)
         const refreshed = await res.json()
         if (Array.isArray(refreshed)) {
           setEvents(refreshed)
@@ -115,7 +117,7 @@ useEffect(() => {
 
     try {
 
-      const res = await fetch(
+      const res = await dashboardFetch(
 
         `${process.env.NEXT_PUBLIC_API_URL}/api/events`
 
@@ -164,7 +166,7 @@ useEffect(() => {
 
   const loadAssigned = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${selectedEvent.id}/bartenders`)
+      const res = await dashboardFetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${selectedEvent.id}/bartenders`)
 
       if (!res.ok) {
         throw new Error("Failed to fetch assigned bartenders")
@@ -190,7 +192,7 @@ useEffect(() => {
 useEffect(() => {
   const loadBartenders = async () => {
     try {
-      const res = await fetch(
+      const res = await dashboardFetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/bartenders`
       )
 
@@ -251,7 +253,7 @@ const sendPaymentLink = async (
 
     const endpoint = `${API}/api/stripe/create-checkout-session`
 
-    const res = await fetch(endpoint, {
+    const res = await dashboardFetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -357,7 +359,7 @@ console.log("Sending reminder for eventId:", event.id)
   process.env.NEXT_PUBLIC_API_URL ||
   "https://tap-toast-api-cayk.onrender.com"
 
-const res = await fetch(`${API}/api/email/reminder`, {
+const res = await dashboardFetch(`${API}/api/email/reminder`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -398,7 +400,7 @@ async function saveBartenderAssignments(event: EventItem) {
       process.env.NEXT_PUBLIC_API_URL ||
       "https://tap-toast-api-cayk.onrender.com"
 
-    const res = await fetch(`${API}/api/events/assign-bartenders`, {
+    const res = await dashboardFetch(`${API}/api/events/assign-bartenders`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
@@ -446,7 +448,7 @@ const cancelEvent = async (eventId: string) => {
       process.env.NEXT_PUBLIC_API_URL ||
       "https://tap-toast-api-cayk.onrender.com"
 
-    const res = await fetch(`${API}/api/events/cancel`, {
+    const res = await dashboardFetch(`${API}/api/events/cancel`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -633,9 +635,21 @@ const cancelEvent = async (eventId: string) => {
 
       <div className="max-w-6xl mx-auto">
 
-        <h1 className="text-3xl font-semibold mb-8 text-[#9C7A2C]">
-          Tap & Toast Admin
-        </h1>
+        <div className="mb-8 flex items-center justify-between">
+          <h1 className="text-3xl font-semibold text-[#9C7A2C]">
+            Tap & Toast Admin
+          </h1>
+          <button
+            type="button"
+            onClick={async () => {
+              await getSupabaseBrowser().auth.signOut()
+              window.location.href = "/admin/login"
+            }}
+            className="rounded border px-3 py-2 text-sm hover:bg-gray-100"
+          >
+            Log out
+          </button>
+        </div>
 <div className="mb-6">
   <input
     type="text"
