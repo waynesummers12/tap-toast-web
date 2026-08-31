@@ -7,6 +7,7 @@ import "./calendar-overrides.css"
 
 type AvailabilityCalendarProps = {
   onDateSelect: (date: Date) => void
+  hours: number
 }
 
 type BookedSlot = {
@@ -15,7 +16,7 @@ type BookedSlot = {
   end: string
 }
 
-export default function AvailabilityCalendar({ onDateSelect }: AvailabilityCalendarProps) {
+export default function AvailabilityCalendar({ onDateSelect, hours }: AvailabilityCalendarProps) {
   const [bookedSlots, setBookedSlots] = useState<BookedSlot[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -66,7 +67,7 @@ export default function AvailabilityCalendar({ onDateSelect }: AvailabilityCalen
 
     const isTimeBlocked = (time: string) => {
       const newStart = new Date(`${dateStr}T${time}`)
-      const newEnd = new Date(newStart.getTime() + 4 * 60 * 60 * 1000) // assume avg 4hr event
+      const newEnd = new Date(newStart.getTime() + hours * 60 * 60 * 1000)
 
       const bufferedStart = new Date(newStart.getTime() - BUFFER_HOURS * 60 * 60 * 1000)
       const bufferedEnd = new Date(newEnd.getTime() + BUFFER_HOURS * 60 * 60 * 1000)

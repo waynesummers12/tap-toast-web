@@ -1,15 +1,21 @@
 import Link from "next/link"
-import ClearBookingCid from "./ClearBookingCid"
+import DepositSuccess from "./DepositSuccess"
 
 export const dynamic = "force-dynamic"
 
-export default function SuccessPage({
-  searchParams,
-}: {
-  searchParams: { upgrade?: string; event_id?: string }
-}) {
-  const isUpgrade = searchParams?.upgrade === "true"
-  const eventId = searchParams?.event_id
+type SuccessPageProps = {
+  searchParams: Promise<{
+    upgrade?: string
+    event_id?: string
+    payment_type?: string
+  }>
+}
+
+export default async function SuccessPage({ searchParams }: SuccessPageProps) {
+  const params = await searchParams
+  const isUpgrade = params.upgrade === "true"
+  const eventId = params.event_id
+  const paymentType = params.payment_type === "balance" ? "balance" : "deposit"
 
   return (
     <div
@@ -24,55 +30,28 @@ export default function SuccessPage({
         fontFamily: "sans-serif"
       }}
     >
-      {!isUpgrade && eventId && <ClearBookingCid />}
-
-      <h1 style={{ fontSize: "36px", marginBottom: "20px" }}>
-        {isUpgrade ? "✨ Upgrade Successful!" : "🎉 Booking Confirmed!"}
-      </h1>
-
       {isUpgrade ? (
+        <>
+          <h1 style={{ fontSize: "36px", marginBottom: "20px" }}>
+            ✨ Upgrade Successful!
+          </h1>
         <p style={{ fontSize: "18px", marginBottom: "10px", textAlign: "center" }}>
           Your upgrade has been added to your event.
           <br />
           Everything is updated on our end — you&apos;re all set 🍸
         </p>
+        </>
       ) : (
-        <p style={{ fontSize: "18px", marginBottom: "10px" }}>
-          Your Tap & Toast event deposit has been received.
-        </p>
+        <DepositSuccess eventId={eventId} paymentType={paymentType} />
       )}
 
-      {!isUpgrade && (
-        <p style={{ opacity: 0.7 }}>
-          A confirmation email will be sent shortly.
-        </p>
-      )}
-
-      {!isUpgrade && eventId && (
-        <div style={{ marginTop: "20px" }}>
-          <Link
-            href={`/upgrade?eventId=${eventId}`}
-            style={{
-              background: "#facc15",
-              color: "black",
-              padding: "12px 24px",
-              borderRadius: "8px",
-              fontWeight: "bold",
-              textDecoration: "none"
-            }}
-          >
-            ✨ Upgrade Your Event Experience
-          </Link>
-        </div>
-      )}
-
-      {eventId && (
+      {isUpgrade && eventId && (
         <p style={{ marginTop: "10px", fontSize: "12px", opacity: 0.5 }}>
           Event ID: {eventId}
         </p>
       )}
 
-      <div style={{ display: "flex", gap: "12px", marginTop: "30px" }}>
+      {isUpgrade && <div style={{ display: "flex", gap: "12px", marginTop: "30px" }}>
         <Link
           href="/"
           style={{
@@ -102,7 +81,7 @@ export default function SuccessPage({
             Add Another Upgrade
           </Link>
         )}
-      </div>
+      </div>}
     </div>
   )
 }

@@ -8,6 +8,7 @@ import AvailabilityCalendar from "@/components/AvailablilityCalendar"
 type UpgradeKey = 'garnishes' | 'cocktails' | 'setupHour'
 const BOOKING_CID_KEY = "tap_toast_booking_cid"
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+const MOUNTAIN_VIEW_SERVICE_HOURS = 5
 
 function BookEventPageContent() {
 
@@ -39,6 +40,7 @@ function BookEventPageContent() {
           packageParam as keyof typeof mountainViewPackages
         ]
       : null
+  const hasMountainViewPackage = mountainViewPackage !== null
 
   const bookingType = searchParams.get("type") || "full"
   const tierParam = searchParams.get("tier")
@@ -64,7 +66,9 @@ function BookEventPageContent() {
 
   const [date, setDate] = useState("")
   const [startTime, setStartTime] = useState("18:00")
-  const [hours, setHours] = useState(4)
+  const [hours, setHours] = useState(() =>
+    hasMountainViewPackage ? MOUNTAIN_VIEW_SERVICE_HOURS : 4
+  )
   const [bartenders, setBartenders] = useState(
     () => (isRental ? 0 : 2)
   )
@@ -194,7 +198,7 @@ const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
         setLocation(data.location || "")
         setDate(data.date || "")
         setStartTime(data.startTime || "18:00")
-        setHours(data.hours || 4)
+        setHours(hasMountainViewPackage ? MOUNTAIN_VIEW_SERVICE_HOURS : data.hours || 4)
         setGuests(data.guests || 100)
         setBartenders(data.bartenders || 2)
         setEventType(data.eventType || "")
@@ -214,7 +218,7 @@ const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
     } catch (err) {
       console.error("Failed to restore quote", err)
     }
-  }, [])
+  }, [hasMountainViewPackage])
 
   useEffect(() => {
 
@@ -240,7 +244,7 @@ const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
 
       setStartTime(data.start_time || "18:00")
 
-      setHours(data.hours || 4)
+      setHours(hasMountainViewPackage ? MOUNTAIN_VIEW_SERVICE_HOURS : data.hours || 4)
 
       setGuests(data.guests || 100)
 
@@ -254,10 +258,10 @@ const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
 
     })
 
-}, [recoveryCid])
+}, [recoveryCid, hasMountainViewPackage])
 
 useEffect(() => {
-  if (!tierParam) return
+  if (isMountainView || !tierParam) return
 
   const t = setTimeout(() => {
     if (tierParam === "taste") applyTier("essentials")
@@ -267,7 +271,7 @@ useEffect(() => {
 
   return () => clearTimeout(t)
 
-}, [tierParam, applyTier])
+}, [isMountainView, tierParam, applyTier])
 
   useEffect(() => {
     if (!isMountainView) return
@@ -276,6 +280,7 @@ useEffect(() => {
       setLocation("Mountain View Menagerie")
       setEventType("Wedding")
       setMode("full")
+      setHours(MOUNTAIN_VIEW_SERVICE_HOURS)
       setBartenders(guests > 100 ? 2 : 1)
     }, 0)
 
@@ -891,6 +896,7 @@ type BookedSlot = {
           <div className="col-span-1 md:col-span-2">
             <label className="text-sm mb-2 block">Event Date</label>
             <AvailabilityCalendar
+              hours={hours}
               onDateSelect={(selected: Date) => {
                 const formatted = selected.toISOString().split("T")[0]
                 setDate(formatted)
@@ -1557,10 +1563,10 @@ type BookedSlot = {
             </div>
           )}
 
-          {!isMountainView && <div className="flex justify-between text-sm mb-2">
+          <div className="flex justify-between text-sm mb-2">
             <span>Hours</span>
             <span>{hours}</span>
-          </div>}
+          </div>
 
           {!isMountainView && tier !== "custom" && (
             <div className="flex justify-between text-sm mb-2">
