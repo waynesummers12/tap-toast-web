@@ -7,6 +7,7 @@ import AvailabilityCalendar from "@/components/AvailablilityCalendar"
 
 type UpgradeKey = 'garnishes' | 'cocktails' | 'setupHour'
 const BOOKING_CID_KEY = "tap_toast_booking_cid"
+const E2E_TEST_CHECKOUT_TOKEN_KEY = "tap_toast_e2e_checkout_token"
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 const MOUNTAIN_VIEW_SERVICE_HOURS = 5
 
@@ -637,7 +638,9 @@ type BookedSlot = {
         body: JSON.stringify({
           event_id: data.event.id,
           type: "deposit",
-          cid: bookingCid
+          cid: bookingCid,
+          // TEMPORARY E2E $1 CHECKOUT TEST — REMOVE AFTER PRODUCTION VALIDATION
+          test_token: sessionStorage.getItem(E2E_TEST_CHECKOUT_TOKEN_KEY) || undefined
         })
       })
 
@@ -653,6 +656,7 @@ type BookedSlot = {
       console.log("Stripe session response:", session)
 
       if (session?.url) {
+        sessionStorage.removeItem(E2E_TEST_CHECKOUT_TOKEN_KEY)
         // eslint-disable-next-line react-hooks/immutability
         window.location.href = session.url
         localStorage.removeItem("tap_toast_quote")
