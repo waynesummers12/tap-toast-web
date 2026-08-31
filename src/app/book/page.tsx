@@ -126,7 +126,9 @@ const applyTier = useCallback((t: "essentials" | "signature" | "premium") => {
   }
 }, [])
 
-  const recommendedBartenders = isMountainView ? 1 : getRecommendedBartenders(guests)
+  const recommendedBartenders = isMountainView
+    ? guests > 100 ? 2 : 1
+    : getRecommendedBartenders(guests)
 
   const basePrice = isRental ? 600 : 900
   const bartenderRate = isRental ? 0 : 60
@@ -274,11 +276,11 @@ useEffect(() => {
       setLocation("Mountain View Menagerie")
       setEventType("Wedding")
       setMode("full")
-      setBartenders(1)
+      setBartenders(guests > 100 ? 2 : 1)
     }, 0)
 
     return () => clearTimeout(t)
-  }, [isMountainView])
+  }, [isMountainView, guests])
 
   useEffect(() => {
   fetch("https://tap-toast-api-cayk.onrender.com/api/events/booked-slots")
@@ -391,6 +393,8 @@ useEffect(() => {
 
 // 🔄 Reset state intelligently when switching modes
 useEffect(() => {
+  if (isMountainView) return
+
   const t = setTimeout(() => {
 
     // 🔥 CRITICAL: don't override if coming from URL
@@ -418,7 +422,7 @@ useEffect(() => {
   }, 0)
 
   return () => clearTimeout(t)
-}, [mode, tierParam])
+}, [isMountainView, mode, tierParam])
 
 // Highlight gained features when tier changes
 useEffect(() => {
