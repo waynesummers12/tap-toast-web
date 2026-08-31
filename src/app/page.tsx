@@ -1,5 +1,5 @@
 "use client"
-function getClientId() {
+function getGoogleAnalyticsClientId() {
   if (typeof document === "undefined") return ""
   const match = document.cookie.match(/_ga=GA1\.\d\.(\d+\.\d+)/)
   return match ? match[1] : ""
@@ -129,9 +129,9 @@ export default function HomePage() {
               <div className="flex flex-col items-start">
                 <button
                   onClick={() => {
-                    const cid = getClientId()
+                    const gaClientId = getGoogleAnalyticsClientId()
                     const page = getLandingPage()
-                    const url = `/book?type=full&cid=${cid}&page=${encodeURIComponent(page)}`
+                    const url = `/book?type=full&ga_client_id=${encodeURIComponent(gaClientId)}&page=${encodeURIComponent(page)}`
                     window.location.href = url
                   }}
                   className="inline-block bg-[#c9a14a] text-black px-6 py-3 rounded-md font-semibold hover:opacity-90 transition"
@@ -146,9 +146,9 @@ export default function HomePage() {
               <div className="flex flex-col items-start">
                 <button
                   onClick={() => {
-                    const cid = getClientId()
+                    const gaClientId = getGoogleAnalyticsClientId()
                     const page = getLandingPage()
-                    const url = `/book?type=rental&cid=${cid}&page=${encodeURIComponent(page)}`
+                    const url = `/book?type=rental&ga_client_id=${encodeURIComponent(gaClientId)}&page=${encodeURIComponent(page)}`
                     window.location.href = url
                   }}
                   className="inline-block border border-[#c9a14a] text-[#c9a14a] px-6 py-3 rounded-md font-semibold hover:bg-[#c9a14a] hover:text-black transition"

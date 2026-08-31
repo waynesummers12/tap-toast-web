@@ -1,12 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-
-// 🔥 Properly type global storage (temporary until Supabase)
-declare global {
-  var quotes: Record<string, unknown> | undefined
-}
-
-const quotes: Record<string, unknown> = globalThis.quotes ?? {}
-globalThis.quotes = quotes
+import { supabase } from "@/lib/supabase"
 
 export async function GET(req: NextRequest) {
   try {
@@ -20,7 +13,19 @@ export async function GET(req: NextRequest) {
       )
     }
 
-    const quote = quotes[cid]
+    const { data: quote, error } = await supabase
+      .from("quotes")
+      .select("*")
+      .eq("cid", cid)
+      .maybeSingle()
+
+    if (error) {
+      console.error("Get quote lookup failed")
+      return NextResponse.json(
+        { error: "Failed to retrieve quote" },
+        { status: 500 }
+      )
+    }
 
     if (!quote) {
       return NextResponse.json(

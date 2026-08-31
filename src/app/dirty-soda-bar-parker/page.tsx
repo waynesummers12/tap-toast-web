@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
-function getClientId() {
+function getGoogleAnalyticsClientId() {
   if (typeof document === "undefined") return ""
   const match = document.cookie.match(/_ga=GA1\.\d\.(\d+\.\d+)/)
   return match ? match[1] : ""
@@ -55,8 +55,8 @@ export default function DirtySodaBarParkerPage() {
           <div className="mt-10">
             <button
               onClick={() => {
-                const cid = getClientId()
-                window.location.href = cid ? `/book?cid=${cid}` : "/book"
+                const gaClientId = getGoogleAnalyticsClientId()
+                window.location.href = gaClientId ? `/book?ga_client_id=${encodeURIComponent(gaClientId)}` : "/book"
               }}
               className="inline-block bg-[#c7a45a] text-black px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_25px_rgba(199,164,90,0.4)]"
             >
@@ -130,8 +130,8 @@ export default function DirtySodaBarParkerPage() {
 
           <button
             onClick={() => {
-              const cid = getClientId()
-              window.location.href = cid ? `/book?cid=${cid}` : "/book"
+              const gaClientId = getGoogleAnalyticsClientId()
+              window.location.href = gaClientId ? `/book?ga_client_id=${encodeURIComponent(gaClientId)}` : "/book"
             }}
             className="inline-block bg-black text-white px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300"
           >

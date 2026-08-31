@@ -29,6 +29,11 @@ export async function GET() {
 
     for (const quote of quotes) {
       try {
+        if (!quote.cid) {
+          console.warn("Skipping quote with no booking cid", quote.id)
+          continue
+        }
+
         const created = new Date(quote.created_at)
         const lastSent = quote.last_emailed_at ? new Date(quote.last_emailed_at) : null
 
@@ -64,8 +69,8 @@ export async function GET() {
           to: quote.email,
           subject: template.subject,
           html: template.html.replace(
-            `href="https://tapandtoast.com/book?cid=${quote.id}"`,
-            `href="https://tapandtoast.com/book?cid=${quote.id}&src=email_stage_${quote.email_stage}"`
+            `href="https://tapandtoast.com/book?cid=${quote.cid}"`,
+            `href="https://tapandtoast.com/book?cid=${quote.cid}&src=email_stage_${quote.email_stage}"`
           )
         })
 

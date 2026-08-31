@@ -6,11 +6,14 @@ import { useSearchParams } from "next/navigation"
 import AvailabilityCalendar from "@/components/AvailablilityCalendar"
 
 type UpgradeKey = 'garnishes' | 'cocktails' | 'setupHour'
+const BOOKING_CID_KEY = "tap_toast_booking_cid"
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
 function BookEventPageContent() {
 
   const searchParams = useSearchParams()
-  const cid = searchParams.get("cid") || ""
+  const recoveryCid = searchParams.get("cid") || ""
+  const [bookingCid, setBookingCid] = useState("")
 
   // Mountain View Menagerie partner booking
   const venueParam = searchParams.get("venue")
@@ -164,6 +167,18 @@ const prevTierRef = useRef(tier)
 const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
 
   useEffect(() => {
+    const storedCid = localStorage.getItem(BOOKING_CID_KEY) || ""
+    const cid = UUID_PATTERN.test(recoveryCid)
+      ? recoveryCid
+      : UUID_PATTERN.test(storedCid)
+        ? storedCid
+        : crypto.randomUUID()
+
+    localStorage.setItem(BOOKING_CID_KEY, cid)
+    setBookingCid(cid)
+  }, [recoveryCid])
+
+  useEffect(() => {
     const saved = localStorage.getItem("tap_toast_quote")
     if (!saved) return
 
@@ -201,9 +216,9 @@ const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
 
   useEffect(() => {
 
-  if (!cid) return
+  if (!recoveryCid) return
 
-  fetch(`/api/events/get-quote?cid=${cid}`)
+  fetch(`/api/events/get-quote?cid=${recoveryCid}`)
 
     .then(res => res.json())
 
@@ -237,7 +252,7 @@ const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
 
     })
 
-}, [cid])
+}, [recoveryCid])
 
 useEffect(() => {
   if (!tierParam) return
@@ -274,7 +289,7 @@ useEffect(() => {
 // 🔥 Auto-save quote if user doesn't complete booking
 useEffect(() => {
   // Only run if they’ve entered key info
-  if (!name || !email || !date) return
+  if (!bookingCid || !name || !email || !date) return
 
   // Save to localStorage
   const quote = {
@@ -305,6 +320,7 @@ useEffect(() => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
+          cid: bookingCid,
           name,
           email,
           phone,
@@ -323,11 +339,7 @@ useEffect(() => {
         })
       })
 
-      const data = await res.json()
-
-      if (data?.cid) {
-        localStorage.setItem("quote_cid", data.cid)
-      }
+      await res.json()
 
       console.log("QUOTE SAVED")
       setSaved(true)
@@ -354,7 +366,8 @@ useEffect(() => {
   grandTotal,
   deposit,
   tier,
-  mode
+  mode,
+  bookingCid
 ])
 
 // Animated price change feedback effect
@@ -510,6 +523,7 @@ type BookedSlot = {
 
   const handleBooking = async () => {
     if (isMountainView && !mountainViewPackage) return
+    if (!bookingCid) return
 
     setSubmitting(true)
     if (!name || !email || !location || !date || !eventType) {
@@ -568,7 +582,7 @@ type BookedSlot = {
 
   event_type: eventType,
 
-  cid,
+  cid: bookingCid,
 
   venue: isMountainView ? "mountain-view" : null,
 
@@ -614,7 +628,7 @@ type BookedSlot = {
         body: JSON.stringify({
           event_id: data.event.id,
           type: "deposit",
-          cid
+          cid: bookingCid
         })
       })
 
@@ -1685,7 +1699,7 @@ type BookedSlot = {
         )}
         <button
           onClick={handleBooking}
-          disabled={submitting}
+          disabled={submitting || !bookingCid}
           className={`mt-4 w-full py-5 text-lg rounded-xl transition-transform font-semibold shadow-lg ${
             submitting
               ? 'bg-gray-300 text-gray-600'

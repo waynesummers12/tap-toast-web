@@ -1,6 +1,6 @@
 interface Quote {
   name?: string;
-  id: string;
+  cid: string;
   event_date: string;
   guests?: number;
 }
@@ -26,7 +26,7 @@ export function abandonedEmail2(quote: Quote) {
 
         <p>If you’re still thinking about Tap & Toast, we’d love to help make this effortless for you — but the best move is to secure your date now before someone else does.</p>
 
-        <a href="https://tapandtoast.com/book?cid=${quote.id}"
+        <a href="https://tapandtoast.com/book?cid=${quote.cid}"
            style="display:inline-block;margin-top:18px;padding:14px 22px;background:#c6a25a;color:black;font-weight:bold;text-decoration:none;border-radius:6px;">
           Reserve Your Date Now
         </a>

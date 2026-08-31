@@ -1,4 +1,5 @@
 import Link from "next/link"
+import ClearBookingCid from "./ClearBookingCid"
 
 export const dynamic = "force-dynamic"
 
@@ -23,6 +24,8 @@ export default function SuccessPage({
         fontFamily: "sans-serif"
       }}
     >
+      {!isUpgrade && eventId && <ClearBookingCid />}
+
       <h1 style={{ fontSize: "36px", marginBottom: "20px" }}>
         {isUpgrade ? "✨ Upgrade Successful!" : "🎉 Booking Confirmed!"}
       </h1>

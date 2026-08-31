@@ -2,7 +2,7 @@ interface Quote {
   name?: string;
   event_date: string;
   guests?: number;
-  id: string;
+  cid: string;
 }
 
 export function abandonedEmail3(quote: Quote) {
@@ -28,7 +28,7 @@ export function abandonedEmail3(quote: Quote) {
 
         <p>If this is something you still want, now’s the moment to lock it in.</p>
 
-        <a href="https://tapandtoast.com/book?cid=${quote.id}"
+        <a href="https://tapandtoast.com/book?cid=${quote.cid}"
            style="display:inline-block;margin-top:18px;padding:14px 22px;background:#c6a25a;color:black;font-weight:bold;text-decoration:none;border-radius:6px;">
           Secure Your Date Now
         </a>
