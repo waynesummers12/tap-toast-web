@@ -52,7 +52,7 @@ export default function TrailerSection() {
         <div className={`transition-all duration-700 ease-out delay-200 will-change-transform ${
           visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}>
-          <h2 className="text-5xl font-light tracking-[0.2em] text-[#9C7A2C] mb-6 uppercase">
+          <h2 className="text-5xl font-light tracking-[0.2em] text-white mb-6 uppercase">
             About The Trailer
           </h2>
 
@@ -80,7 +80,7 @@ export default function TrailerSection() {
 
           <a
             href="/book"
-            className={`inline-block bg-[#9C7A2C] hover:bg-[#b3913b] text-white px-10 py-4 rounded-full tracking-[0.25em] uppercase text-sm transition-all duration-300 hover:scale-105 shadow-[0_0_10px_rgba(156,122,44,0.4)] ${
+            className={`inline-block bg-white hover:bg-neutral-200 text-black px-10 py-4 rounded-sm tracking-[0.25em] uppercase text-sm transition-all duration-300 hover:scale-105 shadow-[0_0_10px_rgba(156,122,44,0.4)] ${
               visible ? 'animate-[pulse_2.5s_ease-in-out_infinite] delay-500' : ''
             }`}
           >

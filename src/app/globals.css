@@ -5,15 +5,40 @@
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, sans-serif;
 }
+/* Keep anchored sections and focused controls clear of the sticky header. */
+html { scroll-padding-top: 6rem; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 3px solid #777;
+  outline-offset: 4px;
+}
+@media (max-width: 1279px) {
+  body:has(.mobile-quote-bar) { padding-bottom: calc(5rem + env(safe-area-inset-bottom)); }
+  .mobile-quote-bar { padding-bottom: calc(.75rem + env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* Editorial typography: serif display text with readable sans-serif controls. */
+h1, h2, h3, h4, .brand-wordmark {
+  font-family: var(--font-editorial), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -.025em;
+  text-transform: none;
+  text-wrap: balance;
+}
+.luxury-home h2 { font-size: clamp(2.25rem, 5vw, 4.5rem); line-height: 1.08; }
+.luxury-home h3, .luxury-home h4 { font-size: 2rem; line-height: 1.15; }
+.luxury-home a, .luxury-home button { box-shadow: none; }
+.luxury-home section { border-bottom: 1px solid #d9d9d5; }
+.luxury-home .hero-title { font-size: clamp(2.8rem, 5vw, 5rem); line-height: 1.02; }
+
+.luxury-home .grid > * { min-width: 0; }
+.luxury-home h2 { overflow-wrap: anywhere; }
+
+.luxury-home { overflow-wrap: anywhere; }

@@ -11,18 +11,18 @@ export default function StorySection() {
             alt="Wayne and Jen - Tap & Toast Mobile Bar"
             width={320}
             height={320}
-            className="object-cover rounded-full border-10 border-[#9C7A2C] shadow-2xl"
-            style={{ width: '320px', height: '320px' }}
+            className="object-cover rounded-sm border border-neutral-200"
+            style={{ width: '100%', maxWidth: '420px', height: 'auto' }}
           />
         </div>
 
         {/* Text */}
         <div>
-          <h2 className="text-4xl md:text-5xl font-light tracking-[0.35em] text-[#9C7A2C] mb-6 uppercase">
+          <h2 className="text-4xl md:text-5xl font-light tracking-[0.35em] text-neutral-900 mb-6 uppercase">
             Our Story
           </h2>
 
-          <div className="w-16 h-px bg-[#9C7A2C]/70 mb-10" />
+          <div className="w-16 h-px bg-neutral-950/70 mb-10" />
 
           <p className="text-base md:text-lg leading-relaxed text-gray-700 mb-6 tracking-[0.02em]">
             Hi, I&apos;m Jen! As a business owner in the beauty industry, I&apos;ve spent years creating personalized, high-touch experiences for my clients — something I now bring into every Tap & Toast event.
@@ -42,7 +42,7 @@ export default function StorySection() {
 
           <a
             href="#packages"
-            className="inline-block border border-[#9C7A2C] bg-[#9C7A2C]/90 hover:bg-[#b3913b] hover:border-[#b3913b] text-white px-10 py-4 rounded-full tracking-[0.3em] uppercase text-xs transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="inline-block border border-neutral-300 bg-neutral-950/90 hover:bg-neutral-800 hover:border-neutral-800 text-white px-10 py-4 rounded-sm tracking-[0.3em] uppercase text-xs transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             Check Out Our Packages
           </a>

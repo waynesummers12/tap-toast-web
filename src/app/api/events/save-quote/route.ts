@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
       guests,
       bartenders,
       event_type,
+      service_type,
       upgrades,
       estimated_total,
       deposit
@@ -36,6 +37,7 @@ export async function POST(req: NextRequest) {
     const validUpgrades = Array.isArray(upgrades) && upgrades.length <= 20 &&
       upgrades.every((value) => isStringInRange(value, 1, 50))
     const validPayload =
+      (service_type === undefined || service_type === "soda" || service_type === "bartending") &&
       typeof cid === "string" && UUID_PATTERN.test(cid) &&
       isStringInRange(name, 1, 100) &&
       isStringInRange(email, 3, 254) && EMAIL_PATTERN.test(email) &&
@@ -89,6 +91,7 @@ export async function POST(req: NextRequest) {
       guests: guests || 0,
       bartenders: bartenders || 0,
       event_type: event_type || "",
+      service_type: service_type || "bartending",
       upgrades: upgrades || [],
       estimated_total: estimated_total || 0,
       deposit: deposit || 0,

@@ -12,17 +12,19 @@ type VerificationState = "verifying" | "verified" | "unverified"
 
 export default function DepositSuccess({
   eventId,
-  paymentType
+  paymentType,
+  sessionId
 }: {
   eventId?: string
-  paymentType: "deposit" | "balance"
+  paymentType: "deposit" | "balance" | "upgrade"
+  sessionId?: string
 }) {
   const [state, setState] = useState<VerificationState>(
-    eventId ? "verifying" : "unverified"
+    eventId && (paymentType !== "upgrade" || sessionId) ? "verifying" : "unverified"
   )
 
   useEffect(() => {
-    if (!eventId) return
+    if (!eventId || (paymentType === "upgrade" && !sessionId)) return
 
     let cancelled = false
     let attempts = 0
@@ -33,7 +35,7 @@ export default function DepositSuccess({
 
       try {
         const response = await fetch(
-          `${API_URL}/api/events/${encodeURIComponent(eventId)}/payment-status?type=${paymentType}`,
+          `${API_URL}/api/events/${encodeURIComponent(eventId)}/payment-status?type=${paymentType}${sessionId ? `&session_id=${encodeURIComponent(sessionId)}` : ""}`,
           { cache: "no-store" }
         )
         const result = await response.json()
@@ -64,7 +66,7 @@ export default function DepositSuccess({
       cancelled = true
       if (retryTimer) clearTimeout(retryTimer)
     }
-  }, [eventId, paymentType])
+  }, [eventId, paymentType, sessionId])
 
   if (state === "verifying") {
     return (
@@ -111,10 +113,10 @@ export default function DepositSuccess({
   return (
     <>
       <h1 style={{ fontSize: "36px", marginBottom: "20px" }}>
-        {paymentType === "deposit" ? "🎉 Booking Confirmed!" : "✅ Payment Complete!"}
+        {paymentType === "upgrade" ? "Upgrade Confirmed!" : paymentType === "deposit" ? "🎉 Booking Confirmed!" : "✅ Payment Complete!"}
       </h1>
       <p style={{ fontSize: "18px", marginBottom: "10px" }}>
-        {paymentType === "deposit"
+        {paymentType === "upgrade" ? "Your paid upgrade has been added to your event." : paymentType === "deposit"
           ? "Your Tap & Toast event deposit has been received."
           : "Your Tap & Toast event balance has been received."}
       </p>

@@ -21,7 +21,7 @@ import Footer from "./home/Footer"
 
 export default function HomePage() {
   return (
-    <main className="bg-black text-white selection:bg-[#c9a14a] selection:text-black">
+    <main className="luxury-home bg-white text-black selection:bg-neutral-200 selection:text-black">
       <HeroSection />
       <StorySection />
 
@@ -80,11 +80,11 @@ export default function HomePage() {
       <TrailerSection />
 
       {/* PREMIUM FOUNDER SECTION */}
-      <section className="bg-black text-white py-24 px-6">
+      <section className="bg-white text-black py-24 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-14 items-center">
 
           <div>
-            <p className="text-xs tracking-[0.35em] uppercase text-[#c9a14a] mb-4">
+            <p className="text-xs tracking-[0.35em] uppercase text-neutral-800 mb-4">
               Behind the Business
             </p>
 
@@ -94,35 +94,35 @@ export default function HomePage() {
               Unforgettable for Your Guests.
             </h2>
 
-            <p className="text-gray-300 mb-5 text-lg">
+            <p className="text-neutral-600 mb-5 text-lg">
               Tap & Toast is designed for hosts who want a seamless, elevated event — without the stress of managing the details.
             </p>
 
-            <p className="text-gray-300 mb-5">
+            <p className="text-neutral-600 mb-5">
               Jen brings the energy, hospitality, and attention to detail that turns a great event into something guests talk about long after it ends.
             </p>
 
-            <p className="text-gray-300 mb-6">
+            <p className="text-neutral-600 mb-6">
               Behind the scenes, Wayne ensures everything runs seamlessly — from instant booking and transparent pricing to flawless execution on event day.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-300 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-neutral-600 mb-6">
               <p>✓ Fast & Easy Booking</p>
               <p>✓ Professional, Experienced Bartenders</p>
               <p>✓ Premium Mobile Bar Experience</p>
               <p>✓ Trusted Across Colorado Events</p>
             </div>
 
-            <p className="text-sm text-white font-semibold mb-4">
+            <p className="text-sm text-black font-semibold mb-4">
               Limited dates available — most weekends book out in advance.
             </p>
-            <p className="text-sm text-gray-400 mb-4">
+            <p className="text-sm text-neutral-600 mb-4">
               Serving areas across Colorado including 
-              <Link href="/dirty-soda-bar-denver" className="text-[#c9a14a] underline ml-1">Denver</Link>,
-              <Link href="/dirty-soda-bar-lakewood" className="text-[#c9a14a] underline ml-1">Lakewood</Link>,
-              <Link href="/dirty-soda-bar-parker" className="text-[#c9a14a] underline ml-1">Parker</Link>,
-              <Link href="/dirty-soda-bar-highlands-ranch" className="text-[#c9a14a] underline ml-1">Highlands Ranch</Link>, and
-              <Link href="/dirty-soda-bar-centennial" className="text-[#c9a14a] underline ml-1">Centennial</Link>.
+              <Link href="/dirty-soda-bar-denver" className="text-neutral-800 underline ml-1">Denver</Link>,
+              <Link href="/dirty-soda-bar-lakewood" className="text-neutral-800 underline ml-1">Lakewood</Link>,
+              <Link href="/dirty-soda-bar-parker" className="text-neutral-800 underline ml-1">Parker</Link>,
+              <Link href="/dirty-soda-bar-highlands-ranch" className="text-neutral-800 underline ml-1">Highlands Ranch</Link>, and
+              <Link href="/dirty-soda-bar-centennial" className="text-neutral-800 underline ml-1">Centennial</Link>.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -134,11 +134,11 @@ export default function HomePage() {
                     const url = `/book?type=full&ga_client_id=${encodeURIComponent(gaClientId)}&page=${encodeURIComponent(page)}`
                     window.location.href = url
                   }}
-                  className="inline-block bg-[#c9a14a] text-black px-6 py-3 rounded-md font-semibold hover:opacity-90 transition"
+                  className="inline-block bg-black text-white px-6 py-3 rounded-md font-semibold hover:opacity-90 transition"
                 >
                   Book Full Service
                 </button>
-                <p className="text-xs mt-3 px-2 py-1 rounded-md bg-[#c9a14a]/10 border border-[#c9a14a]/20 text-[#c9a14a] transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] hover:bg-[#c9a14a]/20">
+                <p className="text-xs mt-3 px-2 py-1 rounded-md bg-[#c9a14a]/10 border border-neutral-400/20 text-neutral-800 transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] hover:bg-neutral-100/20">
                   🥂 Best for weddings & large events
                 </p>
               </div>
@@ -151,17 +151,17 @@ export default function HomePage() {
                     const url = `/book?type=rental&ga_client_id=${encodeURIComponent(gaClientId)}&page=${encodeURIComponent(page)}`
                     window.location.href = url
                   }}
-                  className="inline-block border border-[#c9a14a] text-[#c9a14a] px-6 py-3 rounded-md font-semibold hover:bg-[#c9a14a] hover:text-black transition"
+                  className="inline-block border border-neutral-400 text-neutral-800 px-6 py-3 rounded-md font-semibold hover:bg-neutral-100 hover:text-black transition"
                 >
                   Rent the Trailer
                 </button>
-                <p className="text-xs mt-3 px-2 py-1 rounded-md bg-[#c9a14a]/10 border border-[#c9a14a]/20 text-[#c9a14a] transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] hover:bg-[#c9a14a]/20">
+                <p className="text-xs mt-3 px-2 py-1 rounded-md bg-[#c9a14a]/10 border border-neutral-400/20 text-neutral-800 transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] hover:bg-neutral-100/20">
                   🎉 Perfect for DIY parties & smaller events
                 </p>
               </div>
             </div>
 
-            <p className="text-sm text-gray-400 mt-4">
+            <p className="text-sm text-neutral-600 mt-4">
               &quot;Everything was seamless — our guests loved it.&quot; ⭐⭐⭐⭐⭐
             </p>
           </div>

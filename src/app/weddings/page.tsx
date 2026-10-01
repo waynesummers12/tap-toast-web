@@ -9,17 +9,17 @@ export const metadata = {
 
 export default function WeddingsPage() {
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-[#c7a45a] selection:text-black">
+    <main className="min-h-screen bg-white text-neutral-950 selection:bg-neutral-200 selection:text-black">
 
       {/* HERO */}
-      <section className="px-8 py-28 max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+      <section className="px-6 py-16 md:py-24 max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         
         <div>
-          <h1 className="text-5xl md:text-7xl font-semibold mb-6 leading-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-semibold mb-6 leading-tight">
             Wedding Mobile Bar Service
           </h1>
 
-          <p className="text-lg md:text-xl max-w-xl text-gray-300 leading-relaxed">
+          <p className="text-lg md:text-xl max-w-xl text-neutral-600 leading-relaxed">
             Tap & Toast brings a luxury mobile bar experience to weddings across
             Colorado. Our professional bartenders, elegant bar trailer, and
             customizable drink menus help make your wedding celebration truly
@@ -30,7 +30,7 @@ export default function WeddingsPage() {
             <Link
               href="/book"
               prefetch
-              className="bg-[#c7a45a] text-black px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_25px_rgba(199,164,90,0.4)] inline-block"
+              className="bg-black text-white px-8 py-5 rounded-sm font-semibold text-lg hover:scale-105 transition-all duration-300 inline-block"
             >
               Get a Wedding Quote
             </Link>
@@ -43,7 +43,7 @@ export default function WeddingsPage() {
             alt="Tap & Toast Wedding Mobile Bar Experience"
             width={700}
             height={500}
-            className="rounded-2xl object-cover shadow-2xl border border-white/10"
+            className="w-full rounded-sm object-cover border border-neutral-200"
             priority
             quality={80}
             sizes="(max-width: 768px) 100vw, 50vw"
@@ -55,7 +55,7 @@ export default function WeddingsPage() {
       {/* FEATURES */}
       <section className="px-8 pb-28 max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
 
-        <div className="bg-neutral-900/70 backdrop-blur p-8 rounded-2xl border border-white/10 hover:border-[#c7a45a] transition">
+        <div className="bg-neutral-950 text-white p-8 rounded-sm border border-neutral-800 hover:border-neutral-500 transition">
           <h3 className="text-xl font-semibold mb-3">Custom Cocktail Menus</h3>
           <p className="opacity-70">
             Work with our bartenders to create signature cocktails for your
@@ -63,7 +63,7 @@ export default function WeddingsPage() {
           </p>
         </div>
 
-        <div className="bg-neutral-900/70 backdrop-blur p-8 rounded-2xl border border-white/10 hover:border-[#c7a45a] transition">
+        <div className="bg-neutral-950 text-white p-8 rounded-sm border border-neutral-800 hover:border-neutral-500 transition">
           <h3 className="text-xl font-semibold mb-3">Professional Bartenders</h3>
           <p className="opacity-70">
             Our experienced bartenders provide friendly, professional service
@@ -71,7 +71,7 @@ export default function WeddingsPage() {
           </p>
         </div>
 
-        <div className="bg-neutral-900/70 backdrop-blur p-8 rounded-2xl border border-white/10 hover:border-[#c7a45a] transition">
+        <div className="bg-neutral-950 text-white p-8 rounded-sm border border-neutral-800 hover:border-neutral-500 transition">
           <h3 className="text-xl font-semibold mb-3">Beautiful Mobile Bar</h3>
           <p className="opacity-70">
             Our stylish mobile bar trailer becomes a centerpiece of your
@@ -85,7 +85,7 @@ export default function WeddingsPage() {
       <section className="px-8 pb-28 max-w-7xl mx-auto will-change-transform">
         <h2 className="text-3xl md:text-4xl font-semibold mb-12">Why Couples Choose Tap & Toast</h2>
 
-        <ul className="grid md:grid-cols-2 gap-6 text-lg text-gray-300">
+        <ul className="grid md:grid-cols-2 gap-6 text-lg text-neutral-600">
           <li>• Elegant mobile bar trailer</li>
           <li>• Professional licensed bartenders</li>
           <li>• Custom cocktail menus</li>
@@ -97,7 +97,7 @@ export default function WeddingsPage() {
 
       {/* CTA */}
       <section className="px-8 pb-32 max-w-6xl mx-auto">
-        <div className="bg-[#c7a45a] text-black p-12 md:p-16 rounded-3xl shadow-[0_20px_60px_rgba(199,164,90,0.3)]">
+        <div className="bg-black text-white p-6 sm:p-12 md:p-16 rounded-sm">
 
           <h2 className="text-3xl font-bold mb-4">
             Make Your Wedding Bar Unforgettable
@@ -111,7 +111,7 @@ export default function WeddingsPage() {
           <Link
             href="/book"
             prefetch
-            className="block w-full md:w-auto text-center bg-black text-white px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300"
+            className="block w-full md:w-auto text-center bg-white text-black px-6 py-5 rounded-sm font-semibold text-lg hover:scale-105 transition-all duration-300"
           >
             Reserve Your Wedding Date
           </Link>

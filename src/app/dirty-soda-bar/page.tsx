@@ -2,353 +2,95 @@ import Image from "next/image"
 import Link from "next/link"
 
 export const metadata = {
-  title: "Dirty Soda Bar Catering | Tap & Toast",
-  description:
-    "Tap & Toast offers a Dirty Soda Bar experience for weddings, corporate events, and birthday parties across Colorado. Custom soda mixes, fun flavors, and a unique event experience.",
+  title: "Dirty Soda Bar for Birthday Parties | Tap & Toast Colorado",
+  description: "Plan a sweet celebration with Colorado Tap & Toast’s mobile dirty soda bar. Custom soda combinations for birthdays, graduations, and family celebrations.",
 }
+
+const faqs = [
+  ["What is a dirty soda?", "It’s soda with a twist: flavored syrups, cream, fruit, and garnishes mixed into a custom drink. Our dirty soda bar is a nonalcoholic option for your celebration."],
+  ["Can guests choose their own combinations?", "Yes. Guests can mix and match flavors, syrups, fruit garnishes, and cream toppers to create their own soda combinations."],
+  ["Where do you serve?", "We provide mobile dirty soda bar catering in Denver, Littleton, Lakewood, Parker, Highlands Ranch, Centennial, and surrounding Colorado areas."],
+  ["How do I start planning?", "Start your quote with your event date, location, and guest count. Prefer to talk through your plans? Call Jen at 720-643-9690."],
+] as const
+const quote = "/book?service=soda"
+const button = "inline-flex items-center justify-center rounded-full bg-[#99365c] px-7 py-4 text-center text-sm font-semibold text-white transition hover:bg-[#772443] focus-visible:outline-[#99365c]"
 
 export default function DirtySodaBarPage() {
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-[#c7a45a] selection:text-black">
-
-      {/* SEO SCHEMA MARKUP */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "LocalBusiness",
-            "name": "Tap & Toast Mobile Bar",
-            "image": "https://coloradotapandtoast.com/dirty-soda-bar.jpg",
-            "url": "https://coloradotapandtoast.com/dirty-soda-bar",
-            "telephone": "720-643-9690",
-            "address": {
-              "@type": "PostalAddress",
-              "addressLocality": "Denver",
-              "addressRegion": "CO",
-              "addressCountry": "US"
-            },
-            "areaServed": ["Denver", "Littleton", "Lakewood", "Parker", "Highlands Ranch", "Centennial", "Colorado"],
-            "priceRange": "$$",
-            "aggregateRating": {
-              "@type": "AggregateRating",
-              "ratingValue": "5",
-              "reviewCount": "10"
-            },
-            "review": {
-              "@type": "Review",
-              "author": {
-                "@type": "Person",
-                "name": "Event Client"
-              },
-              "reviewRating": {
-                "@type": "Rating",
-                "ratingValue": "5"
-              },
-              "reviewBody": "The dirty soda bar was the highlight of our event — guests loved it and couldn’t stop talking about it."
-            },
-            "description": "Mobile dirty soda bar catering for weddings, parties, and corporate events in Colorado.",
-            "makesOffer": {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Dirty Soda Bar Catering"
-              }
-            }
-          })
-        }}
-      />
-
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": [
-              {
-                "@type": "Question",
-                "name": "What is a dirty soda bar?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "A dirty soda bar is a customizable drink station where guests create soda combinations with syrups, cream, fruit, and garnishes."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Do you provide dirty soda bar catering near me?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Yes, Tap & Toast provides mobile dirty soda bar catering throughout Denver, Littleton, Lakewood, and surrounding Colorado areas."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "What events are best for a dirty soda bar?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Dirty soda bars are perfect for weddings, birthday parties, corporate events, school functions, and family gatherings."
-                }
-              }
-            ]
-          })
-        }}
-      />
-
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://coloradotapandtoast.com"
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Dirty Soda Bar",
-                "item": "https://coloradotapandtoast.com/dirty-soda-bar"
-              }
-            ]
-          })
-        }}
-      />
-
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Service",
-            "name": "Dirty Soda Bar Catering",
-            "provider": {
-              "@type": "LocalBusiness",
-              "name": "Tap & Toast Mobile Bar",
-              "url": "https://coloradotapandtoast.com"
-            },
-            "areaServed": {
-              "@type": "State",
-              "name": "Colorado"
-            },
-            "serviceType": "Mobile Dirty Soda Bar Catering",
-            "description": "Mobile dirty soda bar catering for weddings, birthday parties, and corporate events across Denver, Littleton, Lakewood, and surrounding Colorado areas.",
-            "offers": {
-              "@type": "Offer",
-              "url": "https://coloradotapandtoast.com/book",
-              "priceCurrency": "USD",
-              "availability": "https://schema.org/InStock"
-            }
-          })
-        }}
-      />
-
-      {/* HERO */}
-      <section className="px-8 py-24 max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-
-          {/* LEFT SIDE (TEXT) */}
-          <div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              Dirty Soda Bar Catering in Colorado
-            </h1>
-
-            <p className="text-xl max-w-xl opacity-80 leading-relaxed">
-              Tap & Toast now offers a fun and interactive <strong>Dirty Soda Bar</strong>
-              experience for events across Colorado. Inspired by the viral soda trend,
-              our mobile soda bar brings custom soda creations, flavored syrups,
-              creams, and garnishes that guests absolutely love.
-            </p>
-
-            <p className="text-lg text-gray-400 mt-6 max-w-xl">
-              Looking for a dirty soda bar near you? Tap & Toast provides mobile dirty soda catering across Denver, Littleton, Lakewood, and surrounding Colorado areas.
-            </p>
-
-            <div className="mt-10">
-              <Link
-                href="/book?service=soda"
-                prefetch
-                className="block w-full md:w-auto text-center bg-[#c7a45a] text-black px-8 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_25px_rgba(199,164,90,0.4)]"
-              >
-                Book a Dirty Soda Bar
-              </Link>
-              <p className="text-sm text-[#c7a45a] mt-6">
-                Perfect for parties — dates fill up quickly during peak weekends
-              </p>
-              <p className="text-xs text-white/60 mt-2">
-                ✔ Huge hit for all ages  ✔ Fast setup  ✔ Fully customizable flavors
-              </p>
-              <p className="text-sm text-gray-400 mt-4">
-                Serving Colorado areas including 
-                <Link href="/dirty-soda-bar-denver" className="text-[#c7a45a] underline ml-1">Denver</Link>,
-                <Link href="/dirty-soda-bar-littleton" className="text-[#c7a45a] underline ml-1">Littleton</Link>,
-                <Link href="/dirty-soda-bar-lakewood" className="text-[#c7a45a] underline ml-1">Lakewood</Link>,
-                <Link href="/dirty-soda-bar-parker" className="text-[#c7a45a] underline ml-1">Parker</Link>,
-                <Link href="/dirty-soda-bar-highlands-ranch" className="text-[#c7a45a] underline ml-1">Highlands Ranch</Link>, and
-                <Link href="/dirty-soda-bar-centennial" className="text-[#c7a45a] underline ml-1">Centennial</Link>
-              </p>
+    <main className="min-h-screen bg-[#fff8fa] text-[#54283c] selection:bg-[#f5c6d8]">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org", "@type": "FAQPage",
+        mainEntity: faqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })),
+      }) }} />
+      <section className="relative overflow-hidden border-b border-[#efcfda] bg-[#fce8ef]">
+        <div aria-hidden="true" className="pointer-events-none absolute -left-20 -top-24 h-80 w-80 rounded-full border-[36px] border-white/35" />
+        <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-6 py-14 md:grid-cols-2 md:py-20 lg:gap-16">
+          <div className="min-w-0">
+            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-[#99365c]">Colorado celebrations, with a sweet twist</p>
+            <h1 className="mb-6 text-5xl leading-[1.02] sm:text-6xl lg:text-7xl">Her day.<br />Her friends.<br /><span className="italic text-[#99365c]">Her kind of sparkle.</span></h1>
+            <p className="mb-5 text-xl">A dirty soda bar for a party that feels like her.</p>
+            <p className="max-w-lg leading-relaxed text-[#704659]">Planning your daughter’s birthday? Bring everyone together over custom soda creations, fun flavors, and a mobile bar made for celebrating. You bring the occasion. We bring the soda experience.</p>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Link href={quote} className={button}>Plan Her Soda Party <span aria-hidden="true" className="ml-3">↗</span></Link>
+              <a href="#soda-how-it-works" className="px-2 py-3 text-sm underline underline-offset-4">What’s a dirty soda?</a>
             </div>
+            <p className="mt-5 text-xs tracking-wide text-[#704659]">Nonalcoholic drinks · Custom combinations · Colorado celebrations</p>
           </div>
+          <div className="min-w-0 rounded-t-[10rem] rounded-b-3xl border-8 border-white bg-white p-2 shadow-lg shadow-pink-950/5">
+            <Image src="/dirty-soda-bar.jpg" alt="A birthday celebration around the Tap & Toast mobile soda bar" width={1200} height={700} priority sizes="(max-width: 768px) 100vw, 50vw" className="aspect-[4/5] w-full rounded-t-[9rem] rounded-b-2xl object-cover" />
+            <p className="py-4 text-center text-2xl italic" style={{fontFamily:"var(--font-editorial), Georgia, serif"}}>A little fizz. A lot of fun.</p>
+          </div>
+        </div>
+      </section>
 
-          {/* RIGHT SIDE (IMAGE) */}
+      <section id="soda-how-it-works" className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+        <div className="mx-auto mb-12 max-w-2xl text-center">
+          <p className="mb-3 text-xs uppercase tracking-[0.2em] text-[#99365c]">Meet the dirty soda bar</p>
+          <h2 className="mb-5 text-4xl md:text-5xl">Sweet sips. So many possibilities.</h2>
+          <p className="leading-relaxed text-[#704659]">Think soda, dressed up for the party. Flavored syrups, cream, fruit, and garnishes turn a familiar favorite into a drink that’s all your own.</p>
+        </div>
+        <div className="grid gap-5 md:grid-cols-3">
+          {[
+            ["01", "Make it hers", "A birthday, a graduation, or a just-because celebration with her favorite people. Make the soda bar part of her day."],
+            ["02", "Mix up the fun", "Guests can explore flavors and create their own soda combinations with syrups, cream, and fruit garnishes."],
+            ["03", "Enjoy the moment", "Our mobile bar and staff bring the soda experience to your celebration, so you can spend more time with your guests."],
+          ].map(([number, title, body]) => <div key={number} className="rounded-3xl border border-[#efcfda] bg-white p-7"><span className="mb-6 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#fce8ef] text-sm text-[#99365c]">{number}</span><h3 className="mb-3 text-3xl">{title}</h3><p className="leading-relaxed text-[#704659]">{body}</p></div>)}
+        </div>
+      </section>
+
+      <section className="border-y border-[#efcfda] bg-white">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-16 md:grid-cols-2">
+          <Image src="/dirty-soda-drinks.jpg" alt="Colorful dirty soda drinks with garnishes" width={1200} height={700} sizes="(max-width: 768px) 100vw, 50vw" className="w-full rounded-3xl object-cover" />
           <div>
-            <Image
-              src="/dirty-soda-bar.jpg"
-              alt="Dirty Soda Bar Birthday Party Experience"
-              width={1200}
-              height={700}
-              className="rounded-2xl shadow-2xl object-cover border border-white/10"
-              priority
-              quality={80}
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
+            <p className="mb-4 text-xs uppercase tracking-[0.2em] text-[#99365c]">For the moments worth celebrating</p>
+            <h2 className="mb-6 text-4xl md:text-5xl">Big birthday energy.<br />Little details she’ll love.</h2>
+            <p className="mb-7 leading-relaxed text-[#704659]">From backyard birthdays to graduation parties, give her friends a place to gather, sip, and celebrate. Our soda bar also welcomes weddings, school events, and family gatherings.</p>
+            <div className="mb-8 flex flex-wrap gap-2">{["Birthday parties", "Graduations", "Family celebrations"].map(label => <span key={label} className="rounded-full bg-[#fce8ef] px-4 py-2 text-sm">{label}</span>)}</div>
+            <Link href={quote} className={button}>Get a Soda Party Quote</Link>
           </div>
-
         </div>
       </section>
 
-      {/* FEATURES */}
-      <section className="px-8 pb-24 max-w-6xl mx-auto grid md:grid-cols-3 gap-10">
-
-        <div className="bg-neutral-900/70 backdrop-blur p-8 rounded-2xl border border-white/10 hover:border-[#c7a45a] transition">
-          <h3 className="text-xl font-semibold mb-3">Custom Soda Creations</h3>
-          <p className="opacity-70">
-            Guests can mix and match flavors, syrups, fruit garnishes and cream
-            toppers to create their own custom soda combinations.
-          </p>
-        </div>
-
-        <div className="bg-neutral-900/70 backdrop-blur p-8 rounded-2xl border border-white/10 hover:border-[#c7a45a] transition">
-          <h3 className="text-xl font-semibold mb-3">Perfect for All Ages</h3>
-          <p className="opacity-70">
-            A dirty soda bar is a huge hit at weddings, corporate events,
-            birthday parties, and family celebrations.
-          </p>
-        </div>
-
-        <div className="bg-neutral-900/70 backdrop-blur p-8 rounded-2xl border border-white/10 hover:border-[#c7a45a] transition">
-          <h3 className="text-xl font-semibold mb-3">Mobile Setup</h3>
-          <p className="opacity-70">
-            Our mobile bar trailer and staff bring everything needed to serve
-            delicious sodas anywhere in Colorado.
-          </p>
-        </div>
-
+      <section className="mx-auto max-w-4xl px-6 py-16 md:py-24">
+        <p className="mb-3 text-center text-xs uppercase tracking-[0.2em] text-[#99365c]">A little help with the planning</p>
+        <h2 className="mb-10 text-center text-4xl md:text-5xl">Questions, answered.</h2>
+        <div className="space-y-3">{faqs.map(([question, answer]) => <details key={question} className="rounded-2xl border border-[#efcfda] bg-white p-5 sm:p-6"><summary className="cursor-pointer font-semibold">{question}</summary><p className="mt-4 leading-relaxed text-[#704659]">{answer}</p></details>)}</div>
+        <p className="mt-7 text-center"><Link href="/what-is-dirty-soda-bar" className="text-sm underline underline-offset-4">Explore our Dirty Soda Guide</Link></p>
       </section>
 
-      {/* LEARN MORE LINK */}
-      <section className="px-8 pb-16 max-w-4xl mx-auto text-center">
-        <div className="bg-neutral-900/60 border border-white/10 rounded-2xl p-8">
-          <p className="text-sm tracking-[0.3em] uppercase text-[#c7a45a] mb-3">
-            New to Dirty Soda?
-          </p>
-
-          <h3 className="text-2xl font-semibold mb-4">
-            Learn How a Dirty Soda Bar Works
-          </h3>
-
-          <p className="text-gray-400 mb-6">
-            Not sure what a dirty soda is or how it works at events? We break it down simply — flavors, combinations, and why guests love it.
-          </p>
-
-          <Link
-            href="/what-is-dirty-soda-bar"
-            className="inline-block border border-[#c7a45a] text-[#c7a45a] px-6 py-3 rounded-full text-xs tracking-[0.2em] uppercase hover:bg-[#c7a45a] hover:text-black transition"
-          >
-            Read the Dirty Soda Guide
-          </Link>
+      <section className="bg-[#54283c] px-6 py-16 text-center text-white md:py-24">
+        <div className="mx-auto max-w-2xl">
+          <p className="mb-4 text-xs uppercase tracking-[0.2em] text-[#f5c6d8]">Let’s make it a celebration</p>
+          <h2 className="mb-6 text-4xl md:text-6xl">Something sweet<br />to look forward to.</h2>
+          <p className="mb-8 leading-relaxed text-[#f8e0e9]">Tell us when, where, and who you’re celebrating. Start your quote or talk through the details with Jen.</p>
+          <Link href={quote} className="inline-block rounded-full bg-[#fce8ef] px-8 py-4 font-semibold text-[#54283c] hover:bg-white">Plan Her Soda Party</Link>
+          <a href="tel:7206439690" className="mx-auto mt-4 block w-fit px-4 py-3 text-sm underline underline-offset-4">Call Jen · 720-643-9690</a>
         </div>
       </section>
-
-      {/* EVENT TYPES */}
-      <section className="px-8 pb-24 max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold mb-10">Dirty Soda Bar for Weddings, Parties & Corporate Events</h2>
-
-        <ul className="grid md:grid-cols-2 gap-6 text-lg text-gray-300">
-          <li>• Weddings</li>
-          <li>• Corporate Events</li>
-          <li>• Birthday Parties</li>
-          <li>• Graduation Parties</li>
-          <li>• School Events</li>
-          <li>• Company Celebrations</li>
-        </ul>
-        <p className="text-gray-400 mt-8">
-          Also explore our <Link href="/bartending" className="text-[#c7a45a] underline">bartending services</Link> and <Link href="/weddings" className="text-[#c7a45a] underline">wedding bar packages</Link>.
-        </p>
-      </section>
-
-      <section className="px-8 pb-16 max-w-6xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-6">Dirty Soda Bar Catering in Colorado</h2>
-        <p className="text-gray-400 max-w-3xl">
-          Tap & Toast provides premium mobile dirty soda bar catering across Colorado including Denver, Littleton, Lakewood, and surrounding areas. Whether you&apos;re planning a wedding, birthday party, or corporate event, our soda bar experience delivers something unique that guests remember.
-        </p>
-      </section>
-
-      {/* FAQ */}
-      <section className="px-8 pb-24 max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold mb-10">Dirty Soda Bar FAQs</h2>
-
-        <div className="space-y-6 text-gray-300">
-
-          <div>
-            <h3 className="font-semibold text-lg mb-2">What is a dirty soda bar?</h3>
-            <p className="opacity-80">A dirty soda bar is a customizable drink station where guests create unique soda combinations using flavored syrups, cream, fruit, and garnishes.</p>
-          </div>
-
-          <div>
-            <h3 className="font-semibold text-lg mb-2">Do you provide dirty soda bar catering near me?</h3>
-            <p className="opacity-80">Yes — Tap & Toast provides mobile dirty soda bar catering throughout Colorado including Denver, Littleton, and surrounding areas.</p>
-          </div>
-
-          <div>
-            <h3 className="font-semibold text-lg mb-2">What events are best for a dirty soda bar?</h3>
-            <p className="opacity-80">Dirty soda bars are perfect for birthday parties, weddings, corporate events, school functions, and family gatherings.</p>
-          </div>
-
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="px-8 pb-32 max-w-6xl mx-auto">
-        <div className="bg-[#c7a45a] text-black p-12 md:p-16 rounded-3xl shadow-[0_20px_60px_rgba(199,164,90,0.3)]">
-
-          <h2 className="text-3xl font-bold mb-4">
-            Ready to Add a Dirty Soda Bar to Your Event?
-          </h2>
-
-          <p className="mb-8 text-lg">
-            Tap & Toast makes event planning easy with professional staff,
-            a beautiful mobile setup, and a soda bar experience guests
-            will remember.
-          </p>
-
-          <div className="mb-8">
-            <Image
-              src="/dirty-soda-drinks.jpg"
-              alt="Dirty Soda Drink Options"
-              width={1200}
-              height={700}
-              className="rounded-xl shadow-lg object-cover"
-              quality={75}
-              sizes="100vw"
-            />
-          </div>
-
-          <Link
-            href="/book?service=soda"
-            prefetch
-            className="block w-full md:w-auto text-center bg-black text-white px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300"
-          >
-            Get Your Event Quote
-          </Link>
-
-        </div>
-      </section>
-
+      <footer className="mx-auto max-w-6xl px-6 py-10 text-center text-sm leading-relaxed text-[#704659]">
+        <p className="mb-3">Colorado Tap & Toast · Dirty Soda Bar</p>
+        <p>Serving {[['Denver','denver'],['Littleton','littleton'],['Lakewood','lakewood'],['Parker','parker'],['Highlands Ranch','highlands-ranch'],['Centennial','centennial']].map(([label,slug],i)=><span key={slug}>{i > 0 ? ' · ' : ''}<Link href={`/dirty-soda-bar-${slug}`} className="underline underline-offset-4">{label}</Link></span>)} and surrounding Colorado areas.</p>
+      </footer>
     </main>
   )
 }

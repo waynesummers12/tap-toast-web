@@ -7,10 +7,10 @@ export const metadata = {
 
 export default function BirthdayPartiesPage() {
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-white text-neutral-950 selection:bg-neutral-200">
 
       {/* HERO */}
-      <section className="px-8 py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+      <section className="px-6 py-16 md:py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         <div>
           <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
             <span className="block">Parties</span>
@@ -29,7 +29,7 @@ export default function BirthdayPartiesPage() {
           <div className="mt-10">
             <a
               href="/book"
-              className="block w-full md:w-auto text-center bg-[#c7a45a] text-black px-6 md:px-8 py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition whitespace-normal wrap-break-word"
+              className="block w-full md:w-auto text-center bg-black text-white px-6 md:px-8 py-4 rounded-sm font-semibold text-lg hover:opacity-90 transition whitespace-normal wrap-break-word"
             >
               Get Birthday Party Quote
             </a>
@@ -38,11 +38,11 @@ export default function BirthdayPartiesPage() {
 
         <div>
           <Image
-            src="/dirty-soda-bar.jpg"
-            alt="Birthday party mobile bar setup"
+            src="/corporate-bar.jpg"
+            alt="Tap & Toast mobile bar setup"
             width={800}
             height={500}
-            className="rounded-xl shadow-xl w-full object-cover"
+            className="rounded-sm border border-neutral-200 w-full object-cover"
           />
         </div>
       </section>
@@ -50,7 +50,7 @@ export default function BirthdayPartiesPage() {
       {/* FEATURES */}
       <section className="px-8 pb-24 max-w-6xl mx-auto grid md:grid-cols-3 gap-10">
 
-        <div className="bg-zinc-900 p-8 rounded-xl">
+        <div className="bg-neutral-950 text-white p-8 rounded-sm border border-neutral-800">
           <h3 className="text-xl font-semibold mb-3">Private Party Vibes</h3>
           <p className="opacity-70">
             Our mobile bar instantly elevates your birthday party atmosphere
@@ -58,7 +58,7 @@ export default function BirthdayPartiesPage() {
           </p>
         </div>
 
-        <div className="bg-zinc-900 p-8 rounded-xl">
+        <div className="bg-neutral-950 text-white p-8 rounded-sm border border-neutral-800">
           <h3 className="text-xl font-semibold mb-3">Signature Drinks</h3>
           <p className="opacity-70">
             Choose custom drink menus or themed cocktails that match your
@@ -66,7 +66,7 @@ export default function BirthdayPartiesPage() {
           </p>
         </div>
 
-        <div className="bg-zinc-900 p-8 rounded-xl">
+        <div className="bg-neutral-950 text-white p-8 rounded-sm border border-neutral-800">
           <h3 className="text-xl font-semibold mb-3">Stress-Free Hosting</h3>
           <p className="opacity-70">
             Our bartenders handle the drink service so you can relax and enjoy
@@ -92,7 +92,7 @@ export default function BirthdayPartiesPage() {
 
       {/* CTA */}
       <section className="px-8 pb-32 max-w-6xl mx-auto">
-        <div className="bg-[#c7a45a] text-black p-12 rounded-2xl">
+        <div className="bg-black text-white p-6 sm:p-12 md:p-16 rounded-sm">
 
           <h2 className="text-3xl font-bold mb-4">
             Throw a Birthday Party Guests Will Remember
@@ -105,7 +105,7 @@ export default function BirthdayPartiesPage() {
 
           <a
             href="/book"
-            className="block w-full md:w-auto text-center bg-black text-white px-6 md:px-8 py-4 rounded-lg font-semibold whitespace-normal wrap-break-word"
+            className="block w-full md:w-auto text-center bg-white text-black px-6 md:px-8 py-4 rounded-sm font-semibold whitespace-normal wrap-break-word"
           >
             Reserve Your Party Date
           </a>

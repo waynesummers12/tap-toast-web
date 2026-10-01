@@ -19,14 +19,14 @@ export default function PackagesSection() {
     <section id="packages" className="relative bg-white text-black py-24 px-6 overflow-hidden">
       <style jsx global>{shimmerStyles}</style>
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <span className="absolute left-[10%] bottom-10 w-6 h-6 bg-[#9C7A2C]/20 rounded-full animate-[floatBubble_6s_linear_infinite]" />
-        <span className="absolute left-[25%] bottom-0 w-4 h-4 bg-[#9C7A2C]/20 rounded-full animate-[floatBubble_8s_linear_infinite]" />
-        <span className="absolute left-[45%] bottom-6 w-5 h-5 bg-[#9C7A2C]/20 rounded-full animate-[floatBubble_7s_linear_infinite]" />
-        <span className="absolute right-[30%] bottom-4 w-4 h-4 bg-[#9C7A2C]/20 rounded-full animate-[floatBubble_9s_linear_infinite]" />
-        <span className="absolute right-[15%] bottom-8 w-6 h-6 bg-[#9C7A2C]/20 rounded-full animate-[floatBubble_10s_linear_infinite]" />
+        <span className="absolute left-[10%] bottom-10 w-6 h-6 bg-neutral-950/20 rounded-sm animate-[floatBubble_6s_linear_infinite]" />
+        <span className="absolute left-[25%] bottom-0 w-4 h-4 bg-neutral-950/20 rounded-sm animate-[floatBubble_8s_linear_infinite]" />
+        <span className="absolute left-[45%] bottom-6 w-5 h-5 bg-neutral-950/20 rounded-sm animate-[floatBubble_7s_linear_infinite]" />
+        <span className="absolute right-[30%] bottom-4 w-4 h-4 bg-neutral-950/20 rounded-sm animate-[floatBubble_9s_linear_infinite]" />
+        <span className="absolute right-[15%] bottom-8 w-6 h-6 bg-neutral-950/20 rounded-sm animate-[floatBubble_10s_linear_infinite]" />
       </div>
       <div className="max-w-6xl mx-auto text-center mb-16">
-        <h2 className="text-5xl font-light tracking-[0.2em] text-[#9C7A2C] uppercase mb-6">
+        <h2 className="text-5xl font-light tracking-[0.2em] text-neutral-900 uppercase mb-6">
           Packages
         </h2>
         <div className="w-16 h-0.5 bg-black mx-auto mb-6" />
@@ -38,8 +38,8 @@ export default function PackagesSection() {
       <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-10">
 
         {/* Package 1 */}
-        <div className="relative cursor-pointer bg-black text-white rounded-xl overflow-hidden shadow-xl group transition-all duration-300 hover:-translate-y-2 border border-transparent hover:border-[#9C7A2C] hover:shadow-[0_0_25px_rgba(156,122,44,0.45)]">
-          <div className="absolute top-4 right-4 bg-[#9C7A2C] text-white text-xs px-4 py-1 rounded-full uppercase tracking-widest shadow-lg z-10">
+        <div className="relative cursor-pointer bg-black text-white rounded-sm overflow-hidden shadow-xl group transition-all duration-300 hover:-translate-y-2 border border-transparent hover:border-neutral-300 hover:shadow-[0_0_25px_rgba(156,122,44,0.45)]">
+          <div className="absolute top-4 right-4 bg-neutral-950 text-white text-xs px-4 py-1 rounded-sm uppercase tracking-widest shadow-lg z-10">
             Most Popular
           </div>
           <div className="relative overflow-hidden h-56">
@@ -76,7 +76,7 @@ export default function PackagesSection() {
 
             <a
               href="/book?tier=taste"
-              className="inline-block bg-[#9C7A2C] hover:bg-[#b3913b] text-white px-6 py-3 rounded-full text-sm uppercase tracking-[0.2em]"
+              className="inline-block bg-neutral-950 hover:bg-neutral-800 text-white px-6 py-3 rounded-sm text-sm uppercase tracking-[0.2em]"
             >
               Book Instantly with Real Quote
             </a>
@@ -85,7 +85,7 @@ export default function PackagesSection() {
         </div>
 
         {/* Package 2 */}
-        <div className="relative cursor-pointer bg-black text-white rounded-xl overflow-hidden shadow-xl group transition-all duration-300 hover:-translate-y-2 border border-transparent hover:border-[#9C7A2C] hover:shadow-[0_0_25px_rgba(156,122,44,0.45)]">
+        <div className="relative cursor-pointer bg-black text-white rounded-sm overflow-hidden shadow-xl group transition-all duration-300 hover:-translate-y-2 border border-transparent hover:border-neutral-300 hover:shadow-[0_0_25px_rgba(156,122,44,0.45)]">
           <div className="relative overflow-hidden h-56">
             <Image
               src="/trailer-wedding.jpg"
@@ -119,7 +119,7 @@ export default function PackagesSection() {
 
             <a
               href="/book?tier=signature"
-              className="inline-block bg-[#9C7A2C] hover:bg-[#b3913b] text-white px-6 py-3 rounded-full text-sm uppercase tracking-[0.2em]"
+              className="inline-block bg-neutral-950 hover:bg-neutral-800 text-white px-6 py-3 rounded-sm text-sm uppercase tracking-[0.2em]"
             >
               Book Instantly with Real Quote
             </a>
@@ -128,7 +128,7 @@ export default function PackagesSection() {
         </div>
 
         {/* Package 3 */}
-        <div className="relative cursor-pointer bg-black text-white rounded-xl overflow-hidden shadow-xl group transition-all duration-300 hover:-translate-y-2 border border-transparent hover:border-[#9C7A2C] hover:shadow-[0_0_25px_rgba(156,122,44,0.45)]">
+        <div className="relative cursor-pointer bg-black text-white rounded-sm overflow-hidden shadow-xl group transition-all duration-300 hover:-translate-y-2 border border-transparent hover:border-neutral-300 hover:shadow-[0_0_25px_rgba(156,122,44,0.45)]">
           <div className="relative overflow-hidden h-56">
             <Image
               src="/package2.jpg"
@@ -162,7 +162,7 @@ export default function PackagesSection() {
 
             <a
               href="/book?tier=premium"
-              className="inline-block bg-[#9C7A2C] hover:bg-[#b3913b] text-white px-6 py-3 rounded-full text-sm uppercase tracking-[0.2em]"
+              className="inline-block bg-neutral-950 hover:bg-neutral-800 text-white px-6 py-3 rounded-sm text-sm uppercase tracking-[0.2em]"
             >
               Book Instantly with Real Quote
             </a>

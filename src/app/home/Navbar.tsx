@@ -1,235 +1,78 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 
+const links = [
+  ["Weddings", "/weddings"],
+  ["Bartending", "/bartending"],
+  ["Parties", "/birthday-parties"],
+  ["Dirty Soda Bar", "/dirty-soda-bar"],
+  ["Corporate", "/corporate-events"],
+  ["Packages", "/#packages"],
+] as const
+
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
+  // Remount the disclosure when navigation changes the current page.
+  return <Navigation key={pathname} pathname={pathname} />
+}
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20)
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  // Dedicated Mountain View landing page uses its own header
-  if (pathname === "/mountain-view") {
-    return null
-  }
+function Navigation({ pathname }: { pathname: string }) {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const quoteHref = pathname === "/dirty-soda-bar" ? "/book?service=soda" : "/book"
+  if (pathname === "/mountain-view") return null
+  const showQuoteBar = !["/book", "/success", "/upgrade", "/dashboard", "/admin"].some(
+    path => pathname === path || pathname.startsWith(`${path}/`)
+  )
 
   return (
-    <div
-      className={`w-full text-white border-b border-[#bfa35a] sticky top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-[#9C7A2C]/95 backdrop-blur shadow-lg py-2"
-          : "bg-[#9C7A2C] py-4"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-
-        {/* Logo */}
-        <Link
-          href="/"
-          className="flex items-center gap-4 text-2xl md:text-3xl font-semibold tracking-wide hover:opacity-80"
-        >
-          <Image
-            src="/web-app-manifest-192x192.png"
-            alt="Tap & Toast Logo"
-            width={64}
-            height={64}
-            className="rounded-full bg-black p-1 md:w-20 md:h-20"
-          />
-          <span>Colorado Tap & Toast</span>
-        </Link>
-
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-4 text-xs tracking-[0.2em] uppercase whitespace-nowrap">
-          <Link
-            href="/weddings"
-            className={`relative group ${
-              pathname === "/weddings" ? "text-white" : "opacity-80"
-            }`}
-          >
-            <span className="flex items-center gap-4">
-              Weddings
-              <span className="opacity-40">|</span>
-            </span>
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
+    <>
+      <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white text-neutral-950">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+          <Link href="/" onClick={() => setMenuOpen(false)} className="flex min-w-0 items-center gap-3 font-semibold">
+            <Image src="/web-app-manifest-192x192.png" alt="" width={48} height={48} className="shrink-0 rounded-full bg-black p-1" />
+            <span className="brand-wordmark text-2xl leading-none sm:text-3xl">Colorado Tap & Toast</span>
           </Link>
-
-          <Link
-            href="/bartending"
-            className={`relative group ${
-              pathname === "/bartending" ? "text-white" : "opacity-80"
-            }`}
-          >
-            <span className="flex items-center gap-4">
-              Bartending
-              <span className="opacity-40">|</span>
-            </span>
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
-          </Link>
-
-          <Link
-            href="/birthday-parties"
-            className={`relative group ${
-              pathname === "/birthday-parties" ? "text-white" : "opacity-80"
-            }`}
-          >
-            <span className="flex items-center gap-4">
-              Parties
-              <span className="opacity-40">|</span>
-            </span>
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
-          </Link>
-
-          <Link
-            href="/dirty-soda-bar"
-            className={`relative group ${
-              pathname === "/dirty-soda-bar" ? "text-white" : "opacity-80"
-            }`}
-          >
-            <span className="flex items-center gap-4">
-              Dirty Soda Bar
-              <span className="opacity-40">|</span>
-            </span>
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
-          </Link>
-
-          <Link
-            href="/corporate-events"
-            className={`relative group ${
-              pathname === "/corporate-events" ? "text-white" : "opacity-80"
-            }`}
-          >
-            <span className="flex items-center gap-4">
-              Corporate
-              <span className="opacity-40">|</span>
-            </span>
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
-          </Link>
-
-          <Link href="/#packages" className="relative group opacity-80">
-            <span>Packages</span>
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
-          </Link>
-        </div>
-
-        {/* Right Side */}
-        <div className="flex items-center gap-6 md:ml-6">
-
-          {/* Desktop CTA */}
-          <Link
-            href="/book"
-            className="hidden md:inline-block bg-white text-black px-5 py-2 rounded-md text-sm font-semibold hover:opacity-90 hover:scale-105 transition"
-          >
-            Book Now
-          </Link>
-
-          {/* Mobile Hamburger */}
-          <button
-            onClick={() => setMenuOpen(true)}
-            className="md:hidden text-2xl"
-          >
-            ☰
+          <nav aria-label="Main navigation" className="hidden items-center gap-5 text-sm xl:flex">
+            {links.map(([label, href]) => (
+              <Link key={href} href={href} aria-current={pathname === href ? "page" : undefined} className="py-3 hover:underline underline-offset-4">{label}</Link>
+            ))}
+            <a href="mailto:jen@coloradotapandtoast.com" className="py-3 hover:underline underline-offset-4">Email Jen</a>
+            <Link href={quoteHref} className="border border-black bg-black px-5 py-3 text-white">Get Quote</Link>
+          </nav>
+          <button type="button" aria-expanded={menuOpen} aria-controls="mobile-navigation"
+            onClick={() => setMenuOpen(!menuOpen)}
+            onKeyDown={event => { if (event.key === "Escape") setMenuOpen(false) }}
+            className="min-h-11 shrink-0 rounded-lg border border-black/30 px-3 text-sm font-semibold xl:hidden">
+            {menuOpen ? "Close" : "Menu"}
           </button>
         </div>
-      </div>
-
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="fixed inset-0 bg-black flex flex-col items-center justify-center space-y-8 text-xl z-50">
-
-          <button
-            onClick={() => setMenuOpen(false)}
-            className="absolute top-6 right-6 text-3xl"
-          >
-            ✕
-          </button>
-
-          <Link
-            href="/dirty-soda-bar"
-            onClick={() => setMenuOpen(false)}
-            className="hover:scale-105 transition"
-          >
-            Dirty Soda Bar
-          </Link>
-
-          <Link
-            href="/weddings"
-            onClick={() => setMenuOpen(false)}
-            className="hover:scale-105 transition"
-          >
-            Weddings
-          </Link>
-
-          <Link
-            href="/corporate-events"
-            onClick={() => setMenuOpen(false)}
-            className="hover:scale-105 transition"
-          >
-            Corporate
-          </Link>
-
-          <Link
-            href="/birthday-parties"
-            onClick={() => setMenuOpen(false)}
-            className="hover:scale-105 transition"
-          >
-            Parties
-          </Link>
-
-          <Link
-            href="/bartending"
-            onClick={() => setMenuOpen(false)}
-            className="hover:scale-105 transition"
-          >
-            Bartending
-          </Link>
-
-          <Link
-            href="/#packages"
-            onClick={() => setMenuOpen(false)}
-            className="hover:scale-105 transition"
-          >
-            Packages
-          </Link>
-
-          <Link
-            href="/book"
-            onClick={() => setMenuOpen(false)}
-            className="bg-[#c7a45a] text-black px-6 py-3 rounded-lg font-semibold hover:scale-105 transition"
-          >
-            Book Now
-          </Link>
+        <nav id="mobile-navigation" aria-label="Mobile navigation" hidden={!menuOpen}
+          onKeyDown={event => {
+            if (event.key === "Escape") {
+              setMenuOpen(false)
+              document.querySelector<HTMLButtonElement>('[aria-controls="mobile-navigation"]')?.focus()
+            }
+          }}
+          className="max-h-[calc(100dvh-80px)] overflow-y-auto border-t border-white/30 bg-white px-4 py-4 xl:hidden">
+          <div className="mx-auto grid max-w-7xl gap-1 sm:grid-cols-2">
+            {links.map(([label, href]) => (
+              <Link key={href} href={href} onClick={() => setMenuOpen(false)} aria-current={pathname === href ? "page" : undefined} className="rounded-lg px-4 py-3 hover:bg-neutral-100">{label}</Link>
+            ))}
+            <a href="mailto:jen@coloradotapandtoast.com" className="rounded-lg px-4 py-3 hover:bg-neutral-100">Email Jen</a>
+            <Link href={quoteHref} onClick={() => setMenuOpen(false)} className="rounded-lg bg-black px-4 py-3 font-semibold text-white">Get Your Quote</Link>
+          </div>
+        </nav>
+      </header>
+      {showQuoteBar && <div className="mobile-quote-bar fixed bottom-0 left-0 z-40 w-full border-t border-white/20 bg-black p-3 text-black xl:hidden">
+        <div className="mx-auto flex max-w-xl gap-3">
+          <a href="tel:7206439690" className="flex-1 rounded-lg bg-white px-4 py-3 text-center font-semibold">Call Now</a>
+          <Link href={quoteHref} className="flex-1 rounded-lg bg-white px-4 py-3 text-center font-semibold">Get Quote</Link>
         </div>
-      )}
-
-      {/* Mobile Sticky CTA */}
-      <div className="fixed bottom-0 left-0 w-full bg-[#9C7A2C] p-4 md:hidden z-40">
-        <div className="flex gap-3">
-          <a
-            href="tel:7206439690"
-            className="w-1/2 text-center bg-white text-black px-4 py-3 rounded-lg font-semibold"
-          >
-            Call Now
-          </a>
-
-          <Link
-            href="/book"
-            className="w-1/2 text-center bg-[#c7a45a] text-black px-4 py-3 rounded-lg font-semibold"
-          >
-            Get Quote
-          </Link>
-        </div>
-      </div>
-    </div>
+      </div>}
+    </>
   )
 }

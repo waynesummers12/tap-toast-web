@@ -27,7 +27,7 @@ function UpgradePageContent() {
 
     try {
       console.log("🚀 UPGRADE REQUEST:", { eventId, upgradeType })
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/upgrade`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://tap-toast-api-cayk.onrender.com"}/api/upgrade`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

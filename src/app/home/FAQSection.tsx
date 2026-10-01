@@ -25,10 +25,10 @@ export default function FAQSection() {
   ]
 
   return (
-    <section className="bg-gray-100 py-24 px-6">
+    <section className="bg-neutral-50 py-24 px-6">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-5xl font-light tracking-[0.2em] text-[#9C7A2C] uppercase mb-6">
+          <h2 className="text-5xl font-light tracking-[0.2em] text-neutral-900 uppercase mb-6">
             FAQ
           </h2>
           <div className="w-16 h-0.5 bg-black mx-auto" />
@@ -42,16 +42,18 @@ export default function FAQSection() {
             >
               <button
                 onClick={() => setOpen(open === i ? null : i)}
+                aria-expanded={open === i}
+                aria-controls={`faq-answer-${i}`}
                 className="w-full text-left px-6 py-5 font-semibold flex justify-between items-center text-black"
               >
                 {faq.question}
-                <span className="text-[#9C7A2C] text-xl">
+                <span className="text-neutral-900 text-xl">
                   {open === i ? "−" : "+"}
                 </span>
               </button>
 
               {open === i && (
-                <div className="px-6 pb-6 text-gray-600 leading-relaxed">
+                <div id={`faq-answer-${i}`} className="px-6 pb-6 text-gray-600 leading-relaxed">
                   {faq.answer}
                 </div>
               )}

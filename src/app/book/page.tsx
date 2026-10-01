@@ -44,7 +44,8 @@ function BookEventPageContent() {
   const bookingType = searchParams.get("type") || "full"
   const tierParam = searchParams.get("tier")
   const serviceParam = searchParams.get("service")
-  const isSoda = serviceParam === "soda"
+  const [savedService, setSavedService] = useState("bartending")
+  const isSoda = !isMountainView && (serviceParam === "soda" || (!serviceParam && savedService === "soda"))
   const isRentalInit = !isMountainView && bookingType === "rental"
 
   const [mode, setMode] = useState<"full" | "rental">(isRentalInit ? "rental" : "full")
@@ -191,6 +192,7 @@ const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
         setSetupHourSelected(data.setupHourSelected === true)
         setCocktailTapQuantity(Number.isInteger(data.cocktailTapQuantity) ? data.cocktailTapQuantity : 0)
         setExtraBartenderSelected(data.extraBartenderSelected === true)
+        setSavedService(data.service_type === "soda" ? "soda" : "bartending")
         setTier(data.tier || "signature")
         setMode(data.mode || "full")
 
@@ -234,6 +236,7 @@ const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
 
       setBartenders(data.bartenders || 2)
 
+      setSavedService(data.service_type === "soda" ? "soda" : "bartending")
       setEventType(data.event_type || "")
 
       setTier(data.tier || "signature")
@@ -294,6 +297,7 @@ useEffect(() => {
     guests,
     bartenders,
     eventType,
+    service_type: isSoda ? "soda" : "bartending",
     rentalDeliverySelected,
     rentalIceCoolerSelected,
     setupHourSelected,
@@ -326,6 +330,7 @@ useEffect(() => {
           guests,
           bartenders,
           event_type: eventType,
+          service_type: isSoda ? "soda" : "bartending",
           upgrades: [],
           estimated_total: grandTotal,
           deposit
@@ -364,7 +369,8 @@ useEffect(() => {
   deposit,
   tier,
   mode,
-  bookingCid
+  bookingCid,
+  isSoda
 ])
 
 // Animated price change feedback effect
@@ -546,6 +552,7 @@ type BookedSlot = {
   bartenders_needed: bartenders, // 🔥 SAFE MATCH
 
   event_type: eventType,
+          service_type: isSoda ? "soda" : "bartending",
 
   booking_mode: isRental ? "rental" : "full",
 
@@ -699,7 +706,7 @@ type BookedSlot = {
     ? "Colorado Tap & Toast Preferred Bartending"
     : isSoda
       ? "Customize your soda experience in seconds"
-      : "We&apos;ll just need a few quick details"}
+      : "We'll just need a few quick details"}
 </p>
         </div>
       </div>

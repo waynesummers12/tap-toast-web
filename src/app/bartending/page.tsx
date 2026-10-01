@@ -5,12 +5,12 @@ import Packages from "./packages";
 
 export default function BartendingPage() {
   return (
-    <main className="bg-black text-white selection:bg-[#c6a25a] selection:text-black">
+    <main className="bg-white text-neutral-950 selection:bg-neutral-200 selection:text-black">
 
       {/* HERO */}
       <section className="max-w-7xl mx-auto px-6 pt-28 pb-16 grid md:grid-cols-2 gap-12 items-center">
         <div>
-          <p className="text-xs tracking-[0.3em] text-white/60 mb-4">
+          <p className="text-xs tracking-[0.3em] text-neutral-600 mb-4">
             PREMIUM BARTENDING EXPERIENCE
           </p>
 
@@ -20,33 +20,32 @@ export default function BartendingPage() {
             Weddings & Events
           </h1>
 
-          <p className="text-lg text-gray-300 mb-6 max-w-lg">
+          <p className="text-lg text-neutral-600 mb-6 max-w-lg">
             We bring the bartenders, the experience, and the energy — so you can relax and enjoy your event without worrying about service.
           </p>
 
-          <p className="text-sm text-[#c6a25a] mb-6">
+          <p className="text-sm text-neutral-600 mb-6">
             ⚡ Limited availability — most weekends book out 2–4 weeks in advance
           </p>
 
           <div className="relative group flex flex-col sm:flex-row gap-4">
-            <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl bg-[#c6a25a]/20 rounded-2xl" />
             <Link
               href="/book"
-              className="relative z-10 bg-[#c6a25a] text-black px-8 py-4 rounded-xl font-semibold text-lg leading-none text-center transition-all duration-200 hover:scale-[1.03] hover:shadow-[0_10px_30px_rgba(198,162,90,0.35)]"
+              className="relative z-10 bg-black text-white px-8 py-4 rounded-sm font-semibold text-lg leading-none text-center transition-all duration-200 hover:scale-[1.03]"
             >
               Check Availability
             </Link>
 
             <a
               href="tel:7206439690"
-              className="relative z-10 border border-white/20 px-8 py-4 rounded-xl font-semibold text-lg leading-none text-center flex items-center justify-center transition-all duration-200 hover:scale-[1.03] hover:border-[#c6a25a] hover:shadow-[0_10px_30px_rgba(198,162,90,0.25)]"
+              className="relative z-10 border border-neutral-300 px-8 py-4 rounded-sm font-semibold text-lg leading-none text-center flex items-center justify-center transition-all duration-200 hover:scale-[1.03] hover:border-black"
             >
               Call Now
             </a>
           </div>
         </div>
 
-        <div className="rounded-2xl overflow-hidden border border-white/10">
+        <div className="rounded-sm overflow-hidden border border-neutral-200">
           <Image
             src="/Bartending-service.png"
             alt="Bartending Service"
@@ -59,10 +58,10 @@ export default function BartendingPage() {
 
       {/* TRUST BAR */}
       <section className="text-center px-6 pb-12">
-        <p className="text-white/70 text-sm mb-2">
+        <p className="text-neutral-600 text-sm mb-2">
           ✔ Fast responses · ✔ Instant pricing · ✔ Trusted by Colorado couples & venues
         </p>
-        <p className="text-white/50 text-xs">
+        <p className="text-neutral-500 text-xs">
           Fully insured · General & Liquor Liability included
         </p>
       </section>
@@ -71,14 +70,14 @@ export default function BartendingPage() {
 
       {/* SOCIAL PROOF */}
       <section className="text-center px-6 pb-20 max-w-3xl mx-auto">
-        <p className="italic text-lg text-white/80 mb-3">
+        <p className="italic text-lg text-neutral-700 mb-3">
           “We received so many compliments — the bartenders were amazing!”
         </p>
-        <p className="text-sm text-white/60">— Lopez Wedding</p>
+        <p className="text-sm text-neutral-600">— Lopez Wedding</p>
       </section>
 
       {/* FINAL CTA */}
-      <section className="text-center px-6 pb-24">
+      <section className="bg-black text-white text-center px-6 py-24">
         <h3 className="text-2xl font-semibold mb-4">
           Ready to lock in your date?
         </h3>
@@ -89,7 +88,7 @@ export default function BartendingPage() {
 
         <Link
           href="/book"
-          className="inline-block bg-[#c6a25a] text-black px-10 py-4 rounded-xl font-semibold text-lg transition-transform duration-200 hover:scale-[1.03]"
+          className="inline-block bg-white text-black px-10 py-4 rounded-sm font-semibold text-lg transition-transform duration-200 hover:scale-[1.03]"
         >
           Check Availability & Get Quote
         </Link>

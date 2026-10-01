@@ -13,7 +13,7 @@ export default function CTASection() {
 
         <a
           href="/book"
-          className="block w-full md:w-auto text-center bg-[#9C7A2C] hover:bg-[#b3913b] transition-all duration-300 px-8 md:px-12 py-4 rounded-full text-white tracking-[0.12em] uppercase text-sm whitespace-normal wrap-break-word shadow-lg hover:shadow-xl hover:scale-[1.02]"
+          className="block w-full md:w-auto text-center bg-white hover:bg-neutral-200 transition-all duration-300 px-8 md:px-12 py-4 rounded-sm text-black tracking-[0.12em] uppercase text-sm whitespace-normal wrap-break-word shadow-lg hover:shadow-xl hover:scale-[1.02]"
         >
           Get Your Instant Quote →
         </a>

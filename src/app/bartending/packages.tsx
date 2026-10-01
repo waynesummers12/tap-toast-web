@@ -22,7 +22,7 @@ export default function Packages() {
   };
 
   const baseCard =
-    "group relative overflow-hidden p-6 rounded-2xl border transition-all duration-300 hover:scale-[1.03]";
+    "group relative overflow-hidden p-6 rounded-sm border transition-all duration-300 hover:scale-[1.03]";
 
   return (
     <>
@@ -30,40 +30,40 @@ export default function Packages() {
       <h2 className="text-3xl font-bold mb-6 text-center">
         Choose Your Bartending Experience
       </h2>
-      <p className="text-center text-gray-400 mb-12">
+      <p className="text-center text-neutral-600 mb-12">
         Start simple or go all-out — everything is customizable
       </p>
 
       <div className="grid md:grid-cols-3 gap-6">
         {/* THE TASTE */}
         <div
-          className={`${baseCard} bg-neutral-900/80 ${
+          className={`${baseCard} bg-neutral-950 text-white ${
             selected === "taste"
-              ? "border-[#d4af37] shadow-[0_0_40px_rgba(198,162,90,0.4)] scale-[1.02]"
-              : "border-white/10 hover:border-[#c6a25a] hover:shadow-[0_0_30px_rgba(198,162,90,0.2)]"
+              ? "border-white scale-[1.02]"
+              : "border-white/10 hover:border-neutral-400"
           }`}
         >
           {loading === "taste" && (
-            <div className="absolute inset-0 z-10 pointer-events-none rounded-2xl bg-linear-to-r from-transparent via-[#c6a25a]/40 to-transparent opacity-80 animate-[glassShimmer_1.6s_ease-in-out]" />
+            <div className="absolute inset-0 z-10 pointer-events-none rounded-sm bg-linear-to-r from-transparent via-white/40 to-transparent opacity-80 animate-[glassShimmer_1.6s_ease-in-out]" />
           )}
-          <div className="absolute inset-0 z-0 pointer-events-none rounded-2xl opacity-0 group-hover:opacity-60 bg-linear-to-r from-transparent via-[#c6a25a]/20 to-transparent transition-opacity duration-500 animate-[glassShimmer_1.6s_ease-in-out]" />
+          <div className="absolute inset-0 z-0 pointer-events-none rounded-sm opacity-0 group-hover:opacity-60 bg-linear-to-r from-transparent via-white/20 to-transparent transition-opacity duration-500 animate-[glassShimmer_1.6s_ease-in-out]" />
 
           <h3 className="text-xl font-semibold mb-2">The Taste</h3>
           <p className="text-gray-400 text-sm mb-2">Mobile bar starter experience</p>
-          <p className="text-[#c6a25a] mb-4">Impressive</p>
+          <p className="text-neutral-200 mb-4">Impressive</p>
 
           <ul className="space-y-2 text-gray-300 text-sm mb-6">
             <li>✔ 1 professional bartender</li>
             <li>✔ 3 hour service</li>
             <li>✔ Basic setup</li>
-            <li className="text-[#c6a25a]">✔ Signature cocktails</li>
-            <li className="text-[#c6a25a]">✔ Premium garnishes</li>
+            <li className="text-neutral-200">✔ Signature cocktails</li>
+            <li className="text-neutral-200">✔ Premium garnishes</li>
           </ul>
 
           <Link
             href="/book?tier=taste"
             onClick={handleClick("taste", "/book?tier=taste")}
-            className="block w-full text-center bg-[#c6a25a] text-black py-3 rounded-lg font-semibold transition-all duration-300 group-hover:bg-[#d4af37] group-hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-[#c6a25a]/60 active:scale-[0.99]"
+            className="block w-full text-center bg-white text-black py-3 rounded-sm font-semibold transition-all duration-300 group-hover:bg-neutral-200 group-hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-white/60 active:scale-[0.99]"
           >
             Book This Experience
           </Link>
@@ -71,18 +71,18 @@ export default function Packages() {
 
         {/* THE TIPSY (Most Popular) */}
         <div
-          className={`${baseCard} bg-black ${
+          className={`${baseCard} bg-black text-white ${
             selected === "signature"
-              ? "border-[#d4af37] shadow-[0_0_50px_rgba(198,162,90,0.5)] scale-[1.02]"
-              : "border-[#c6a25a] hover:border-[#d4af37] hover:shadow-[0_0_40px_rgba(198,162,90,0.3)]"
+              ? "border-white scale-[1.02]"
+              : "border-neutral-400 hover:border-white"
           }`}
         >
           {loading === "signature" && (
-            <div className="absolute inset-0 z-10 pointer-events-none rounded-2xl bg-linear-to-r from-transparent via-[#c6a25a]/40 to-transparent opacity-80 animate-[glassShimmer_1.6s_ease-in-out]" />
+            <div className="absolute inset-0 z-10 pointer-events-none rounded-sm bg-linear-to-r from-transparent via-white/40 to-transparent opacity-80 animate-[glassShimmer_1.6s_ease-in-out]" />
           )}
-          <div className="absolute inset-0 z-0 pointer-events-none rounded-2xl opacity-0 group-hover:opacity-60 bg-linear-to-r from-transparent via-[#c6a25a]/20 to-transparent transition-opacity duration-500 animate-[glassShimmer_1.6s_ease-in-out]" />
+          <div className="absolute inset-0 z-0 pointer-events-none rounded-sm opacity-0 group-hover:opacity-60 bg-linear-to-r from-transparent via-white/20 to-transparent transition-opacity duration-500 animate-[glassShimmer_1.6s_ease-in-out]" />
 
-          <span className="absolute top-3 right-3 text-xs bg-[#c6a25a] text-black px-3 py-1 rounded-full font-semibold">
+          <span className="inline-block mb-4 text-xs bg-white text-black px-3 py-1 rounded-full font-semibold">
             MOST POPULAR
           </span>
 
@@ -93,14 +93,14 @@ export default function Packages() {
           <ul className="space-y-2 text-gray-300 text-sm mb-6">
             <li>✔ 2 professional bartenders</li>
             <li>✔ 4 hour service</li>
-            <li className="text-[#c6a25a]">✔ Signature cocktails</li>
-            <li className="text-[#c6a25a]">✔ Premium garnishes</li>
+            <li className="text-neutral-200">✔ Signature cocktails</li>
+            <li className="text-neutral-200">✔ Premium garnishes</li>
           </ul>
 
           <Link
             href="/book?tier=signature"
             onClick={handleClick("signature", "/book?tier=signature")}
-            className="block w-full text-center bg-[#c6a25a] text-black py-3 rounded-lg font-semibold transition-all duration-300 group-hover:bg-[#d4af37] group-hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-[#c6a25a]/60 active:scale-[0.99]"
+            className="block w-full text-center bg-white text-black py-3 rounded-sm font-semibold transition-all duration-300 group-hover:bg-neutral-200 group-hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-white/60 active:scale-[0.99]"
           >
             Book Most Popular
           </Link>
@@ -108,33 +108,33 @@ export default function Packages() {
 
         {/* THE TOASTED */}
         <div
-          className={`${baseCard} bg-neutral-900/80 ${
+          className={`${baseCard} bg-neutral-950 text-white ${
             selected === "premium"
-              ? "border-[#d4af37] shadow-[0_0_40px_rgba(198,162,90,0.4)] scale-[1.02]"
-              : "border-white/10 hover:border-[#c6a25a] hover:shadow-[0_0_30px_rgba(198,162,90,0.2)]"
+              ? "border-white scale-[1.02]"
+              : "border-white/10 hover:border-neutral-400"
           }`}
         >
           {loading === "premium" && (
-            <div className="absolute inset-0 z-10 pointer-events-none rounded-2xl bg-linear-to-r from-transparent via-[#c6a25a]/40 to-transparent opacity-80 animate-[glassShimmer_1.6s_ease-in-out]" />
+            <div className="absolute inset-0 z-10 pointer-events-none rounded-sm bg-linear-to-r from-transparent via-white/40 to-transparent opacity-80 animate-[glassShimmer_1.6s_ease-in-out]" />
           )}
-          <div className="absolute inset-0 z-0 pointer-events-none rounded-2xl opacity-0 group-hover:opacity-60 bg-linear-to-r from-transparent via-[#c6a25a]/20 to-transparent transition-opacity duration-500 animate-[glassShimmer_1.6s_ease-in-out]" />
+          <div className="absolute inset-0 z-0 pointer-events-none rounded-sm opacity-0 group-hover:opacity-60 bg-linear-to-r from-transparent via-white/20 to-transparent transition-opacity duration-500 animate-[glassShimmer_1.6s_ease-in-out]" />
 
           <h3 className="text-xl font-semibold mb-2">The Toasted</h3>
           <p className="text-gray-400 text-sm mb-2">Premium full-service experience</p>
-          <p className="text-[#c6a25a] mb-4">Elevated events</p>
+          <p className="text-neutral-200 mb-4">Elevated events</p>
 
           <ul className="space-y-2 text-gray-300 text-sm mb-6">
             <li>✔ 3+ professional bartenders</li>
             <li>✔ 5 hour service</li>
             <li>✔ Full cocktail experience</li>
-            <li className="text-[#c6a25a]">✔ Premium garnishes</li>
+            <li className="text-neutral-200">✔ Premium garnishes</li>
             <li>✔ Extended setup time</li>
           </ul>
 
           <Link
             href="/book?tier=premium"
             onClick={handleClick("premium", "/book?tier=premium")}
-            className="block w-full text-center bg-[#c6a25a] text-black py-3 rounded-lg font-semibold transition-all duration-300 group-hover:bg-[#d4af37] group-hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-[#c6a25a]/60 active:scale-[0.99]"
+            className="block w-full text-center bg-white text-black py-3 rounded-sm font-semibold transition-all duration-300 group-hover:bg-neutral-200 group-hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-white/60 active:scale-[0.99]"
           >
             Get Premium Experience
           </Link>
