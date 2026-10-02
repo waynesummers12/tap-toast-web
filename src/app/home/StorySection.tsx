@@ -32,6 +32,10 @@ export default function StorySection() {
             My background includes working weddings and events as a server, where I learned firsthand how important the details, timing, and guest experience are to making an event feel seamless and unforgettable.
           </p>
 
+          <p className="text-base md:text-lg leading-relaxed text-gray-700 mb-6 tracking-[0.02em]">
+            And meet Wayne — the one who makes it happen behind the scenes. Together, we bring the care and attention that make every Tap & Toast celebration feel personal.
+          </p>
+
           <p className="text-base md:text-lg leading-relaxed text-gray-700 mb-10 tracking-[0.02em]">
             Tap & Toast is about more than drinks — it&apos;s about creating an elevated, fun, and memorable atmosphere your guests will talk about long after the event is over.
           </p>

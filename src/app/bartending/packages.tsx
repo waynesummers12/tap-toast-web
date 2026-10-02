@@ -40,7 +40,7 @@ export default function Packages() {
           className={`${baseCard} bg-neutral-950 text-white ${
             selected === "taste"
               ? "border-white scale-[1.02]"
-              : "border-white/10 hover:border-neutral-400"
+              : "border-neutral-500 hover:border-neutral-400"
           }`}
         >
           {loading === "taste" && (
@@ -111,7 +111,7 @@ export default function Packages() {
           className={`${baseCard} bg-neutral-950 text-white ${
             selected === "premium"
               ? "border-white scale-[1.02]"
-              : "border-white/10 hover:border-neutral-400"
+              : "border-neutral-500 hover:border-neutral-400"
           }`}
         >
           {loading === "premium" && (

@@ -40,7 +40,7 @@ function Navigation({ pathname }: { pathname: string }) {
             {links.map(([label, href]) => (
               <Link key={href} href={href} aria-current={pathname === href ? "page" : undefined} className="py-3 hover:underline underline-offset-4">{label}</Link>
             ))}
-            <a href="mailto:jen@coloradotapandtoast.com" className="py-3 hover:underline underline-offset-4">Email Jen</a>
+            <a href="mailto:jen@coloradotapandtoast.com" className="py-3 hover:underline underline-offset-4">Contact Us</a>
             <Link href={quoteHref} className="border border-black bg-black px-5 py-3 text-white">Get Quote</Link>
           </nav>
           <button type="button" aria-expanded={menuOpen} aria-controls="mobile-navigation"
@@ -62,7 +62,7 @@ function Navigation({ pathname }: { pathname: string }) {
             {links.map(([label, href]) => (
               <Link key={href} href={href} onClick={() => setMenuOpen(false)} aria-current={pathname === href ? "page" : undefined} className="rounded-lg px-4 py-3 hover:bg-neutral-100">{label}</Link>
             ))}
-            <a href="mailto:jen@coloradotapandtoast.com" className="rounded-lg px-4 py-3 hover:bg-neutral-100">Email Jen</a>
+            <a href="mailto:jen@coloradotapandtoast.com" className="rounded-lg px-4 py-3 hover:bg-neutral-100">Contact Us</a>
             <Link href={quoteHref} onClick={() => setMenuOpen(false)} className="rounded-lg bg-black px-4 py-3 font-semibold text-white">Get Your Quote</Link>
           </div>
         </nav>
