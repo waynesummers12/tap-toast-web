@@ -1,0 +1,190 @@
+"use client"
+function getGoogleAnalyticsClientId() {
+  if (typeof document === "undefined") return ""
+  const match = document.cookie.match(/_ga=GA1\.\d\.(\d+\.\d+)/)
+  return match ? match[1] : ""
+}
+
+function getLandingPage() {
+  if (typeof window === "undefined") return ""
+  return window.location.pathname
+}
+import Image from "next/image"
+import Link from "next/link"
+import HeroSection from "./HeroSection"
+import StorySection from "./StorySection"
+import TrailerSection from "./TrailerSection"
+import PackagesSection from "./PackagesSection"
+import FAQSection from "./FAQSection"
+import CTASection from "./CTASection"
+import Footer from "./Footer"
+
+export default function HomePage() {
+  return (
+    <main className="luxury-home bg-white text-black selection:bg-neutral-200 selection:text-black">
+      <HeroSection />
+      <StorySection />
+
+      {/* TESTIMONIALS */}
+      <section className="bg-neutral-950 text-white py-20 px-6 will-change-transform">
+        <div className="max-w-6xl mx-auto">
+
+          <div className="text-center mb-12">
+            <p className="text-xs tracking-[0.35em] uppercase text-[#c9a14a] mb-3">
+              What Clients Are Saying
+            </p>
+            <h2 className="text-3xl md:text-4xl font-semibold">
+              Trusted by Events Across Colorado
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+
+            {/* Featured Testimonial */}
+            <div className="md:col-span-2 bg-black p-8 rounded-2xl border border-white/10 shadow-xl">
+              <div className="flex mb-4 text-[#c9a14a]">
+                ⭐⭐⭐⭐⭐
+              </div>
+              <p className="text-lg text-gray-200 mb-6">
+                &quot;I just wanted to say thank you so much for this weekend! Your bartenders were amazing and we received so many compliments with how personable and friendly they were. Seriously so happy with the whole experience — I will send anyone I know needing your services your way!&quot;
+              </p>
+              <p className="text-sm text-gray-400">— The Lopez Wedding</p>
+            </div>
+
+            {/* Side Testimonials */}
+            <div className="flex flex-col gap-6">
+
+              <div className="bg-black p-6 rounded-xl border border-white/10">
+                <div className="text-[#c9a14a] mb-3">⭐⭐⭐⭐⭐</div>
+                <p className="text-gray-300 mb-4 text-sm">
+                  &quot;Super professional, easy to work with, and everything ran smoothly from start to finish.&quot;
+                </p>
+                <p className="text-xs text-gray-400">— Corporate Event, Boulder</p>
+              </div>
+
+              <div className="bg-black p-6 rounded-xl border border-white/10">
+                <div className="text-[#c9a14a] mb-3">⭐⭐⭐⭐⭐</div>
+                <p className="text-gray-300 mb-4 text-sm">
+                  &quot;Best decision we made for our party. The setup, drinks, and service were all top tier.&quot;
+                </p>
+                <p className="text-xs text-gray-400">— Private Party, Littleton</p>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <TrailerSection />
+
+      {/* PREMIUM FOUNDER SECTION */}
+      <section className="bg-white text-black py-24 px-6">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-14 items-center">
+
+          <div>
+            <p className="text-xs tracking-[0.35em] uppercase text-neutral-800 mb-4">
+              Behind the Business
+            </p>
+
+            <h2 className="text-3xl md:text-5xl font-semibold mb-6 leading-tight">
+              Effortless for You.
+              <br />
+              Unforgettable for Your Guests.
+            </h2>
+
+            <p className="text-neutral-600 mb-5 text-lg">
+              Tap & Toast is designed for hosts who want a seamless, elevated event — without the stress of managing the details.
+            </p>
+
+            <p className="text-neutral-600 mb-5">
+              Jen brings the energy, hospitality, and attention to detail that turns a great event into something guests talk about long after it ends.
+            </p>
+
+            <p className="text-neutral-600 mb-6">
+              Behind the scenes, Wayne ensures everything runs seamlessly — from instant booking and transparent pricing to flawless execution on event day.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-neutral-600 mb-6">
+              <p>✓ Fast & Easy Booking</p>
+              <p>✓ Professional, Experienced Bartenders</p>
+              <p>✓ Premium Mobile Bar Experience</p>
+              <p>✓ Trusted Across Colorado Events</p>
+            </div>
+
+            <p className="text-sm text-black font-semibold mb-4">
+              Limited dates available — most weekends book out in advance.
+            </p>
+            <p className="text-sm text-neutral-600 mb-4">
+              Serving areas across Colorado including 
+              <Link href="/dirty-soda-bar-denver" className="text-neutral-800 underline ml-1">Denver</Link>,
+              <Link href="/dirty-soda-bar-lakewood" className="text-neutral-800 underline ml-1">Lakewood</Link>,
+              <Link href="/dirty-soda-bar-parker" className="text-neutral-800 underline ml-1">Parker</Link>,
+              <Link href="/dirty-soda-bar-highlands-ranch" className="text-neutral-800 underline ml-1">Highlands Ranch</Link>, and
+              <Link href="/dirty-soda-bar-centennial" className="text-neutral-800 underline ml-1">Centennial</Link>.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col items-start">
+                <button
+                  onClick={() => {
+                    const gaClientId = getGoogleAnalyticsClientId()
+                    const page = getLandingPage()
+                    const url = `/book?type=full&ga_client_id=${encodeURIComponent(gaClientId)}&page=${encodeURIComponent(page)}`
+                    window.location.href = url
+                  }}
+                  className="inline-block bg-black text-white px-6 py-3 rounded-md font-semibold hover:opacity-90 transition"
+                >
+                  Book Full Service
+                </button>
+                <p className="text-xs mt-3 px-2 py-1 rounded-md bg-[#c9a14a]/10 border border-neutral-400/20 text-neutral-800 transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] hover:bg-neutral-100/20">
+                  🥂 Best for weddings & large events
+                </p>
+              </div>
+
+              <div className="flex flex-col items-start">
+                <button
+                  onClick={() => {
+                    const gaClientId = getGoogleAnalyticsClientId()
+                    const page = getLandingPage()
+                    const url = `/book?type=rental&ga_client_id=${encodeURIComponent(gaClientId)}&page=${encodeURIComponent(page)}`
+                    window.location.href = url
+                  }}
+                  className="inline-block border border-neutral-400 text-neutral-800 px-6 py-3 rounded-md font-semibold hover:bg-neutral-100 hover:text-black transition"
+                >
+                  Rent the Trailer
+                </button>
+                <p className="text-xs mt-3 px-2 py-1 rounded-md bg-[#c9a14a]/10 border border-neutral-400/20 text-neutral-800 transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] hover:bg-neutral-100/20">
+                  🎉 Perfect for DIY parties & smaller events
+                </p>
+              </div>
+            </div>
+
+            <p className="text-sm text-neutral-600 mt-4">
+              &quot;Everything was seamless — our guests loved it.&quot; ⭐⭐⭐⭐⭐
+            </p>
+          </div>
+
+          <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+            <Image
+              src="/jen-wayne-main.jpg"
+              alt="Jen and Wayne – Colorado Tap & Toast founders"
+              width={900}
+              height={900}
+              className="w-full h-full object-cover"
+              quality={80}
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </div>
+
+        </div>
+      </section>
+
+      <PackagesSection />
+      <FAQSection />
+      <CTASection />
+      <Footer />
+    </main>
+  )
+}
