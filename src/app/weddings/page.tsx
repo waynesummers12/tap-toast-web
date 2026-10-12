@@ -2,7 +2,8 @@ import Image from "next/image"
 import Link from "next/link"
 
 export const metadata = {
-  title: "Wedding Mobile Bar Service | Tap & Toast",
+  title: "Wedding Mobile Bar Service in Colorado | Tap & Toast",
+  alternates: { canonical: "https://www.coloradotapandtoast.com/weddings" },
   description:
     "Tap & Toast provides luxury mobile bar service for weddings across Colorado. Professional bartenders, custom drink menus, and an unforgettable bar experience for your big day.",
 }

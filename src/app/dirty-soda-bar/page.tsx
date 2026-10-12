@@ -2,8 +2,8 @@ import Image from "next/image"
 import Link from "next/link"
 
 export const metadata = {
-  title: "Dirty Soda Bar for Birthday Parties | Tap & Toast Colorado",
-  description: "Plan a sweet celebration with Colorado Tap & Toast’s mobile dirty soda bar. Custom soda combinations for birthdays, graduations, and family celebrations.",
+  title: "Dirty Soda Bar Catering in Colorado | Tap & Toast",
+  description: "Mobile dirty soda bar catering for Colorado birthdays, graduations, and weddings. Custom nonalcoholic drinks, a mobile bar, and staff. Get your event quote.",
 }
 
 const faqs = [
@@ -27,9 +27,9 @@ export default function DirtySodaBarPage() {
         <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-6 py-14 md:grid-cols-2 md:py-20 lg:gap-16">
           <div className="min-w-0">
             <p className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-[#99365c]">Colorado celebrations, with a sweet twist</p>
-            <h1 className="mb-6 text-5xl leading-[1.02] sm:text-6xl lg:text-7xl">Her day.<br />Her friends.<br /><span className="italic text-[#99365c]">Her kind of sparkle.</span></h1>
-            <p className="mb-5 text-xl">A dirty soda bar for a party that feels like her.</p>
-            <p className="max-w-lg leading-relaxed text-[#704659]">Planning your daughter’s birthday? Bring everyone together over custom soda creations, fun flavors, and a mobile bar made for celebrating. You bring the occasion. We bring the soda experience.</p>
+            <h1 className="mb-6 text-5xl leading-[1.02] sm:text-6xl lg:text-7xl">Dirty Soda Bar<br /><span className="italic text-[#99365c]">Catering in Colorado</span></h1>
+            <p className="mb-5 text-xl">Her day. Her friends. Her kind of sparkle.</p>
+            <p className="max-w-lg leading-relaxed text-[#704659]">Planning your daughter’s birthday? Our mobile dirty soda bar brings custom nonalcoholic drinks and staff to your celebration. We cater birthdays, graduations, and weddings in Denver, Littleton, Lakewood, Parker, Highlands Ranch, Centennial, and surrounding Colorado areas.</p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link href={quote} className={button}>Plan Her Soda Party <span aria-hidden="true" className="ml-3">↗</span></Link>
               <a href="#soda-how-it-works" className="px-2 py-3 text-sm underline underline-offset-4">What’s a dirty soda?</a>

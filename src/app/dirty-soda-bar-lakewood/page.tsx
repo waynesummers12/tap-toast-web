@@ -4,9 +4,9 @@ import Image from "next/image"
 import Link from "next/link"
 
 export const metadata = {
-  title: "Dirty Soda Bar Lakewood | Tap & Toast",
-  description:
-    "Mobile dirty soda bar catering in Lakewood, Colorado. Perfect for weddings, parties, and corporate events. Book Tap & Toast today.",
+  title: "Dirty Soda Bar Catering in Lakewood | Tap & Toast",
+  description: "Mobile dirty soda bar catering for birthdays, weddings, and celebrations in Lakewood, Colorado. Custom nonalcoholic drinks and staff. Get a soda party quote.",
+  alternates: { canonical: "https://www.coloradotapandtoast.com/dirty-soda-bar-lakewood" },
 }
 
 export default function DirtySodaBarLakewoodPage() {
@@ -31,7 +31,7 @@ export default function DirtySodaBarLakewoodPage() {
             "description": "Mobile dirty soda bar catering for events across Lakewood, Colorado.",
             "offers": {
               "@type": "Offer",
-              "url": "https://coloradotapandtoast.com/book",
+              "url": "https://www.coloradotapandtoast.com/book?service=soda",
               "priceCurrency": "USD"
             }
           })
@@ -46,14 +46,14 @@ export default function DirtySodaBarLakewoodPage() {
           </h1>
 
           <p className="text-xl max-w-xl opacity-80 leading-relaxed">
-            Looking for a dirty soda bar in Lakewood? Tap & Toast delivers a fun,
-            interactive soda bar experience for weddings, birthday parties, and
-            corporate events across the Lakewood area.
+            Planning a birthday, wedding, or celebration in Lakewood? Our mobile dirty soda bar
+            brings custom nonalcoholic drinks and staff to your event. Guests can choose
+            combinations of soda, flavored syrups, cream, fruit, and garnishes.
           </p>
 
           <div className="mt-10">
             <Link
-              href="/book"
+              href="/book?service=soda"
               prefetch
               className="inline-block bg-[#c7a45a] text-black px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_25px_rgba(199,164,90,0.4)]"
             >
@@ -61,11 +61,11 @@ export default function DirtySodaBarLakewoodPage() {
             </Link>
 
             <p className="text-sm text-[#c7a45a] mt-6">
-              Serving Lakewood events — limited availability on weekends
+              Mobile dirty soda catering for Lakewood events
             </p>
 
             <p className="text-xs text-white/60 mt-2">
-              ✔ Custom drinks  ✔ Perfect for all ages  ✔ Fast setup
+              ✔ Custom drinks  ✔ Nonalcoholic  ✔ Mobile bar and staff
             </p>
           </div>
         </div>
@@ -87,14 +87,14 @@ export default function DirtySodaBarLakewoodPage() {
       {/* FEATURES */}
       <section className="px-8 pb-24 max-w-6xl mx-auto grid md:grid-cols-3 gap-10">
         {[
-          "Custom Soda Creations",
-          "Perfect for All Ages",
-          "Mobile Setup"
-        ].map((title, i) => (
-          <div key={i} className="bg-neutral-900/70 backdrop-blur p-8 rounded-2xl border border-white/10 hover:border-[#c7a45a] transition">
+          ["Custom Soda Creations", "Mix soda with flavored syrups, cream, fruit, and garnishes to create a drink that suits your taste."],
+          ["Nonalcoholic Celebrations", "Bring friends and family together over custom soda drinks at birthdays, weddings, and graduations."],
+          ["Mobile Bar and Staff", "Our mobile bar and staff come to your event. Start a quote with your date, location, and guest count."]
+        ].map(([title, description]) => (
+          <div key={title} className="bg-neutral-900/70 backdrop-blur p-8 rounded-2xl border border-white/10 hover:border-[#c7a45a] transition">
             <h3 className="text-xl font-semibold mb-3">{title}</h3>
             <p className="opacity-70">
-              Tap & Toast delivers premium soda bar experiences tailored to your event.
+              {description}
             </p>
           </div>
         ))}
@@ -126,7 +126,7 @@ export default function DirtySodaBarLakewoodPage() {
           </p>
 
           <Link
-            href="/book"
+            href="/book?service=soda"
             prefetch
             className="inline-block bg-black text-white px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300"
           >

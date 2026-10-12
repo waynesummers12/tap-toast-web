@@ -2,7 +2,8 @@ import Image from "next/image"
 import Link from "next/link"
 
 export const metadata = {
-  title: "Corporate Event Mobile Bar Service | Tap & Toast",
+  title: "Corporate Event Mobile Bar in Colorado | Tap & Toast",
+  alternates: { canonical: "https://www.coloradotapandtoast.com/corporate-events" },
   description:
     "Tap & Toast provides professional mobile bar service for corporate events across Colorado. Perfect for company parties, networking events, holiday celebrations, and brand activations.",
 }

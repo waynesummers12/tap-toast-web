@@ -1,6 +1,7 @@
 import Image from "next/image"
 export const metadata = {
-  title: "Parties Mobile Bar Service | Tap & Toast",
+  title: "Birthday Party Mobile Bar in Colorado | Tap & Toast",
+  alternates: { canonical: "https://www.coloradotapandtoast.com/birthday-parties" },
   description:
     "Tap & Toast provides fun and stylish mobile bar service for birthday parties across Colorado. Perfect for backyard parties, milestone birthdays, and private celebrations.",
 }

@@ -3,6 +3,12 @@ import Link from "next/link";
 import Packages from "./packages";
 
 
+export const metadata = {
+  title: "Bartending Services in Colorado | Tap & Toast",
+  description: "Professional bartenders for Colorado weddings, birthday parties, and private events. Explore Tap & Toast’s bartending packages and get your event quote.",
+  alternates: { canonical: "https://www.coloradotapandtoast.com/bartending" },
+};
+
 export default function BartendingPage() {
   return (
     <main className="bg-white text-neutral-950 selection:bg-neutral-200 selection:text-black">
