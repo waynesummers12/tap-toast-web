@@ -1,3 +1,4 @@
+import Breadcrumbs from "../components/Breadcrumbs"
 
 
 import Image from "next/image"
@@ -12,6 +13,7 @@ export const metadata = {
 export default function DirtySodaBarLakewoodPage() {
   return (
     <main className="min-h-screen bg-black text-white selection:bg-[#c7a45a] selection:text-black">
+      <Breadcrumbs items={[{"name": "Dirty Soda Bar", "path": "/dirty-soda-bar"}, {"name": "Lakewood", "path": "/dirty-soda-bar-lakewood"}]} />
 
       {/* SEO SCHEMA */}
       <script

@@ -1,3 +1,4 @@
+import Breadcrumbs from "../components/Breadcrumbs"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -11,6 +12,7 @@ export const metadata = {
 export default function WeddingsPage() {
   return (
     <main className="min-h-screen bg-white text-neutral-950 selection:bg-neutral-200 selection:text-black">
+      <Breadcrumbs items={[{"name": "Weddings", "path": "/weddings"}]} />
 
       {/* HERO */}
       <section className="px-6 py-16 md:py-24 max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">

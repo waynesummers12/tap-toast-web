@@ -1,5 +1,8 @@
 "use client"
 
+import Breadcrumbs from "../components/Breadcrumbs"
+
+
 import Image from "next/image"
 import Link from "next/link"
 
@@ -13,6 +16,7 @@ function getGoogleAnalyticsClientId() {
 export default function DirtySodaBarParkerPage() {
   return (
     <main className="min-h-screen bg-black text-white selection:bg-[#c7a45a] selection:text-black">
+      <Breadcrumbs items={[{"name": "Dirty Soda Bar", "path": "/dirty-soda-bar"}, {"name": "Parker", "path": "/dirty-soda-bar-parker"}]} />
 
       {/* SEO SCHEMA */}
       <script

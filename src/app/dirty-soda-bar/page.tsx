@@ -1,3 +1,4 @@
+import Breadcrumbs from "../components/Breadcrumbs"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -18,6 +19,7 @@ const button = "inline-flex items-center justify-center rounded-full bg-[#99365c
 export default function DirtySodaBarPage() {
   return (
     <main className="min-h-screen bg-[#fff8fa] text-[#54283c] selection:bg-[#f5c6d8]">
+      <Breadcrumbs items={[{"name": "Dirty Soda Bar", "path": "/dirty-soda-bar"}]} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "FAQPage",
         mainEntity: faqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })),

@@ -1,3 +1,4 @@
+import Breadcrumbs from "../components/Breadcrumbs"
 import Image from "next/image";
 import Link from "next/link";
 import Packages from "./packages";
@@ -12,6 +13,7 @@ export const metadata = {
 export default function BartendingPage() {
   return (
     <main className="bg-white text-neutral-950 selection:bg-neutral-200 selection:text-black">
+      <Breadcrumbs items={[{"name": "Bartending", "path": "/bartending"}]} />
 
       {/* HERO */}
       <section className="max-w-7xl mx-auto px-6 pt-28 pb-16 grid md:grid-cols-2 gap-12 items-center">

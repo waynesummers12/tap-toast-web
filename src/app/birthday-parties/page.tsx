@@ -1,3 +1,4 @@
+import Breadcrumbs from "../components/Breadcrumbs"
 import Image from "next/image"
 export const metadata = {
   title: "Birthday Party Mobile Bar in Colorado | Tap & Toast",
@@ -9,6 +10,7 @@ export const metadata = {
 export default function BirthdayPartiesPage() {
   return (
     <main className="min-h-screen bg-white text-neutral-950 selection:bg-neutral-200">
+      <Breadcrumbs items={[{"name": "Parties", "path": "/birthday-parties"}]} />
 
       {/* HERO */}
       <section className="px-6 py-16 md:py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
