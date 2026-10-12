@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function DirtySodaBarCentennialPage() {
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-[#c7a45a] selection:text-black">
+    <main className="min-h-screen bg-[#fff8fa] text-[#54283c] selection:bg-[#f5c6d8] selection:text-[#54283c]">
       <Breadcrumbs items={[{"name": "Dirty Soda Bar", "path": "/dirty-soda-bar"}, {"name": "Centennial", "path": "/dirty-soda-bar-centennial"}]} />
 
       {/* SEO SCHEMA */}
@@ -39,13 +39,13 @@ export default function DirtySodaBarCentennialPage() {
       />
 
       {/* HERO */}
-      <section className="px-8 py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+      <section className="px-6 py-14 md:px-8 md:py-20 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         <div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+          <h1 className="text-4xl md:text-6xl font-normal mb-6">
             Dirty Soda Bar Catering in Centennial
           </h1>
 
-          <p className="text-xl max-w-xl opacity-80 leading-relaxed">
+          <p className="text-xl max-w-xl text-[#704659] leading-relaxed">
             Planning a birthday, wedding, or celebration in Centennial? Our mobile dirty soda bar
             brings custom nonalcoholic drinks and staff to your event. Guests can choose
             combinations of soda, flavored syrups, cream, fruit, and garnishes.
@@ -55,16 +55,16 @@ export default function DirtySodaBarCentennialPage() {
             <Link
               href="/book?service=soda"
               prefetch
-              className="inline-block bg-[#c7a45a] text-black px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_25px_rgba(199,164,90,0.4)]"
+              className="inline-block bg-[#99365c] text-white px-8 py-4 rounded-full hover:bg-[#772443] font-semibold text-lg transition-colors duration-300 shadow-sm"
             >
               Book Your Centennial Soda Bar
             </Link>
 
-            <p className="text-sm text-[#c7a45a] mt-6">
+            <p className="text-sm text-[#99365c] mt-6">
               Mobile dirty soda catering for Centennial events
             </p>
 
-            <p className="text-xs text-white/60 mt-2">
+            <p className="text-xs text-[#704659] mt-2">
               ✔ Custom drinks  ✔ Nonalcoholic  ✔ Mobile bar and staff
             </p>
           </div>
@@ -76,7 +76,7 @@ export default function DirtySodaBarCentennialPage() {
             alt="Dirty Soda Bar Centennial Event"
             width={1200}
             height={700}
-            className="rounded-2xl object-cover border border-white/10 shadow-2xl"
+            className="w-full rounded-t-[5rem] rounded-b-3xl object-cover border-8 border-white shadow-sm"
             priority
             quality={80}
             sizes="(max-width: 768px) 100vw, 50vw"
@@ -91,9 +91,9 @@ export default function DirtySodaBarCentennialPage() {
           ["Nonalcoholic Celebrations", "Bring friends and family together over custom soda drinks at birthdays, weddings, and graduations."],
           ["Mobile Bar and Staff", "Our mobile bar and staff come to your event. Start a quote with your date, location, and guest count."]
         ].map(([title, description]) => (
-          <div key={title} className="bg-neutral-900/70 backdrop-blur p-8 rounded-2xl border border-white/10 hover:border-[#c7a45a] transition">
+          <div key={title} className="bg-white p-8 rounded-3xl border border-[#efcfda] hover:border-[#99365c] transition">
             <h3 className="text-xl font-semibold mb-3">{title}</h3>
-            <p className="opacity-70">
+            <p className="text-[#704659] leading-relaxed">
               {description}
             </p>
           </div>
@@ -102,25 +102,25 @@ export default function DirtySodaBarCentennialPage() {
 
       <section className="px-8 pb-12 max-w-6xl mx-auto">
         <h2 className="text-2xl mb-4">Plan your soda bar experience</h2>
-        <p className="text-white/80 leading-relaxed">Explore our <Link href="/dirty-soda-bar" className="underline underline-offset-4">dirty soda bar catering</Link> or read <Link href="/what-is-dirty-soda-bar" className="underline underline-offset-4">how a dirty soda bar works</Link>. Ready to plan? Tell us your event date, location, and guest count to start your quote.</p>
+        <p className="text-[#704659] leading-relaxed">Explore our <Link href="/dirty-soda-bar" className="underline underline-offset-4">dirty soda bar catering</Link> or read <Link href="/what-is-dirty-soda-bar" className="underline underline-offset-4">how a dirty soda bar works</Link>. Ready to plan? Tell us your event date, location, and guest count to start your quote.</p>
       </section>
 
       {/* INTERNAL LINKS */}
       <section className="px-8 pb-16 max-w-6xl mx-auto">
-        <p className="text-gray-400">
-          Serving Centennial and surrounding areas including 
-          <Link href="/dirty-soda-bar-centennial" className="text-[#c7a45a] underline ml-1">Centennial</Link>, 
-          <Link href="/dirty-soda-bar-denver" className="text-[#c7a45a] underline ml-1">Denver</Link>, 
-          <Link href="/dirty-soda-bar-littleton" className="text-[#c7a45a] underline ml-1">Littleton</Link>, 
-          <Link href="/dirty-soda-bar-lakewood" className="text-[#c7a45a] underline ml-1">Lakewood</Link>, 
-          <Link href="/dirty-soda-bar-parker" className="text-[#c7a45a] underline ml-1">Parker</Link>, and 
-          <Link href="/dirty-soda-bar-highlands-ranch" className="text-[#c7a45a] underline ml-1">Highlands Ranch</Link>.
+        <p className="text-[#704659]">
+          Serving Centennial and surrounding areas including
+          <Link href="/dirty-soda-bar-centennial" className="text-[#99365c] underline ml-1">Centennial</Link>,
+          <Link href="/dirty-soda-bar-denver" className="text-[#99365c] underline ml-1">Denver</Link>,
+          <Link href="/dirty-soda-bar-littleton" className="text-[#99365c] underline ml-1">Littleton</Link>,
+          <Link href="/dirty-soda-bar-lakewood" className="text-[#99365c] underline ml-1">Lakewood</Link>,
+          <Link href="/dirty-soda-bar-parker" className="text-[#99365c] underline ml-1">Parker</Link>, and
+          <Link href="/dirty-soda-bar-highlands-ranch" className="text-[#99365c] underline ml-1">Highlands Ranch</Link>.
         </p>
       </section>
 
       {/* CTA */}
       <section className="px-8 pb-32 max-w-6xl mx-auto">
-        <div className="bg-[#c7a45a] text-black p-12 md:p-16 rounded-3xl shadow-[0_20px_60px_rgba(199,164,90,0.3)] text-center">
+        <div className="bg-[#fce8ef] text-[#54283c] p-8 md:p-16 rounded-3xl border border-[#efcfda] text-center">
 
           <h2 className="text-3xl font-bold mb-4">
             Book Your Centennial Dirty Soda Bar
@@ -133,7 +133,7 @@ export default function DirtySodaBarCentennialPage() {
           <Link
             href="/book?service=soda"
             prefetch
-            className="inline-block bg-black text-white px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300"
+            className="inline-block bg-[#99365c] text-white px-8 py-4 rounded-full hover:bg-[#772443] font-semibold text-lg transition-colors duration-300"
           >
             Check Availability
           </Link>

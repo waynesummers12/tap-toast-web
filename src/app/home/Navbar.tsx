@@ -22,7 +22,7 @@ export default function Navbar() {
 
 function Navigation({ pathname }: { pathname: string }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const quoteHref = (pathname === "/dirty-soda-bar" || pathname.startsWith("/dirty-soda-bar-")) ? "/book?service=soda" : "/book"
+  const quoteHref = (pathname === "/dirty-soda-bar" || pathname === "/what-is-dirty-soda-bar" || pathname.startsWith("/dirty-soda-bar-")) ? "/book?service=soda" : "/book"
   if (pathname === "/mountain-view") return null
   const showQuoteBar = !["/book", "/success", "/upgrade", "/dashboard", "/admin"].some(
     path => pathname === path || pathname.startsWith(`${path}/`)

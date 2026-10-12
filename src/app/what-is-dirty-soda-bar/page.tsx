@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function WhatIsDirtySodaBarPage() {
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-[#c7a45a] selection:text-black">
+    <main className="min-h-screen bg-[#fff8fa] text-[#54283c] selection:bg-[#f5c6d8] selection:text-[#54283c]">
       <Breadcrumbs items={[{"name": "Dirty Soda Bar", "path": "/dirty-soda-bar"}, {"name": "What Is a Dirty Soda?", "path": "/what-is-dirty-soda-bar"}]} />
 
       {/* SEO SCHEMA */}
@@ -31,7 +31,7 @@ export default function WhatIsDirtySodaBarPage() {
 
       {/* HERO */}
       <section className="px-8 py-24 max-w-4xl mx-auto text-center">
-        <h1 className="text-5xl md:text-6xl font-bold mb-6">
+        <h1 className="text-4xl md:text-6xl font-normal mb-6">
           What is a Dirty Soda Bar?
         </h1>
 
@@ -42,10 +42,10 @@ export default function WhatIsDirtySodaBarPage() {
       </section>
 
       {/* CONTENT */}
-      <section className="px-8 pb-24 max-w-4xl mx-auto space-y-10 text-lg text-gray-300 leading-relaxed">
+      <section className="px-8 pb-24 max-w-4xl mx-auto space-y-10 text-lg text-[#704659] leading-relaxed">
 
         <div>
-          <h2 className="text-2xl font-semibold text-white mb-3">What is a Dirty Soda?</h2>
+          <h2 className="text-2xl font-semibold text-[#54283c] mb-3">What is a Dirty Soda?</h2>
           <p>
             A &quot;dirty soda&quot; is a soft drink mixed with flavored syrups, cream, fruit, and other
             custom add-ins to create a unique and refreshing beverage. Originating in the western
@@ -54,7 +54,7 @@ export default function WhatIsDirtySodaBarPage() {
         </div>
 
         <div>
-          <h2 className="text-2xl font-semibold text-white mb-3">What is a Dirty Soda Bar?</h2>
+          <h2 className="text-2xl font-semibold text-[#54283c] mb-3">What is a Dirty Soda Bar?</h2>
           <p>
             A dirty soda bar is a fully customizable drink station where guests can choose their
             base soda, flavors, and toppings. It creates an interactive experience that guests love,
@@ -63,7 +63,7 @@ export default function WhatIsDirtySodaBarPage() {
         </div>
 
         <div>
-          <h2 className="text-2xl font-semibold text-white mb-3">Why Are Dirty Soda Bars So Popular?</h2>
+          <h2 className="text-2xl font-semibold text-[#54283c] mb-3">Why Are Dirty Soda Bars So Popular?</h2>
           <p>
             Dirty soda bars offer something unique compared to traditional drink stations. They are
             fun, visually appealing, and customizable, allowing guests to create drinks that match
@@ -72,7 +72,7 @@ export default function WhatIsDirtySodaBarPage() {
         </div>
 
         <div>
-          <h2 className="text-2xl font-semibold text-white mb-3">What Events Are Best for a Dirty Soda Bar?</h2>
+          <h2 className="text-2xl font-semibold text-[#54283c] mb-3">What Events Are Best for a Dirty Soda Bar?</h2>
           <p>
             Dirty soda bars are perfect for weddings, birthday parties, corporate events, school
             functions, graduation parties, and more. They provide a memorable experience that guests
@@ -81,7 +81,7 @@ export default function WhatIsDirtySodaBarPage() {
         </div>
 
         <div>
-          <h2 className="text-2xl font-semibold text-white mb-3">Where Can I Book a Dirty Soda Bar Near Me?</h2>
+          <h2 className="text-2xl font-semibold text-[#54283c] mb-3">Where Can I Book a Dirty Soda Bar Near Me?</h2>
           <p>
             Tap & Toast provides mobile dirty soda bar catering across Colorado including Denver,
             Parker, Littleton, Lakewood, Highlands Ranch, and Centennial.
@@ -92,7 +92,7 @@ export default function WhatIsDirtySodaBarPage() {
 
       {/* CTA */}
       <section className="px-8 pb-32 max-w-4xl mx-auto text-center">
-        <div className="bg-[#c7a45a] text-black p-12 md:p-16 rounded-3xl shadow-[0_20px_60px_rgba(199,164,90,0.3)]">
+        <div className="bg-[#fce8ef] text-[#54283c] p-8 md:p-16 rounded-3xl border border-[#efcfda]">
 
           <h2 className="text-3xl font-bold mb-4">
             Book a Dirty Soda Bar for Your Event
@@ -103,9 +103,9 @@ export default function WhatIsDirtySodaBarPage() {
           </p>
 
           <Link
-            href="/book"
+            href="/book?service=soda"
             prefetch
-            className="inline-block bg-black text-white px-10 py-5 rounded-xl font-semibold text-lg hover:scale-105 transition-all duration-300"
+            className="inline-block bg-[#99365c] text-white px-8 py-4 rounded-full hover:bg-[#772443] font-semibold text-lg transition-colors duration-300"
           >
             Check Availability
           </Link>
