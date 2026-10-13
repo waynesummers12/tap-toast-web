@@ -50,8 +50,14 @@ export default function DashboardPage() {
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState("")
   const [customPrice, setCustomPrice] = useState<number | "">("")
+  const [savingPrice, setSavingPrice] = useState(false)
   const saveCustomPricing = async () => {
-    if (!selectedEvent) return
+    if (!selectedEvent || savingPrice) return
+    if (customPrice === "" || !Number.isFinite(customPrice) || customPrice <= 0 || Math.abs(customPrice * 100 - Math.round(customPrice * 100)) > 0.000001) {
+      alert("Enter a positive total with no more than two decimal places.")
+      return
+    }
+    setSavingPrice(true)
 
     try {
 
@@ -66,8 +72,8 @@ export default function DashboardPage() {
 
       const data = await res.json()
 
-      if (!data?.success) {
-        alert("Failed to update price")
+      if (!res.ok || !data?.success) {
+        alert(data?.error || "Failed to update price")
         return
       }
 
@@ -93,6 +99,8 @@ export default function DashboardPage() {
     } catch (err) {
       console.error(err)
       alert("Server error saving price")
+    } finally {
+      setSavingPrice(false)
     }
   }
   // Auto-switch view based on screen size (mobile = calendar, desktop = table)
@@ -1074,15 +1082,19 @@ const cancelEvent = async (eventId: string) => {
                   <input
                     type="number"
                     placeholder="Enter custom total"
+                    min="0.01"
+                    max="1000000"
+                    step="0.01"
                     value={customPrice}
-                    onChange={(e) => setCustomPrice(Number(e.target.value))}
+                    onChange={(e) => setCustomPrice(e.target.value === "" ? "" : Number(e.target.value))}
                     className="w-full mt-1 px-2 py-1 border rounded text-sm"
                   />
                   <button
                     onClick={saveCustomPricing}
+                    disabled={savingPrice}
                     className="w-full mt-2 bg-green-600 text-white text-xs py-2 rounded"
                   >
-                    Save Custom Price
+                    {savingPrice ? "Saving…" : "Save Custom Price"}
                   </button>
                 </div>
               </div>

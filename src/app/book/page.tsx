@@ -82,6 +82,8 @@ function BookEventPageContent() {
 
   const [submitting, setSubmitting] = useState(false)
   const [bookedSlots, setBookedSlots] = useState<BookedSlot[]>([])
+  const [availabilityReady, setAvailabilityReady] = useState(false)
+  const [availabilityError, setAvailabilityError] = useState(false)
   // UX Micro-interactions and personalization
   const [saved, setSaved] = useState(false)
   const completion = [name, email, location, date, eventType].filter(Boolean).length / 5
@@ -274,11 +276,21 @@ useEffect(() => {
     return () => clearTimeout(t)
   }, [isMountainView, guests])
 
-  useEffect(() => {
-  fetch("https://tap-toast-api-cayk.onrender.com/api/events/booked-slots")
-    .then(res => res.json())
-    .then((data: BookedSlot[]) => setBookedSlots(data))
-}, [])
+  const refreshAvailability = useCallback(async () => {
+    setAvailabilityReady(false)
+    setAvailabilityError(false)
+    try {
+      const res = await fetch("https://tap-toast-api-cayk.onrender.com/api/events/booked-slots", { cache: "no-store" })
+      if (!res.ok) throw new Error("Availability unavailable")
+      const data = await res.json()
+      if (!Array.isArray(data)) throw new Error("Invalid availability response")
+      setBookedSlots(data)
+      setAvailabilityReady(true)
+    } catch {
+      setAvailabilityError(true)
+    }
+  }, [])
+  useEffect(() => { void refreshAvailability() }, [refreshAvailability])
 
 // 🔥 Auto-save quote if user doesn't complete booking
 useEffect(() => {
@@ -494,7 +506,11 @@ type BookedSlot = {
 
   const handleBooking = async () => {
     if (isMountainView && !mountainViewPackage) return
-    if (!bookingCid) return
+    if (!bookingCid || submitting) return
+    if (!availabilityReady || !startTime || isTimeBlocked(date, startTime, hours)) {
+      alert("Please choose an available date and start time before booking.")
+      return
+    }
 
     setSubmitting(true)
     if (!name || !email || !location || !date || !eventType) {
@@ -582,9 +598,13 @@ type BookedSlot = {
       })
 
       if (!res.ok) {
-        const text = await res.text()
-        console.error("Book event request failed", res.status, text)
-        alert("Failed to create booking. Check backend server or API logs.")
+        if (res.status === 409) {
+          await refreshAvailability()
+          setStartTime("")
+          alert("That time is no longer available. Please choose another date or time, or contact Jen.")
+        } else {
+          alert("We couldn't complete your booking. Please try again shortly or contact Jen.")
+        }
         setSubmitting(false)
         return
       }
@@ -612,7 +632,8 @@ type BookedSlot = {
 
       if (!checkout.ok) {
         console.error("Stripe session creation failed", checkout.status)
-        alert("Failed to create Stripe checkout session.")
+        const failure = await checkout.json().catch(() => null)
+        alert(failure?.error || "We couldn't open checkout. Please try again or contact Jen.")
         setSubmitting(false)
         return
       }
@@ -911,7 +932,7 @@ type BookedSlot = {
           </div>
 
           <div className="col-span-1 md:col-span-2 text-xs text-gray-500">
-            Dates already reserved will be blocked after selection (calendar UI upgrade coming next)
+            Reserved times include a one-hour buffer for setup and travel.
           </div>
         {!isRental && !isMountainView && (
           <div className="col-span-1 md:col-span-2 mt-6">
@@ -1667,9 +1688,10 @@ type BookedSlot = {
             ✔ Quote saved
           </p>
         )}
+        {availabilityError && <p role="alert" className="mb-3 text-red-600">We couldn’t check availability. Please refresh this page or contact Jen before booking.</p>}
         <button
           onClick={handleBooking}
-          disabled={submitting || !bookingCid}
+          disabled={submitting || !bookingCid || !availabilityReady}
           className={`mt-4 w-full py-5 text-lg rounded-xl transition-transform font-semibold shadow-lg ${
             submitting
               ? 'bg-gray-300 text-gray-600'

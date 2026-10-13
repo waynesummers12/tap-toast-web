@@ -25,9 +25,10 @@ export default function AvailabilityCalendar({ onDateSelect, hours }: Availabili
   useEffect(() => {
     const controller = new AbortController()
     fetch("https://tap-toast-api-cayk.onrender.com/api/events/booked-slots", { signal: controller.signal })
-      .then((res) => res.json())
+      .then((res) => { if (!res.ok) throw new Error("Availability unavailable"); return res.json() })
       .then((data) => {
-        const slots = Array.isArray(data) ? data : []
+        if (!Array.isArray(data)) throw new Error("Invalid availability response")
+        const slots = data
         setBookedSlots(slots)
         setError(null)
       })
@@ -49,7 +50,7 @@ export default function AvailabilityCalendar({ onDateSelect, hours }: Availabili
       .toISOString()
       .split("T")[0]
 
-    const slotsForDay = bookedSlots.filter(s => s.date === dateStr)
+    const slotsForDay = bookedSlots
 
     if (slotsForDay.length === 0) return false
 
@@ -107,7 +108,7 @@ export default function AvailabilityCalendar({ onDateSelect, hours }: Availabili
       <div className="bg-white text-black rounded-xl p-4">
         <Calendar
           minDate={today}
-          tileDisabled={({ date }) => isDateFullyBlocked(date)}
+          tileDisabled={({ date }) => loading || !!error || isDateFullyBlocked(date)}
           tileClassName={({ date, view }) => {
             if (view !== 'month') return ''
 
