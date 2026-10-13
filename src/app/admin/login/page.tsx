@@ -1,6 +1,7 @@
 "use client"
 
 import { FormEvent, useState } from "react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { getSupabaseBrowser } from "@/lib/supabase-browser"
 
@@ -16,19 +17,22 @@ export default function AdminLoginPage() {
     setSubmitting(true)
     setError("")
 
-    const { error: signInError } = await getSupabaseBrowser().auth.signInWithPassword({
-      email,
-      password,
-    })
-
-    if (signInError) {
-      setError("Unable to sign in with those credentials.")
+    try {
+      const { error: signInError } = await getSupabaseBrowser().auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      })
+      if (signInError) {
+        setError("Unable to sign in. Check your account email and password, or use Forgot password below.")
+        return
+      }
+      router.replace("/dashboard")
+      router.refresh()
+    } catch {
+      setError("Unable to connect. Please try again.")
+    } finally {
       setSubmitting(false)
-      return
     }
-
-    router.replace("/dashboard")
-    router.refresh()
   }
 
   return (
@@ -60,7 +64,7 @@ export default function AdminLoginPage() {
             className="mt-1 w-full rounded border px-3 py-2"
           />
         </label>
-        {error && <p className="mb-4 text-sm text-red-700">{error}</p>}
+        {error && <p role="alert" className="mb-4 text-sm text-red-700">{error}</p>}
         <button
           type="submit"
           disabled={submitting}
@@ -68,6 +72,11 @@ export default function AdminLoginPage() {
         >
           {submitting ? "Signing in..." : "Sign in"}
         </button>
+        <Link href="/admin/forgot-password" className="mt-4 block py-3 text-center text-sm underline underline-offset-4">Forgot password?</Link>
+        <details className="mt-2 border-t pt-3 text-sm leading-relaxed">
+          <summary className="cursor-pointer py-2">Forgot your sign-in email?</summary>
+          <p className="mt-2">Check your saved passwords or ask the project owner to look up your account in Supabase → Authentication → Users.</p>
+        </details>
       </form>
     </main>
   )

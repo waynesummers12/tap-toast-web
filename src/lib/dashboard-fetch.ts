@@ -18,7 +18,7 @@ export async function dashboardFetch(
   const headers = new Headers(init.headers)
   headers.set("Authorization", `Bearer ${accessToken}`)
 
-  const response = await fetch(input, { ...init, headers })
+  const response = await fetch(input, { ...init, cache: "no-store", headers })
 
   if (response.status === 401) {
     await supabaseBrowser.auth.signOut({ scope: "local" })

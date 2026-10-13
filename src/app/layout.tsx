@@ -41,6 +41,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <Script id="admin-analytics-privacy" strategy="beforeInteractive">
+          {`if (window.location.pathname === '/admin' || window.location.pathname.startsWith('/admin/')) {
+            window['ga-disable-G-9T64PY883H'] = true;
+          }`}
+        </Script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${editorial.variable} antialiased`}

@@ -1,47 +1,51 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import AgreementImport from "./AgreementImport"
+import DrinksAndAgreement from "./DrinksAndAgreement"
 import { dashboardFetch } from "@/lib/dashboard-fetch"
 import { getSupabaseBrowser } from "@/lib/supabase-browser"
 
+const API = (process.env.NEXT_PUBLIC_API_URL || "https://tap-toast-api-cayk.onrender.com").replace(/\/+$/, "")
+
+const eventDateLocal = (value: string) => value ? new Date(`${value.slice(0, 10)}T00:00:00`) : new Date(NaN)
+
+const formatCurrency = (value: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(value)
+
 interface EventItem {
-  // Event status is derived from deposit_paid and balance_due
   id: string
   event_date: string
   location: string
   hours: number
   bartenders_needed: number
-  assigned_bartenders_count?: number
   total_price: number
   deposit_amount: number
   balance_due: number
   deposit_paid: boolean
   balance_remaining?: number
-  profit_estimate?: number
   customers?: {
     name: string
     email: string
   }
   cid?: string
   landing_page?: string
+  drinks_serving?: string | null
   event_status?: string
 }
 
 export default function DashboardPage() {
+  const cancelledEventIds = useRef(new Set<string>())
   const [events, setEvents] = useState<EventItem[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null)
-  const [availableBartenders, setAvailableBartenders] = useState<string[]>([])
-  const [assignedBartenders, setAssignedBartenders] = useState<string[]>([])
   const [viewMode, setViewMode] = useState<"table" | "calendar">("calendar")
+  const [deleting, setDeleting] = useState(false)
+  const [deleteError, setDeleteError] = useState("")
   const [customPrice, setCustomPrice] = useState<number | "">("")
   const saveCustomPricing = async () => {
     if (!selectedEvent) return
 
     try {
-      const API =
-        process.env.NEXT_PUBLIC_API_URL ||
-        "https://tap-toast-api-cayk.onrender.com"
 
       const res = await dashboardFetch(`${API}/api/events/update-price`, {
         method: "POST",
@@ -66,7 +70,7 @@ export default function DashboardPage() {
         const res = await dashboardFetch(`${API}/api/events`)
         const refreshed = await res.json()
         if (Array.isArray(refreshed)) {
-          setEvents(refreshed)
+          setEvents(refreshed.filter((event: EventItem) => event.event_status !== "cancelled" && !cancelledEventIds.current.has(event.id)))
 
           // also update selected event so side panel reflects new price
           const updated = refreshed.find((e: EventItem) => e.id === selectedEvent.id)
@@ -119,7 +123,7 @@ useEffect(() => {
 
       const res = await dashboardFetch(
 
-        `${process.env.NEXT_PUBLIC_API_URL}/api/events`
+        `${API}/api/events`
 
       )
 
@@ -131,9 +135,8 @@ useEffect(() => {
 
       const data = await res.json()
 
-      console.log("✅ REAL EVENTS FROM API:", data)
 
-      setEvents(Array.isArray(data) ? data : [])
+      setEvents(Array.isArray(data) ? data.filter((event: EventItem) => event.event_status !== "cancelled" && !cancelledEventIds.current.has(event.id)) : [])
 
     } catch (err) {
 
@@ -160,78 +163,29 @@ useEffect(() => {
 }, [])
 
 
-// Load assigned bartenders for selected event
-useEffect(() => {
-  if (!selectedEvent?.id) return
-
-  const loadAssigned = async () => {
-    try {
-      const res = await dashboardFetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${selectedEvent.id}/bartenders`)
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch assigned bartenders")
-      }
-
-      const data = await res.json()
-
-      if (Array.isArray(data)) {
-        const names = data.map((b: { name: string }) => b.name)
-        setAssignedBartenders(names)
-      }
-
-    } catch (err) {
-      console.error("❌ Failed to load assigned bartenders", err)
-      setAssignedBartenders([])
-    }
+const deleteSelectedEvent = async () => {
+  if (!selectedEvent || deleting) return
+  const event = selectedEvent
+  if (!confirm(`Delete the event for ${event.customers?.name || "this customer"} on ${event.event_date}? This removes it from the dashboard and marks it cancelled. Payment history is kept. No refund or email will be sent.`)) return
+  setDeleting(true)
+  setDeleteError("")
+  try {
+    const res = await dashboardFetch(`${API}/api/events/cancel`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ eventId: event.id }),
+    })
+    const data = await res.json()
+    if (!res.ok || !data.success) throw new Error("Delete failed")
+    cancelledEventIds.current.add(event.id)
+    setEvents(prev => prev.filter(item => item.id !== event.id))
+    setSelectedEvent(current => current?.id === event.id ? null : current)
+  } catch {
+    setDeleteError("The event could not be deleted. Please try again.")
+  } finally {
+    setDeleting(false)
   }
-
-  loadAssigned()
-}, [selectedEvent])
-
-// Load available bartenders
-useEffect(() => {
-  const loadBartenders = async () => {
-    try {
-      const res = await dashboardFetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/bartenders`
-      )
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch bartenders")
-      }
-
-      const data = await res.json()
-
-      if (Array.isArray(data)) {
-        const names = data
-          .map((b: unknown) => {
-            if (typeof b === "string") return b
-
-            if (typeof b === "object" && b !== null) {
-              const obj = b as { name?: string; bartender_name?: string }
-              return obj.name || obj.bartender_name || null
-            }
-
-            return null
-          })
-          .filter((n): n is string => Boolean(n))
-
-        setAvailableBartenders(
-          names.length > 0
-            ? names
-            : ["Wayne", "Jen", "Jessica", "Jeff"]
-        )
-      }
-
-    } catch (err) {
-      console.error("❌ Failed to load bartenders", err)
-      setAvailableBartenders(["Wayne", "Jen", "Jessica", "Jeff"])
-    }
-  }
-
-  loadBartenders()
-}, [])
-
+}
 
 interface GtagFn {
   (...args: unknown[]): void
@@ -247,9 +201,6 @@ const sendPaymentLink = async (
   type: "deposit" | "balance"
 ) => {
   try {
-    const API =
-      process.env.NEXT_PUBLIC_API_URL ||
-      "https://tap-toast-api-cayk.onrender.com"
 
     const endpoint = `${API}/api/stripe/create-checkout-session`
 
@@ -355,9 +306,6 @@ console.log("Sending reminder for eventId:", event.id)
         ? "deposit_reminder"
         : "balance_reminder"
 
-    const API =
-  process.env.NEXT_PUBLIC_API_URL ||
-  "https://tap-toast-api-cayk.onrender.com"
 
 const res = await dashboardFetch(`${API}/api/email/reminder`, {
       method: "POST",
@@ -384,69 +332,11 @@ const res = await dashboardFetch(`${API}/api/email/reminder`, {
   }
 }
 
-// Save bartender assignments to backend via API
-async function saveBartenderAssignments(event: EventItem) {
-  try {
-    const payload = {
-      eventId: event.id, // 🔥 FIX: backend expects eventId (not event_id)
-      bartenders: assignedBartenders.map(name => ({
-        name,
-        hours: event.hours,
-        pay: event.hours * 25
-      }))
-    }
-
-    const API =
-      process.env.NEXT_PUBLIC_API_URL ||
-      "https://tap-toast-api-cayk.onrender.com"
-
-    const res = await dashboardFetch(`${API}/api/events/assign-bartenders`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    })
-
-    const text = await res.text()
-    console.log("ASSIGN RESPONSE:", res.status, text)
-
-    let data
-    try {
-      data = JSON.parse(text)
-    } catch {
-      data = null
-    }
-
-    if (!data?.success) {
-      alert("Failed to save bartender assignments")
-      return
-    }
-
-    alert("Bartenders assigned successfully")
-
-    // Optimistically update staffing indicator locally
-    setEvents(prev =>
-      prev.map(e =>
-        e.id === event.id
-          ? { ...e, assigned_bartenders_count: assignedBartenders.length }
-          : e
-      )
-    )
-
-    setSelectedEvent(null)
-  } catch (err) {
-    console.error(err)
-    alert("Server error saving assignments")
-  }
-}
-
 const cancelEvent = async (eventId: string) => {
   const confirmCancel = confirm("Are you sure you want to cancel this event?")
   if (!confirmCancel) return
 
   try {
-    const API =
-      process.env.NEXT_PUBLIC_API_URL ||
-      "https://tap-toast-api-cayk.onrender.com"
 
     const res = await dashboardFetch(`${API}/api/events/cancel`, {
       method: "POST",
@@ -458,25 +348,14 @@ const cancelEvent = async (eventId: string) => {
 
     const data = await res.json()
 
-    if (data?.success) {
-      alert("Event cancelled")
-
-      setEvents(prev =>
-
-  prev.map(e =>
-
-    e.id === eventId
-
-      ? { ...e, event_status: "cancelled" }
-
-      : e
-
-  )
-
-)
-    } else {
-      alert("Failed to cancel event")
+    if (!res.ok || !data?.success) {
+      throw new Error("Cancellation failed")
     }
+
+    // Keep an older in-flight refresh from restoring a cancelled event.
+    cancelledEventIds.current.add(eventId)
+    setEvents(prev => prev.filter(event => event.id !== eventId))
+    setSelectedEvent(current => current?.id === eventId ? null : current)
 
   } catch (err) {
     console.error(err)
@@ -488,16 +367,16 @@ const cancelEvent = async (eventId: string) => {
     const location = e.location?.toLowerCase() || ""
     const q = search.toLowerCase()
 
-    const eventDate = new Date(e.event_date)
+    const eventDate = eventDateLocal(e.event_date)
 
     if (viewStartDate) {
-      const start = new Date(viewStartDate)
+      const start = eventDateLocal(viewStartDate)
       start.setHours(0,0,0,0)
       if (eventDate < start) return false
     }
 
     if (viewEndDate) {
-      const end = new Date(viewEndDate)
+      const end = eventDateLocal(viewEndDate)
       end.setHours(23,59,59,999)
       if (eventDate > end) return false
     }
@@ -515,7 +394,7 @@ const cancelEvent = async (eventId: string) => {
 
   const totalEvents = events.length
 
-  const upcomingEvents = events.filter(e => new Date(e.event_date) >= new Date()).length
+  const upcomingEvents = events.filter(e => eventDateLocal(e.event_date) >= new Date()).length
 
   const revenueCollected = events.reduce((sum, e) => {
     if (e.deposit_paid) {
@@ -526,24 +405,6 @@ const cancelEvent = async (eventId: string) => {
   }, 0)
 
   const pendingBalances = events.reduce((sum, e) => sum + (e.balance_due || 0), 0)
-  const totalProfit = events.reduce((sum, e) => {
-    const profit = e.profit_estimate ?? Math.max((e.total_price || 0) - ((e.hours || 0) * (e.bartenders_needed || 0) * 25), 0)
-    return sum + profit
-  }, 0)
-
-  const bartenderPayroll = events.reduce((sum, e) => {
-    const bartenders = e.assigned_bartenders_count ?? e.bartenders_needed ?? 0
-    const hours = e.hours ?? 0
-    return sum + bartenders * hours * 25
-  }, 0)
-
-  const staffingAlerts = events.filter(e => {
-    const assigned = e.assigned_bartenders_count ?? 0
-    const needed = e.bartenders_needed ?? 0
-    const upcoming = new Date(e.event_date) >= new Date()
-    return upcoming && assigned < needed
-  }).length
-
   const now = new Date()
   const day = now.getDay()
 
@@ -556,7 +417,7 @@ const cancelEvent = async (eventId: string) => {
   sunday.setHours(23,59,59,999)
 
   const weekendEventsList = events.filter(e => {
-    const d = new Date(e.event_date)
+    const d = eventDateLocal(e.event_date)
     return d >= saturday && d <= sunday
   })
 
@@ -593,20 +454,19 @@ const cancelEvent = async (eventId: string) => {
   const today = new Date()
 
   const actionRequiredEvents: EventItem[] = events.filter((event: EventItem) => {
-    const eventDate = new Date(event.event_date)
+    const eventDate = eventDateLocal(event.event_date)
     const daysUntil = Math.ceil(
       (eventDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
     )
 
     const needsDeposit = !event.deposit_paid
     const balanceDueSoon = event.deposit_paid && event.balance_due > 0 && daysUntil <= 10
-    const needsStaffing = (event.assigned_bartenders_count ?? 0) < event.bartenders_needed
 
-    return needsDeposit || balanceDueSoon || needsStaffing
+    return needsDeposit || balanceDueSoon
   })
 
   const prioritizedEvents: EventItem[] = [...events]
-    .filter((event: EventItem) => new Date(event.event_date) >= today)
+    .filter((event: EventItem) => eventDateLocal(event.event_date) >= today)
     .sort((a: EventItem, b: EventItem) => {
       const score = (e: EventItem) => {
         let s = 0
@@ -614,11 +474,9 @@ const cancelEvent = async (eventId: string) => {
         if (!e.deposit_paid) s += 100
         else if (e.balance_due > 0) s += 80
 
-        const assigned = e.assigned_bartenders_count ?? 0
-        if (assigned < e.bartenders_needed) s += 60
 
         const days = Math.ceil(
-          (new Date(e.event_date).getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+          (eventDateLocal(e.event_date).getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
         )
 
         if (days <= 3) s += 50
@@ -650,6 +508,18 @@ const cancelEvent = async (eventId: string) => {
             Log out
           </button>
         </div>
+<AgreementImport api={API} onImported={async (eventId) => {
+          const response = await dashboardFetch(`${API}/api/events`)
+          if (!response.ok) throw new Error("Refresh failed")
+          const data: EventItem[] = await response.json()
+          setEvents(data.filter(event => event.event_status !== "cancelled" && !cancelledEventIds.current.has(event.id)))
+          const imported = data.find(event => event.id === eventId)
+          if (imported) setSelectedEvent(imported)
+          setSearch("")
+          setViewStartDate("")
+          setViewEndDate("")
+          setViewMode("table")
+        }} />
 <div className="mb-6">
   <input
     type="text"
@@ -678,66 +548,40 @@ const cancelEvent = async (eventId: string) => {
         {viewMode === "table" && (
           <>
             {/* Metrics */}
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-8 gap-6 mb-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-fr mb-10">
 
-              <div className="bg-white p-6 rounded-xl shadow-sm border">
-                <div className="text-gray-600 text-sm mb-2">Total Events</div>
-                <div className="text-2xl font-semibold">
+              <div className="min-w-0 bg-white p-5 rounded-xl shadow-sm border">
+                <div className="min-h-10 text-gray-600 text-sm leading-5 mb-2">Total Events</div>
+                <div className="text-2xl leading-8 font-semibold tabular-nums break-words">
                   {totalEvents}
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-xl shadow-sm border">
-                <div className="text-gray-600 text-sm mb-2">Upcoming Events</div>
-                <div className="text-2xl font-semibold">
+              <div className="min-w-0 bg-white p-5 rounded-xl shadow-sm border">
+                <div className="min-h-10 text-gray-600 text-sm leading-5 mb-2">Upcoming Events</div>
+                <div className="text-2xl leading-8 font-semibold tabular-nums break-words">
                   {upcomingEvents}
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-xl shadow-sm border">
-                <div className="text-gray-600 text-sm mb-2">Revenue Collected</div>
-                <div className="text-2xl font-semibold">
-                  ${revenueCollected}
+              <div className="min-w-0 bg-white p-5 rounded-xl shadow-sm border">
+                <div className="min-h-10 text-gray-600 text-sm leading-5 mb-2">Revenue Collected</div>
+                <div className="text-2xl leading-8 font-semibold tabular-nums break-words">
+                  {formatCurrency(revenueCollected)}
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-xl shadow-sm border">
-                <div className="text-gray-600 text-sm mb-2">Pending Balances</div>
-                <div className="text-2xl font-semibold">
-                  ${pendingBalances}
+              <div className="min-w-0 bg-white p-5 rounded-xl shadow-sm border">
+                <div className="min-h-10 text-gray-600 text-sm leading-5 mb-2">Pending Balances</div>
+                <div className="text-2xl leading-8 font-semibold tabular-nums break-words">
+                  {formatCurrency(pendingBalances)}
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-xl shadow-sm border">
-                <div className="text-gray-600 text-sm mb-2">Total Profit</div>
-                <div className="text-2xl font-semibold">
-                  ${totalProfit}
-                </div>
-              </div>
-
-              <div className="bg-white p-6 rounded-xl shadow-sm border">
-                <div className="text-gray-600 text-sm mb-2">Bartender Payroll</div>
-                <div className="text-2xl font-semibold">
-                  ${bartenderPayroll}
-                </div>
-              </div>
-
-              <div className="bg-white p-6 rounded-xl shadow-sm border">
-                <div className="text-gray-600 text-sm mb-2">Staffing Needed</div>
-                <div className="text-2xl font-semibold text-red-600">
-                  {staffingAlerts}
-                </div>
-                <div className="text-xs text-gray-500 mt-1">
-                  Upcoming events missing bartenders
-                </div>
-              </div>
-
-              <div className="bg-white p-6 rounded-xl shadow-sm border">
-                <div className="text-gray-600 text-sm mb-2">This Weekend</div>
-                <div className="text-sm text-gray-700">
-                  <div>{weekendEvents} events</div>
-                  <div>${weekendRevenue} revenue</div>
-                </div>
+              <div className="min-w-0 bg-white p-5 rounded-xl shadow-sm border">
+                <div className="min-h-10 text-gray-600 text-sm leading-5 mb-2">This Weekend</div>
+                <div className="text-2xl leading-8 font-semibold tabular-nums">{weekendEvents}</div>
+                <div className="mt-1 text-xs text-gray-500">Events · {formatCurrency(weekendRevenue)} revenue</div>
               </div>
 
             </div>
@@ -774,37 +618,35 @@ const cancelEvent = async (eventId: string) => {
                 const percent = totalRevenueTracked ? ((value / totalRevenueTracked) * 100).toFixed(1) : "0"
 
                 return (
-                  <>
-                    <div key={page} className="py-2 border-b last:border-none">
-                      <div className="flex justify-between items-center text-sm">
-                        <div className="flex flex-col max-w-[70%]">
-                          <span className="text-gray-700 truncate">
-                            {page}
-                          </span>
-                          <span className="text-xs text-gray-400">
-                            {percent}% of revenue
-                          </span>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          {index === 0 && (
-                            <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">
-                              Top
-                            </span>
-                          )}
-                          <span className="font-semibold">
-                            ${value}
-                          </span>
-                        </div>
+                  <div key={page} className="py-2 border-b last:border-none">
+                    <div className="flex justify-between items-center text-sm">
+                      <div className="flex flex-col max-w-[70%]">
+                        <span className="text-gray-700 truncate">
+                          {page}
+                        </span>
+                        <span className="text-xs text-gray-400">
+                          {percent}% of revenue
+                        </span>
                       </div>
-                      <div className="mt-2 h-2 bg-gray-100 rounded">
-                        <div
-                          className="h-2 bg-[#c9a14a] rounded"
-                          style={{ width: `${percent}%` }}
-                        />
+
+                      <div className="flex items-center gap-2">
+                        {index === 0 && (
+                          <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">
+                            Top
+                          </span>
+                        )}
+                        <span className="font-semibold">
+                          ${value}
+                        </span>
                       </div>
                     </div>
-                  </>
+                    <div className="mt-2 h-2 bg-gray-100 rounded">
+                      <div
+                        className="h-2 bg-[#c9a14a] rounded"
+                        style={{ width: `${percent}%` }}
+                      />
+                    </div>
+                  </div>
                 )
               })}
             </div>
@@ -843,7 +685,7 @@ const cancelEvent = async (eventId: string) => {
 
             {/* Events Table */}
 
-            <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
+            <div className="bg-white rounded-xl shadow-sm border overflow-x-auto">
 
               <table className="w-full text-sm">
 
@@ -853,13 +695,12 @@ const cancelEvent = async (eventId: string) => {
                     <th className="p-4">Date</th>
                     <th className="p-4">Location</th>
                     <th className="p-4">Hours</th>
-                    <th className="p-4">Bartenders</th>
-                    <th className="p-4">Staffing</th>
+                    <th className="p-4">Bartenders Needed</th>
+                    <th className="p-4">Drinks Serving</th>
                     <th className="p-4">Total</th>
                     <th className="p-4">Deposit</th>
                     <th className="p-4">Balance</th>
                     <th className="p-4">Status</th>
-                    <th className="p-4">Profit</th>
                     <th className="p-4">Actions</th>
                   </tr>
                 </thead>
@@ -868,11 +709,7 @@ const cancelEvent = async (eventId: string) => {
                   {filteredEvents.map((event) => (
                     <tr
                       key={event.id}
-                      className={`border-t hover:bg-gray-50 ${
-                        (event.assigned_bartenders_count ?? 0) >= event.bartenders_needed
-                          ? "bg-green-50"
-                          : ""
-                      } ${event.event_status === "cancelled" ? "opacity-50" : ""}`}
+                      className={`border-t hover:bg-gray-50 ${event.event_status === "cancelled" ? "opacity-50" : ""}`}
                     >
 
                       <td className="p-4 font-medium">
@@ -880,7 +717,7 @@ const cancelEvent = async (eventId: string) => {
                       </td>
 
                       <td className="p-4">
-                        {new Date(event.event_date).toLocaleDateString()}
+                        {eventDateLocal(event.event_date).toLocaleDateString()}
                       </td>
 
                       <td className="p-4">
@@ -894,25 +731,7 @@ const cancelEvent = async (eventId: string) => {
                       <td className="p-4">
                         {event.bartenders_needed}
                       </td>
-                      <td className="p-4">
-                        {(() => {
-                          const assigned = event.assigned_bartenders_count ?? 0
-                          const needed = event.bartenders_needed
-
-                          let color = "bg-red-100 text-red-700"
-
-                          if (assigned === 0) color = "bg-red-100 text-red-700"
-                          else if (assigned < needed) color = "bg-yellow-100 text-yellow-700"
-                          else color = "bg-green-100 text-green-700"
-
-                          return (
-                            <span className={`px-2 py-1 text-xs rounded font-medium ${color}`}>
-                              {assigned} / {needed}
-                            </span>
-                          )
-                        })()}
-                      </td>
-
+                      <td className="p-4 min-w-40 max-w-64 whitespace-pre-wrap break-words">{event.drinks_serving || <span className="text-gray-500">Not specified</span>}</td>
                       <td className="p-4 font-medium">
                         ${event.total_price}
                       </td>
@@ -968,9 +787,6 @@ const cancelEvent = async (eventId: string) => {
   </div>
                       </td>
 
-                      <td className="p-4 font-semibold text-gray-800">
-                        ${event.profit_estimate ?? Math.max((event.total_price || 0) - ((event.hours || 0) * (event.bartenders_needed || 0) * 25), 0)}
-                      </td>
 
                       <td className="p-4">
                         <div className="flex gap-2">
@@ -981,16 +797,6 @@ const cancelEvent = async (eventId: string) => {
                             className="px-3 py-1 text-xs rounded bg-blue-600 text-white hover:bg-blue-700"
                           >
                             View
-                          </button>
-
-                          <button
-                            onClick={() => {
-                              setSelectedEvent(event)
-                              setAssignedBartenders([])
-                            }}
-                            className="px-3 py-1 text-xs rounded bg-gray-200 hover:bg-gray-300"
-                          >
-                            Assign
                           </button>
 
                           {event.event_status !== "cancelled" && (
@@ -1068,7 +874,7 @@ const cancelEvent = async (eventId: string) => {
               <div className="grid grid-cols-7 gap-2">
                 {calendarCells.map((day, idx) => {
                   const dayEvents = filteredEvents.filter(e => {
-                    const d = new Date(e.event_date)
+                    const d = eventDateLocal(e.event_date)
                     return (
 
   day &&
@@ -1138,7 +944,7 @@ const cancelEvent = async (eventId: string) => {
 
     <div className="space-y-2">
       {actionRequiredEvents.slice(0,5).map(event => {
-        const eventDate = new Date(event.event_date)
+        const eventDate = eventDateLocal(event.event_date)
         const daysUntil = Math.ceil(
           (eventDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
         )
@@ -1151,9 +957,6 @@ const cancelEvent = async (eventId: string) => {
         } else if (event.balance_due > 0 && daysUntil <= 10) {
           label = "Balance Due Soon"
           color = "bg-yellow-100 text-yellow-700"
-        } else if ((event.assigned_bartenders_count ?? 0) < event.bartenders_needed) {
-          label = "Staffing Needed"
-          color = "bg-orange-100 text-orange-700"
         }
 
         return (
@@ -1172,7 +975,7 @@ const cancelEvent = async (eventId: string) => {
             </div>
 
             <div className="text-xs text-gray-500">
-              {new Date(event.event_date).toLocaleDateString()}
+              {eventDateLocal(event.event_date).toLocaleDateString()}
             </div>
           </div>
         )
@@ -1212,7 +1015,7 @@ const cancelEvent = async (eventId: string) => {
             </div>
 
             <div className="text-xs text-gray-500 mt-1">
-              {new Date(event.event_date).toLocaleDateString()}
+              {eventDateLocal(event.event_date).toLocaleDateString()}
             </div>
 
             <div className="text-xs text-gray-500">
@@ -1257,7 +1060,7 @@ const cancelEvent = async (eventId: string) => {
                 <div><strong>{selectedEvent.customers?.name}</strong></div>
                 <div className="text-gray-500">{selectedEvent.customers?.email}</div>
                 <div className="text-gray-500">
-                  {new Date(selectedEvent.event_date).toLocaleDateString()}
+                  {eventDateLocal(selectedEvent.event_date).toLocaleDateString()}
                 </div>
                 <div className="text-gray-500">{selectedEvent.location}</div>
               </div>
@@ -1329,78 +1132,21 @@ const cancelEvent = async (eventId: string) => {
               </div>
 
 
-              {/* Staffing */}
-              <div className="mb-6 border rounded-lg p-4">
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-medium">Staffing</h3>
-
-                  <select
-                    onChange={(e) => {
-                      const name = e.target.value
-                      if (name && !assignedBartenders.includes(name)) {
-                        setAssignedBartenders([...assignedBartenders, name])
-                      }
-                    }}
-                    className="text-xs border rounded px-2 py-1"
-                  >
-                    <option value="">+ Add</option>
-                    {availableBartenders.map(b => (
-                      <option key={b} value={b}>{b}</option>
-                    ))}
-                  </select>
-                </div>
-
-                {assignedBartenders.length === 0 && (
-                  <div className="text-xs text-gray-500">
-                    No bartenders assigned
-                  </div>
-                )}
-
-                {assignedBartenders.map((b, i) => (
-                  <div key={i} className="flex justify-between text-sm">
-                    <span>{b}</span>
-                    <button
-                      onClick={() =>
-                        setAssignedBartenders(prev =>
-                          prev.filter((_, idx) => idx !== i)
-                        )
-                      }
-                      className="text-xs text-red-500"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ))}
+              <DrinksAndAgreement key={selectedEvent.id} api={API} eventId={selectedEvent.id} drinks={selectedEvent.drinks_serving || ""} onSaved={(value) => {
+                setEvents(previous => previous.map(event => event.id === selectedEvent.id ? { ...event, drinks_serving: value } : event))
+                setSelectedEvent(current => current?.id === selectedEvent.id ? { ...current, drinks_serving: value } : current)
+              }} />
+              <div className="mb-6 rounded-lg border p-4 text-sm flex justify-between">
+                <span>Bartenders Needed</span>
+                <strong>{selectedEvent.bartenders_needed ?? 0}</strong>
               </div>
-
-              {/* Profit */}
-              <div className="mb-6 border rounded-lg p-4 text-sm">
-                <div className="flex justify-between">
-                  <span>Bartender Cost</span>
-                  <span>
-                    ${assignedBartenders.length * (selectedEvent.hours * 25)}
-                  </span>
-                </div>
-
-                <div className="flex justify-between font-semibold mt-1">
-                  <span>Profit</span>
-                  <span>
-                    ${Math.max(
-                      selectedEvent.total_price -
-                      assignedBartenders.length * selectedEvent.hours * 25,
-                      0
-                    )}
-                  </span>
-                </div>
+              <div className="mt-6 border-t pt-4">
+                <p className="mb-3 text-xs text-gray-600">Deleting removes this event from the dashboard and marks it cancelled. Payment history is kept.</p>
+                {deleteError && <p role="alert" className="mb-3 text-sm text-red-700">{deleteError}</p>}
+                <button type="button" disabled={deleting} onClick={deleteSelectedEvent} className="w-full rounded border border-red-700 py-3 text-red-700 hover:bg-red-50 disabled:opacity-50">
+                  {deleting ? "Deleting…" : "Delete Event"}
+                </button>
               </div>
-
-              {/* Save */}
-              <button
-                onClick={() => saveBartenderAssignments(selectedEvent)}
-                className="w-full bg-blue-600 text-white py-2 rounded"
-              >
-                Save Changes
-              </button>
 
             </div>
           </div>

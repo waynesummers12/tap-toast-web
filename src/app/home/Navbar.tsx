@@ -43,6 +43,7 @@ function Navigation({ pathname }: { pathname: string }) {
               <Link key={href} href={href} aria-current={pathname === href ? "page" : undefined} className="whitespace-nowrap py-3 hover:underline underline-offset-4">{label}</Link>
             ))}
             <a href="mailto:jen@coloradotapandtoast.com" className="whitespace-nowrap py-3 hover:underline underline-offset-4">Contact Us</a>
+            <Link href="/admin/login" className="whitespace-nowrap py-3 hover:underline underline-offset-4">Admin</Link>
             <Link href={quoteHref} className="shrink-0 whitespace-nowrap border border-black bg-black px-5 py-3 text-white">Get Quote</Link>
           </nav>
           <button type="button" aria-expanded={menuOpen} aria-controls="mobile-navigation"
@@ -65,6 +66,7 @@ function Navigation({ pathname }: { pathname: string }) {
               <Link key={href} href={href} onClick={() => setMenuOpen(false)} aria-current={pathname === href ? "page" : undefined} className="rounded-lg px-4 py-3 hover:bg-neutral-100">{label}</Link>
             ))}
             <a href="mailto:jen@coloradotapandtoast.com" className="rounded-lg px-4 py-3 hover:bg-neutral-100">Contact Us</a>
+            <Link href="/admin/login" onClick={() => setMenuOpen(false)} className="rounded-lg px-4 py-3 hover:bg-neutral-100">Admin</Link>
             <Link href={quoteHref} onClick={() => setMenuOpen(false)} className="rounded-lg bg-black px-4 py-3 font-semibold text-white">Get Your Quote</Link>
           </div>
         </nav>
