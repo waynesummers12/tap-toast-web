@@ -34,7 +34,7 @@ export default function BirthdayPartiesPage() {
               href="/book"
               className="block w-full md:w-auto text-center bg-black text-white px-6 md:px-8 py-4 rounded-sm font-semibold text-lg hover:opacity-90 transition whitespace-normal wrap-break-word"
             >
-              Get Birthday Party Quote
+              Get Party Quote
             </a>
           </div>
         </div>
