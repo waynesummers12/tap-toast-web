@@ -12,6 +12,7 @@ const links = [
   ["Dirty Soda Bar", "/dirty-soda-bar"],
   ["Corporate", "/corporate-events"],
   ["Tailgates", "/tailgates"],
+  ["Hunting Camps", "/hunting-camps"],
   ["Packages", "/#packages"],
 ] as const
 
@@ -37,7 +38,7 @@ function Navigation({ pathname }: { pathname: string }) {
             <Image src="/web-app-manifest-192x192.png" alt="" width={48} height={48} className="shrink-0 rounded-full bg-black p-1" />
             <span className="brand-wordmark text-2xl leading-none sm:text-3xl">Colorado Tap & Toast</span>
           </Link>
-          <nav aria-label="Main navigation" className="hidden items-center gap-3 text-sm xl:flex">
+          <nav aria-label="Main navigation" className="hidden items-center gap-3 text-xs 2xl:text-sm xl:flex">
             {links.map(([label, href]) => (
               <Link key={href} href={href} aria-current={pathname === href ? "page" : undefined} className="whitespace-nowrap py-3 hover:underline underline-offset-4">{label}</Link>
             ))}

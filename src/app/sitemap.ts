@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/birthday-parties",
     "/corporate-events",
     "/tailgates",
+    "/hunting-camps",
     "/dirty-soda-bar",
     "/dirty-soda-bar-denver",
     "/dirty-soda-bar-littleton",
