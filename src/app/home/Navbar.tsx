@@ -11,6 +11,7 @@ const links = [
   ["Parties", "/birthday-parties"],
   ["Dirty Soda Bar", "/dirty-soda-bar"],
   ["Corporate", "/corporate-events"],
+  ["Tailgates", "/tailgates"],
   ["Packages", "/#packages"],
 ] as const
 
@@ -36,12 +37,12 @@ function Navigation({ pathname }: { pathname: string }) {
             <Image src="/web-app-manifest-192x192.png" alt="" width={48} height={48} className="shrink-0 rounded-full bg-black p-1" />
             <span className="brand-wordmark text-2xl leading-none sm:text-3xl">Colorado Tap & Toast</span>
           </Link>
-          <nav aria-label="Main navigation" className="hidden items-center gap-5 text-sm xl:flex">
+          <nav aria-label="Main navigation" className="hidden items-center gap-3 text-sm xl:flex">
             {links.map(([label, href]) => (
-              <Link key={href} href={href} aria-current={pathname === href ? "page" : undefined} className="py-3 hover:underline underline-offset-4">{label}</Link>
+              <Link key={href} href={href} aria-current={pathname === href ? "page" : undefined} className="whitespace-nowrap py-3 hover:underline underline-offset-4">{label}</Link>
             ))}
-            <a href="mailto:jen@coloradotapandtoast.com" className="py-3 hover:underline underline-offset-4">Contact Us</a>
-            <Link href={quoteHref} className="border border-black bg-black px-5 py-3 text-white">Get Quote</Link>
+            <a href="mailto:jen@coloradotapandtoast.com" className="whitespace-nowrap py-3 hover:underline underline-offset-4">Contact Us</a>
+            <Link href={quoteHref} className="shrink-0 whitespace-nowrap border border-black bg-black px-5 py-3 text-white">Get Quote</Link>
           </nav>
           <button type="button" aria-expanded={menuOpen} aria-controls="mobile-navigation"
             onClick={() => setMenuOpen(!menuOpen)}

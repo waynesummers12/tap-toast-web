@@ -12,6 +12,7 @@ function getLandingPage() {
 import Image from "next/image"
 import Link from "next/link"
 import HeroSection from "./HeroSection"
+import TailgateSection from "./TailgateSection"
 import StorySection from "./StorySection"
 import TrailerSection from "./TrailerSection"
 import PackagesSection from "./PackagesSection"
@@ -23,6 +24,7 @@ export default function HomePage() {
   return (
     <main className="luxury-home bg-white text-black selection:bg-neutral-200 selection:text-black">
       <HeroSection />
+      <TailgateSection />
       <StorySection />
 
       {/* TESTIMONIALS */}
