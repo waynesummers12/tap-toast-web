@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { SERVICE_LABELS } from "@/lib/service-types";
 import { dashboardFetch } from "@/lib/dashboard-fetch";
 
 type Details = {
@@ -330,11 +331,9 @@ export default function AgreementImport({
                     className="mt-1 block w-full rounded border bg-white p-2"
                   >
                     <option value="">Choose service</option>
-                    <option value="bartending">
-                      Bartending / trailer rental
-                    </option>
-                    <option value="portable_bar">Portable bar</option>
-                    <option value="soda">Dirty soda bar</option>
+                    {Object.entries(SERVICE_LABELS).map(([value, label]) => (
+                      <option key={value} value={value}>{label}</option>
+                    ))}
                   </select>
                 </label>
                 <label className="text-sm sm:col-span-2 lg:col-span-3">

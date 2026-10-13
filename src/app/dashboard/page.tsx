@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { SERVICE_LABELS } from "@/lib/service-types"
 import AgreementImport from "./AgreementImport"
 import DrinksAndAgreement from "./DrinksAndAgreement"
 import { dashboardFetch } from "@/lib/dashboard-fetch"
@@ -41,6 +42,11 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true)
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null)
   const [viewMode, setViewMode] = useState<"table" | "calendar">("calendar")
+  const [sendingPayment, setSendingPayment] = useState(false)
+  const paymentSending = useRef(false)
+  const paymentRequestIds = useRef(new Map<string, string>())
+  const [paymentNotice, setPaymentNotice] = useState("")
+  const [paymentError, setPaymentError] = useState("")
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState("")
   const [customPrice, setCustomPrice] = useState<number | "">("")
@@ -189,96 +195,30 @@ const deleteSelectedEvent = async () => {
   }
 }
 
-interface GtagFn {
-  (...args: unknown[]): void
-}
-
-function getGtag(): GtagFn | undefined {
-  if (typeof window === "undefined") return undefined
-  return (window as unknown as { gtag?: GtagFn }).gtag
-}
-
-const sendPaymentLink = async (
-  eventId: string,
-  type: "deposit" | "balance"
-) => {
+const sendPaymentLink = async (eventId: string, type: "deposit" | "balance" | "invoice") => {
+  if (paymentSending.current) return
+  paymentSending.current = true
+  setSendingPayment(true)
+  setPaymentNotice("")
+  setPaymentError("")
+  const key = `${eventId}:${type}`
   try {
-
-    const endpoint = `${API}/api/stripe/create-checkout-session`
-
-    const res = await dashboardFetch(endpoint, {
+    const requestId = paymentRequestIds.current.get(key) || crypto.randomUUID()
+    paymentRequestIds.current.set(key, requestId)
+    const res = await dashboardFetch(`${API}/api/stripe/send-${type}`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        event_id: eventId,
-        type,
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ event_id: eventId, request_id: requestId }),
     })
-
-    const data: { success?: boolean; url?: string } = await res.json()
-
-    if (data.success && data.url) {
-      const event = events.find(e => e.id === eventId)
-
-      if (event) {
-        const gtag = getGtag()
-
-        if (gtag) {
-          gtag("event", "payment_link_sent", {
-            event_category: "revenue",
-            event_label: type,
-            value:
-              type === "deposit"
-                ? event.deposit_amount
-                : event.balance_due,
-            currency: "USD",
-          })
-        }
-
-        if (type === "deposit" && gtag) {
-          gtag("event", "begin_checkout", {
-            currency: "USD",
-            value: event.deposit_amount,
-            items: [
-              {
-                item_name: "Tap & Toast Event Booking",
-                price: event.deposit_amount,
-              },
-            ],
-          })
-        }
-
-        if (type === "balance" && gtag) {
-          gtag("event", "purchase", {
-            transaction_id: eventId,
-            value: event.total_price,
-            currency: "USD",
-          })
-        }
-      }
-
-      if (type === "balance") {
-        setEvents(prev =>
-          prev.map(e =>
-            e.id === eventId
-              ? { ...e, balance_due: 0, deposit_paid: true }
-              : e
-          )
-        )
-      }
-
-      // 🚀 redirect LAST
-      window.location.href = data.url
-
-    } else {
-      alert("Failed to create Stripe session")
-    }
-
-  } catch (err) {
-    console.error(err)
-    alert("Server error sending payment link")
+    const data: { success?: boolean; recipient?: string; error?: string } = await res.json()
+    if (!res.ok || !data.success) throw new Error(data.error || "Unable to send the payment email.")
+    paymentRequestIds.current.delete(key)
+    setPaymentNotice(`${type === "invoice" ? "Invoice" : type === "deposit" ? "Deposit request" : "Balance request"} sent to ${data.recipient}. Payment status will update after payment is confirmed.`)
+  } catch (error) {
+    setPaymentError(error instanceof Error ? error.message : "Unable to send the payment email. Please retry.")
+  } finally {
+    paymentSending.current = false
+    setSendingPayment(false)
   }
 }
 
@@ -494,6 +434,12 @@ const cancelEvent = async (eventId: string) => {
     <div className="min-h-screen bg-gray-50 px-4 py-8 sm:px-6 lg:px-8 text-gray-800">
 
       <div className="max-w-[1600px] mx-auto">
+        {(paymentNotice || paymentError || sendingPayment) && (
+          <div role={paymentError ? "alert" : "status"} className={`fixed bottom-4 left-4 right-4 z-[100] mx-auto max-w-xl rounded-lg border bg-white p-4 shadow-lg ${paymentError ? "text-red-700" : "text-gray-800"}`}>
+            {sendingPayment ? "Sending payment email…" : paymentError || paymentNotice}
+            {!sendingPayment && <button type="button" onClick={() => { setPaymentNotice(""); setPaymentError("") }} className="ml-3 underline">Dismiss</button>}
+          </div>
+        )}
 
         <div className="mb-8 flex items-center justify-between">
           <h1 className="text-3xl font-semibold text-[#9C7A2C]">
@@ -773,6 +719,7 @@ const cancelEvent = async (eventId: string) => {
   <div className="mt-2 flex gap-1">
     {!event.deposit_paid && event.event_status !== "cancelled" && (
       <button
+        disabled={sendingPayment}
         onClick={() => sendPaymentLink(event.id, "deposit")}
         className="whitespace-nowrap px-3 py-1 text-xs rounded bg-amber-500 text-white hover:bg-amber-600"
       >
@@ -781,6 +728,7 @@ const cancelEvent = async (eventId: string) => {
     )}
     {event.deposit_paid && event.balance_due > 0 && event.event_status !== "cancelled" && (
       <button
+        disabled={sendingPayment}
         onClick={() => sendPaymentLink(event.id, "balance")}
         className="px-2 py-1 text-xs rounded bg-purple-600 text-white hover:bg-purple-700"
       >
@@ -813,7 +761,8 @@ const cancelEvent = async (eventId: string) => {
 
                           {!event.deposit_paid && event.event_status !== "cancelled" && (
                             <button
-                              onClick={() => sendPaymentLink(event.id, "deposit")}
+                              disabled={sendingPayment}
+        onClick={() => sendPaymentLink(event.id, "invoice")}
                               className="px-3 py-1 text-xs rounded bg-amber-500 text-white hover:bg-amber-600"
                             >
                               Send Invoice
@@ -1067,7 +1016,7 @@ const cancelEvent = async (eventId: string) => {
                 </div>
                 <div className="text-gray-500">{selectedEvent.location}</div>
                 {selectedEvent.city && <div className="text-gray-500">City: {selectedEvent.city}</div>}
-                {selectedEvent.service_type && <div className="text-gray-500">Service: {selectedEvent.service_type === "portable_bar" ? "Portable bar" : selectedEvent.service_type === "soda" ? "Dirty soda bar" : "Bartending / trailer rental"}</div>}
+                {selectedEvent.service_type && <div className="text-gray-500">Service: {SERVICE_LABELS[selectedEvent.service_type] || selectedEvent.service_type}</div>}
               </div>
 
               {/* Payment Section */}
@@ -1094,7 +1043,8 @@ const cancelEvent = async (eventId: string) => {
                 <div className="mt-3 flex gap-2">
                   {!selectedEvent.deposit_paid && selectedEvent.event_status !== "cancelled" && (
                     <button
-                      onClick={() => sendPaymentLink(selectedEvent.id, "deposit")}
+                      disabled={sendingPayment}
+        onClick={() => sendPaymentLink(selectedEvent.id, "deposit")}
                       className="flex-1 text-white text-xs py-2 rounded bg-amber-500"
                     >
                       Send Deposit
@@ -1103,7 +1053,8 @@ const cancelEvent = async (eventId: string) => {
 
                   {selectedEvent.deposit_paid && selectedEvent.balance_due > 0 && selectedEvent.event_status !== "cancelled" && (
                     <button
-                      onClick={() => sendPaymentLink(selectedEvent.id, "balance")}
+                      disabled={sendingPayment}
+        onClick={() => sendPaymentLink(selectedEvent.id, "balance")}
                       className="flex-1 text-white text-xs py-2 rounded bg-purple-600"
                     >
                       Send Balance
