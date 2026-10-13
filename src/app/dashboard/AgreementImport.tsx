@@ -10,6 +10,7 @@ type Details = {
   event_date: string;
   start_time: string;
   location: string;
+  city: string;
   hours: string;
   bartenders_needed: string;
   guest_count: string;
@@ -44,12 +45,14 @@ const fields: {
   { key: "event_date", label: "Event date", type: "date", required: true },
   { key: "start_time", label: "Start time", type: "time" },
   { key: "location", label: "Event location", type: "text", required: true },
+  { key: "city", label: "City", type: "text" },
   {
     key: "hours",
-    label: "Service hours (whole hours)",
+    label: "Service hours (30-minute increments)",
     type: "number",
     required: true,
     max: 168,
+    step: "0.5",
   },
   {
     key: "bartenders_needed",
@@ -293,7 +296,7 @@ export default function AgreementImport({
                       required={field.required}
                       min={
                         field.key === "hours"
-                          ? 1
+                          ? 0.5
                           : field.type === "number"
                             ? 0
                             : undefined
@@ -312,7 +315,7 @@ export default function AgreementImport({
                               ? 50
                               : 200
                       }
-                      value={draft.details[field.key]}
+                      value={draft.details[field.key] ?? ""}
                       onChange={(e) => change(field.key, e.target.value)}
                       className="mt-1 block w-full rounded border bg-white p-2"
                     />
@@ -330,6 +333,7 @@ export default function AgreementImport({
                     <option value="bartending">
                       Bartending / trailer rental
                     </option>
+                    <option value="portable_bar">Portable bar</option>
                     <option value="soda">Dirty soda bar</option>
                   </select>
                 </label>

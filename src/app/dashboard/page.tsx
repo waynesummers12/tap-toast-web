@@ -16,6 +16,8 @@ interface EventItem {
   id: string
   event_date: string
   location: string
+  city?: string | null
+  service_type?: string | null
   hours: number
   bartenders_needed: number
   total_price: number
@@ -381,7 +383,7 @@ const cancelEvent = async (eventId: string) => {
       if (eventDate > end) return false
     }
 
-    return name.includes(q) || location.includes(q)
+    return name.includes(q) || location.includes(q) || (e.city || "").toLowerCase().includes(q)
   })
 
   if (loading) {
@@ -489,9 +491,9 @@ const cancelEvent = async (eventId: string) => {
     })
 
   return (
-    <div className="min-h-screen bg-gray-50 p-10 text-gray-800">
+    <div className="min-h-screen bg-gray-50 px-4 py-8 sm:px-6 lg:px-8 text-gray-800">
 
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-[1600px] mx-auto">
 
         <div className="mb-8 flex items-center justify-between">
           <h1 className="text-3xl font-semibold text-[#9C7A2C]">
@@ -687,7 +689,7 @@ const cancelEvent = async (eventId: string) => {
 
             <div className="bg-white rounded-xl shadow-sm border overflow-x-auto">
 
-              <table className="w-full text-sm">
+              <table className="w-full min-w-[1100px] text-sm">
 
                 <thead className="bg-gray-50">
                   <tr className="text-left text-gray-800">
@@ -701,7 +703,7 @@ const cancelEvent = async (eventId: string) => {
                     <th className="p-4">Deposit</th>
                     <th className="p-4">Balance</th>
                     <th className="p-4">Status</th>
-                    <th className="p-4">Actions</th>
+                    <th className="sticky right-0 z-10 min-w-40 bg-gray-50 p-4 border-l">Actions</th>
                   </tr>
                 </thead>
 
@@ -722,6 +724,7 @@ const cancelEvent = async (eventId: string) => {
 
                       <td className="p-4">
                         {event.location}
+                        {event.city && <div className="text-xs text-gray-500">{event.city}</div>}
                       </td>
 
                       <td className="p-4">
@@ -771,7 +774,7 @@ const cancelEvent = async (eventId: string) => {
     {!event.deposit_paid && event.event_status !== "cancelled" && (
       <button
         onClick={() => sendPaymentLink(event.id, "deposit")}
-        className="px-3 py-1 text-xs rounded bg-amber-500 text-white hover:bg-amber-600"
+        className="whitespace-nowrap px-3 py-1 text-xs rounded bg-amber-500 text-white hover:bg-amber-600"
       >
         Send Deposit
       </button>
@@ -788,8 +791,8 @@ const cancelEvent = async (eventId: string) => {
                       </td>
 
 
-                      <td className="p-4">
-                        <div className="flex gap-2">
+                      <td className="sticky right-0 z-10 min-w-40 bg-white p-4 border-l">
+                        <div className="flex w-32 flex-wrap gap-2">
                           <button
                             onClick={() => {
                             setSelectedEvent(event)
@@ -1063,6 +1066,8 @@ const cancelEvent = async (eventId: string) => {
                   {eventDateLocal(selectedEvent.event_date).toLocaleDateString()}
                 </div>
                 <div className="text-gray-500">{selectedEvent.location}</div>
+                {selectedEvent.city && <div className="text-gray-500">City: {selectedEvent.city}</div>}
+                {selectedEvent.service_type && <div className="text-gray-500">Service: {selectedEvent.service_type === "portable_bar" ? "Portable bar" : selectedEvent.service_type === "soda" ? "Dirty soda bar" : "Bartending / trailer rental"}</div>}
               </div>
 
               {/* Payment Section */}
