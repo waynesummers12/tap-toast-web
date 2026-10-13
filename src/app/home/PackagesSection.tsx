@@ -72,7 +72,7 @@ export default function PackagesSection() {
               <li>• 3 Hour Service</li>
             </ul>
 
-            <p className="text-xl font-bold mb-6">Starting at $600</p>
+            <p className="text-xl font-bold mb-6">Starting at $780</p>
 
             <a
               href="/book?tier=taste"
@@ -115,7 +115,7 @@ export default function PackagesSection() {
               <li>• 4 Hour Service</li>
             </ul>
 
-            <p className="text-xl font-bold mb-6">Starting at $900</p>
+            <p className="text-xl font-bold mb-6">Starting at $1,230</p>
 
             <a
               href="/book?tier=signature"

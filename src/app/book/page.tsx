@@ -792,7 +792,9 @@ type BookedSlot = {
 <p className="text-gray-600 text-sm">
   {isMountainView
     ? "Complete a few details below to reserve your Mountain View Menagerie bartending package."
-    : "Base event service starts at $600. Trailer rental starts at $600. Customize your event below and see pricing update instantly."}
+    : isSoda
+    ? "Dirty soda packages start at $780, including one soda host for three hours. Customize your package below."
+    : "Full-service packages start at $780, including one bartender for three hours. Trailer rental starts at $600, with delivery and pickup within 40 miles of Golden available for an additional $150."}
 </p>
 
 {!isMountainView && <p className="text-xs text-[#8a6a1f] mt-2 font-medium">
@@ -969,19 +971,12 @@ type BookedSlot = {
       }`}
     >
       <h3 className="font-semibold mb-1">The Taste</h3>
-      <p className="text-xs opacity-70">Mobile bar starter experience</p>
+      <p className="text-xs opacity-70">{isSoda ? "Dirty soda starter experience" : "Mobile bar starter experience"}</p>
       <p className="text-sm mt-3">Impressive</p>
       <ul className="mt-3 text-xs space-y-1 opacity-80">
-        <li>✔ 1 soda host</li>
-        <li>✔ 2 soda hosts</li>
-        <li>✔ 3+ soda hosts</li>
-        <li className={`transition-all duration-300 ${tier !== "essentials" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("cocktails") ? "bg-yellow-100 rounded px-1" : ""}`}>
-  ✔ Custom soda creations
-</li>
-
-<li className={`transition-all duration-300 ${tier !== "essentials" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("garnishes") ? "bg-yellow-100 rounded px-1" : ""}`}>
-  ✔ Premium toppings & mix-ins
-</li>
+        <li>✔ {isSoda ? "1 soda host" : "1 professional bartender"}</li>
+        <li>✔ 3 hour service</li>
+        <li>✔ {isSoda ? "Basic soda bar setup" : "Basic bar setup"}</li>
       </ul>
     </button>
 
@@ -1010,10 +1005,10 @@ type BookedSlot = {
         <span className="text-[10px] bg-[#c6a25a] text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Most Popular</span>
       </div>
       <ul className="mt-2 text-xs space-y-1 opacity-90">
-        <li>✔ 2 professional bartenders</li>
+        <li>✔ {isSoda ? "2 soda hosts" : "2 professional bartenders"}</li>
         <li>✔ 4 hour service</li>
-        <li className={`transition-all duration-300 ${tier !== "essentials" ? "text-yellow-600 font-semibold" : ""}`}>✔ Signature cocktails</li>
-        <li className={`transition-all duration-300 ${tier !== "essentials" ? "text-yellow-600 font-semibold" : ""}`}>✔ Premium garnishes</li>
+        <li className={`transition-all duration-300 ${tier !== "essentials" ? "text-yellow-600 font-semibold" : ""}`}>✔ {isSoda ? "Custom soda creations" : "Signature cocktails"}</li>
+        <li className={`transition-all duration-300 ${tier !== "essentials" ? "text-yellow-600 font-semibold" : ""}`}>✔ {isSoda ? "Premium toppings & mix-ins" : "Premium garnishes"}</li>
       </ul>
     </button>
 
@@ -1040,7 +1035,7 @@ type BookedSlot = {
       <p className="text-sm mt-3">Elevated events</p>
       <ul className="mt-3 text-xs space-y-1 opacity-90">
         <li className={`transition-all duration-300 ${tier === "premium" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("bartender3") ? "bg-yellow-100 rounded px-1" : ""}`}>
-  ✔ 3+ professional bartenders
+  ✔ {isSoda ? "3+ soda hosts" : "3+ professional bartenders"}
 </li>
 
 <li className={`transition-all duration-300 ${tier === "premium" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("hours5") ? "bg-yellow-100 rounded px-1" : ""}`}>
@@ -1048,11 +1043,11 @@ type BookedSlot = {
 </li>
 
 <li className={`transition-all duration-300 ${tier === "premium" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("full") ? "bg-yellow-100 rounded px-1" : ""}`}>
-  ✔ Full soda bar experience
+  ✔ {isSoda ? "Full soda bar experience" : "Full cocktail experience"}
 </li>
 
 <li className={`transition-all duration-300 ${tier === "premium" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("garnishes") ? "bg-yellow-100 rounded px-1" : ""}`}>
-  ✔ Premium toppings & mix-ins
+  ✔ {isSoda ? "Premium toppings & mix-ins" : "Premium garnishes"}
 </li>
 
 <li className={`transition-all duration-300 ${tier === "premium" ? "text-yellow-600 font-semibold" : ""} ${highlightKeys.has("setup") ? "bg-yellow-100 rounded px-1" : ""}`}>
@@ -1240,7 +1235,7 @@ type BookedSlot = {
               {!isMountainView && guests > 0 && (
                 <>
                   <p className="text-xs text-[#c6a25a] mt-2">
-                    Based on {guests} guests, we recommend {recommendedBartenders} bartender{recommendedBartenders > 1 ? "s" : ""} for smooth service.
+                    Based on {guests} guests, we recommend {recommendedBartenders} {isSoda ? "soda host" : "bartender"}{recommendedBartenders > 1 ? "s" : ""} for smooth service.
                   </p>
 
                   {bartenders === recommendedBartenders && (
@@ -1300,7 +1295,7 @@ type BookedSlot = {
         <div>
           <p className="text-sm font-semibold text-gray-700 mb-3">Rental Add-Ons</p>
           <p className="text-xs text-gray-500 mb-3">
-            Delivery available within 40 miles of Golden — designed for seamless DIY events.
+            Delivery and pickup within 40 miles of Golden are available for an additional $150.
           </p>
 
           <div className="space-y-3">
@@ -1379,7 +1374,7 @@ type BookedSlot = {
                 value={cocktailTapQuantity}
                 onChange={(event) => setCocktailTapQuantity(Math.max(0, Math.min(20, Math.trunc(Number(event.target.value) || 0))))}
                 className="w-16 rounded border px-2 py-1 text-right"
-                aria-label="Cocktail or mocktail tap quantity"
+                aria-label={isSoda ? "Flavor or mix-in quantity" : "Cocktail or mocktail tap quantity"}
               />
             </div>
           </label>
@@ -1460,7 +1455,7 @@ type BookedSlot = {
                 <p className="font-semibold text-lg mb-2 underline">Planning & Preparation</p>
                 <p className="text-sm text-gray-700">Two Consultations: Initial vision + final execution call</p>
                 <p className="text-sm text-gray-700">Custom Shopping Guide: Exactly what to buy and how much</p>
-                <p className="text-sm text-gray-700">Travel Included: Up to 40 miles from 80401</p>
+                <p className="text-sm text-gray-700">{isRental ? "Delivery & Pickup: Optional $150 add-on within 40 miles of Golden" : "Travel Included: Up to 40 miles from 80401"}</p>
                 <p className="text-sm text-gray-700">Fully Insured: General & Liquor Liability coverage</p>
               </div>
 
@@ -1567,7 +1562,7 @@ type BookedSlot = {
                 )}
                 {cocktailTapQuantity > 0 && (
                   <div className="flex justify-between">
-                    <span>Cocktail / Mocktail Taps × {cocktailTapQuantity}</span>
+                    <span>{isSoda ? "Flavor / Mix-In Additions" : "Cocktail / Mocktail Taps"} × {cocktailTapQuantity}</span>
                     <span>${cocktailTapQuantity * 125}</span>
                   </div>
                 )}
@@ -1595,7 +1590,7 @@ type BookedSlot = {
             {isRental && (
               <>
                 <p className="text-xs text-gray-500 mt-1">
-                  Premium trailer rental experience — includes equipment setup guidance. Delivery available within 40 miles of Golden.
+                  Premium trailer rental experience — includes equipment setup guidance. Optional delivery and pickup within 40 miles of Golden: $150.
                 </p>
                 <p className="text-xs text-[#c6a25a] font-semibold mt-2">
                   Perfect for backyard parties, DIY weddings, & private events

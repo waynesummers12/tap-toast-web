@@ -47,7 +47,7 @@ export default function HeroSection() {
               <p className="text-sm text-gray-600 mb-4">
                 We handle everything — bartenders, setup, and service — so you can enjoy your event stress-free.
               </p>
-              <p className="text-neutral-900 font-semibold mt-4 text-lg">Starting at $900</p>
+              <p className="text-neutral-900 font-semibold mt-4 text-lg">Starting at $780</p>
               <p className="mt-2 inline-block text-xs px-2 py-1 rounded-md bg-[#c9a14a]/10 border border-[#c9a14a]/20 text-black font-medium">
                 ✔ Full setup, bartenders & service included
               </p>
@@ -70,7 +70,7 @@ export default function HeroSection() {
               </p>
               <p className="text-neutral-900 font-semibold mt-4 text-lg">Starting at $600</p>
               <p className="mt-2 inline-block text-xs px-2 py-1 rounded-md bg-[#c9a14a]/10 border border-[#c9a14a]/20 text-black font-medium">
-                ✔ Includes setup + delivery within 40 miles of Golden
+                Delivery & pickup within 40 miles of Golden: +$150
               </p>
               <p className="text-xs text-gray-500 mb-4 mt-2">
                 🎉 Perfect for backyard parties, DIY weddings & private events
