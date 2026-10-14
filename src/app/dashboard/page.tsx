@@ -39,6 +39,11 @@ interface EventItem {
   event_status?: string
 }
 
+function canSendInvoice(event: EventItem) {
+  const remaining = event.balance_remaining ?? (event.deposit_paid ? event.balance_due : event.total_price)
+  return event.event_status !== "cancelled" && !event.balance_paid && Number.isFinite(Number(remaining)) && Number(remaining) > 0
+}
+
 export default function DashboardPage() {
   const cancelledEventIds = useRef(new Set<string>())
   const [events, setEvents] = useState<EventItem[]>([])
@@ -630,7 +635,7 @@ const cancelEvent = async (eventId: string) => {
                             </button>
                           )}
 
-                          {!event.deposit_paid && event.event_status !== "cancelled" && (
+                          {canSendInvoice(event) && (
                             <button
                               disabled={sendingPayment}
         onClick={() => sendPaymentLink(event.id, "invoice")}
@@ -911,7 +916,7 @@ const cancelEvent = async (eventId: string) => {
                   <span>${selectedEvent.balance_remaining ?? selectedEvent.balance_due}</span>
                 </div>
 
-                {selectedEvent.event_status !== "cancelled" && !selectedEvent.balance_paid && <button disabled={sendingPayment} onClick={() => sendPaymentLink(selectedEvent.id, "invoice")} className="mt-3 w-full rounded bg-amber-600 py-2 text-white text-sm">Send Invoice</button>}
+                {canSendInvoice(selectedEvent) && <button disabled={sendingPayment} onClick={() => sendPaymentLink(selectedEvent.id, "invoice")} className="mt-3 w-full rounded bg-amber-600 py-2 text-white text-sm">Send Invoice</button>}
                 <div className="mt-3 flex gap-2">
                   {!selectedEvent.deposit_paid && selectedEvent.deposit_amount > 0 && selectedEvent.event_status !== "cancelled" && (
                     <button
