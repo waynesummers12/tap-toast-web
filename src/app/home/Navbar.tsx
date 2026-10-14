@@ -24,7 +24,8 @@ export default function Navbar() {
 
 function Navigation({ pathname }: { pathname: string }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const quoteHref = (pathname === "/dirty-soda-bar" || pathname === "/what-is-dirty-soda-bar" || pathname.startsWith("/dirty-soda-bar-")) ? "/book?service=soda" : "/book"
+  const isSodaPage = pathname === "/dirty-soda-bar" || pathname === "/what-is-dirty-soda-bar" || pathname.startsWith("/dirty-soda-bar-")
+  const quoteHref = isSodaPage ? "/book?service=soda" : "/book"
   if (pathname === "/mountain-view") return null
   const showQuoteBar = !["/book", "/success", "/upgrade", "/dashboard", "/admin"].some(
     path => pathname === path || pathname.startsWith(`${path}/`)
@@ -71,10 +72,10 @@ function Navigation({ pathname }: { pathname: string }) {
           </div>
         </nav>
       </header>
-      {showQuoteBar && <div className="mobile-quote-bar fixed bottom-0 left-0 z-40 w-full border-t border-white/20 bg-black p-3 text-black xl:hidden">
+      {showQuoteBar && <div className={`mobile-quote-bar fixed bottom-0 left-0 z-40 w-full border-t p-3 xl:hidden ${isSodaPage ? "border-[#efcfda] bg-[#fce8ef] text-[#54283c]" : "border-white/20 bg-black text-black"}`}>
         <div className="mx-auto flex max-w-xl gap-3">
           <a href="tel:7206439690" className="flex-1 rounded-lg bg-white px-4 py-3 text-center font-semibold">Call Now</a>
-          <Link href={quoteHref} className="flex-1 rounded-lg bg-white px-4 py-3 text-center font-semibold">Get Quote</Link>
+          <Link href={quoteHref} className={`flex-1 rounded-lg px-4 py-3 text-center font-semibold ${isSodaPage ? "bg-[#99365c] text-white hover:bg-[#772443]" : "bg-white"}`}>Get Quote</Link>
         </div>
       </div>}
     </>

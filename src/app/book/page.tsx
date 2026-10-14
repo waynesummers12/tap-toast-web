@@ -818,45 +818,49 @@ type BookedSlot = {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
           <div>
-            <label className="text-sm">Name</label>
+            <label htmlFor="booking-name" className="text-sm">Name</label>
             <input
               className="w-full border border-gray-300 focus:border-black focus:ring-2 focus:ring-black/10 p-3 rounded-lg"
               type="text"
+              id="booking-name"
               value={name}
               onChange={(e)=>setName(e.target.value)}
             />
           </div>
 
           <div>
-            <label className="text-sm">Email</label>
+            <label htmlFor="booking-email" className="text-sm">Email</label>
             <input
               className="w-full border border-gray-300 focus:border-black focus:ring-2 focus:ring-black/10 p-3 rounded-lg"
               type="email"
+              id="booking-email"
               value={email}
               onChange={(e)=>setEmail(e.target.value)}
             />
           </div>
 
           <div>
-            <label className="text-sm">Phone</label>
+            <label htmlFor="booking-phone" className="text-sm">Phone</label>
             <input
               className="w-full border border-gray-300 focus:border-black focus:ring-2 focus:ring-black/10 p-3 rounded-lg"
               type="text"
+              id="booking-phone"
               value={phone}
               onChange={(e)=>setPhone(e.target.value)}
             />
           </div>
 
           <div>
-            <label className="text-sm">Event Location</label>
+            <label htmlFor="booking-location" className="text-sm">Event Location</label>
             {isMountainView ? (
-              <div className="w-full border border-[#c6a25a]/40 bg-[#f8f5ef] p-3 rounded-lg font-medium">
+              <output id="booking-location" className="block w-full border border-[#c6a25a]/40 bg-[#f8f5ef] p-3 rounded-lg font-medium">
                 Mountain View Menagerie
-              </div>
+              </output>
             ) : (
               <input
                 className="w-full border border-gray-300 focus:border-black focus:ring-2 focus:ring-black/10 p-3 rounded-lg"
                 type="text"
+                id="booking-location"
                 value={location}
                 onChange={(e)=>setLocation(e.target.value)}
               />
@@ -864,14 +868,15 @@ type BookedSlot = {
           </div>
 
           <div>
-            <label className="text-sm">Event Type</label>
+            <label htmlFor="booking-eventType" className="text-sm">Event Type</label>
             {isMountainView ? (
-              <div className="w-full border border-[#c6a25a]/40 bg-[#f8f5ef] p-3 rounded-lg font-medium">
+              <output id="booking-eventType" className="block w-full border border-[#c6a25a]/40 bg-[#f8f5ef] p-3 rounded-lg font-medium">
                 Wedding
-              </div>
+              </output>
             ) : (
               <select
                 className="w-full border border-gray-300 focus:border-black focus:ring-2 focus:ring-black/10 p-3 rounded-lg bg-white"
+                id="booking-eventType"
                 value={eventType}
                 onChange={(e)=>setEventType(e.target.value)}
               >
@@ -885,8 +890,8 @@ type BookedSlot = {
             )}
           </div>
 
-          <div className="col-span-1 md:col-span-2">
-            <label className="text-sm mb-2 block">Event Date</label>
+          <div role="group" aria-labelledby="booking-date-label" className="col-span-1 md:col-span-2">
+            <div id="booking-date-label" className="text-sm mb-2 block">Event Date</div>
             <AvailabilityCalendar
               hours={hours}
               onDateSelect={(selected: Date) => {
@@ -905,8 +910,8 @@ type BookedSlot = {
 })}
               </p>
             )}
-            <div className="mt-4">
-              <label className="text-sm block mb-2">Select Start Time</label>
+            <div role="group" aria-labelledby="booking-time-label" className="mt-4">
+              <div id="booking-time-label" className="text-sm block mb-2">Select Start Time</div>
               <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
                 {generateTimeOptions()
                   .filter((t) => !isTimeBlocked(date, t, hours))
@@ -916,6 +921,7 @@ type BookedSlot = {
                       <button
                         key={t}
                         type="button"
+                        aria-pressed={selected}
                         onClick={() => setStartTime(t)}
                         className={`p-2 rounded-lg border text-sm transition \
               ${selected ? 'bg-black text-white border-black' : 'bg-white hover:border-black'}`}
@@ -1173,12 +1179,14 @@ type BookedSlot = {
 
           {!isRental && !isMountainView && (
             <div>
-              <label className="text-sm">Hours: {hours}</label>
+              <label htmlFor="booking-hours" className="text-sm">Hours: {hours}</label>
               <input
                 className="w-full"
                 type="range"
                 min={1}
                 max={10}
+                id="booking-hours"
+                aria-valuetext={`${hours} hours`}
                 value={hours}
                 onChange={(e)=>{
                   setHours(Number(e.target.value))
@@ -1190,8 +1198,8 @@ type BookedSlot = {
 
           {!isRental && !isMountainView && (
             <div className={`transition-all duration-300 ${bartenders < recommendedBartenders ? "ring-1 ring-[#c6a25a]/40 rounded-lg p-2" : ""}`}>
-              <label className="text-sm">
-                {isSoda ? "Soda Hosts" : "Bartenders"}: {bartenders}
+              <div className="text-sm">
+                <label htmlFor="booking-bartenders">{isSoda ? "Soda Hosts" : "Bartenders"}: {bartenders}</label>
                 <span className="text-xs text-gray-500 ml-2">
   (recommended: {recommendedBartenders} based on {guests} guests)
 </span>
@@ -1212,12 +1220,14 @@ type BookedSlot = {
                     </button>
                   </span>
                 )}
-              </label>
+              </div>
               <input
                 className="w-full"
                 type="range"
                 min={1}
                 max={5}
+                id="booking-bartenders"
+                aria-valuetext={`${bartenders} ${isSoda ? "soda hosts" : "bartenders"}`}
                 value={bartenders}
                 onChange={(e)=>{
   setBartenders(Number(e.target.value))
@@ -1230,7 +1240,7 @@ type BookedSlot = {
 
           {!isRental && (
             <div>
-              Guest Count: {guests}
+              <label htmlFor="booking-guests">Guest Count: {guests}</label>
 <span className="text-xs text-gray-500 ml-2">(approximate)</span>
               {!isMountainView && guests > 0 && (
                 <>
@@ -1251,6 +1261,8 @@ type BookedSlot = {
                 min={10}
                 max={300}
                 step={isMountainView ? 1 : 10}
+                id="booking-guests"
+                aria-valuetext={`${guests} guests`}
                 value={guests}
                 onChange={(e)=>{
                   const value = Number(e.target.value)
