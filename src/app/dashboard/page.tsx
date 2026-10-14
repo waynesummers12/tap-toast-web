@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { SERVICE_LABELS } from "@/lib/service-types"
 import AgreementImport from "./AgreementImport"
 import PaymentDetailsEditor from "./PaymentDetailsEditor"
+import RevenueOverview, { collectedAmount } from "./RevenueOverview"
 import DrinksAndAgreement from "./DrinksAndAgreement"
 import { dashboardFetch } from "@/lib/dashboard-fetch"
 import { getSupabaseBrowser } from "@/lib/supabase-browser"
@@ -294,13 +295,7 @@ const cancelEvent = async (eventId: string) => {
 
   const upcomingEvents = events.filter(e => eventDateLocal(e.event_date) >= new Date()).length
 
-  const revenueCollected = events.reduce((sum, e) => {
-    if (e.deposit_paid) {
-      const paid = e.total_price - e.balance_due
-      return sum + paid
-    }
-    return sum
-  }, 0)
+  const revenueCollected = events.reduce((sum, event) => sum + collectedAmount(event), 0)
 
   const pendingBalances = events.reduce((sum, e) => sum + (e.balance_due || 0), 0)
   const now = new Date()
@@ -322,23 +317,6 @@ const cancelEvent = async (eventId: string) => {
   const weekendEvents = weekendEventsList.length
 
   const weekendRevenue = weekendEventsList.reduce((sum, e) => sum + (e.total_price || 0), 0)
-
-  // Revenue Attribution by Landing Page (FINAL FORM)
-  const revenueByPage: Record<string, number> = {}
-
-  let totalRevenueTracked = 0
-
-  events.forEach(e => {
-    if (!e.deposit_paid) return
-
-    const page = e.landing_page || "Direct / Unknown"
-    const paid = e.total_price - e.balance_due
-
-    revenueByPage[page] = (revenueByPage[page] || 0) + paid
-    totalRevenueTracked += paid
-  })
-
-  const sortedRevenue = Object.entries(revenueByPage).sort((a, b) => b[1] - a[1])
 
   const firstDay = new Date(year, month, 1).getDay()
   const daysInMonth = new Date(year, month + 1, 0).getDate()
@@ -490,70 +468,7 @@ const cancelEvent = async (eventId: string) => {
 
             </div>
 
-            {/* Top 3 Revenue Attribution Summary Cards */}
-            {sortedRevenue.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                {sortedRevenue.slice(0,3).map(([page, value], idx) => {
-                  const percent = totalRevenueTracked ? ((value / totalRevenueTracked) * 100).toFixed(1) : "0"
-                  return (
-                    <div key={page} className="bg-white p-4 rounded-xl border shadow-sm">
-                      <div className="text-xs text-gray-500 mb-1">Top {idx+1}</div>
-                      <div className="text-sm font-medium truncate">{page}</div>
-                      <div className="text-xl font-semibold mt-1">${value}</div>
-                      <div className="text-xs text-gray-400">{percent}% of revenue</div>
-                    </div>
-                  )
-                })}
-              </div>
-            )}
-
-            <div className="bg-white p-6 rounded-xl shadow-sm border mb-10">
-              <h2 className="text-lg font-semibold mb-4 text-[#9C7A2C]">
-                Revenue Attribution (by Landing Page)
-              </h2>
-
-              {Object.keys(revenueByPage).length === 0 && (
-                <div className="text-sm text-gray-500">
-                  No revenue data yet — complete a booking to populate.
-                </div>
-              )}
-
-              {sortedRevenue.map(([page, value], index) => {
-                const percent = totalRevenueTracked ? ((value / totalRevenueTracked) * 100).toFixed(1) : "0"
-
-                return (
-                  <div key={page} className="py-2 border-b last:border-none">
-                    <div className="flex justify-between items-center text-sm">
-                      <div className="flex flex-col max-w-[70%]">
-                        <span className="text-gray-700 truncate">
-                          {page}
-                        </span>
-                        <span className="text-xs text-gray-400">
-                          {percent}% of revenue
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        {index === 0 && (
-                          <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">
-                            Top
-                          </span>
-                        )}
-                        <span className="font-semibold">
-                          ${value}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="mt-2 h-2 bg-gray-100 rounded">
-                      <div
-                        className="h-2 bg-[#c9a14a] rounded"
-                        style={{ width: `${percent}%` }}
-                      />
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
+            <RevenueOverview events={events} />
 
             {/* Date Range Filter */}
             <div className="flex gap-4 mb-6">
