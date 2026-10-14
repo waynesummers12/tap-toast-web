@@ -76,9 +76,6 @@ function BookEventPageContent() {
   const [eventType, setEventType] = useState("")
   const [rentalDeliverySelected, setRentalDeliverySelected] = useState(false)
   const [rentalIceCoolerSelected, setRentalIceCoolerSelected] = useState(false)
-  const [setupHourSelected, setSetupHourSelected] = useState(false)
-  const [cocktailTapQuantity, setCocktailTapQuantity] = useState(0)
-  const [extraBartenderSelected, setExtraBartenderSelected] = useState(false)
 
   const [submitting, setSubmitting] = useState(false)
   const [bookedSlots, setBookedSlots] = useState<BookedSlot[]>([])
@@ -102,22 +99,18 @@ const applyTier = useCallback((t: "essentials" | "signature" | "premium") => {
     setHours(3)
     setGuests(50)
     setBartenders(1)
-    setExtraBartenderSelected(false)
   }
 
   if (t === "signature") {
     setHours(4)
     setGuests(100)
     setBartenders(2)
-    setExtraBartenderSelected(false)
   }
 
   if (t === "premium") {
     setHours(5)
     setGuests(150)
     setBartenders(3)
-    setExtraBartenderSelected(false)
-    setSetupHourSelected(false)
   }
 }, [])
 
@@ -143,9 +136,7 @@ const applyTier = useCallback((t: "essentials" | "signature" | "premium") => {
 
   const normalAddOnsTotal =
     (isRental && rentalDeliverySelected ? 150 : 0) +
-    (isRental && rentalIceCoolerSelected ? 100 : 0) +
-    (setupHourSelected ? 50 : 0) +
-    cocktailTapQuantity * 125
+    (isRental && rentalIceCoolerSelected ? 100 : 0)
   const upgradesTotal = isMountainView ? 0 : normalAddOnsTotal
 
   const mountainViewAdditionalBartenderFee =
@@ -191,9 +182,6 @@ const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
         setEventType(data.eventType || "")
         setRentalDeliverySelected(data.rentalDeliverySelected === true)
         setRentalIceCoolerSelected(data.rentalIceCoolerSelected === true)
-        setSetupHourSelected(data.setupHourSelected === true)
-        setCocktailTapQuantity(Number.isInteger(data.cocktailTapQuantity) ? data.cocktailTapQuantity : 0)
-        setExtraBartenderSelected(data.extraBartenderSelected === true)
         setSavedService(data.service_type === "soda" ? "soda" : "bartending")
         setTier(data.tier || "signature")
         setMode(data.mode || "full")
@@ -312,9 +300,6 @@ useEffect(() => {
     service_type: isSoda ? "soda" : "bartending",
     rentalDeliverySelected,
     rentalIceCoolerSelected,
-    setupHourSelected,
-    cocktailTapQuantity,
-    extraBartenderSelected,
     tier,
     mode
   }
@@ -374,9 +359,6 @@ useEffect(() => {
   eventType,
   rentalDeliverySelected,
   rentalIceCoolerSelected,
-  setupHourSelected,
-  cocktailTapQuantity,
-  extraBartenderSelected,
   grandTotal,
   deposit,
   tier,
@@ -416,13 +398,11 @@ useEffect(() => {
     if (mode === "rental") {
       setTier("custom")
       setBartenders(0)
-      setExtraBartenderSelected(false)
     } else {
       setTier("signature")
       setBartenders(2)
       setRentalDeliverySelected(false)
       setRentalIceCoolerSelected(false)
-      setExtraBartenderSelected(false)
     }
 
   }, 0)
@@ -578,9 +558,9 @@ type BookedSlot = {
 
   rental_ice_cooler_selected: isRental && rentalIceCoolerSelected,
 
-  setup_hour_selected: setupHourSelected,
+  setup_hour_selected: false,
 
-  cocktail_tap_quantity: cocktailTapQuantity,
+  cocktail_tap_quantity: 0,
 
   cid: bookingCid,
 
@@ -1231,7 +1211,6 @@ type BookedSlot = {
                 value={bartenders}
                 onChange={(e)=>{
   setBartenders(Number(e.target.value))
-  setExtraBartenderSelected(false)
   setTier("custom")
 }}
               />
@@ -1272,7 +1251,6 @@ type BookedSlot = {
                     const recommended = getRecommendedBartenders(value)
                     if (!isRental) {
                       setBartenders(recommended)
-                      setExtraBartenderSelected(false)
                     }
                   }
                 }}
@@ -1297,8 +1275,7 @@ type BookedSlot = {
   }`}>
 
     <div className="flex items-center justify-between mb-6">
-      <h3 className="text-2xl font-semibold tracking-wide">Add-Ons</h3>
-      <span className="text-xs uppercase tracking-widest text-gray-500">Enhance Your Event</span>
+      <h3 className="text-2xl font-semibold tracking-wide">{isRental ? "Rental Options & Travel" : "Travel"}</h3>
     </div>
 
     <div className="space-y-6">
@@ -1345,74 +1322,13 @@ type BookedSlot = {
         </div>
       )}
 
-      {/* Service Enhancements */}
-      <div>
-        <p className="text-sm font-semibold text-gray-700 mb-2">Service Enhancements</p>
-
-        <div className="space-y-3">
-
-          {!isRental && <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
-            <div className="flex flex-col text-left">
-              <span>{isSoda ? "🥤 Additional Soda Host" : "👨‍🍳 Additional Bartender"}</span>
-              <span className="text-[10px] bg-black text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Popular</span>
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="text-sm font-medium text-right whitespace-nowrap">$60 / hour</span>
-              <input
-                type="checkbox"
-                checked={extraBartenderSelected}
-                disabled={!extraBartenderSelected && bartenders >= 5}
-                onChange={(event) => {
-                  const checked = event.target.checked
-                  setExtraBartenderSelected(checked)
-                  setBartenders((current) => checked ? Math.min(current + 1, 5) : Math.max(current - 1, 1))
-                }}
-              />
-            </div>
-          </label>}
-
-          <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
-            <div className="flex flex-col text-left">
-              <span>{isSoda ? "🥤 Flavor / Mix-In Additions" : "🍸 Cocktail / Mocktail Additions"}</span>
-              <span className="text-[10px] bg-[#c6a25a] text-white px-2 py-0.5 rounded-full uppercase tracking-wide">High Impact</span>
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="text-sm font-medium text-right whitespace-nowrap">$125 / tap</span>
-              <input
-                type="number"
-                min={0}
-                max={20}
-                step={1}
-                value={cocktailTapQuantity}
-                onChange={(event) => setCocktailTapQuantity(Math.max(0, Math.min(20, Math.trunc(Number(event.target.value) || 0))))}
-                className="w-16 rounded border px-2 py-1 text-right"
-                aria-label={isSoda ? "Flavor or mix-in quantity" : "Cocktail or mocktail tap quantity"}
-              />
-            </div>
-          </label>
-
-        </div>
-      </div>
-
-      {tier !== "premium" && <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
-        <span>Setup Hour</span>
-        <div className="flex items-center gap-2 shrink-0">
-          <span className="text-sm font-medium">$50</span>
-          <input
-            type="checkbox"
-            checked={setupHourSelected}
-            onChange={(event) => setSetupHourSelected(event.target.checked)}
-          />
-        </div>
-      </label>}
-
       {/* Travel */}
       <div>
-        <p className="text-sm font-semibold text-gray-700 mb-2">Travel</p>
+        {isRental && <p className="text-sm font-semibold text-gray-700 mb-2">Travel</p>}
 
         <div className="space-y-3">
 
-          <div className="flex items-center justify-between p-3 rounded-lg bg-black/5">
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-black/5">
             <span>🚗 Travel Fee (after first 40 miles from 80401)</span>
             <span className="text-sm font-medium">$2 / mile</span>
           </div>
@@ -1568,15 +1484,6 @@ type BookedSlot = {
                 )}
                 {isRental && rentalIceCoolerSelected && (
                   <div className="flex justify-between"><span>Ice &amp; Cooler</span><span>$100</span></div>
-                )}
-                {setupHourSelected && (
-                  <div className="flex justify-between"><span>Setup Hour</span><span>$50</span></div>
-                )}
-                {cocktailTapQuantity > 0 && (
-                  <div className="flex justify-between">
-                    <span>{isSoda ? "Flavor / Mix-In Additions" : "Cocktail / Mocktail Taps"} × {cocktailTapQuantity}</span>
-                    <span>${cocktailTapQuantity * 125}</span>
-                  </div>
                 )}
               </>
             )}
