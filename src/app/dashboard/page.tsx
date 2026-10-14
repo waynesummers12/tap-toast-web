@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { SERVICE_LABELS } from "@/lib/service-types"
 import AgreementImport from "./AgreementImport"
+import PaymentDetailsEditor from "./PaymentDetailsEditor"
 import DrinksAndAgreement from "./DrinksAndAgreement"
 import { dashboardFetch } from "@/lib/dashboard-fetch"
 import { getSupabaseBrowser } from "@/lib/supabase-browser"
@@ -25,6 +26,7 @@ interface EventItem {
   deposit_amount: number
   balance_due: number
   deposit_paid: boolean
+  balance_paid?: boolean
   balance_remaining?: number
   customers?: {
     name: string
@@ -49,60 +51,6 @@ export default function DashboardPage() {
   const [paymentError, setPaymentError] = useState("")
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState("")
-  const [customPrice, setCustomPrice] = useState<number | "">("")
-  const [savingPrice, setSavingPrice] = useState(false)
-  const saveCustomPricing = async () => {
-    if (!selectedEvent || savingPrice) return
-    if (customPrice === "" || !Number.isFinite(customPrice) || customPrice <= 0 || Math.abs(customPrice * 100 - Math.round(customPrice * 100)) > 0.000001) {
-      alert("Enter a positive total with no more than two decimal places.")
-      return
-    }
-    setSavingPrice(true)
-
-    try {
-
-      const res = await dashboardFetch(`${API}/api/events/update-price`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          eventId: selectedEvent.id,
-          custom_total_price: customPrice,
-        }),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok || !data?.success) {
-        alert(data?.error || "Failed to update price")
-        return
-      }
-
-      alert("Custom price saved")
-
-      // 🔥 Refresh events immediately
-      try {
-        const res = await dashboardFetch(`${API}/api/events`)
-        const refreshed = await res.json()
-        if (Array.isArray(refreshed)) {
-          setEvents(refreshed.filter((event: EventItem) => event.event_status !== "cancelled" && !cancelledEventIds.current.has(event.id)))
-
-          // also update selected event so side panel reflects new price
-          const updated = refreshed.find((e: EventItem) => e.id === selectedEvent.id)
-          if (updated) {
-            setSelectedEvent(updated)
-          }
-        }
-      } catch (err) {
-        console.error("Failed to refresh events", err)
-      }
-
-    } catch (err) {
-      console.error(err)
-      alert("Server error saving price")
-    } finally {
-      setSavingPrice(false)
-    }
-  }
   // Auto-switch view based on screen size (mobile = calendar, desktop = table)
   useEffect(() => {
     const handleResize = () => {
@@ -234,7 +182,7 @@ const sendPaymentLink = async (eventId: string, type: "deposit" | "balance" | "i
 const sendReminder = async (event: EventItem) => {
   try {
     console.log("📨 Sending reminder", {
-  id: event.id, type: !event.deposit_paid ? "deposit_reminder" : "balance_reminder",
+  id: event.id, type: !event.deposit_paid && event.deposit_amount > 0 ? "deposit_reminder" : "balance_reminder",
 
   customer: event.customers?.email
 
@@ -252,7 +200,7 @@ console.log("Sending reminder for eventId:", event.id)
     }
 
     const type =
-      !event.deposit_paid
+      !event.deposit_paid && event.deposit_amount > 0
         ? "deposit_reminder"
         : "balance_reminder"
 
@@ -694,7 +642,7 @@ const cancelEvent = async (eventId: string) => {
                       </td>
 
                       <td className="p-4">
-                        {event.deposit_paid ? (
+                        {event.deposit_amount === 0 ? <span className="text-gray-600">Not required</span> : event.deposit_paid ? (
                           <span className="text-green-600 font-medium">Paid</span>
                         ) : (
                           <span className="text-red-600 font-medium">Unpaid</span>
@@ -728,13 +676,13 @@ const cancelEvent = async (eventId: string) => {
     {!event.deposit_paid && event.event_status !== "cancelled" && (
       <button
         disabled={sendingPayment}
-        onClick={() => sendPaymentLink(event.id, "deposit")}
+        onClick={() => event.deposit_amount > 0 ? sendPaymentLink(event.id, "deposit") : setSelectedEvent(event)}
         className="whitespace-nowrap px-3 py-1 text-xs rounded bg-amber-500 text-white hover:bg-amber-600"
       >
-        Send Deposit
+        {event.deposit_amount > 0 ? "Send Deposit" : "Set Deposit"}
       </button>
     )}
-    {event.deposit_paid && event.balance_due > 0 && event.event_status !== "cancelled" && (
+    {(event.deposit_paid || event.deposit_amount === 0) && event.balance_due > 0 && event.event_status !== "cancelled" && (
       <button
         disabled={sendingPayment}
         onClick={() => sendPaymentLink(event.id, "balance")}
@@ -1039,17 +987,18 @@ const cancelEvent = async (eventId: string) => {
                 <div className="flex justify-between text-sm">
                   <span>Deposit</span>
                   <span>
-                    {selectedEvent.deposit_paid ? "Paid" : "Unpaid"}
+                    {selectedEvent.deposit_amount === 0 ? "Not required" : selectedEvent.deposit_paid ? "Paid" : "Unpaid"} · {formatCurrency(selectedEvent.deposit_amount)}
                   </span>
                 </div>
 
                 <div className="flex justify-between text-sm font-semibold">
                   <span>Remaining</span>
-                  <span>${selectedEvent.balance_due}</span>
+                  <span>${selectedEvent.balance_remaining ?? selectedEvent.balance_due}</span>
                 </div>
 
+                {selectedEvent.event_status !== "cancelled" && !selectedEvent.balance_paid && <button disabled={sendingPayment} onClick={() => sendPaymentLink(selectedEvent.id, "invoice")} className="mt-3 w-full rounded bg-amber-600 py-2 text-white text-sm">Send Invoice</button>}
                 <div className="mt-3 flex gap-2">
-                  {!selectedEvent.deposit_paid && selectedEvent.event_status !== "cancelled" && (
+                  {!selectedEvent.deposit_paid && selectedEvent.deposit_amount > 0 && selectedEvent.event_status !== "cancelled" && (
                     <button
                       disabled={sendingPayment}
         onClick={() => sendPaymentLink(selectedEvent.id, "deposit")}
@@ -1059,7 +1008,7 @@ const cancelEvent = async (eventId: string) => {
                     </button>
                   )}
 
-                  {selectedEvent.deposit_paid && selectedEvent.balance_due > 0 && selectedEvent.event_status !== "cancelled" && (
+                  {(selectedEvent.deposit_paid || selectedEvent.deposit_amount === 0) && selectedEvent.balance_due > 0 && selectedEvent.event_status !== "cancelled" && (
                     <button
                       disabled={sendingPayment}
         onClick={() => sendPaymentLink(selectedEvent.id, "balance")}
@@ -1077,26 +1026,10 @@ const cancelEvent = async (eventId: string) => {
                     Send Reminder
                   </button>
                 )}
-                <div className="mt-4">
-                  <label className="text-xs text-gray-500">Custom Price Override</label>
-                  <input
-                    type="number"
-                    placeholder="Enter custom total"
-                    min="0.01"
-                    max="1000000"
-                    step="0.01"
-                    value={customPrice}
-                    onChange={(e) => setCustomPrice(e.target.value === "" ? "" : Number(e.target.value))}
-                    className="w-full mt-1 px-2 py-1 border rounded text-sm"
-                  />
-                  <button
-                    onClick={saveCustomPricing}
-                    disabled={savingPrice}
-                    className="w-full mt-2 bg-green-600 text-white text-xs py-2 rounded"
-                  >
-                    {savingPrice ? "Saving…" : "Save Custom Price"}
-                  </button>
-                </div>
+                <PaymentDetailsEditor key={selectedEvent.id} api={API} event={selectedEvent} onSaved={updated => {
+                  setEvents(previous => previous.map(event => event.id === updated.id ? {...event, ...updated} : event))
+                  setSelectedEvent(current => current?.id === updated.id ? {...current, ...updated} : current)
+                }} />
               </div>
 
 
