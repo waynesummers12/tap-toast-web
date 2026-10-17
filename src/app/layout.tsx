@@ -42,8 +42,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <Script id="admin-analytics-privacy" strategy="beforeInteractive">
-          {`if (window.location.pathname === '/admin' || window.location.pathname.startsWith('/admin/')) {
-            window['ga-disable-G-9T64PY883H'] = true;
+          {`if (window.location.pathname === '/dashboard' || window.location.pathname.startsWith('/dashboard/') || window.location.pathname === '/admin' || window.location.pathname.startsWith('/admin/')) {
+            window['ga-disable-G-0QB3Z0F1WQ'] = true;
           }`}
         </Script>
       </head>
@@ -53,7 +53,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-9T64PY883H"
+          src="https://www.googletagmanager.com/gtag/js?id=G-0QB3Z0F1WQ"
           strategy="afterInteractive"
         />
         <Script
@@ -64,7 +64,7 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-9T64PY883H');
+            gtag('config', 'G-0QB3Z0F1WQ');
           `}
         </Script>
         <Script id="ga-book-click" strategy="afterInteractive">
