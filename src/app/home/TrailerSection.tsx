@@ -39,12 +39,12 @@ export default function TrailerSection() {
           visible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95'
         }`}>
           <Image
-            src="/trailer-wedding.jpg"
-            alt="Tap & Toast Mobile Bar Trailer"
-            width={640}
-            height={427}
-            className="w-full max-w-lg rounded-xl shadow-2xl transition-transform duration-500 ease-out hover:scale-[1.02]"
-            priority
+            src="/photographerdenverbrandphotosheadshots-31.jpg"
+            alt="Tap & Toast mobile bar trailer with four taps and an outdoor lounge setup"
+            width={1024}
+            height={681}
+            sizes="(max-width: 767px) calc(100vw - 48px), 512px"
+            className="h-auto w-full max-w-lg rounded-xl shadow-2xl transition-transform duration-500 ease-out hover:scale-[1.02]"
           />
         </div>
 

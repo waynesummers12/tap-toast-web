@@ -4,8 +4,16 @@ export default function StorySection() {
   return (
     <section className="bg-white text-black py-28 px-6">
       <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-        {/* Image */}
-        <div className="flex justify-center">
+        {/* Photos */}
+        <div className="flex flex-col items-center gap-6">
+          <Image
+            src="/photographerdenverbrandphotosheadshots-52.jpg"
+            alt="Jen seated in the Tap & Toast mobile bar trailer"
+            width={1024}
+            height={1539}
+            sizes="(max-width: 767px) calc(100vw - 48px), 420px"
+            className="h-auto w-full max-w-[420px] rounded-sm border border-neutral-200"
+          />
           <Image
             src="/wayneandjen.jpg"
             alt="Wayne and Jen - Tap & Toast Mobile Bar"

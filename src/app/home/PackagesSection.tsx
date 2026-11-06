@@ -44,13 +44,12 @@ export default function PackagesSection() {
           </div>
           <div className="relative overflow-hidden h-56">
             <Image
-              src="/package3.jpg"
-              alt="The Taste Package"
-              width={800}
-              height={400}
+              src="/photographerdenverbrandphotosheadshots-1.jpg"
+              alt="Tap & Toast trailer and outdoor seating for The Taste package"
+              width={1024}
+              height={681}
+              sizes="(max-width: 767px) calc(100vw - 48px), 360px"
               className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110"
-              priority
-              unoptimized
             />
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <div className="absolute -left-full top-0 h-full w-1/2 bg-linear-to-r from-transparent via-white/30 to-transparent transform skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-[shimmer_1.2s_forwards]" />
