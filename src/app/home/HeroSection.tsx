@@ -15,7 +15,7 @@ export default function HeroSection() {
           <p className="mt-4 text-xs text-neutral-600">Fully Insured — General &amp; Liquor Liability Included</p>
         </div>
         <div className="relative min-h-[360px] sm:min-h-[500px] lg:min-h-[740px]">
-          <Image src="/trailer-wedding.jpg" alt="Colorado Tap & Toast mobile bar trailer at an event" fill priority quality={85} sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover object-center" />
+          <Image src="/main-web-page-picture.png" alt="A glass of sparkling wine in front of the Colorado Tap & Toast mobile bar" fill priority quality={85} sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover object-center" />
         </div>
       </section>
 
