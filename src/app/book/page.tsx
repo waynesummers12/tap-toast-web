@@ -46,8 +46,8 @@ function BookEventPageContent() {
   const tierParam = searchParams.get("tier")
   const serviceParam = searchParams.get("service")
   const [savedService, setSavedService] = useState("bartending")
-  const isSoda = !isMountainView && (serviceParam === "soda" || (!serviceParam && savedService === "soda"))
-  const isRentalInit = !isMountainView && bookingType === "rental"
+  const isSoda = !isMountainView && (serviceParam === "soda" || (!serviceParam && tierParam !== "trailer" && bookingType !== "rental" && savedService === "soda"))
+  const isRentalInit = !isMountainView && (bookingType === "rental" || (serviceParam !== "soda" && (tierParam === "trailer" || tierParam === "taste")))
 
   const [mode, setMode] = useState<"full" | "rental">(isRentalInit ? "rental" : "full")
   const isRental = mode === "rental"
@@ -58,6 +58,7 @@ function BookEventPageContent() {
   const [location, setLocation] = useState("")
   const [tier, setTier] = useState<"essentials" | "signature" | "premium" | "custom">(
     () => {
+      if (isRentalInit) return "custom"
       if (tierParam === "taste") return "essentials"
       if (tierParam === "signature") return "signature"
       if (tierParam === "premium") return "premium"
@@ -94,12 +95,15 @@ function BookEventPageContent() {
     return 4
   }
 const applyTier = useCallback((t: "essentials" | "signature" | "premium") => {
-  setTier(t)
+  setMode(t === "essentials" && !isSoda ? "rental" : "full")
+  setRentalDeliverySelected(false)
+  setRentalIceCoolerSelected(false)
+  setTier(t === "essentials" && !isSoda ? "custom" : t)
 
   if (t === "essentials") {
     setHours(3)
     setGuests(50)
-    setBartenders(1)
+    setBartenders(isSoda ? 1 : 0)
   }
 
   if (t === "signature") {
@@ -113,7 +117,7 @@ const applyTier = useCallback((t: "essentials" | "signature" | "premium") => {
     setGuests(150)
     setBartenders(3)
   }
-}, [])
+}, [isSoda])
 
   const recommendedBartenders = isMountainView
     ? !isMountainViewSignature && guests > 100 ? 2 : 1
@@ -136,7 +140,6 @@ const applyTier = useCallback((t: "essentials" | "signature" | "premium") => {
   const tierExtra = tierPriceMap[tier]
 
   const normalAddOnsTotal =
-    (isRental && rentalDeliverySelected ? 150 : 0) +
     (isRental && rentalIceCoolerSelected ? 100 : 0)
   const upgradesTotal = isMountainView ? 0 : normalAddOnsTotal
 
@@ -179,13 +182,13 @@ const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
         setStartTime(data.startTime || "18:00")
         setHours(hasMountainViewPackage ? MOUNTAIN_VIEW_SERVICE_HOURS : data.hours || 4)
         setGuests(data.guests || 100)
-        setBartenders(data.bartenders || 2)
+        setBartenders(isRentalInit || data.mode === "rental" ? 0 : data.bartenders || 2)
         setEventType(data.eventType || "")
-        setRentalDeliverySelected(data.rentalDeliverySelected === true)
+        setRentalDeliverySelected(false)
         setRentalIceCoolerSelected(data.rentalIceCoolerSelected === true)
         setSavedService(data.service_type === "soda" ? "soda" : "bartending")
-        setTier(data.tier || "signature")
-        setMode(data.mode || "full")
+        setTier(isRentalInit || data.mode === "rental" ? "custom" : data.tier || "signature")
+        setMode(isRentalInit ? "rental" : data.mode || "full")
 
         console.log("Recovered saved quote")
       }, 0)
@@ -195,7 +198,7 @@ const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
     } catch (err) {
       console.error("Failed to restore quote", err)
     }
-  }, [hasMountainViewPackage])
+  }, [hasMountainViewPackage, isRentalInit])
 
   useEffect(() => {
 
@@ -225,24 +228,24 @@ const [highlightKeys, setHighlightKeys] = useState<Set<string>>(new Set())
 
       setGuests(data.guests || 100)
 
-      setBartenders(data.bartenders || 2)
+      setBartenders(isRentalInit || data.mode === "rental" ? 0 : data.bartenders || 2)
 
       setSavedService(data.service_type === "soda" ? "soda" : "bartending")
       setEventType(data.event_type || "")
 
-      setTier(data.tier || "signature")
+      setTier(isRentalInit || data.mode === "rental" ? "custom" : data.tier || "signature")
 
-      setMode(data.mode || "full")
+      setMode(isRentalInit ? "rental" : data.mode || "full")
 
     })
 
-}, [recoveryCid, hasMountainViewPackage])
+}, [recoveryCid, hasMountainViewPackage, isRentalInit])
 
 useEffect(() => {
   if (isMountainView || !tierParam) return
 
   const t = setTimeout(() => {
-    if (tierParam === "taste") applyTier("essentials")
+    if (tierParam === "taste" || tierParam === "trailer") applyTier("essentials")
     if (tierParam === "signature") applyTier("signature")
     if (tierParam === "premium") applyTier("premium")
   }, 0)
@@ -544,9 +547,9 @@ type BookedSlot = {
 
   guests,
 
-  bartenders, // 🔥 ADD THIS
+  bartenders: isRental ? 0 : bartenders, // Rental bookings do not include staff
 
-  bartenders_needed: bartenders, // 🔥 SAFE MATCH
+  bartenders_needed: isRental ? 0 : bartenders, // 🔥 SAFE MATCH
 
   event_type: eventType,
           service_type: isSoda ? "soda" : "bartending",
@@ -555,7 +558,7 @@ type BookedSlot = {
 
   pricing_tier: isRental ? "custom" : tier,
 
-  rental_delivery_selected: isRental && rentalDeliverySelected,
+  rental_delivery_selected: false,
 
   rental_ice_cooler_selected: isRental && rentalIceCoolerSelected,
 
@@ -724,7 +727,7 @@ type BookedSlot = {
             />
             <button
               type="button"
-              onClick={() => setMode("full")}
+              onClick={() => applyTier("signature")}
               className={`relative z-10 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 active:scale-95 hover:-translate-y-px ${
                 mode === "full"
                   ? "text-white scale-105 drop-shadow-[0_0_6px_rgba(198,162,90,0.8)] group-hover:drop-shadow-[0_0_10px_rgba(198,162,90,0.9)]"
@@ -735,7 +738,7 @@ type BookedSlot = {
             </button>
             <button
               type="button"
-              onClick={() => setMode("rental")}
+              onClick={() => { setMode("rental"); setTier("custom"); setBartenders(0); setRentalDeliverySelected(false) }}
               className={`relative z-10 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 active:scale-95 hover:-translate-y-px ${
                 mode === "rental"
                   ? "text-white scale-105 drop-shadow-[0_0_6px_rgba(198,162,90,0.8)] group-hover:drop-shadow-[0_0_10px_rgba(198,162,90,0.9)]"
@@ -775,7 +778,7 @@ type BookedSlot = {
     ? "Complete a few details below to reserve your Mountain View Menagerie bartending package."
     : isSoda
     ? "Dirty soda packages start at $780, including one soda host for three hours. Customize your package below."
-    : "Full-service packages start at $780, including one bartender for three hours. Trailer rental starts at $600, with delivery and pickup within 40 miles of Golden available for an additional $150."}
+    : "The Trailer starts at $600 with no bartenders and free delivery within 20 miles of Golden. Choose The Tipsy or The Toasted for full service."}
 </p>
 
 {!isMountainView && <p className="text-xs text-[#8a6a1f] mt-2 font-medium">
@@ -923,13 +926,11 @@ type BookedSlot = {
           <div className="col-span-1 md:col-span-2 text-xs text-gray-500">
             Reserved times include a one-hour buffer for setup and travel.
           </div>
-        {!isRental && !isMountainView && (
+        {!isMountainView && (
           <div className="col-span-1 md:col-span-2 mt-6">
 
   <h2 className="text-2xl font-semibold mb-2">
-  {isRental
-    ? "Full Service Packages (Disabled for Rental)"
-    : isSoda
+  {isSoda
     ? "Choose Your Soda Experience"
     : "Choose Your Experience"}
 </h2>
@@ -944,7 +945,7 @@ type BookedSlot = {
       type="button"
       onClick={() => applyTier("essentials")}
       className={`p-5 rounded-xl border text-left transition transform duration-300 ${
-        tier === "essentials"
+        (isSoda ? tier === "essentials" : isRental)
           ? (
             isSoda
               ? "border-pink-500 bg-linear-to-br from-pink-500 to-orange-400 text-white scale-105 shadow-[0_0_25px_rgba(255,105,180,0.4)]"
@@ -957,13 +958,13 @@ type BookedSlot = {
           )
       }`}
     >
-      <h3 className="font-semibold mb-1">The Taste</h3>
-      <p className="text-xs opacity-70">{isSoda ? "Dirty soda starter experience" : "Mobile bar starter experience"}</p>
+      <h3 className="font-semibold mb-1">{isSoda ? "The Taste" : "The Trailer"}</h3>
+      <p className="text-xs opacity-70">{isSoda ? "Dirty soda starter experience" : "Trailer rental only"}</p>
       <p className="text-sm mt-3">Impressive</p>
       <ul className="mt-3 text-xs space-y-1 opacity-80">
-        <li>✔ {isSoda ? "1 soda host" : "1 professional bartender"}</li>
-        <li>✔ 3 hour service</li>
-        <li>✔ {isSoda ? "Basic soda bar setup" : "Basic bar setup"}</li>
+        <li>✔ {isSoda ? "1 soda host" : "No bartenders included"}</li>
+        <li>✔ {isSoda ? "3 hour service" : "Adjustable rental hours"}</li>
+        <li>✔ {isSoda ? "Basic soda bar setup" : "Free delivery within 20 miles of Golden"}</li>
       </ul>
     </button>
 
@@ -1060,7 +1061,7 @@ type BookedSlot = {
                     Viral Favorite
                   </span>
                   <h3 className="text-2xl md:text-3xl font-semibold tracking-wide">
-                    Tap Trailer Experience
+                    The Trailer
                   </h3>
                   <p className="text-xs text-white/80 mt-1">
                     The centerpiece your guests will photograph all night
@@ -1072,7 +1073,7 @@ type BookedSlot = {
               <div className="bg-black text-white p-6 text-center">
 
                 <p className="text-sm text-white/80 max-w-xl mx-auto">
-                  A fully designed, event-ready mobile bar that transforms your event into a high-end experience — no staffing required.
+                  A fully designed, event-ready mobile bar that transforms your event into a high-end experience — bartenders are not included.
                 </p>
 
                 {/* Social Proof */}
@@ -1158,7 +1159,7 @@ type BookedSlot = {
             )}
           </div>}
 
-          {!isRental && !isMountainView && (
+          {!isMountainView && (
             <div>
               <label htmlFor="booking-hours" className="text-sm">Hours: {hours}</label>
               <input
@@ -1290,25 +1291,10 @@ type BookedSlot = {
         <div>
           <p className="text-sm font-semibold text-gray-700 mb-3">Rental Add-Ons</p>
           <p className="text-xs text-gray-500 mb-3">
-            Delivery and pickup within 40 miles of Golden are available for an additional $150.
+            Free delivery within 20 miles of Golden is included.
           </p>
 
           <div className="space-y-3">
-
-            <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
-              <div className="flex flex-col text-left">
-                <span>🚚 Delivery & Pickup (within 40 miles of Golden)</span>
-                <span className="text-[10px] bg-black text-white px-2 py-0.5 rounded-full uppercase tracking-wide">Popular</span>
-              </div>
-              <div className="flex items-center gap-2 shrink-0">
-                <span className="text-sm font-medium text-right whitespace-nowrap">$150</span>
-                <input
-                  type="checkbox"
-                  checked={rentalDeliverySelected}
-                  onChange={(event) => setRentalDeliverySelected(event.target.checked)}
-                />
-              </div>
-            </label>
 
             <label className="flex items-start justify-between p-3 rounded-lg hover:bg-black/5 transition gap-3">
               <div className="flex flex-col text-left">
@@ -1335,7 +1321,7 @@ type BookedSlot = {
         <div className="space-y-3">
 
           <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-black/5">
-            <span>🚗 Travel Fee (after first 40 miles from 80401)</span>
+            <span>🚗 Travel Fee (after first {isRental ? 20 : 40} miles from Golden)</span>
             <span className="text-sm font-medium">$2 / mile</span>
           </div>
 
@@ -1389,7 +1375,7 @@ type BookedSlot = {
                 <p className="font-semibold text-lg mb-2 underline">Planning & Preparation</p>
                 <p className="text-sm text-gray-700">Two Consultations: Initial vision + final execution call</p>
                 <p className="text-sm text-gray-700">Custom Shopping Guide: Exactly what to buy and how much</p>
-                <p className="text-sm text-gray-700">{isRental ? "Delivery & Pickup: Optional $150 add-on within 40 miles of Golden" : "Travel Included: Up to 40 miles from 80401"}</p>
+                <p className="text-sm text-gray-700">{isRental ? "Free delivery within 20 miles of Golden" : "Travel Included: Up to 40 miles from 80401"}</p>
                 <p className="text-sm text-gray-700">Fully Insured: General & Liquor Liability coverage</p>
               </div>
 
@@ -1485,9 +1471,6 @@ type BookedSlot = {
                     <span>{new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(bartenders * bartenderRate * hours)}</span>
                   </div>
                 )}
-                {isRental && rentalDeliverySelected && (
-                  <div className="flex justify-between"><span>Delivery &amp; Pickup</span><span>$150</span></div>
-                )}
                 {isRental && rentalIceCoolerSelected && (
                   <div className="flex justify-between"><span>Ice &amp; Cooler</span><span>$100</span></div>
                 )}
@@ -1515,7 +1498,7 @@ type BookedSlot = {
             {isRental && (
               <>
                 <p className="text-xs text-gray-500 mt-1">
-                  Premium trailer rental experience — includes equipment setup guidance. Optional delivery and pickup within 40 miles of Golden: $150.
+                  Trailer rental only — no bartenders included. Free delivery within 20 miles of Golden.
                 </p>
                 <p className="text-xs text-[#c6a25a] font-semibold mt-2">
                   Perfect for backyard parties, DIY weddings, & private events

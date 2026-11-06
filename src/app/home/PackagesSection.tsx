@@ -45,7 +45,7 @@ export default function PackagesSection() {
           <div className="relative overflow-hidden h-56">
             <Image
               src="/photographerdenverbrandphotosheadshots-1.jpg"
-              alt="Tap & Toast trailer and outdoor seating for The Taste package"
+              alt="Tap & Toast trailer and outdoor seating for The Trailer package"
               width={1024}
               height={681}
               sizes="(max-width: 767px) calc(100vw - 48px), 360px"
@@ -61,26 +61,26 @@ export default function PackagesSection() {
 
           <div className="p-8">
             <div className="inline-block mb-4 px-4 py-2 rounded-lg bg-black/40 backdrop-blur-sm border border-white/10">
-              <h3 className="text-2xl font-semibold">The Taste</h3>
+              <h3 className="text-2xl font-semibold">The Trailer</h3>
             </div>
 
             <ul className="space-y-2 text-gray-300 mb-6">
               <li>• Mobile Bar Setup</li>
-              <li>• Professional Bartender</li>
-              <li>• 2 Beverage Options</li>
-              <li>• 3 Hour Service</li>
+              <li>• No Bartenders Included</li>
+              <li>• Free Delivery Within 20 Miles of Golden</li>
+              <li>• Adjustable Rental Hours</li>
             </ul>
 
-            <p className="text-xl font-bold mb-6">Starting at $780</p>
+            <p className="text-xl font-bold mb-6">Starting at $600</p>
 
             <a
-              href="/book?tier=taste"
+              href="/book?tier=trailer"
               className="inline-block bg-neutral-950 hover:bg-neutral-800 text-white px-6 py-3 rounded-sm text-sm uppercase tracking-[0.2em]"
             >
               Book Instantly with Real Quote
             </a>
           </div>
-          <a href="/book?tier=taste" className="absolute inset-0 z-10" aria-label="Book The Taste package"></a>
+          <a href="/book?tier=trailer" className="absolute inset-0 z-10" aria-label="Book The Trailer package"></a>
         </div>
 
         {/* Package 2 */}

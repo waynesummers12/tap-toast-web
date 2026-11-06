@@ -27,7 +27,7 @@ export default function HuntingCampsPage() {
           <p className="mt-4 text-sm leading-relaxed text-neutral-600">Discuss camp access and delivery or pickup arrangements with Jen before booking.</p>
         </div>
         <figure className="min-w-0 overflow-hidden border border-stone-300 bg-black">
-          <Image src="/tap-trailer-clean.png" alt="Tap & Toast keg tap trailer with a covered wooden bar and four taps" width={1303} height={1207} priority sizes="(max-width: 1023px) 100vw, 50vw" className="h-auto w-full" />
+          <Image src="/hunting.png" alt="Tap & Toast trailer with whiskey bottles at an autumn mountain hunting camp" width={1536} height={1024} priority sizes="(max-width: 1023px) 100vw, 50vw" className="h-auto w-full" />
           <figcaption className="border-t border-white/20 px-5 py-4 text-center text-sm text-neutral-300">The Tap &amp; Toast keg tap trailer</figcaption>
         </figure>
       </section>

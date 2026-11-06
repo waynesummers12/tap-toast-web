@@ -6,7 +6,7 @@ export default function TailgateSection() {
     <section id="tailgates" className="bg-black px-6 py-16 text-white md:py-24">
       <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <div className="overflow-hidden border border-white/20 bg-black">
-          <Image src="/tap-trailer-clean.png" alt="Tap & Toast keg tap trailer with four taps and a covered wood bar" width={1303} height={1207} sizes="(min-width: 1024px) 50vw, 100vw" className="h-auto w-full" />
+          <Image src="/Tailgate.png" alt="Tap & Toast tailgate trailer with an orange Broncos sign and navy blue cups" width={1303} height={1207} sizes="(min-width: 1024px) 50vw, 100vw" className="h-auto w-full" />
         </div>
         <div>
           <p className="mb-5 text-xs uppercase tracking-[0.2em] text-neutral-300">Broncos, CU &amp; School of Mines game days</p>

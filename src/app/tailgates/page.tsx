@@ -32,7 +32,7 @@ export default function TailgatesPage() {
           <p className="mt-5 text-sm leading-relaxed text-neutral-600">Tell Jen your game date and location to discuss availability and setup.</p>
         </div>
         <figure className="min-w-0 border border-stone-200 bg-stone-100 p-5 sm:p-8">
-          <Image src="/tap-trailer-clean.png" alt="Tap & Toast keg tap trailer with a wood bar, metal roof, and four taps" width={1303} height={1207} priority sizes="(max-width: 1023px) 100vw, 50vw" className="h-auto w-full" />
+          <Image src="/Tailgate.png" alt="Tap & Toast tailgate trailer with an orange Broncos sign and navy blue cups" width={1303} height={1207} priority sizes="(max-width: 1023px) 100vw, 50vw" className="h-auto w-full" />
           <figcaption className="mt-5 border-t border-stone-300 pt-4 text-center text-sm text-neutral-600">The Tap & Toast keg tap trailer</figcaption>
         </figure>
       </section>
