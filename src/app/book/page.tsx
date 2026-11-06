@@ -19,6 +19,7 @@ function BookEventPageContent() {
   const venueParam = searchParams.get("venue")
   const packageParam = searchParams.get("package")
   const isMountainView = venueParam === "mountain-view"
+  const isMountainViewSignature = isMountainView && packageParam === "signature"
 
   const mountainViewPackages = {
     classic: {
@@ -115,7 +116,7 @@ const applyTier = useCallback((t: "essentials" | "signature" | "premium") => {
 }, [])
 
   const recommendedBartenders = isMountainView
-    ? guests > 100 ? 2 : 1
+    ? !isMountainViewSignature && guests > 100 ? 2 : 1
     : getRecommendedBartenders(guests)
 
   const basePrice = 600
@@ -140,7 +141,7 @@ const applyTier = useCallback((t: "essentials" | "signature" | "premium") => {
   const upgradesTotal = isMountainView ? 0 : normalAddOnsTotal
 
   const mountainViewAdditionalBartenderFee =
-    isMountainView && mountainViewPackage && guests > 100 ? 250 : 0
+    isMountainView && !isMountainViewSignature && mountainViewPackage && guests > 100 ? 250 : 0
   const grandTotal = total + upgradesTotal + mountainViewAdditionalBartenderFee
   const deposit = grandTotal * 0.5
 
@@ -258,11 +259,11 @@ useEffect(() => {
       setEventType("Wedding")
       setMode("full")
       setHours(MOUNTAIN_VIEW_SERVICE_HOURS)
-      setBartenders(guests > 100 ? 2 : 1)
+      setBartenders(!isMountainViewSignature && guests > 100 ? 2 : 1)
     }, 0)
 
     return () => clearTimeout(t)
-  }, [isMountainView, guests])
+  }, [isMountainView, isMountainViewSignature, guests])
 
   const refreshAvailability = useCallback(async () => {
     setAvailabilityReady(false)
@@ -1255,7 +1256,12 @@ type BookedSlot = {
                   }
                 }}
               />
-              {isMountainView && guests > 100 && (
+              {isMountainViewSignature && (
+                <p className="mt-3 text-sm text-gray-600">
+                  Your Signature package stays $1,495 regardless of guest count.
+                </p>
+              )}
+              {isMountainView && !isMountainViewSignature && guests > 100 && (
                 <p className="mt-3 rounded-lg border border-[#c6a25a]/40 bg-[#f8f5ef] p-3 text-sm font-medium text-[#8a6a1f]">
                   101+ guests require an additional bartender. The $250 staffing charge is included in your total below.
                 </p>
