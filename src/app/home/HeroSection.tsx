@@ -6,9 +6,9 @@ export default function HeroSection() {
     <>
       <section className="grid lg:grid-cols-2 bg-white text-neutral-950">
         <div className="flex flex-col justify-center px-6 py-14 sm:px-12 lg:px-16 lg:py-20">
-          <p className="text-xs tracking-[0.22em] uppercase mb-7">Premium Mobile Bar Experience</p>
-          <h1 className="hero-title mb-7">Colorado’s Most Loved Mobile Bar for Weddings &amp; Events</h1>
-          <p className="max-w-lg text-base leading-relaxed text-neutral-600 mb-8">We bring the bar, the bartenders, and the experience — so you can relax and enjoy every moment. Fully customized for your event.</p>
+          <p className="text-xs tracking-[0.22em] uppercase mb-7">Colorado Mobile Bar Experiences</p>
+          <h1 className="hero-title mb-7">Not just a bar. It’s the setting for your favorite memories.</h1>
+          <p className="max-w-lg text-base leading-relaxed text-neutral-600 mb-8">Bring everyone together for girls’ nights, bridal showers, birthdays, bachelorette parties, wine nights, and weddings. Choose mobile bar service with professional bartenders or a DIY trailer rental in Golden, Denver, Boulder, and across Colorado’s Front Range.</p>
           <Link href="/book" className="w-fit border border-black bg-black text-white px-7 py-4 text-sm">Check Availability &amp; Get Instant Quote</Link>
           <a href="#experiences" className="w-fit mt-4 py-3 text-sm underline underline-offset-4">Compare service options ↓</a>
           <p className="mt-8 max-w-md border-t border-neutral-200 pt-6 text-sm italic text-neutral-600">“We received so many compliments — the bartenders were amazing!” — Lopez Wedding</p>
