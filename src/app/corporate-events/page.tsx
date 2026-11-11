@@ -105,6 +105,15 @@ export default function CorporateEventsPage() {
         </ul>
       </section>
 
+      <section className="mx-auto max-w-6xl px-6 pb-16">
+        <div className="rounded-3xl border border-[#efcfda] bg-[#fce8ef] p-7 text-[#54283c] sm:p-10">
+          <h2 className="mb-4 text-3xl">A sweet addition to your team celebration</h2>
+          <p className="mb-6 max-w-3xl leading-relaxed text-[#704659]">Planning an employee appreciation day, office party, or company gathering? Explore nonalcoholic soda catering with hosts and ingredients included.</p>
+          <a href="/dirty-soda-bar" className="inline-block rounded-full bg-[#99365c] px-7 py-4 font-semibold text-white hover:bg-[#772443]">Explore Dirty Soda Catering</a>
+          <a href="/what-is-dirty-soda-bar" className="mt-4 block w-fit underline underline-offset-4">New to dirty soda? Read the planning guide</a>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="px-8 pb-32 max-w-6xl mx-auto">
         <div className="bg-[#c7a45a] text-black p-12 md:p-16 rounded-3xl shadow-[0_20px_60px_rgba(199,164,90,0.3)]">

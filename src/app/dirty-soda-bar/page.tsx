@@ -3,6 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 
 export const metadata = {
+  alternates: { canonical: "https://www.coloradotapandtoast.com/dirty-soda-bar" },
   title: "Dirty Soda Bar Catering in Colorado | Tap & Toast",
   description: "Colorado dirty soda bar catering for birthdays, weddings, showers, school events, and corporate gatherings. Custom nonalcoholic drinks, a mobile bar, and staff.",
 }

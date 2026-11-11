@@ -93,6 +93,15 @@ export default function BirthdayPartiesPage() {
         </ul>
       </section>
 
+      <section className="mx-auto max-w-6xl px-6 pb-16">
+        <div className="rounded-3xl border border-[#efcfda] bg-[#fce8ef] p-7 text-[#54283c] sm:p-10">
+          <h2 className="mb-4 text-3xl">Make it a soda party</h2>
+          <p className="mb-6 max-w-3xl leading-relaxed text-[#704659]">From milestone birthdays to family celebrations, a hosted soda bar gives guests a place to mix up the fun. Explore sample drinks, packages, and what we bring.</p>
+          <a href="/dirty-soda-bar" className="inline-block rounded-full bg-[#99365c] px-7 py-4 font-semibold text-white hover:bg-[#772443]">Explore Dirty Soda Catering</a>
+          <a href="/what-is-dirty-soda-bar" className="mt-4 block w-fit underline underline-offset-4">New to dirty soda? Read the planning guide</a>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="px-8 pb-32 max-w-6xl mx-auto">
         <div className="bg-black text-white p-6 sm:p-12 md:p-16 rounded-sm">
