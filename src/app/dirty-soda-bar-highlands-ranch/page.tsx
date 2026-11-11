@@ -155,17 +155,6 @@ export default function DirtySodaBarHighlandsRanchPage() {
         <p className="text-[#704659] leading-relaxed">Explore our <Link href="/dirty-soda-bar" className="underline underline-offset-4">dirty soda bar catering</Link> or read <Link href="/what-is-dirty-soda-bar" className="underline underline-offset-4">how a dirty soda bar works</Link>. Ready to plan? Tell us your event date, location, and guest count to start your quote.</p>
       </section>
 
-      {/* INTERNAL LINKS */}
-      <section className="px-8 pb-16 max-w-6xl mx-auto">
-        <p className="text-[#704659]">
-          Also serving nearby areas like
-          <Link href="/dirty-soda-bar-denver" className="text-[#99365c] underline ml-1">Denver</Link>,
-          <Link href="/dirty-soda-bar-littleton" className="text-[#99365c] underline ml-1">Littleton</Link>,
-          <Link href="/dirty-soda-bar-lakewood" className="text-[#99365c] underline ml-1">Lakewood</Link>, and
-          <Link href="/dirty-soda-bar-parker" className="text-[#99365c] underline ml-1">Parker</Link>.
-        </p>
-      </section>
-
       {/* CTA */}
       <section className="px-8 pb-32 max-w-6xl mx-auto">
         <div className="bg-[#fce8ef] text-[#54283c] p-8 md:p-16 rounded-3xl border border-[#efcfda] text-center">
@@ -188,6 +177,13 @@ export default function DirtySodaBarHighlandsRanchPage() {
           <a href="tel:7206439690" className="mx-auto mt-5 block w-fit text-[#99365c] underline underline-offset-4">Questions about your venue? Call Jen · 720-643-9690</a>
 
         </div>
+      </section>
+
+      <section aria-labelledby="nearby-cities" className="mx-auto max-w-6xl px-8 pb-28 text-center">
+        <h2 id="nearby-cities" className="mb-4 text-2xl">Planning an event in another city?</h2>
+        <nav aria-label="Other dirty soda service areas" className="flex flex-wrap justify-center gap-4 text-[#99365c]">
+          {[["Denver", "denver"], ["Littleton", "littleton"], ["Lakewood", "lakewood"], ["Parker", "parker"], ["Centennial", "centennial"]].map(([city, slug]) => <Link key={slug} href={`/dirty-soda-bar-${slug}`} className="underline underline-offset-4">{city}</Link>)}
+        </nav>
       </section>
 
     </main>

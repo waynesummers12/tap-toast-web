@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { isCurrentEvent, coloradoToday } from "@/lib/dashboard-events"
 import { SERVICE_LABELS } from "@/lib/service-types"
 import AgreementImport from "./AgreementImport"
 import PaymentDetailsEditor from "./PaymentDetailsEditor"
@@ -106,7 +107,7 @@ useEffect(() => {
       const data = await res.json()
 
 
-      setEvents(Array.isArray(data) ? data.filter((event: EventItem) => event.event_status !== "cancelled" && !cancelledEventIds.current.has(event.id)) : [])
+      setEvents(Array.isArray(data) ? data.filter((event: EventItem) => isCurrentEvent(event) && !cancelledEventIds.current.has(event.id)) : [])
 
     } catch (err) {
 
@@ -136,7 +137,7 @@ useEffect(() => {
 const deleteSelectedEvent = async () => {
   if (!selectedEvent || deleting) return
   const event = selectedEvent
-  if (!confirm(`Delete the event for ${event.customers?.name || "this customer"} on ${event.event_date}? This removes it from the dashboard and marks it cancelled. Payment history is kept. No refund or email will be sent.`)) return
+  if (!confirm(`Cancel the event for ${event.customers?.name || "this customer"} on ${event.event_date}? This removes it from the dashboard and marks it cancelled. The event, agreement, and payment records are retained in Supabase for reconciliation. No refund or email will be sent.`)) return
   setDeleting(true)
   setDeleteError("")
   try {
@@ -151,7 +152,7 @@ const deleteSelectedEvent = async () => {
     setEvents(prev => prev.filter(item => item.id !== event.id))
     setSelectedEvent(current => current?.id === event.id ? null : current)
   } catch {
-    setDeleteError("The event could not be deleted. Please try again.")
+    setDeleteError("The event could not be cancelled. Please try again.")
   } finally {
     setDeleting(false)
   }
@@ -237,7 +238,7 @@ const res = await dashboardFetch(`${API}/api/email/reminder`, {
 }
 
 const cancelEvent = async (eventId: string) => {
-  const confirmCancel = confirm("Are you sure you want to cancel this event?")
+  const confirmCancel = confirm("Cancel this event and remove it from the active dashboard? Its agreement and payment records will remain in Supabase for reconciliation. No refund or email will be sent.")
   if (!confirmCancel) return
 
   try {
@@ -298,7 +299,7 @@ const cancelEvent = async (eventId: string) => {
 
   const totalEvents = events.length
 
-  const upcomingEvents = events.filter(e => eventDateLocal(e.event_date) >= new Date()).length
+  const upcomingEvents = events.filter(e => e.event_date.slice(0, 10) > coloradoToday()).length
 
   const revenueCollected = events.reduce((sum, event) => sum + collectedAmount(event), 0)
 
@@ -332,7 +333,7 @@ const cancelEvent = async (eventId: string) => {
   for (let d = 1; d <= daysInMonth; d++) calendarCells.push(d)
 
   // --- DERIVED STATE FOR ACTION REQUIRED + PRIORITIZATION ---
-  const today = new Date()
+  const today = eventDateLocal(coloradoToday())
 
   const actionRequiredEvents: EventItem[] = events.filter((event: EventItem) => {
     const eventDate = eventDateLocal(event.event_date)
@@ -395,13 +396,14 @@ const cancelEvent = async (eventId: string) => {
             Log out
           </button>
         </div>
+<p className="mb-6 text-sm text-gray-600">Showing today’s and future events in Colorado time. Past and cancelled events, agreements, and payment records remain saved in Supabase for reconciliation. These totals cover the current event list, not all-time revenue.</p>
 <AgreementImport api={API} onImported={async (eventId) => {
           const response = await dashboardFetch(`${API}/api/events`)
           if (!response.ok) throw new Error("Refresh failed")
           const data: EventItem[] = await response.json()
-          setEvents(data.filter(event => event.event_status !== "cancelled" && !cancelledEventIds.current.has(event.id)))
+          setEvents(data.filter(event => isCurrentEvent(event) && !cancelledEventIds.current.has(event.id)))
           const imported = data.find(event => event.id === eventId)
-          if (imported) setSelectedEvent(imported)
+          if (imported && isCurrentEvent(imported)) setSelectedEvent(imported)
           setSearch("")
           setViewStartDate("")
           setViewEndDate("")
@@ -438,7 +440,7 @@ const cancelEvent = async (eventId: string) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-fr mb-10">
 
               <div className="min-w-0 bg-white p-5 rounded-xl shadow-sm border">
-                <div className="min-h-10 text-gray-600 text-sm leading-5 mb-2">Total Events</div>
+                <div className="min-h-10 text-gray-600 text-sm leading-5 mb-2">Today & Upcoming</div>
                 <div className="text-2xl leading-8 font-semibold tabular-nums break-words">
                   {totalEvents}
                 </div>
@@ -452,14 +454,14 @@ const cancelEvent = async (eventId: string) => {
               </div>
 
               <div className="min-w-0 bg-white p-5 rounded-xl shadow-sm border">
-                <div className="min-h-10 text-gray-600 text-sm leading-5 mb-2">Revenue Collected</div>
+                <div className="min-h-10 text-gray-600 text-sm leading-5 mb-2">Collected for Upcoming Events</div>
                 <div className="text-2xl leading-8 font-semibold tabular-nums break-words">
                   {formatCurrency(revenueCollected)}
                 </div>
               </div>
 
               <div className="min-w-0 bg-white p-5 rounded-xl shadow-sm border">
-                <div className="min-h-10 text-gray-600 text-sm leading-5 mb-2">Pending Balances</div>
+                <div className="min-h-10 text-gray-600 text-sm leading-5 mb-2">Upcoming Balances</div>
                 <div className="text-2xl leading-8 font-semibold tabular-nums break-words">
                   {formatCurrency(pendingBalances)}
                 </div>
@@ -530,6 +532,7 @@ const cancelEvent = async (eventId: string) => {
                 </thead>
 
                 <tbody>
+                  {filteredEvents.length === 0 && <tr><td colSpan={11} className="p-8 text-center text-gray-600">No current events match this view. Past and cancelled records remain saved in Supabase.</td></tr>}
                   {filteredEvents.map((event) => (
                     <tr
                       key={event.id}
@@ -962,10 +965,10 @@ const cancelEvent = async (eventId: string) => {
                 <strong>{selectedEvent.bartenders_needed ?? 0}</strong>
               </div>
               <div className="mt-6 border-t pt-4">
-                <p className="mb-3 text-xs text-gray-600">Deleting removes this event from the dashboard and marks it cancelled. Payment history is kept.</p>
+                <p className="mb-3 text-xs text-gray-600">Cancelling removes only this event from the active dashboard. Its agreement and payment records remain saved in Supabase for reconciliation. No refund is issued.</p>
                 {deleteError && <p role="alert" className="mb-3 text-sm text-red-700">{deleteError}</p>}
                 <button type="button" disabled={deleting} onClick={deleteSelectedEvent} className="w-full rounded border border-red-700 py-3 text-red-700 hover:bg-red-50 disabled:opacity-50">
-                  {deleting ? "Deleting…" : "Delete Event"}
+                  {deleting ? "Cancelling…" : "Cancel Event"}
                 </button>
               </div>
 

@@ -44,7 +44,7 @@ export default function RevenueOverview({ events }: { events: RevenueEvent[] }) 
           <div className="relative">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e6c67c]">The business behind the celebrations</p>
             <h2 id="revenue-overview-title" className="mt-4 text-3xl !text-white">Your revenue, at a glance</h2>
-            <p className="mt-6 text-sm text-white/70">Collected across active events</p>
+            <p className="mt-6 text-sm text-white/70">Collected for today’s and upcoming events</p>
             <p className="mt-2 break-words text-4xl font-semibold tracking-tight tabular-nums sm:text-5xl">{currency(collected)}</p>
             <p className="mt-3 text-sm text-white/70">{paidEvents} {paidEvents === 1 ? "event with a recorded payment" : "events with recorded payments"}</p>
             <div className="mt-8 border-t border-white/15 pt-5">
@@ -60,7 +60,7 @@ export default function RevenueOverview({ events }: { events: RevenueEvent[] }) 
         <div className="min-w-0 p-6 sm:p-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h3 className="text-2xl !text-[#202b29]">Where bookings began</h3>
-            <span className="rounded-full bg-[#f5f1e7] px-3 py-1 text-xs font-medium text-[#765a20]">All active events</span>
+            <span className="rounded-full bg-[#f5f1e7] px-3 py-1 text-xs font-medium text-[#765a20]">Today & upcoming events</span>
           </div>
           <p className="mt-2 text-sm leading-relaxed text-slate-500">Recorded landing pages for events with payments. This shows the page captured when booking, not the customer’s referral source.</p>
           {rows.length === 0 ? (
