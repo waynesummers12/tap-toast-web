@@ -4,7 +4,7 @@ import Link from "next/link"
 
 export const metadata = {
   title: "Dirty Soda Bar Catering in Colorado | Tap & Toast",
-  description: "Mobile dirty soda bar catering for Colorado birthdays, graduations, and weddings. Custom nonalcoholic drinks, a mobile bar, and staff. Get your event quote.",
+  description: "Colorado dirty soda bar catering for birthdays, weddings, showers, school events, and corporate gatherings. Custom nonalcoholic drinks, a mobile bar, and staff.",
 }
 
 const faqs = [
@@ -30,10 +30,10 @@ export default function DirtySodaBarPage() {
           <div className="min-w-0">
             <p className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-[#99365c]">Colorado celebrations, with a sweet twist</p>
             <h1 className="mb-6 text-5xl leading-[1.02] sm:text-6xl lg:text-7xl">Dirty Soda Bar<br /><span className="italic text-[#99365c]">Catering in Colorado</span></h1>
-            <p className="mb-5 text-xl">Her day. Her friends. Her kind of sparkle.</p>
-            <p className="max-w-lg leading-relaxed text-[#704659]">Planning your daughter’s birthday? Our mobile dirty soda bar brings custom nonalcoholic drinks and staff to your celebration. We cater birthdays, graduations, and weddings in Denver, Littleton, Lakewood, Parker, Highlands Ranch, Centennial, and surrounding Colorado areas.</p>
+            <p className="mb-5 text-xl">Your people. Your occasion. A little extra sparkle.</p>
+            <p className="max-w-lg leading-relaxed text-[#704659]">Bring something sweet to birthdays, bridal showers, weddings, graduations, school events, and corporate gatherings. Our mobile dirty soda bar brings custom nonalcoholic drinks and staff to Denver, Littleton, Lakewood, Parker, Highlands Ranch, Centennial, and surrounding Colorado areas.</p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Link href={quote} className={button}>Plan Her Soda Party <span aria-hidden="true" className="ml-3">↗</span></Link>
+              <Link href={quote} className={button}>Plan Your Soda Party <span aria-hidden="true" className="ml-3">↗</span></Link>
               <a href="#soda-how-it-works" className="px-2 py-3 text-sm underline underline-offset-4">What’s a dirty soda?</a>
             </div>
             <p className="mt-5 text-xs tracking-wide text-[#704659]">Nonalcoholic drinks · Custom combinations · Colorado celebrations</p>
@@ -53,7 +53,7 @@ export default function DirtySodaBarPage() {
         </div>
         <div className="grid gap-5 md:grid-cols-3">
           {[
-            ["01", "Make it hers", "A birthday, a graduation, or a just-because celebration with her favorite people. Make the soda bar part of her day."],
+            ["01", "Make it yours", "A milestone, a team celebration, or a just-because gathering with your favorite people. Make the soda bar part of your occasion."],
             ["02", "Mix up the fun", "Guests can explore flavors and create their own soda combinations with syrups, cream, and fruit garnishes."],
             ["03", "Enjoy the moment", "Our mobile bar and staff bring the soda experience to your celebration, so you can spend more time with your guests."],
           ].map(([number, title, body]) => <div key={number} className="rounded-3xl border border-[#efcfda] bg-white p-7"><span className="mb-6 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#fce8ef] text-sm text-[#99365c]">{number}</span><h3 className="mb-3 text-3xl">{title}</h3><p className="leading-relaxed text-[#704659]">{body}</p></div>)}
@@ -65,9 +65,9 @@ export default function DirtySodaBarPage() {
           <Image src="/dirty-soda-drinks.jpg" alt="Colorful dirty soda drinks with garnishes" width={1200} height={700} sizes="(max-width: 768px) 100vw, 50vw" className="w-full rounded-3xl object-cover" />
           <div>
             <p className="mb-4 text-xs uppercase tracking-[0.2em] text-[#99365c]">For the moments worth celebrating</p>
-            <h2 className="mb-6 text-4xl md:text-5xl">Big birthday energy.<br />Little details she’ll love.</h2>
-            <p className="mb-7 leading-relaxed text-[#704659]">From backyard birthdays to graduation parties, give her friends a place to gather, sip, and celebrate. Our soda bar also welcomes weddings, school events, and family gatherings.</p>
-            <div className="mb-8 flex flex-wrap gap-2">{["Birthday parties", "Graduations", "Family celebrations"].map(label => <span key={label} className="rounded-full bg-[#fce8ef] px-4 py-2 text-sm">{label}</span>)}</div>
+            <h2 className="mb-6 text-4xl md:text-5xl">Every occasion.<br />A reason to raise a glass.</h2>
+            <p className="mb-7 leading-relaxed text-[#704659]">From backyard birthdays and girls’ nights to bridal showers, bachelorette parties, and weddings, give your guests a place to gather, sip, and celebrate. Bring the same fun to graduations, school events, family reunions, and company celebrations.</p>
+            <div className="mb-8 flex flex-wrap gap-2">{["Birthdays", "Showers & weddings", "Girls’ nights & bachelorettes", "Graduations & school events", "Corporate gatherings", "Family celebrations"].map(label => <span key={label} className="rounded-full bg-[#fce8ef] px-4 py-2 text-sm">{label}</span>)}</div>
             <Link href={quote} className={button}>Get a Soda Party Quote</Link>
           </div>
         </div>
@@ -84,8 +84,8 @@ export default function DirtySodaBarPage() {
         <div className="mx-auto max-w-2xl">
           <p className="mb-4 text-xs uppercase tracking-[0.2em] text-[#f5c6d8]">Let’s make it a celebration</p>
           <h2 className="mb-6 text-4xl md:text-6xl">Something sweet<br />to look forward to.</h2>
-          <p className="mb-8 leading-relaxed text-[#f8e0e9]">Tell us when, where, and who you’re celebrating. Start your quote or talk through the details with Jen.</p>
-          <Link href={quote} className="inline-block rounded-full bg-[#fce8ef] px-8 py-4 font-semibold text-[#54283c] hover:bg-white">Plan Her Soda Party</Link>
+          <p className="mb-8 leading-relaxed text-[#f8e0e9]">Tell us when, where, and what you’re planning. Start your quote or talk through the details with Jen.</p>
+          <Link href={quote} className="inline-block rounded-full bg-[#fce8ef] px-8 py-4 font-semibold text-[#54283c] hover:bg-white">Plan Your Soda Party</Link>
           <a href="tel:7206439690" className="mx-auto mt-4 block w-fit px-4 py-3 text-sm underline underline-offset-4">Call Jen · 720-643-9690</a>
         </div>
       </section>
