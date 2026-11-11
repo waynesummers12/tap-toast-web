@@ -8,6 +8,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/",
     "/weddings",
     "/bartending",
+    "/trailer-rental",
+    "/mobile-bar-pricing",
     "/birthday-parties",
     "/corporate-events",
     "/tailgates",

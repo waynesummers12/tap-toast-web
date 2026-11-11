@@ -31,7 +31,9 @@ export function classifyLink(href: string, origin: string): { name: string; para
     if (url.protocol === "tel:") return { name: "contact_click", parameters: { contact_method: "phone" } }
     if (url.protocol === "mailto:") return { name: "contact_click", parameters: { contact_method: "email" } }
     if (url.origin === origin && /^\/book\/?$/.test(url.pathname)) {
-      return { name: "book_click", parameters: { booking_service: url.searchParams.get("service") === "soda" ? "soda" : "bar" } }
+      const soda = url.searchParams.get("service") === "soda"
+      const rental = url.searchParams.get("type") === "rental" || ["trailer", "taste"].includes(url.searchParams.get("tier") || "")
+      return { name: "book_click", parameters: { booking_service: soda ? "soda" : rental ? "rental" : "bar" } }
     }
   } catch { /* Ignore malformed links. */ }
   return null

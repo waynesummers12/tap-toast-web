@@ -74,17 +74,17 @@ export default function TrailerSection() {
           <ul className="space-y-3 text-gray-300 mb-10">
             <li>• 4‑Tap Beverage System</li>
             <li>• Custom Cocktail & Drink Options</li>
-            <li>• Professional Bartending Service</li>
+            <li>• Rental-Only or Staffed Package Options</li>
             <li>• Beautiful Mobile Bar Setup</li>
           </ul>
 
           <a
-            href="/book"
+            href="/trailer-rental"
             className={`inline-block bg-white hover:bg-neutral-200 text-black px-10 py-4 rounded-sm tracking-[0.25em] uppercase text-sm transition-all duration-300 hover:scale-105 shadow-[0_0_10px_rgba(156,122,44,0.4)] ${
               visible ? 'animate-[pulse_2.5s_ease-in-out_infinite] delay-500' : ''
             }`}
           >
-            Check Availability
+            Explore Trailer Rental
           </a>
         </div>
       </div>

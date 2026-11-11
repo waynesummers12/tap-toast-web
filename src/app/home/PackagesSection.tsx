@@ -35,6 +35,7 @@ export default function PackagesSection() {
         </p>
       </div>
 
+      <p className="mx-auto mb-8 max-w-6xl text-center"><a href="/mobile-bar-pricing" className="underline underline-offset-4">Compare pricing, delivery, and what each package includes</a></p>
       <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-10">
 
         {/* Package 1 */}
@@ -74,13 +75,13 @@ export default function PackagesSection() {
             <p className="text-xl font-bold mb-6">Starting at $600</p>
 
             <a
-              href="/book?tier=trailer"
+              href="/book?type=rental&tier=trailer&service=bartending"
               className="inline-block bg-neutral-950 hover:bg-neutral-800 text-white px-6 py-3 rounded-sm text-sm uppercase tracking-[0.2em]"
             >
               Book Instantly with Real Quote
             </a>
           </div>
-          <a href="/book?tier=trailer" className="absolute inset-0 z-10" aria-label="Book The Trailer package"></a>
+          <a href="/book?type=rental&tier=trailer&service=bartending" className="absolute inset-0 z-10" aria-label="Book The Trailer package"></a>
         </div>
 
         {/* Package 2 */}
@@ -117,13 +118,13 @@ export default function PackagesSection() {
             <p className="text-xl font-bold mb-6">Starting at $1,230</p>
 
             <a
-              href="/book?tier=signature"
+              href="/book?service=bartending&tier=signature"
               className="inline-block bg-neutral-950 hover:bg-neutral-800 text-white px-6 py-3 rounded-sm text-sm uppercase tracking-[0.2em]"
             >
               Book Instantly with Real Quote
             </a>
           </div>
-          <a href="/book?tier=signature" className="absolute inset-0 z-10" aria-label="Book The Tipsy package"></a>
+          <a href="/book?service=bartending&tier=signature" className="absolute inset-0 z-10" aria-label="Book The Tipsy package"></a>
         </div>
 
         {/* Package 3 */}
@@ -160,13 +161,13 @@ export default function PackagesSection() {
             <p className="text-xl font-bold mb-6">Premium Experience</p>
 
             <a
-              href="/book?tier=premium"
+              href="/book?service=bartending&tier=premium"
               className="inline-block bg-neutral-950 hover:bg-neutral-800 text-white px-6 py-3 rounded-sm text-sm uppercase tracking-[0.2em]"
             >
               Book Instantly with Real Quote
             </a>
           </div>
-          <a href="/book?tier=premium" className="absolute inset-0 z-10" aria-label="Book The Toasted package"></a>
+          <a href="/book?service=bartending&tier=premium" className="absolute inset-0 z-10" aria-label="Book The Toasted package"></a>
         </div>
 
       </div>

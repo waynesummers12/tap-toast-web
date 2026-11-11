@@ -26,7 +26,7 @@ export default function Footer() {
         <div className="text-center md:text-left">
           <p className="text-white font-semibold mb-2">Service Area</p>
           <p className="text-sm leading-relaxed">
-            Denver • Boulder • Fort Collins • Colorado Springs
+            Golden • Denver • Boulder • Front Range
           </p>
           <p className="text-sm">
             Serving the Front Range of Colorado and events across the state.
@@ -86,6 +86,7 @@ export default function Footer() {
 
       </div>
 
+      <nav aria-label="Service guides" className="mx-auto mt-10 flex max-w-6xl flex-wrap justify-center gap-6 text-sm underline underline-offset-4"><Link href="/trailer-rental">Trailer rentals</Link><Link href="/mobile-bar-pricing">Compare prices</Link><Link href="/bartending">Bartending</Link><Link href="/dirty-soda-bar">Dirty soda catering</Link></nav>
       <div className="border-t border-gray-800 mt-14 pt-6 text-center text-sm space-y-2">
 
         <div className="flex justify-center gap-4 text-xs text-gray-400">

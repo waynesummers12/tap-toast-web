@@ -15,12 +15,12 @@ export default function FAQSection() {
     {
       question: "Do you provide alcohol?",
       answer:
-        "No. Due to Colorado liquor laws we do not provide alcohol. The client supplies the alcohol and we provide the mobile bar, professional bartending service, and the complete drink experience.",
+        "Clients supply the alcohol. Choose a staffed package if you want our bartenders to handle service; The Trailer is rental-only without bartenders. Confirm other supplies with Jen and your shopping plan.",
     },
     {
       question: "Is a deposit required to book?",
       answer:
-        "Yes. A 50% deposit is required at the time of booking to reserve your date. The remaining balance is automatically collected 10 days before your event.",
+        "Yes. A 50% deposit is required at the time of booking to reserve your date. The remaining balance is due 10 days before your event. Review your booking agreement and payment instructions.",
     },
   ]
 

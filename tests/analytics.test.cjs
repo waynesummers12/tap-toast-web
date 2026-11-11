@@ -54,3 +54,10 @@ test('private routes are excluded, storage failure and late scripts do not break
   trackEvent('generate_lead', {}, 'event-1')
   assert.equal(window.dataLayer.length, 1)
 })
+
+test('rental, staffed bar, and soda booking intent are distinguished without customer data', () => {
+ const { classifyLink } = setup()
+ for (const [url,service] of [['/book?tier=trailer','rental'],['/book?type=rental','rental'],['/book?tier=taste','rental'],['/book?service=soda&tier=taste','soda'],['/book?service=bartending&tier=signature','bar']]) {
+  assert.equal(classifyLink(url,'https://example.com').parameters.booking_service,service)
+ }
+})
