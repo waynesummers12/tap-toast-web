@@ -1378,7 +1378,7 @@ type BookedSlot = {
               <div className="text-center mb-8">
                 <p className="font-semibold text-lg mb-2 underline">Planning & Preparation</p>
                 <p className="text-sm text-gray-700">Two Consultations: Initial vision + final execution call</p>
-                <p className="text-sm text-gray-700">Custom Shopping Guide: Exactly what to buy and how much</p>
+                <p className="text-sm text-gray-700">{isSoda ? "Menu Planning: We supply the soda, syrups, cream, fruit, and ice" : "Custom Shopping Guide: Exactly what to buy and how much"}</p>
                 <p className="text-sm text-gray-700">{isRental ? "Free delivery within 20 miles of Golden" : "Travel Included: Up to 40 miles from 80401"}</p>
                 <p className="text-sm text-gray-700">Fully Insured: General & Liquor Liability coverage</p>
               </div>
