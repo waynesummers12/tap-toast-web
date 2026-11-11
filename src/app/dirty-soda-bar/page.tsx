@@ -10,6 +10,10 @@ export const metadata = {
 const faqs = [
   ["What is a dirty soda?", "It’s soda with a twist: flavored syrups, cream, fruit, and garnishes mixed into a custom drink. Our dirty soda bar is a nonalcoholic option for your celebration."],
   ["Can guests choose their own combinations?", "Yes. Guests can mix and match flavors, syrups, fruit garnishes, and cream toppers to create their own soda combinations."],
+  ["What does dirty soda catering cost?", "Our starter package begins at $780 for a mobile soda bar and one soda host for three hours. Your final quote depends on your selected package, service time, staffing, and travel. Choose your event details to see your price."],
+  ["Do we need to buy the drinks or ingredients?", "No. We supply the soda, syrups, cream, fruit, and ice, along with clear cups and napkins. We’ll confirm your drink selections with you before the event."],
+  ["What should we arrange with our venue?", "Share your venue address, indoor or outdoor plans, and access details with Jen. Confirm a safe serving area, delivery access, and setup timing with your venue. Jen will confirm the space and any utility requirements for your chosen setup; for outdoor events, discuss a weather backup plan."],
+  ["Can you accommodate dietary preferences?", "Tell Jen about allergies or dietary preferences before booking so you can discuss ingredients and suitable drink options. Specific alternatives and allergen accommodations must be confirmed in advance."],
   ["Where do you serve?", "We provide mobile dirty soda bar catering in Denver, Littleton, Lakewood, Parker, Highlands Ranch, Centennial, and surrounding Colorado areas."],
   ["How do I start planning?", "Start your quote with your event date, location, and guest count. Prefer to talk through your plans? Call Jen at 720-643-9690."],
 ] as const
@@ -57,6 +61,60 @@ export default function DirtySodaBarPage() {
             ["02", "Mix up the fun", "Guests can explore flavors and create their own soda combinations with syrups, cream, and fruit garnishes."],
             ["03", "Enjoy the moment", "Our mobile bar and staff bring the soda experience to your celebration, so you can spend more time with your guests."],
           ].map(([number, title, body]) => <div key={number} className="rounded-3xl border border-[#efcfda] bg-white p-7"><span className="mb-6 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#fce8ef] text-sm text-[#99365c]">{number}</span><h3 className="mb-3 text-3xl">{title}</h3><p className="leading-relaxed text-[#704659]">{body}</p></div>)}
+        </div>
+      </section>
+
+      <section className="border-y border-[#efcfda] bg-[#fce8ef] px-6 py-16 md:py-20" aria-labelledby="soda-menu-heading">
+        <div className="mx-auto max-w-6xl">
+          <p className="mb-3 text-xs uppercase tracking-[0.2em] text-[#99365c]">A little menu inspiration</p>
+          <h2 id="soda-menu-heading" className="mb-5 text-4xl md:text-5xl">Find your new favorite sip.</h2>
+          <p className="mb-8 max-w-2xl leading-relaxed text-[#704659]">Start with a familiar soda, then make it your own. These sample combinations are ideas for your event menu; confirm your final flavors and ingredients with Jen.</p>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              ["Cherry Vanilla Fizz", "Cola + cherry syrup + vanilla syrup + cream"],
+              ["Strawberry Sunshine", "Lemon-lime soda + strawberry syrup + fresh lime"],
+              ["Coconut Lime Splash", "Lemon-lime soda + coconut syrup + fresh lime"],
+              ["Orange Cream Dream", "Orange soda + vanilla syrup + cream"],
+            ].map(([name, ingredients]) => <div key={name} className="rounded-3xl border border-[#efcfda] bg-white p-6"><h3 className="mb-3 text-2xl">{name}</h3><p className="leading-relaxed text-[#704659]">{ingredients}</p></div>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-6 py-16 md:py-24" aria-labelledby="soda-package-heading">
+        <div className="grid gap-10 md:grid-cols-2 md:items-start">
+          <div className="rounded-3xl border border-[#efcfda] bg-white p-7 sm:p-10">
+            <p className="mb-3 text-xs uppercase tracking-[0.2em] text-[#99365c]">Your soda party starts here</p>
+            <h2 id="soda-package-heading" className="mb-4 text-4xl">The starter soda package</h2>
+            <p className="mb-5 text-3xl font-semibold">Starting at $780</p>
+            <p className="mb-7 leading-relaxed text-[#704659]">One soda host, three hours of service, and a mobile soda bar for your celebration. Need more time or hosts? Explore the other packages in your quote.</p>
+            <Link href="/book?service=soda&tier=taste" className={button}>Explore the $780 Starter Package</Link>
+            <p className="mt-5 text-sm leading-relaxed text-[#704659]">Final pricing depends on your package, service time, staffing, and travel. Travel within 40 miles of Golden is included; additional travel is quoted separately.</p>
+          </div>
+          <div className="py-3">
+            <h3 className="mb-5 text-3xl">What’s included?</h3>
+            <ul className="space-y-4 text-[#704659]">
+              <li>• Mobile soda bar setup and your selected soda hosts and service hours</li>
+              <li>• Soda, flavored syrups, cream, fruit, and ice supplied by us</li>
+              <li>• Clear cups and napkins</li>
+              <li>• Personalized bar menu and trailer signage</li>
+              <li>• An initial planning consultation and a final details call</li>
+            </ul>
+            <p className="mt-6 leading-relaxed text-[#704659]">We’ll work through your drink selections and event details together, so you know what to expect before the party.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-[#efcfda] bg-white px-6 py-16 md:py-20" aria-labelledby="soda-setup-heading">
+        <div className="mx-auto max-w-6xl">
+          <h2 id="soda-setup-heading" className="mb-5 text-4xl md:text-5xl">Let’s plan the setup.</h2>
+          <p className="mb-8 max-w-2xl leading-relaxed text-[#704659]">Send us your venue address, guest count, and preferred service time. We’ll confirm the setup details with you before your event.</p>
+          <div className="grid gap-5 md:grid-cols-3">
+            {[
+              ["Space & access", "Tell us where you’d like the bar and how we can reach it. Confirm venue permission and a safe serving area; flag stairs, narrow entrances, or restricted delivery access."],
+              ["Timing & venue needs", "Share your venue’s delivery and pickup windows. Jen will confirm arrival time, space requirements, and any electricity or water needs for the chosen setup."],
+              ["Outdoor plans", "Let us know if your celebration is outdoors. Discuss suitable shelter and a weather backup plan with Jen and your venue before the event."],
+            ].map(([title, body]) => <div key={title} className="rounded-3xl border border-[#efcfda] bg-[#fff8fa] p-7"><h3 className="mb-3 text-2xl">{title}</h3><p className="leading-relaxed text-[#704659]">{body}</p></div>)}
+          </div>
         </div>
       </section>
 
