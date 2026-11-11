@@ -130,6 +130,7 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex flex-col items-start">
                 <button
+                  data-book="true"
                   onClick={() => {
                     const gaClientId = getGoogleAnalyticsClientId()
                     const page = getLandingPage()
@@ -147,6 +148,7 @@ export default function HomePage() {
 
               <div className="flex flex-col items-start">
                 <button
+                  data-book="true"
                   onClick={() => {
                     const gaClientId = getGoogleAnalyticsClientId()
                     const page = getLandingPage()

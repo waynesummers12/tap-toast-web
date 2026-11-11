@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic"
 
 import { useState, Suspense, useEffect, useRef, useCallback } from "react"
 import { useSearchParams } from "next/navigation"
+import { trackEvent } from "@/lib/analytics"
 import AvailabilityCalendar from "@/components/AvailablilityCalendar"
 
 const BOOKING_CID_KEY = "tap_toast_booking_cid"
@@ -602,6 +603,8 @@ type BookedSlot = {
         return
       }
 
+      trackEvent("generate_lead", { lead_type: "booking_request", service_type: isSoda ? "soda" : isRental ? "rental" : "bartending" }, data.event.id)
+
       const checkout = await fetch("https://tap-toast-api-cayk.onrender.com/api/stripe/create-checkout-session", {
         method: "POST",
         headers: {
@@ -627,6 +630,7 @@ type BookedSlot = {
       console.log("Stripe session response:", session)
 
       if (session?.url) {
+        trackEvent("begin_checkout", { payment_type: "deposit" }, data.event.id)
         // eslint-disable-next-line react-hooks/immutability
         window.location.href = session.url
         localStorage.removeItem("tap_toast_quote")

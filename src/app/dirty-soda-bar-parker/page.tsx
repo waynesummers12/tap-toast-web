@@ -58,7 +58,8 @@ export default function DirtySodaBarParkerPage() {
 
           <div className="mt-10">
             <button
-              onClick={() => {
+              data-book="true"
+                  onClick={() => {
                 const gaClientId = getGoogleAnalyticsClientId()
                 window.location.href = gaClientId ? `/book?service=soda&ga_client_id=${encodeURIComponent(gaClientId)}` : "/book?service=soda"
               }}
@@ -138,7 +139,8 @@ export default function DirtySodaBarParkerPage() {
           </p>
 
           <button
-            onClick={() => {
+            data-book="true"
+                  onClick={() => {
               const gaClientId = getGoogleAnalyticsClientId()
               window.location.href = gaClientId ? `/book?service=soda&ga_client_id=${encodeURIComponent(gaClientId)}` : "/book?service=soda"
             }}

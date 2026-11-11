@@ -1,5 +1,6 @@
 "use client"
 
+import { trackEvent } from "@/lib/analytics"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 
@@ -45,6 +46,7 @@ export default function DepositSuccess({
           if (paymentType === "deposit") {
             localStorage.removeItem(BOOKING_CID_KEY)
           }
+          trackEvent("payment_confirmed", { payment_type: paymentType }, paymentType === "upgrade" ? sessionId : `${eventId}:${paymentType}`)
           setState("verified")
           return
         }

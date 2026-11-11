@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import Navbar from "./home/Navbar";
 import Script from "next/script";
+import AnalyticsClicks from "./components/AnalyticsClicks";
 
 const editorial = Cormorant_Garamond({
   variable: "--font-editorial",
@@ -67,24 +68,7 @@ export default function RootLayout({
             gtag('config', 'G-0QB3Z0F1WQ');
           `}
         </Script>
-        <Script id="ga-book-click" strategy="afterInteractive">
-          {`
-            (function(){
-              function track(e){
-                var el = e.target.closest && e.target.closest('a[href="/book"], button[data-book="true"]');
-                if(!el) return;
-                if (typeof window !== 'undefined' && window.gtag) {
-                  window.gtag('event', 'book_click', {
-                    event_category: 'engagement',
-                    event_label: 'Book CTA',
-                    page_path: window.location.pathname
-                  });
-                }
-              }
-              document.addEventListener('click', track, true);
-            })();
-          `}
-        </Script>
+        <AnalyticsClicks />
       </body>
     </html>
   );
